@@ -2221,6 +2221,25 @@ $jobGames = {
                 if (Test-Path -LiteralPath $pth) { [void]$dirs.Add(@{ Path = $pth; Deep = [bool]$deep[$k] }) }
             }
         }
+        # Eden legt Icon + Spielname beim Aufbau seiner Spieleliste ab:
+        #   <Daten>\cache\game_list\<TitleID>.jpeg  und  <TitleID>.appname.txt
+        function Get-Norm([string]$x) { return [regex]::Replace($x.ToLowerInvariant(), '[^\p{L}\p{N}]', '') }
+        $dataDir = if (Test-Path -LiteralPath (Join-Path $eden "user")) { Join-Path $eden "user" }
+                   elseif ($env:APPDATA) { Join-Path $env:APPDATA "eden" } else { $null }
+        $meta = @{}
+        if ($dataDir) {
+            $gl = Join-Path $dataDir "cache\game_list"
+            if (Test-Path -LiteralPath $gl) {
+                foreach ($t in Get-ChildItem -LiteralPath $gl -Filter "*.appname.txt" -File -ErrorAction SilentlyContinue) {
+                    $id = $t.Name.Substring(0, $t.Name.IndexOf('.')).ToUpperInvariant()
+                    $nm = ""
+                    try { $nm = ([IO.File]::ReadAllText($t.FullName, [Text.Encoding]::UTF8)).Trim([char]0, ' ', "`r", "`n") } catch {}
+                    $jp = Join-Path $gl ($id + ".jpeg")
+                    $meta[$id] = @{ Name = $nm; Norm = (Get-Norm $nm); Icon = $(if (Test-Path -LiteralPath $jp) { $jp } else { "" }) }
+                }
+            }
+        }
+
         $games = New-Object System.Collections.ArrayList
         $seen  = @{}
         foreach ($d in $dirs) {
@@ -2238,12 +2257,26 @@ $jobGames = {
                 $name = [regex]::Replace($name, '_', ' ')
                 $name = [regex]::Replace($name, '\s{2,}', ' ').Trim(' ', '-', '.')
                 if (-not $name) { $name = $base }
+                # Passenden Cache-Eintrag suchen: zuerst ueber die Title-ID im Dateinamen, sonst ueber den Namen
+                $hit = $null
+                if ($tid.Success) { $k = $tid.Value.ToUpperInvariant(); if ($meta.ContainsKey($k)) { $hit = $meta[$k] } }
+                if (-not $hit) {
+                    $n = Get-Norm $name
+                    if ($n.Length -ge 4) {
+                        foreach ($c in $meta.Values) {
+                            if ($c.Norm.Length -ge 4 -and ($c.Norm -eq $n -or $c.Norm.Contains($n) -or $n.Contains($c.Norm))) { $hit = $c; break }
+                        }
+                    }
+                }
+                $icon = ""
+                if ($hit) { if ($hit.Name) { $name = $hit.Name }; $icon = $hit.Icon }
                 $seen[$f.FullName] = $true
                 [void]$games.Add([pscustomobject]@{
                     Name    = $name
                     Path    = $f.FullName
                     Info    = ($f.Extension.TrimStart('.').ToUpper() + "  ·  " + $(if ($f.Length -ge 1GB) { "{0:N1} GB" -f ($f.Length / 1GB) } else { "{0:N0} MB" -f [Math]::Max(1, $f.Length / 1MB) }))
                     Initial = $name.Substring(0, 1).ToUpper()
+                    Icon    = $icon
                 })
             }
         }
@@ -3449,10 +3482,17 @@ $xaml = @'
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                       </Grid.ColumnDefinitions>
-                      <Border Width="38" Height="38" CornerRadius="9" Background="{DynamicResource BrSelStrong}" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="17" FontWeight="Bold"
-                                   Foreground="{DynamicResource BrAccent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                      </Border>
+                      <Grid Width="44" Height="44" VerticalAlignment="Center">
+                        <Border CornerRadius="9" Background="{DynamicResource BrSelStrong}">
+                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="Bold"
+                                     Foreground="{DynamicResource BrAccent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border CornerRadius="9">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
                       <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Name}" FontFamily="{StaticResource FontHead}" FontSize="14.5" FontWeight="SemiBold"
                                    TextTrimming="CharacterEllipsis"/>
@@ -4341,6 +4381,22 @@ function Complete-GameScan {
     $r = $gameSync.Result
     $script:GamesLoaded = $true
     if ($r -and $r.Ok) {
+        foreach ($g in @($r.Games)) {
+            $img = $null
+            if ($g.Icon) {
+                try {
+                    $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
+                    $bi.BeginInit()
+                    $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+                    $bi.DecodePixelWidth = 96
+                    $bi.UriSource        = [Uri]::new([string]$g.Icon)
+                    $bi.EndInit()
+                    $bi.Freeze()
+                    $img = $bi
+                } catch {}
+            }
+            $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
+        }
         $script:Games     = @($r.Games)
         $script:GamesDirs = [int]$r.Dirs
     } else {
