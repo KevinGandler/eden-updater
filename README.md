@@ -18,7 +18,8 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 
 ## Benutzung
 
-`EdenUpdater.exe` aus den [Releases](../../releases) laden, in den Eden-Ordner legen und starten.
+`EdenUpdater.exe` aus den [Releases](../../releases) laden, in den Eden-Ordner legen (oder in den Ordner, in den Eden installiert werden soll) und starten.
+Beim ersten Start fragt der Updater, ob Eden in diesen Ordner soll. Mit „Nein“ wählst du einen anderen Ordner.
 Läuft auf Windows 10/11 ohne Installation (nutzt das eingebaute Windows PowerShell 5.1).
 
 Weil die EXE nicht signiert ist, kann Windows SmartScreen beim ersten Start warnen:

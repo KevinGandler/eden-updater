@@ -18,7 +18,7 @@ $script:SettingsFile = $null
 #  Einstellungen
 # ------------------------------------------------------------
 $Defaults = [ordered]@{
-    EdenPath     = "G:\Emulator\Eden"
+    EdenPath     = $ScriptDir      # Standard: Ordner, in dem der Updater liegt
     AssetVariant = ""
     NotesLayout  = "page"
     AssetPattern = "Windows.*amd64.*pgo"
@@ -69,6 +69,8 @@ function Get-Settings {
     }
     if ($src -eq $target -or -not $s.EdenPath) { $s.EdenPath = $eden }
     $script:SettingsFile = $src
+    # Erster Start: keine Einstellungen gefunden und kein Eden neben dem Updater
+    $script:FirstRun = (-not $src) -and (-not (Test-Path (Join-Path $ScriptDir "eden.exe")))
     return $s
 }
 
@@ -102,6 +104,7 @@ function Get-Excludes {
       "EdenUpdater.ico", "Build-Exe.ps1", "Build-Exe.bat")
 }
 
+$script:FirstRun       = $false
 $script:Settings       = Get-Settings
 # Alte Einstellungen (neben dem Updater) automatisch in den Eden-Ordner umziehen
 try {
@@ -256,6 +259,7 @@ GrpLook=Darstellung
 GrpBehavior=Verhalten
 LogTitle=Aktivität
 SetStoredAt=Einstellungen werden im Installationsordner gespeichert: {0}
+FirstRunAsk=Noch keine Eden-Installation gefunden.\n\nSoll Eden in diesen Ordner installiert werden?\n{0}\n\nMit Nein wählst du einen anderen Ordner.
 '@
 en = @'
 Name=English
@@ -382,6 +386,7 @@ GrpLook=Appearance
 GrpBehavior=Behavior
 LogTitle=Activity
 SetStoredAt=Settings are stored in the installation folder: {0}
+FirstRunAsk=No Eden installation found yet.\n\nInstall Eden into this folder?\n{0}\n\nChoose No to pick a different folder.
 '@
 es = @'
 Name=Español
@@ -508,6 +513,7 @@ GrpLook=Apariencia
 GrpBehavior=Comportamiento
 LogTitle=Actividad
 SetStoredAt=Los ajustes se guardan en la carpeta de instalación: {0}
+FirstRunAsk=Aún no se encontró ninguna instalación de Eden.\n\n¿Instalar Eden en esta carpeta?\n{0}\n\nElige No para seleccionar otra carpeta.
 '@
 fr = @'
 Name=Français
@@ -634,6 +640,7 @@ GrpLook=Apparence
 GrpBehavior=Comportement
 LogTitle=Activité
 SetStoredAt=Les paramètres sont enregistrés dans le dossier d'installation : {0}
+FirstRunAsk=Aucune installation d'Eden trouvée.\n\nInstaller Eden dans ce dossier ?\n{0}\n\nChoisissez Non pour sélectionner un autre dossier.
 '@
 it = @'
 Name=Italiano
@@ -760,6 +767,7 @@ GrpLook=Aspetto
 GrpBehavior=Comportamento
 LogTitle=Attività
 SetStoredAt=Le impostazioni vengono salvate nella cartella di installazione: {0}
+FirstRunAsk=Nessuna installazione di Eden trovata.\n\nInstallare Eden in questa cartella?\n{0}\n\nScegli No per selezionare un'altra cartella.
 '@
 pt = @'
 Name=Português
@@ -886,6 +894,7 @@ GrpLook=Aparência
 GrpBehavior=Comportamento
 LogTitle=Atividade
 SetStoredAt=As configurações são salvas na pasta de instalação: {0}
+FirstRunAsk=Nenhuma instalação do Eden encontrada.\n\nInstalar o Eden nesta pasta?\n{0}\n\nEscolha Não para selecionar outra pasta.
 '@
 nl = @'
 Name=Nederlands
@@ -1012,6 +1021,7 @@ GrpLook=Weergave
 GrpBehavior=Gedrag
 LogTitle=Activiteit
 SetStoredAt=Instellingen worden opgeslagen in de installatiemap: {0}
+FirstRunAsk=Nog geen Eden-installatie gevonden.\n\nEden in deze map installeren?\n{0}\n\nKies Nee om een andere map te kiezen.
 '@
 pl = @'
 Name=Polski
@@ -1138,6 +1148,7 @@ GrpLook=Wygląd
 GrpBehavior=Działanie
 LogTitle=Aktywność
 SetStoredAt=Ustawienia są zapisywane w folderze instalacji: {0}
+FirstRunAsk=Nie znaleziono jeszcze instalacji Eden.\n\nZainstalować Eden w tym folderze?\n{0}\n\nWybierz Nie, aby wskazać inny folder.
 '@
 tr = @'
 Name=Türkçe
@@ -1264,6 +1275,7 @@ GrpLook=Görünüm
 GrpBehavior=Davranış
 LogTitle=Etkinlik
 SetStoredAt=Ayarlar kurulum klasörüne kaydedilir: {0}
+FirstRunAsk=Henüz bir Eden kurulumu bulunamadı.\n\nEden bu klasöre kurulsun mu?\n{0}\n\nBaşka bir klasör seçmek için Hayır'ı seçin.
 '@
 ru = @'
 Name=Русский
@@ -1390,6 +1402,7 @@ GrpLook=Внешний вид
 GrpBehavior=Поведение
 LogTitle=Активность
 SetStoredAt=Настройки сохраняются в папке установки: {0}
+FirstRunAsk=Установка Eden пока не найдена.\n\nУстановить Eden в эту папку?\n{0}\n\nВыберите «Нет», чтобы указать другую папку.
 '@
 ja = @'
 Name=日本語
@@ -1516,6 +1529,7 @@ GrpLook=外観
 GrpBehavior=動作
 LogTitle=アクティビティ
 SetStoredAt=設定はインストール先フォルダーに保存されます: {0}
+FirstRunAsk=Edenのインストールが見つかりません。\n\nこのフォルダーにEdenをインストールしますか?\n{0}\n\n別のフォルダーを選ぶには「いいえ」を選択してください。
 '@
 zh = @'
 Name=中文（简体）
@@ -1642,6 +1656,7 @@ GrpLook=外观
 GrpBehavior=行为
 LogTitle=活动
 SetStoredAt=设置保存在安装文件夹中: {0}
+FirstRunAsk=尚未找到 Eden 安装。\n\n要将 Eden 安装到此文件夹吗?\n{0}\n\n选择「否」可选择其他文件夹。
 '@
 ko = @'
 Name=한국어
@@ -1768,6 +1783,7 @@ GrpLook=모양
 GrpBehavior=동작
 LogTitle=활동
 SetStoredAt=설정은 설치 폴더에 저장됩니다: {0}
+FirstRunAsk=아직 Eden 설치를 찾지 못했습니다.\n\n이 폴더에 Eden을 설치할까요?\n{0}\n\n다른 폴더를 선택하려면 '아니요'를 선택하세요.
 '@
 }
 
@@ -4076,6 +4092,25 @@ $window.Add_Closing({
     }
 })
 
+# Erster Start: Eden-Ordner abfragen (Vorschlag: Ordner des Updaters)
+function Invoke-FirstRun {
+    $dir = [string]$ScriptDir
+    $ans = Show-Dialog (TF "FirstRunAsk" $dir) "YesNo" "Question"
+    if ($ans -ne "Yes") {
+        try {
+            $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
+            $dlg.Description  = T "SetBrowseTitle"
+            $dlg.SelectedPath = $dir
+            if ($dlg.ShowDialog() -eq "OK") { $dir = $dlg.SelectedPath }
+        } catch {}
+    }
+    $script:Settings.EdenPath = $dir
+    Save-Settings
+    Set-SettingsControls
+    Update-Ui
+    Add-UiLog (TF "SetStoredAt" (Get-SettingsPathFor $dir))
+}
+
 $window.Add_SourceInitialized({ Set-TitleBar $window })
 $window.Add_ContentRendered({
     if ($script:Initialized) { return }
@@ -4086,6 +4121,7 @@ $window.Add_ContentRendered({
     Update-Ui
     $timer.Start()
     Start-FadeIn $ui.RootGrid 0
+    if ($script:FirstRun) { Invoke-FirstRun }
     if ($script:Settings.AutoCheck) { Start-Load ([int]$script:Settings.Pages) }
     else { Add-UiLog (TF "LogAutoOff" (T "BtnReload")); $script:StartupCheck = $false }
 })
