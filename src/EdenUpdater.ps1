@@ -30,6 +30,7 @@ $Defaults = [ordered]@{
     AutoCheck    = $true
     AutoInstall  = $false
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
+    GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
     Language     = "auto"
 }
 
@@ -277,6 +278,15 @@ SelfChkStart=Beim Start nach Updates für den Updater suchen
 SelfAsk=Eine neue Version des Eden Updaters ist verfügbar.\n\nInstalliert: {0}\nNeu: {1}\n\nJetzt aktualisieren? Der Updater startet danach neu.
 SelfDownloading=Lade Updater {0} herunter...
 SelfUpdated=Updater auf Version {0} aktualisiert.
+NavGames=Spiele
+GamesSearch=Spiele durchsuchen...
+GamesStart=Spiel starten
+GamesFull=Im Vollbild starten
+GamesInfo={0} Spiele aus {1} Ordnern
+GamesEmpty=Keine Spiele gefunden. Füge in Eden unter Datei → Spieleordner hinzufügen einen Ordner hinzu und klicke dann hier auf Neu laden.
+GamesNoEden=Eden ist noch nicht installiert.
+GamesScanning=Suche nach Spielen...
+LogGameStart=Starte {0}...
 '@
 en = @'
 Name=English
@@ -419,6 +429,15 @@ SelfChkStart=Check for updater updates at startup
 SelfAsk=A new version of Eden Updater is available.\n\nInstalled: {0}\nNew: {1}\n\nUpdate now? The updater will restart afterwards.
 SelfDownloading=Downloading updater {0}...
 SelfUpdated=Updater updated to version {0}.
+NavGames=Games
+GamesSearch=Search games...
+GamesStart=Start game
+GamesFull=Start in fullscreen
+GamesInfo={0} games from {1} folders
+GamesEmpty=No games found. In Eden, add a game folder (File → Add New Game Directory), then click Reload here.
+GamesNoEden=Eden is not installed yet.
+GamesScanning=Searching for games...
+LogGameStart=Starting {0}...
 '@
 es = @'
 Name=Español
@@ -561,6 +580,15 @@ SelfChkStart=Buscar actualizaciones del actualizador al iniciar
 SelfAsk=Hay una nueva versión de Eden Updater disponible.\n\nInstalada: {0}\nNueva: {1}\n\n¿Actualizar ahora? El actualizador se reiniciará después.
 SelfDownloading=Descargando actualizador {0}...
 SelfUpdated=Actualizador actualizado a la versión {0}.
+NavGames=Juegos
+GamesSearch=Buscar juegos...
+GamesStart=Iniciar juego
+GamesFull=Iniciar en pantalla completa
+GamesInfo={0} juegos de {1} carpetas
+GamesEmpty=No se encontraron juegos. Añade una carpeta de juegos en Eden (Archivo → Añadir carpeta de juegos) y pulsa Recargar aquí.
+GamesNoEden=Eden aún no está instalado.
+GamesScanning=Buscando juegos...
+LogGameStart=Iniciando {0}...
 '@
 fr = @'
 Name=Français
@@ -703,6 +731,15 @@ SelfChkStart=Rechercher des mises à jour de l'outil au démarrage
 SelfAsk=Une nouvelle version d'Eden Updater est disponible.\n\nInstallée : {0}\nNouvelle : {1}\n\nMettre à jour maintenant ? L'outil redémarrera ensuite.
 SelfDownloading=Téléchargement de l'outil {0}...
 SelfUpdated=Outil mis à jour vers la version {0}.
+NavGames=Jeux
+GamesSearch=Rechercher des jeux...
+GamesStart=Lancer le jeu
+GamesFull=Lancer en plein écran
+GamesInfo={0} jeux dans {1} dossiers
+GamesEmpty=Aucun jeu trouvé. Ajoutez un dossier de jeux dans Eden (Fichier → Ajouter un dossier de jeux), puis cliquez ici sur Actualiser.
+GamesNoEden=Eden n'est pas encore installé.
+GamesScanning=Recherche des jeux...
+LogGameStart=Lancement de {0}...
 '@
 it = @'
 Name=Italiano
@@ -845,6 +882,15 @@ SelfChkStart=Cerca aggiornamenti dell'updater all'avvio
 SelfAsk=È disponibile una nuova versione di Eden Updater.\n\nInstallata: {0}\nNuova: {1}\n\nAggiornare ora? L'updater verrà riavviato.
 SelfDownloading=Download dell'updater {0}...
 SelfUpdated=Updater aggiornato alla versione {0}.
+NavGames=Giochi
+GamesSearch=Cerca giochi...
+GamesStart=Avvia gioco
+GamesFull=Avvia a schermo intero
+GamesInfo={0} giochi da {1} cartelle
+GamesEmpty=Nessun gioco trovato. Aggiungi una cartella di giochi in Eden (File → Aggiungi cartella giochi), poi clicca qui su Ricarica.
+GamesNoEden=Eden non è ancora installato.
+GamesScanning=Ricerca giochi...
+LogGameStart=Avvio di {0}...
 '@
 pt = @'
 Name=Português
@@ -987,6 +1033,15 @@ SelfChkStart=Procurar atualizações do atualizador ao iniciar
 SelfAsk=Uma nova versão do Eden Updater está disponível.\n\nInstalada: {0}\nNova: {1}\n\nAtualizar agora? O atualizador será reiniciado em seguida.
 SelfDownloading=Baixando atualizador {0}...
 SelfUpdated=Atualizador atualizado para a versão {0}.
+NavGames=Jogos
+GamesSearch=Pesquisar jogos...
+GamesStart=Iniciar jogo
+GamesFull=Iniciar em tela cheia
+GamesInfo={0} jogos de {1} pastas
+GamesEmpty=Nenhum jogo encontrado. Adicione uma pasta de jogos no Eden (Arquivo → Adicionar pasta de jogos) e clique em Recarregar aqui.
+GamesNoEden=O Eden ainda não está instalado.
+GamesScanning=Procurando jogos...
+LogGameStart=Iniciando {0}...
 '@
 nl = @'
 Name=Nederlands
@@ -1129,6 +1184,15 @@ SelfChkStart=Bij het starten naar updates voor de updater zoeken
 SelfAsk=Er is een nieuwe versie van Eden Updater beschikbaar.\n\nGeïnstalleerd: {0}\nNieuw: {1}\n\nNu bijwerken? De updater start daarna opnieuw.
 SelfDownloading=Updater {0} downloaden...
 SelfUpdated=Updater bijgewerkt naar versie {0}.
+NavGames=Games
+GamesSearch=Games zoeken...
+GamesStart=Game starten
+GamesFull=Op volledig scherm starten
+GamesInfo={0} games uit {1} mappen
+GamesEmpty=Geen games gevonden. Voeg in Eden een gamemap toe (Bestand → Gamemap toevoegen) en klik hier op Opnieuw laden.
+GamesNoEden=Eden is nog niet geïnstalleerd.
+GamesScanning=Zoeken naar games...
+LogGameStart={0} starten...
 '@
 pl = @'
 Name=Polski
@@ -1271,6 +1335,15 @@ SelfChkStart=Sprawdzaj aktualizacje aktualizatora przy starcie
 SelfAsk=Dostępna jest nowa wersja Eden Updater.\n\nZainstalowana: {0}\nNowa: {1}\n\nZaktualizować teraz? Aktualizator uruchomi się ponownie.
 SelfDownloading=Pobieranie aktualizatora {0}...
 SelfUpdated=Zaktualizowano aktualizator do wersji {0}.
+NavGames=Gry
+GamesSearch=Szukaj gier...
+GamesStart=Uruchom grę
+GamesFull=Uruchom na pełnym ekranie
+GamesInfo=Gry: {0} z folderów: {1}
+GamesEmpty=Nie znaleziono gier. Dodaj folder z grami w Eden (Plik → Dodaj folder gier), a potem kliknij tutaj Odśwież.
+GamesNoEden=Eden nie jest jeszcze zainstalowany.
+GamesScanning=Wyszukiwanie gier...
+LogGameStart=Uruchamianie {0}...
 '@
 tr = @'
 Name=Türkçe
@@ -1413,6 +1486,15 @@ SelfChkStart=Başlangıçta güncelleyici güncellemelerini denetle
 SelfAsk=Eden Updater'ın yeni bir sürümü mevcut.\n\nYüklü: {0}\nYeni: {1}\n\nŞimdi güncellensin mi? Güncelleyici ardından yeniden başlar.
 SelfDownloading=Güncelleyici {0} indiriliyor...
 SelfUpdated=Güncelleyici {0} sürümüne güncellendi.
+NavGames=Oyunlar
+GamesSearch=Oyun ara...
+GamesStart=Oyunu başlat
+GamesFull=Tam ekranda başlat
+GamesInfo={1} klasörde {0} oyun
+GamesEmpty=Oyun bulunamadı. Eden'de bir oyun klasörü ekleyin (Dosya → Oyun klasörü ekle), ardından burada Yenile'ye tıklayın.
+GamesNoEden=Eden henüz yüklü değil.
+GamesScanning=Oyunlar aranıyor...
+LogGameStart={0} başlatılıyor...
 '@
 ru = @'
 Name=Русский
@@ -1555,6 +1637,15 @@ SelfChkStart=Проверять обновления программы при �
 SelfAsk=Доступна новая версия Eden Updater.\n\nУстановлена: {0}\nНовая: {1}\n\nОбновить сейчас? Программа затем перезапустится.
 SelfDownloading=Загрузка программы обновления {0}...
 SelfUpdated=Программа обновления обновлена до версии {0}.
+NavGames=Игры
+GamesSearch=Поиск игр...
+GamesStart=Запустить игру
+GamesFull=Запускать в полноэкранном режиме
+GamesInfo=Игр: {0}, папок: {1}
+GamesEmpty=Игры не найдены. Добавьте папку с играми в Eden (Файл → Добавить папку с играми), затем нажмите здесь «Обновить список».
+GamesNoEden=Eden ещё не установлен.
+GamesScanning=Поиск игр...
+LogGameStart=Запуск {0}...
 '@
 ja = @'
 Name=日本語
@@ -1697,6 +1788,15 @@ SelfChkStart=起動時にアップデーターの更新を確認する
 SelfAsk=Eden Updaterの新しいバージョンがあります。\n\nインストール済み: {0}\n新しいバージョン: {1}\n\n今すぐ更新しますか?更新後にアップデーターが再起動します。
 SelfDownloading=アップデーター {0} をダウンロード中...
 SelfUpdated=アップデーターをバージョン {0} に更新しました。
+NavGames=ゲーム
+GamesSearch=ゲームを検索...
+GamesStart=ゲームを起動
+GamesFull=フルスクリーンで起動
+GamesInfo={1} フォルダーから {0} 本のゲーム
+GamesEmpty=ゲームが見つかりません。Edenでゲームフォルダーを追加し (ファイル → ゲームフォルダーを追加)、ここで「再読み込み」をクリックしてください。
+GamesNoEden=Edenはまだインストールされていません。
+GamesScanning=ゲームを検索中...
+LogGameStart={0} を起動中...
 '@
 zh = @'
 Name=中文（简体）
@@ -1839,6 +1939,15 @@ SelfChkStart=启动时检查更新程序的更新
 SelfAsk=Eden Updater 有新版本可用。\n\n已安装: {0}\n新版本: {1}\n\n立即更新?更新程序随后会重新启动。
 SelfDownloading=正在下载更新程序 {0}...
 SelfUpdated=更新程序已更新到版本 {0}。
+NavGames=游戏
+GamesSearch=搜索游戏...
+GamesStart=启动游戏
+GamesFull=以全屏启动
+GamesInfo=来自 {1} 个文件夹的 {0} 个游戏
+GamesEmpty=未找到游戏。请在 Eden 中添加游戏文件夹 (文件 → 添加游戏目录), 然后在此点击「重新加载」。
+GamesNoEden=尚未安装 Eden。
+GamesScanning=正在搜索游戏...
+LogGameStart=正在启动 {0}...
 '@
 ko = @'
 Name=한국어
@@ -1981,6 +2090,15 @@ SelfChkStart=시작할 때 업데이터 업데이트 확인
 SelfAsk=Eden Updater의 새 버전이 있습니다.\n\n설치됨: {0}\n새 버전: {1}\n\n지금 업데이트할까요? 업데이터가 다시 시작됩니다.
 SelfDownloading=업데이터 {0} 다운로드 중...
 SelfUpdated=업데이터를 버전 {0}(으)로 업데이트했습니다.
+NavGames=게임
+GamesSearch=게임 검색...
+GamesStart=게임 시작
+GamesFull=전체 화면으로 시작
+GamesInfo=폴더 {1}개에서 게임 {0}개
+GamesEmpty=게임을 찾지 못했습니다. Eden에서 게임 폴더를 추가한 뒤 (파일 → 게임 폴더 추가) 여기서 '새로 고침'을 클릭하세요.
+GamesNoEden=Eden이 아직 설치되지 않았습니다.
+GamesScanning=게임 검색 중...
+LogGameStart={0} 시작 중...
 '@
 }
 
@@ -2067,12 +2185,76 @@ $selfSync = [hashtable]::Synchronized(@{
     Result = $null
     Args   = $null
 })
+$gameSync = [hashtable]::Synchronized(@{
+    Done   = $false
+    Result = $null
+    Args   = $null
+})
 $notesSync = [hashtable]::Synchronized(@{
     Log    = (New-Object 'System.Collections.Concurrent.ConcurrentQueue[string]')
     Done   = $false
     Result = $null
     Args   = $null
 })
+
+# Spiele: Spieleordner aus Edens qt-config.ini lesen und nach Spieldateien durchsuchen
+$jobGames = {
+    $a = $sync.Args
+    try {
+        $eden = [string]$a.EdenPath
+        # Eden nutzt den Ordner "user" im Arbeitsverzeichnis (portabel), sonst %APPDATA%\eden
+        $cfgs = @(
+            (Join-Path $eden "user\config\qt-config.ini"),
+            $(if ($env:APPDATA) { Join-Path $env:APPDATA "eden\config\qt-config.ini" })
+        )
+        $cfg = $cfgs | Where-Object { $_ -and (Test-Path -LiteralPath $_) } | Select-Object -First 1
+        $dirs = New-Object System.Collections.ArrayList
+        if ($cfg) {
+            $txt = [IO.File]::ReadAllText($cfg)
+            $paths = @{}; $deep = @{}
+            foreach ($m in [regex]::Matches($txt, '(?m)gamedirs\\(\d+)\\path=(.*)$'))      { $paths[$m.Groups[1].Value] = $m.Groups[2].Value.Trim() }
+            foreach ($m in [regex]::Matches($txt, '(?m)gamedirs\\(\d+)\\deep_scan=(.*)$')) { $deep[$m.Groups[1].Value]  = ($m.Groups[2].Value.Trim() -eq "true") }
+            foreach ($k in $paths.Keys) {
+                $pth = $paths[$k].Trim('"')
+                if (-not $pth -or $pth -in @("SDMC", "UserNAND", "SysNAND")) { continue }
+                $pth = $pth.Replace('/', '\')
+                if (Test-Path -LiteralPath $pth) { [void]$dirs.Add(@{ Path = $pth; Deep = [bool]$deep[$k] }) }
+            }
+        }
+        $games = New-Object System.Collections.ArrayList
+        $seen  = @{}
+        foreach ($d in $dirs) {
+            $files = if ($d.Deep) { Get-ChildItem -LiteralPath $d.Path -File -Recurse -ErrorAction SilentlyContinue }
+                     else         { Get-ChildItem -LiteralPath $d.Path -File -ErrorAction SilentlyContinue }
+            foreach ($f in $files) {
+                if ($f.Extension -notmatch '^\.(nsp|xci|nro)$') { continue }
+                if ($seen.ContainsKey($f.FullName)) { continue }
+                $base = [IO.Path]::GetFileNameWithoutExtension($f.Name)
+                # Updates/DLCs ueberspringen (Title-ID endet nicht auf 000)
+                $tid = [regex]::Match($base, '(?i)\b(01[0-9a-f]{14})\b')
+                if ($tid.Success -and -not $tid.Value.EndsWith("000")) { continue }
+                if ($base -match '(?i)\[(upd|update|dlc)\]') { continue }
+                $name = [regex]::Replace($base, '\[[^\]]*\]', '')
+                $name = [regex]::Replace($name, '_', ' ')
+                $name = [regex]::Replace($name, '\s{2,}', ' ').Trim(' ', '-', '.')
+                if (-not $name) { $name = $base }
+                $seen[$f.FullName] = $true
+                [void]$games.Add([pscustomobject]@{
+                    Name    = $name
+                    Path    = $f.FullName
+                    Info    = ($f.Extension.TrimStart('.').ToUpper() + "  ·  " + $(if ($f.Length -ge 1GB) { "{0:N1} GB" -f ($f.Length / 1GB) } else { "{0:N0} MB" -f [Math]::Max(1, $f.Length / 1MB) }))
+                    Initial = $name.Substring(0, 1).ToUpper()
+                })
+            }
+        }
+        $sorted = @($games | Sort-Object Name)
+        $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg }
+    } catch {
+        $sync.Result = @{ Ok = $false; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
 
 # Selbst-Update: neueste Release-Info von GitHub holen bzw. die neue EXE laden
 $jobSelf = {
@@ -3065,6 +3247,7 @@ $xaml = @'
         <StackPanel Grid.Row="1" Margin="0,34,0,0">
           <Button x:Name="BtnNavVer"   Tag="&#xE8FD;" Content="{DynamicResource L_NavVersions}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavNotes" Tag="&#xE8A5;" Content="{DynamicResource L_NavNotes}"    Style="{StaticResource BtnNav}"/>
+          <Button x:Name="BtnNavGames" Tag="&#xE7FC;" Content="{DynamicResource L_NavGames}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSet"   Tag="&#xE713;" Content="{DynamicResource L_NavSettings}" Style="{StaticResource BtnNav}"/>
         </StackPanel>
 
@@ -3224,6 +3407,71 @@ $xaml = @'
                      Padding="0" FontSize="14"/>
           </Grid>
         </Border>
+
+        <!-- Seite: Spiele -->
+        <Grid x:Name="PanelGames" Visibility="Collapsed">
+          <Grid.RenderTransform>
+            <TranslateTransform/>
+          </Grid.RenderTransform>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid MaxWidth="360" HorizontalAlignment="Left" Width="360">
+              <TextBox x:Name="TxtGameSearch" Padding="34,7,10,7"/>
+              <TextBlock Text="&#xE721;" FontFamily="{StaticResource FontIcon}" FontSize="13" Foreground="{DynamicResource BrMuted}"
+                         VerticalAlignment="Center" Margin="12,0,0,0" IsHitTestVisible="False"/>
+              <TextBlock x:Name="TxtGameSearchHint" Text="{DynamicResource L_GamesSearch}" Foreground="{DynamicResource BrMuted}"
+                         VerticalAlignment="Center" Margin="35,0,0,0" IsHitTestVisible="False"/>
+            </Grid>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+              <TextBlock x:Name="TxtGamesInfo" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+              <Button x:Name="BtnGamesReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}"/>
+            </StackPanel>
+          </Grid>
+
+          <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8">
+            <Grid>
+              <ListBox x:Name="ListGames" Background="Transparent" BorderThickness="0"
+                       ItemContainerStyle="{StaticResource LbItem}"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                      </Grid.ColumnDefinitions>
+                      <Border Width="38" Height="38" CornerRadius="9" Background="{DynamicResource BrSelStrong}" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="17" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrAccent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontFamily="{StaticResource FontHead}" FontSize="14.5" FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+              <TextBlock x:Name="TxtGamesEmpty" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
+                         HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed"/>
+            </Grid>
+          </Border>
+
+          <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
+            <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
+            <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="16,0,0,0"/>
+          </StackPanel>
+        </Grid>
 
         <!-- Seite: Einstellungen -->
         <Grid x:Name="PanelSettings" Visibility="Collapsed">
@@ -3992,13 +4240,16 @@ function Set-Page([string]$page) {
     $ui.PanelVersions.Visibility = if ($page -eq "versions") { "Visible" } else { "Collapsed" }
     $ui.PanelNotes.Visibility    = if ($page -eq "notes")    { "Visible" } else { "Collapsed" }
     $ui.PanelSettings.Visibility = if ($page -eq "settings") { "Visible" } else { "Collapsed" }
+    $ui.PanelGames.Visibility    = if ($page -eq "games")    { "Visible" } else { "Collapsed" }
     Set-NavActive $ui.BtnNavVer   ($page -eq "versions")
     Set-NavActive $ui.BtnNavNotes ($page -eq "notes")
+    Set-NavActive $ui.BtnNavGames ($page -eq "games")
     Set-NavActive $ui.BtnNavSet   ($page -eq "settings")
-    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
+    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
+    if ($page -eq "games" -and -not $script:GamesLoaded) { Start-GameScan }
     $ui.TxtPageTitle.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $titleKey)
     if ($prev -ne $page) {
-        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "settings" { $ui.PanelSettings } }
+        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "settings" { $ui.PanelSettings } }
         Start-FadeIn $el
     }
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
@@ -4055,6 +4306,88 @@ function Start-Restore {
         Excludes      = (Get-Excludes)
         BackupVersion = (Get-BackupVersion)
     } "restore"
+}
+
+# ------------------------------------------------------------
+#  Spiele-Tab
+# ------------------------------------------------------------
+$script:Games       = @()
+$script:GameWorker  = $null
+$script:GamesLoaded = $false
+$script:GamesDirs   = 0
+
+function Start-GameScan {
+    if ($script:GameWorker) { return }
+    $ui.TxtGamesInfo.Text = T "GamesScanning"
+    $ui.TxtGamesEmpty.Visibility = "Collapsed"
+    $gameSync.Args   = @{ EdenPath = [string]$script:Settings.EdenPath }
+    $gameSync.Done   = $false
+    $gameSync.Result = $null
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $gameSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobGames.ToString())
+    $script:GameWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+}
+
+function Complete-GameScan {
+    $w = $script:GameWorker
+    $script:GameWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $gameSync.Result
+    $script:GamesLoaded = $true
+    if ($r -and $r.Ok) {
+        $script:Games     = @($r.Games)
+        $script:GamesDirs = [int]$r.Dirs
+    } else {
+        $script:Games = @()
+        $script:GamesDirs = 0
+        if ($r) { Add-UiLog ((T "ErrPrefix") + " " + $r.Error) }
+    }
+    Update-GameList
+}
+
+function Update-GameList {
+    $q = $ui.TxtGameSearch.Text.Trim()
+    $ui.TxtGameSearchHint.Visibility = if ($ui.TxtGameSearch.Text) { "Collapsed" } else { "Visible" }
+    if (-not $script:GamesLoaded) { return }
+    $list = if ($q) { @($script:Games | Where-Object { $_.Name.IndexOf($q, [StringComparison]::OrdinalIgnoreCase) -ge 0 }) } else { @($script:Games) }
+    $ui.ListGames.ItemsSource = $list
+    $hasEden = Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")
+    if (-not $hasEden) {
+        $ui.TxtGamesInfo.Text  = ""
+        $ui.TxtGamesEmpty.Text = T "GamesNoEden"
+        $ui.TxtGamesEmpty.Visibility = "Visible"
+    } elseif ($script:Games.Count -eq 0) {
+        $ui.TxtGamesInfo.Text  = TF "GamesInfo" 0 $script:GamesDirs
+        $ui.TxtGamesEmpty.Text = T "GamesEmpty"
+        $ui.TxtGamesEmpty.Visibility = "Visible"
+    } else {
+        $ui.TxtGamesInfo.Text = TF "GamesInfo" $script:Games.Count $script:GamesDirs
+        $ui.TxtGamesEmpty.Visibility = "Collapsed"
+    }
+    Update-GameButton
+}
+
+function Update-GameButton {
+    $ui.BtnGameStart.IsEnabled = [bool]($ui.ListGames.SelectedItem -and (Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")))
+}
+
+function Start-Game($game) {
+    if (-not $game) { return }
+    $exe = Join-Path $script:Settings.EdenPath "eden.exe"
+    if (-not (Test-Path $exe)) { Show-Msg ((T "ErrNoExe") + "`n" + $exe); return }
+    $argList = @()
+    if ($script:Settings.GamesFullscreen) { $argList += "-f" }
+    $argList += "-g"
+    $argList += ('"' + $game.Path + '"')
+    Start-Process -FilePath $exe -ArgumentList $argList -WorkingDirectory $script:Settings.EdenPath
+    Add-UiLog (TF "LogGameStart" $game.Name)
+    if ($script:Settings.CloseAfterStart) { $window.Close() }
 }
 
 # ------------------------------------------------------------
@@ -4280,7 +4613,7 @@ function Complete-Notes {
 function Start-Eden {
     $exe = Join-Path $script:Settings.EdenPath "eden.exe"
     if (Test-Path $exe) {
-        Start-Process $exe
+        Start-Process -FilePath $exe -WorkingDirectory $script:Settings.EdenPath
         Add-UiLog (T "LogEdenStarted")
         if ($script:Settings.CloseAfterStart) { $window.Close() }
     }
@@ -4344,7 +4677,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -4388,6 +4721,8 @@ function Set-SettingsControls {
     $ui.ChkAuto.IsChecked        = [bool]$s.AutoCheck
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
     $ui.ChkSelfUpdate.IsChecked  = [bool]$s.SelfUpdateCheck
+    $ui.ChkGamesFull.IsChecked   = [bool]$s.GamesFullscreen
+    try { Update-GameList } catch {}
     Update-SelfCard
 }
 
@@ -4395,6 +4730,17 @@ function Set-SettingsControls {
 $ui.BtnNavVer.Add_Click({ Set-Page "versions" })
 $ui.BtnNavNotes.Add_Click({ Set-Page "notes" })
 $ui.BtnNavSet.Add_Click({ Set-Page "settings" })
+$ui.BtnNavGames.Add_Click({ Set-Page "games" })
+$ui.BtnGamesReload.Add_Click({ Start-GameScan })
+$ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
+$ui.ListGames.Add_MouseDoubleClick({ if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
+$ui.ListGames.Add_SelectionChanged({ Update-GameButton })
+$ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
+$ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
+$ui.ChkGamesFull.Add_Click({
+    $script:Settings.GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
+    try { Save-Settings } catch {}
+})
 
 # --- Aktionen
 $ui.BtnUpdate.Add_Click({
@@ -4486,6 +4832,7 @@ $ui.BtnSave.Add_Click({
             AutoCheck    = [bool]$ui.ChkAuto.IsChecked
             AutoInstall  = [bool]$ui.ChkAutoInstall.IsChecked
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
+            GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
             Language     = $lang
         }
         Save-Settings
@@ -4497,6 +4844,7 @@ $ui.BtnSave.Add_Click({
             if (-not $script:Busy) { $ui.TxtStatus.Text = T "StReady" }
         }
         Update-SettingsFileLabel
+        if ([string]$old.EdenPath -ne $path) { $script:GamesLoaded = $false }
         Add-UiLog (T "LogSettingsSaved")
         Set-NotesLayout
         Update-List
@@ -4521,6 +4869,7 @@ $timer.Add_Tick({
         }
         if ($script:NotesWorker -and $notesSync.Done) { Complete-Notes }
         if ($script:SelfWorker -and $selfSync.Done) { Complete-Self }
+        if ($script:GameWorker -and $gameSync.Done) { Complete-GameScan }
         if ($script:SelfPrompt -and -not $script:Busy -and -not $script:MsgWin -and -not $script:ThemeWin) {
             $script:SelfPrompt = $false
             Ask-SelfUpdate

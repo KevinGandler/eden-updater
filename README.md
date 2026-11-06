@@ -10,6 +10,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Neueste Nightly installieren oder beliebige ältere Version wählen
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
+- Spiele-Tab: liest die Spieleordner aus Eden, Suche, Start per Doppelklick (optional im Vollbild)
 - Auswahl der Build-Variante (Standard: PGO, Windows amd64) oder eigener Regex-Filter
 - 6 Farbschemata, 13 Sprachen (automatische Erkennung, sonst Deutsch)
 - Update-Status oben rechts, optional automatische Suche und Installation beim Start
