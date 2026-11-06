@@ -15,6 +15,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Update-Status oben rechts, optional automatische Suche und Installation beim Start
 - Einstellungen liegen im Eden-Installationsordner (`eden-updater-settings.json`)
 - Eine einzige portable `EdenUpdater.exe`, kein Konsolenfenster
+- Selbst-Update: fragt beim Start nach, wenn es eine neue Updater-Version gibt (sonst kein Hinweis); in den Einstellungen manuell suchen und installieren
 
 ## Benutzung
 

@@ -29,6 +29,7 @@ $Defaults = [ordered]@{
     ThemePreset  = "dark-cyan"
     AutoCheck    = $true
     AutoInstall  = $false
+    SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     Language     = "auto"
 }
 
@@ -101,7 +102,8 @@ function Get-Excludes {
     @("version.txt", "changelog.txt", "Backup", "user",
       "eden-nightly-updater.ps1", "Eden-Updater.bat", "Eden-Updater.vbs",
       "EdenUpdater.ps1", "EdenUpdater.exe", "eden-updater-settings.json",
-      "EdenUpdater.ico", "Build-Exe.ps1", "Build-Exe.bat")
+      "EdenUpdater.ico", "Build-Exe.ps1", "Build-Exe.bat",
+      "EdenUpdater.exe.new", "EdenUpdater*.old")
 }
 
 $script:FirstRun       = $false
@@ -260,6 +262,21 @@ GrpBehavior=Verhalten
 LogTitle=Aktivität
 SetStoredAt=Einstellungen werden im Installationsordner gespeichert: {0}
 FirstRunAsk=Noch keine Eden-Installation gefunden.\n\nSoll Eden in diesen Ordner installiert werden?\n{0}\n\nMit Nein wählst du einen anderen Ordner.
+GrpUpdater=Eden Updater
+SelfVersion=Installierte Version: {0}
+SelfStateIdle=Noch nicht nach Updates gesucht.
+SelfStateChecking=Suche nach Updates für den Updater...
+SelfStateLatest=Der Updater ist aktuell.
+SelfStateFound=Neue Version verfügbar: {0}
+SelfStateError=Suche fehlgeschlagen: {0}
+SelfStateScript=Selbst-Update gibt es nur in der EXE-Version.
+SelfBtnCheck=Nach Updates suchen
+SelfBtnInstall=Jetzt installieren
+SelfBtnNotes=Was ist neu?
+SelfChkStart=Beim Start nach Updates für den Updater suchen
+SelfAsk=Eine neue Version des Eden Updaters ist verfügbar.\n\nInstalliert: {0}\nNeu: {1}\n\nJetzt aktualisieren? Der Updater startet danach neu.
+SelfDownloading=Lade Updater {0} herunter...
+SelfUpdated=Updater auf Version {0} aktualisiert.
 '@
 en = @'
 Name=English
@@ -387,6 +404,21 @@ GrpBehavior=Behavior
 LogTitle=Activity
 SetStoredAt=Settings are stored in the installation folder: {0}
 FirstRunAsk=No Eden installation found yet.\n\nInstall Eden into this folder?\n{0}\n\nChoose No to pick a different folder.
+GrpUpdater=Eden Updater
+SelfVersion=Installed version: {0}
+SelfStateIdle=Not checked for updates yet.
+SelfStateChecking=Checking for updater updates...
+SelfStateLatest=The updater is up to date.
+SelfStateFound=New version available: {0}
+SelfStateError=Check failed: {0}
+SelfStateScript=Self-update is only available in the EXE version.
+SelfBtnCheck=Check for updates
+SelfBtnInstall=Install now
+SelfBtnNotes=What's new?
+SelfChkStart=Check for updater updates at startup
+SelfAsk=A new version of Eden Updater is available.\n\nInstalled: {0}\nNew: {1}\n\nUpdate now? The updater will restart afterwards.
+SelfDownloading=Downloading updater {0}...
+SelfUpdated=Updater updated to version {0}.
 '@
 es = @'
 Name=Español
@@ -514,6 +546,21 @@ GrpBehavior=Comportamiento
 LogTitle=Actividad
 SetStoredAt=Los ajustes se guardan en la carpeta de instalación: {0}
 FirstRunAsk=Aún no se encontró ninguna instalación de Eden.\n\n¿Instalar Eden en esta carpeta?\n{0}\n\nElige No para seleccionar otra carpeta.
+GrpUpdater=Eden Updater
+SelfVersion=Versión instalada: {0}
+SelfStateIdle=Aún no se han buscado actualizaciones.
+SelfStateChecking=Buscando actualizaciones del actualizador...
+SelfStateLatest=El actualizador está al día.
+SelfStateFound=Nueva versión disponible: {0}
+SelfStateError=La búsqueda falló: {0}
+SelfStateScript=La autoactualización solo está disponible en la versión EXE.
+SelfBtnCheck=Buscar actualizaciones
+SelfBtnInstall=Instalar ahora
+SelfBtnNotes=¿Qué hay de nuevo?
+SelfChkStart=Buscar actualizaciones del actualizador al iniciar
+SelfAsk=Hay una nueva versión de Eden Updater disponible.\n\nInstalada: {0}\nNueva: {1}\n\n¿Actualizar ahora? El actualizador se reiniciará después.
+SelfDownloading=Descargando actualizador {0}...
+SelfUpdated=Actualizador actualizado a la versión {0}.
 '@
 fr = @'
 Name=Français
@@ -641,6 +688,21 @@ GrpBehavior=Comportement
 LogTitle=Activité
 SetStoredAt=Les paramètres sont enregistrés dans le dossier d'installation : {0}
 FirstRunAsk=Aucune installation d'Eden trouvée.\n\nInstaller Eden dans ce dossier ?\n{0}\n\nChoisissez Non pour sélectionner un autre dossier.
+GrpUpdater=Eden Updater
+SelfVersion=Version installée : {0}
+SelfStateIdle=Aucune recherche de mise à jour effectuée.
+SelfStateChecking=Recherche de mises à jour de l'outil...
+SelfStateLatest=L'outil de mise à jour est à jour.
+SelfStateFound=Nouvelle version disponible : {0}
+SelfStateError=Échec de la recherche : {0}
+SelfStateScript=La mise à jour automatique n'est disponible que dans la version EXE.
+SelfBtnCheck=Rechercher des mises à jour
+SelfBtnInstall=Installer maintenant
+SelfBtnNotes=Quoi de neuf ?
+SelfChkStart=Rechercher des mises à jour de l'outil au démarrage
+SelfAsk=Une nouvelle version d'Eden Updater est disponible.\n\nInstallée : {0}\nNouvelle : {1}\n\nMettre à jour maintenant ? L'outil redémarrera ensuite.
+SelfDownloading=Téléchargement de l'outil {0}...
+SelfUpdated=Outil mis à jour vers la version {0}.
 '@
 it = @'
 Name=Italiano
@@ -768,6 +830,21 @@ GrpBehavior=Comportamento
 LogTitle=Attività
 SetStoredAt=Le impostazioni vengono salvate nella cartella di installazione: {0}
 FirstRunAsk=Nessuna installazione di Eden trovata.\n\nInstallare Eden in questa cartella?\n{0}\n\nScegli No per selezionare un'altra cartella.
+GrpUpdater=Eden Updater
+SelfVersion=Versione installata: {0}
+SelfStateIdle=Nessuna ricerca di aggiornamenti effettuata.
+SelfStateChecking=Ricerca aggiornamenti dell'updater...
+SelfStateLatest=L'updater è aggiornato.
+SelfStateFound=Nuova versione disponibile: {0}
+SelfStateError=Ricerca non riuscita: {0}
+SelfStateScript=L'aggiornamento automatico è disponibile solo nella versione EXE.
+SelfBtnCheck=Cerca aggiornamenti
+SelfBtnInstall=Installa ora
+SelfBtnNotes=Novità
+SelfChkStart=Cerca aggiornamenti dell'updater all'avvio
+SelfAsk=È disponibile una nuova versione di Eden Updater.\n\nInstallata: {0}\nNuova: {1}\n\nAggiornare ora? L'updater verrà riavviato.
+SelfDownloading=Download dell'updater {0}...
+SelfUpdated=Updater aggiornato alla versione {0}.
 '@
 pt = @'
 Name=Português
@@ -895,6 +972,21 @@ GrpBehavior=Comportamento
 LogTitle=Atividade
 SetStoredAt=As configurações são salvas na pasta de instalação: {0}
 FirstRunAsk=Nenhuma instalação do Eden encontrada.\n\nInstalar o Eden nesta pasta?\n{0}\n\nEscolha Não para selecionar outra pasta.
+GrpUpdater=Eden Updater
+SelfVersion=Versão instalada: {0}
+SelfStateIdle=Ainda não foram procuradas atualizações.
+SelfStateChecking=Procurando atualizações do atualizador...
+SelfStateLatest=O atualizador está atualizado.
+SelfStateFound=Nova versão disponível: {0}
+SelfStateError=A busca falhou: {0}
+SelfStateScript=A autoatualização só está disponível na versão EXE.
+SelfBtnCheck=Procurar atualizações
+SelfBtnInstall=Instalar agora
+SelfBtnNotes=O que há de novo?
+SelfChkStart=Procurar atualizações do atualizador ao iniciar
+SelfAsk=Uma nova versão do Eden Updater está disponível.\n\nInstalada: {0}\nNova: {1}\n\nAtualizar agora? O atualizador será reiniciado em seguida.
+SelfDownloading=Baixando atualizador {0}...
+SelfUpdated=Atualizador atualizado para a versão {0}.
 '@
 nl = @'
 Name=Nederlands
@@ -1022,6 +1114,21 @@ GrpBehavior=Gedrag
 LogTitle=Activiteit
 SetStoredAt=Instellingen worden opgeslagen in de installatiemap: {0}
 FirstRunAsk=Nog geen Eden-installatie gevonden.\n\nEden in deze map installeren?\n{0}\n\nKies Nee om een andere map te kiezen.
+GrpUpdater=Eden Updater
+SelfVersion=Geïnstalleerde versie: {0}
+SelfStateIdle=Nog niet naar updates gezocht.
+SelfStateChecking=Zoeken naar updates voor de updater...
+SelfStateLatest=De updater is up-to-date.
+SelfStateFound=Nieuwe versie beschikbaar: {0}
+SelfStateError=Zoeken mislukt: {0}
+SelfStateScript=Zelf-update is alleen beschikbaar in de EXE-versie.
+SelfBtnCheck=Naar updates zoeken
+SelfBtnInstall=Nu installeren
+SelfBtnNotes=Wat is er nieuw?
+SelfChkStart=Bij het starten naar updates voor de updater zoeken
+SelfAsk=Er is een nieuwe versie van Eden Updater beschikbaar.\n\nGeïnstalleerd: {0}\nNieuw: {1}\n\nNu bijwerken? De updater start daarna opnieuw.
+SelfDownloading=Updater {0} downloaden...
+SelfUpdated=Updater bijgewerkt naar versie {0}.
 '@
 pl = @'
 Name=Polski
@@ -1149,6 +1256,21 @@ GrpBehavior=Działanie
 LogTitle=Aktywność
 SetStoredAt=Ustawienia są zapisywane w folderze instalacji: {0}
 FirstRunAsk=Nie znaleziono jeszcze instalacji Eden.\n\nZainstalować Eden w tym folderze?\n{0}\n\nWybierz Nie, aby wskazać inny folder.
+GrpUpdater=Eden Updater
+SelfVersion=Zainstalowana wersja: {0}
+SelfStateIdle=Jeszcze nie sprawdzano aktualizacji.
+SelfStateChecking=Sprawdzanie aktualizacji aktualizatora...
+SelfStateLatest=Aktualizator jest aktualny.
+SelfStateFound=Dostępna nowa wersja: {0}
+SelfStateError=Sprawdzanie nie powiodło się: {0}
+SelfStateScript=Samoaktualizacja jest dostępna tylko w wersji EXE.
+SelfBtnCheck=Sprawdź aktualizacje
+SelfBtnInstall=Zainstaluj teraz
+SelfBtnNotes=Co nowego?
+SelfChkStart=Sprawdzaj aktualizacje aktualizatora przy starcie
+SelfAsk=Dostępna jest nowa wersja Eden Updater.\n\nZainstalowana: {0}\nNowa: {1}\n\nZaktualizować teraz? Aktualizator uruchomi się ponownie.
+SelfDownloading=Pobieranie aktualizatora {0}...
+SelfUpdated=Zaktualizowano aktualizator do wersji {0}.
 '@
 tr = @'
 Name=Türkçe
@@ -1276,6 +1398,21 @@ GrpBehavior=Davranış
 LogTitle=Etkinlik
 SetStoredAt=Ayarlar kurulum klasörüne kaydedilir: {0}
 FirstRunAsk=Henüz bir Eden kurulumu bulunamadı.\n\nEden bu klasöre kurulsun mu?\n{0}\n\nBaşka bir klasör seçmek için Hayır'ı seçin.
+GrpUpdater=Eden Updater
+SelfVersion=Yüklü sürüm: {0}
+SelfStateIdle=Henüz güncelleme aranmadı.
+SelfStateChecking=Güncelleyici için güncellemeler aranıyor...
+SelfStateLatest=Güncelleyici güncel.
+SelfStateFound=Yeni sürüm mevcut: {0}
+SelfStateError=Arama başarısız: {0}
+SelfStateScript=Kendi kendini güncelleme yalnızca EXE sürümünde kullanılabilir.
+SelfBtnCheck=Güncellemeleri denetle
+SelfBtnInstall=Şimdi yükle
+SelfBtnNotes=Yenilikler
+SelfChkStart=Başlangıçta güncelleyici güncellemelerini denetle
+SelfAsk=Eden Updater'ın yeni bir sürümü mevcut.\n\nYüklü: {0}\nYeni: {1}\n\nŞimdi güncellensin mi? Güncelleyici ardından yeniden başlar.
+SelfDownloading=Güncelleyici {0} indiriliyor...
+SelfUpdated=Güncelleyici {0} sürümüne güncellendi.
 '@
 ru = @'
 Name=Русский
@@ -1403,6 +1540,21 @@ GrpBehavior=Поведение
 LogTitle=Активность
 SetStoredAt=Настройки сохраняются в папке установки: {0}
 FirstRunAsk=Установка Eden пока не найдена.\n\nУстановить Eden в эту папку?\n{0}\n\nВыберите «Нет», чтобы указать другую папку.
+GrpUpdater=Eden Updater
+SelfVersion=Установленная версия: {0}
+SelfStateIdle=Обновления ещё не проверялись.
+SelfStateChecking=Поиск обновлений программы обновления...
+SelfStateLatest=Программа обновления актуальна.
+SelfStateFound=Доступна новая версия: {0}
+SelfStateError=Ошибка проверки: {0}
+SelfStateScript=Самообновление доступно только в EXE-версии.
+SelfBtnCheck=Проверить обновления
+SelfBtnInstall=Установить сейчас
+SelfBtnNotes=Что нового?
+SelfChkStart=Проверять обновления программы при запуске
+SelfAsk=Доступна новая версия Eden Updater.\n\nУстановлена: {0}\nНовая: {1}\n\nОбновить сейчас? Программа затем перезапустится.
+SelfDownloading=Загрузка программы обновления {0}...
+SelfUpdated=Программа обновления обновлена до версии {0}.
 '@
 ja = @'
 Name=日本語
@@ -1530,6 +1682,21 @@ GrpBehavior=動作
 LogTitle=アクティビティ
 SetStoredAt=設定はインストール先フォルダーに保存されます: {0}
 FirstRunAsk=Edenのインストールが見つかりません。\n\nこのフォルダーにEdenをインストールしますか?\n{0}\n\n別のフォルダーを選ぶには「いいえ」を選択してください。
+GrpUpdater=Eden Updater
+SelfVersion=インストール済みバージョン: {0}
+SelfStateIdle=まだ更新を確認していません。
+SelfStateChecking=アップデーターの更新を確認中...
+SelfStateLatest=アップデーターは最新です。
+SelfStateFound=新しいバージョンがあります: {0}
+SelfStateError=確認に失敗しました: {0}
+SelfStateScript=自動更新はEXE版でのみ利用できます。
+SelfBtnCheck=更新を確認
+SelfBtnInstall=今すぐインストール
+SelfBtnNotes=新機能
+SelfChkStart=起動時にアップデーターの更新を確認する
+SelfAsk=Eden Updaterの新しいバージョンがあります。\n\nインストール済み: {0}\n新しいバージョン: {1}\n\n今すぐ更新しますか?更新後にアップデーターが再起動します。
+SelfDownloading=アップデーター {0} をダウンロード中...
+SelfUpdated=アップデーターをバージョン {0} に更新しました。
 '@
 zh = @'
 Name=中文（简体）
@@ -1657,6 +1824,21 @@ GrpBehavior=行为
 LogTitle=活动
 SetStoredAt=设置保存在安装文件夹中: {0}
 FirstRunAsk=尚未找到 Eden 安装。\n\n要将 Eden 安装到此文件夹吗?\n{0}\n\n选择「否」可选择其他文件夹。
+GrpUpdater=Eden Updater
+SelfVersion=已安装版本: {0}
+SelfStateIdle=尚未检查更新。
+SelfStateChecking=正在检查更新程序的更新...
+SelfStateLatest=更新程序已是最新版本。
+SelfStateFound=有新版本可用: {0}
+SelfStateError=检查失败: {0}
+SelfStateScript=自动更新仅在 EXE 版本中可用。
+SelfBtnCheck=检查更新
+SelfBtnInstall=立即安装
+SelfBtnNotes=更新内容
+SelfChkStart=启动时检查更新程序的更新
+SelfAsk=Eden Updater 有新版本可用。\n\n已安装: {0}\n新版本: {1}\n\n立即更新?更新程序随后会重新启动。
+SelfDownloading=正在下载更新程序 {0}...
+SelfUpdated=更新程序已更新到版本 {0}。
 '@
 ko = @'
 Name=한국어
@@ -1784,6 +1966,21 @@ GrpBehavior=동작
 LogTitle=활동
 SetStoredAt=설정은 설치 폴더에 저장됩니다: {0}
 FirstRunAsk=아직 Eden 설치를 찾지 못했습니다.\n\n이 폴더에 Eden을 설치할까요?\n{0}\n\n다른 폴더를 선택하려면 '아니요'를 선택하세요.
+GrpUpdater=Eden Updater
+SelfVersion=설치된 버전: {0}
+SelfStateIdle=아직 업데이트를 확인하지 않았습니다.
+SelfStateChecking=업데이터 업데이트 확인 중...
+SelfStateLatest=업데이터가 최신 상태입니다.
+SelfStateFound=새 버전 사용 가능: {0}
+SelfStateError=확인 실패: {0}
+SelfStateScript=자동 업데이트는 EXE 버전에서만 사용할 수 있습니다.
+SelfBtnCheck=업데이트 확인
+SelfBtnInstall=지금 설치
+SelfBtnNotes=새로운 기능
+SelfChkStart=시작할 때 업데이터 업데이트 확인
+SelfAsk=Eden Updater의 새 버전이 있습니다.\n\n설치됨: {0}\n새 버전: {1}\n\n지금 업데이트할까요? 업데이터가 다시 시작됩니다.
+SelfDownloading=업데이터 {0} 다운로드 중...
+SelfUpdated=업데이터를 버전 {0}(으)로 업데이트했습니다.
 '@
 }
 
@@ -1865,12 +2062,61 @@ $sync = [hashtable]::Synchronized(@{
     Result   = $null
     Args     = $null
 })
+$selfSync = [hashtable]::Synchronized(@{
+    Done   = $false
+    Result = $null
+    Args   = $null
+})
 $notesSync = [hashtable]::Synchronized(@{
     Log    = (New-Object 'System.Collections.Concurrent.ConcurrentQueue[string]')
     Done   = $false
     Result = $null
     Args   = $null
 })
+
+# Selbst-Update: neueste Release-Info von GitHub holen bzw. die neue EXE laden
+$jobSelf = {
+    $a  = $sync.Args
+    $UA = "EdenUpdater"
+    try {
+        if ($a.Mode -eq "check") {
+            $tmp = [IO.Path]::GetTempFileName()
+            try {
+                $url  = "https://api.github.com/repos/" + $a.Repo + "/releases/latest"
+                $code = & curl.exe -s -L --max-time 20 -A $UA -H "Accept: application/vnd.github+json" -o $tmp -w "%{http_code}" $url 2>$null
+                if ("$code" -eq "404") { $sync.Result = @{ Ok = $true; Mode = "check"; Tag = "" }; return }
+                if ("$code" -ne "200") { throw ("GitHub HTTP " + $code) }
+                $j = [IO.File]::ReadAllText($tmp, [Text.Encoding]::UTF8) | ConvertFrom-Json
+            } finally {
+                Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+            }
+            $asset = @($j.assets) | Where-Object { $_.name -eq "EdenUpdater.exe" } | Select-Object -First 1
+            $sync.Result = @{
+                Ok   = $true; Mode = "check"
+                Tag  = [string]$j.tag_name
+                Page = [string]$j.html_url
+                Url  = $(if ($asset) { [string]$asset.browser_download_url } else { "" })
+                Size = $(if ($asset) { [long]$asset.size } else { [long]0 })
+            }
+        } else {
+            $out = [string]$a.Target
+            Remove-Item -LiteralPath $out -Force -ErrorAction SilentlyContinue
+            $code = & curl.exe -s -L --max-time 180 -A $UA -o $out -w "%{http_code}" $a.Url 2>$null
+            if ("$code" -ne "200" -or -not (Test-Path -LiteralPath $out)) { throw ("Download HTTP " + $code) }
+            $len = (Get-Item -LiteralPath $out).Length
+            if ($a.Size -gt 0 -and $len -ne $a.Size) { throw ("Download unvollständig ($len / $($a.Size) Bytes)") }
+            $fs = [IO.File]::OpenRead($out)
+            try { $b1 = $fs.ReadByte(); $b2 = $fs.ReadByte() } finally { $fs.Close() }
+            if ($b1 -ne 0x4D -or $b2 -ne 0x5A) { throw "Download ist keine gültige EXE." }
+            $sync.Result = @{ Ok = $true; Mode = "download"; File = $out }
+        }
+    } catch {
+        if ($a.Mode -ne "check") { Remove-Item -LiteralPath ([string]$a.Target) -Force -ErrorAction SilentlyContinue }
+        $sync.Result = @{ Ok = $false; Mode = $a.Mode; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
 
 # ------------------------------------------------------------
 #  Hintergrund-Code (laeuft in eigenem Runspace, fasst die UI nicht an)
@@ -3060,7 +3306,7 @@ $xaml = @'
               </Border>
 
               <!-- Verhalten -->
-              <Border Style="{StaticResource Card}" Margin="0,0,0,6">
+              <Border Style="{StaticResource Card}" Margin="0,0,0,0">
                 <StackPanel>
                   <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                     <TextBlock Text="&#xE9F5;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
@@ -3071,6 +3317,34 @@ $xaml = @'
                   <CheckBox x:Name="ChkClose" Content="{DynamicResource L_ChkClose}"/>
                   <CheckBox x:Name="ChkAuto" Content="{DynamicResource L_ChkAuto}"/>
                   <CheckBox x:Name="ChkAutoInstall" Content="{DynamicResource L_ChkAutoInstall}"/>
+                </StackPanel>
+              </Border>
+
+              <!-- Updater selbst -->
+              <Border Style="{StaticResource Card}" Margin="0,14,0,6">
+                <StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+                    <TextBlock Text="&#xE895;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
+                    <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpUpdater}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                  </StackPanel>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                      <TextBlock x:Name="TxtSelfVersion" Style="{StaticResource FieldTitle}"/>
+                      <TextBlock x:Name="TxtSelfState" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                      <Button x:Name="BtnSelfNotes" Tag="&#xE774;" Content="{DynamicResource L_SelfBtnNotes}" Style="{StaticResource BtnGhost}"
+                              Visibility="Collapsed" Margin="0,0,6,0"/>
+                      <Button x:Name="BtnSelfCheck" Tag="&#xE72C;" Content="{DynamicResource L_SelfBtnCheck}" Style="{StaticResource Btn}" Padding="14,8"/>
+                      <Button x:Name="BtnSelfInstall" Tag="&#xE896;" Content="{DynamicResource L_SelfBtnInstall}" Style="{StaticResource BtnPrimary}"
+                              Padding="14,8" Margin="8,0,0,0" Visibility="Collapsed"/>
+                    </StackPanel>
+                  </Grid>
+                  <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Margin="0,14,0,0"/>
                 </StackPanel>
               </Border>
             </StackPanel>
@@ -3614,6 +3888,7 @@ function Update-StateChip($latest) {
 }
 
 function Update-Ui {
+    try { Update-SelfCard } catch {}
     $inst   = Get-InstalledVersion
     $latest = if ($script:Releases.Count -gt 0) { $script:Releases[0].Tag } else { $null }
     $ui.TxtInstalled.Text = if ($inst) { $inst } else { T "NotInstalled" }
@@ -3782,6 +4057,165 @@ function Start-Restore {
     } "restore"
 }
 
+# ------------------------------------------------------------
+#  Selbst-Update des Updaters (nur in der EXE)
+# ------------------------------------------------------------
+$SelfRepo = "KevinGandler/eden-updater"
+$script:SelfExe     = $null
+$script:SelfVersion = $null
+try {
+    $mm = [Diagnostics.Process]::GetCurrentProcess().MainModule.FileName
+    if ([IO.Path]::GetFileName($mm) -notmatch '^(powershell|pwsh|powershell_ise)(\.exe)?$') {
+        $script:SelfExe = $mm
+        $fv = [Diagnostics.FileVersionInfo]::GetVersionInfo($mm)
+        $script:SelfVersion = [version]::new($fv.FileMajorPart, $fv.FileMinorPart, $fv.FileBuildPart)
+    }
+} catch {}
+$script:SelfState   = "idle"     # idle | checking | latest | found | downloading | error
+$script:SelfInfo    = $null
+$script:SelfError   = ""
+$script:SelfAuto    = $false
+$script:SelfPrompt  = $false
+$script:SelfWorker  = $null
+$script:SelfCleanAt = $null
+
+function Format-Ver($v) { if ($v) { return ("{0}.{1}.{2}" -f $v.Major, $v.Minor, [Math]::Max(0, $v.Build)) } else { return "-" } }
+
+function ConvertTo-Ver([string]$tag) {
+    $t = $tag.Trim().TrimStart('v', 'V')
+    $m = [regex]::Match($t, '^(\d+)\.(\d+)(?:\.(\d+))?')
+    if (-not $m.Success) { return $null }
+    $b = if ($m.Groups[3].Success) { [int]$m.Groups[3].Value } else { 0 }
+    return [version]::new([int]$m.Groups[1].Value, [int]$m.Groups[2].Value, $b)
+}
+
+# Reste vom letzten Selbst-Update wegraeumen
+function Remove-SelfOld {
+    if (-not $script:SelfExe) { return }
+    $dir = Split-Path -Parent $script:SelfExe
+    Get-ChildItem -LiteralPath $dir -Filter "EdenUpdater*.old" -Force -ErrorAction SilentlyContinue |
+        ForEach-Object { Remove-Item -LiteralPath $_.FullName -Force -ErrorAction SilentlyContinue }
+}
+
+function Start-SelfWorker([hashtable]$jobArgs) {
+    $selfSync.Args   = $jobArgs
+    $selfSync.Done   = $false
+    $selfSync.Result = $null
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $selfSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobSelf.ToString())
+    $script:SelfWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+}
+
+function Start-SelfCheck([bool]$auto) {
+    if (-not $script:SelfExe -or $script:SelfWorker) { return }
+    $script:SelfAuto  = $auto
+    $script:SelfState = "checking"
+    Update-SelfCard
+    Start-SelfWorker @{ Mode = "check"; Repo = $SelfRepo }
+}
+
+function Start-SelfDownload {
+    if (-not $script:SelfExe -or $script:SelfWorker -or -not $script:SelfInfo) { return }
+    $script:SelfState = "downloading"
+    Update-SelfCard
+    Add-UiLog (TF "SelfDownloading" $script:SelfInfo.Tag)
+    Start-SelfWorker @{ Mode = "download"; Url = $script:SelfInfo.Url; Size = $script:SelfInfo.Size; Target = ($script:SelfExe + ".new") }
+}
+
+function Complete-Self {
+    $w = $script:SelfWorker
+    $script:SelfWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $selfSync.Result
+    if (-not $r) { $r = @{ Ok = $false; Mode = "check"; Error = "?" } }
+
+    if ($r.Mode -eq "check") {
+        if (-not $r.Ok) {
+            $script:SelfState = "error"; $script:SelfError = [string]$r.Error
+            Add-UiLog (TF "SelfStateError" $r.Error)   # ohne Fehler-Praefix: klappt das Log nicht auf
+        } else {
+            $nv = if ($r.Tag) { ConvertTo-Ver $r.Tag } else { $null }
+            if ($nv -and $r.Url -and $script:SelfVersion -and $nv -gt $script:SelfVersion) {
+                $script:SelfInfo  = @{ Tag = [string]$r.Tag; Version = $nv; Url = [string]$r.Url; Size = [long]$r.Size; Page = [string]$r.Page }
+                $script:SelfState = "found"
+                if ($script:SelfAuto) { $script:SelfPrompt = $true }   # Frage kommt, sobald nichts anderes laeuft
+            } else {
+                $script:SelfState = "latest"
+            }
+        }
+    } else {
+        if ($r.Ok) {
+            Install-SelfUpdate ([string]$r.File)
+            return
+        }
+        $script:SelfState = "error"; $script:SelfError = [string]$r.Error
+        Show-Msg (TF "SelfStateError" $r.Error) "Error"
+    }
+    Update-SelfCard
+}
+
+function Ask-SelfUpdate {
+    if ($script:SelfState -ne "found" -or -not $script:SelfInfo) { return }
+    $q = TF "SelfAsk" (Format-Ver $script:SelfVersion) (Format-Ver $script:SelfInfo.Version)
+    if ((Show-Dialog $q "YesNo" "Question") -eq "Yes") { Start-SelfDownload }
+}
+
+# Laufende EXE umbenennen (das erlaubt Windows), neue EXE an ihre Stelle, neu starten
+function Install-SelfUpdate([string]$newFile) {
+    $exe = $script:SelfExe
+    $old = $exe + ".old"
+    try {
+        if (Test-Path -LiteralPath $old) { Remove-Item -LiteralPath $old -Force -ErrorAction SilentlyContinue }
+        if (Test-Path -LiteralPath $old) { $old = $exe + "." + [DateTime]::Now.Ticks + ".old" }
+        [IO.File]::Move($exe, $old)
+        try { [IO.File]::Move($newFile, $exe) }
+        catch { [IO.File]::Move($old, $exe); throw }
+        Start-Process -FilePath $exe -WorkingDirectory (Split-Path -Parent $exe)
+        $script:SelfRestarting = $true
+        $window.Close()
+    } catch {
+        Remove-Item -LiteralPath $newFile -Force -ErrorAction SilentlyContinue
+        $script:SelfState = "error"; $script:SelfError = $_.Exception.Message
+        Update-SelfCard
+        Show-Msg (TF "SelfStateError" $_.Exception.Message) "Error"
+    }
+}
+
+function Update-SelfCard {
+    $vis = [System.Windows.Visibility]
+    if (-not $script:SelfExe) {
+        $ui.TxtSelfVersion.Text = "Eden Updater"
+        $ui.TxtSelfState.Text   = T "SelfStateScript"
+        $ui.BtnSelfCheck.IsEnabled  = $false
+        $ui.BtnSelfInstall.Visibility = $vis::Collapsed
+        $ui.BtnSelfNotes.Visibility   = $vis::Collapsed
+        $ui.ChkSelfUpdate.IsEnabled = $false
+        return
+    }
+    $ui.TxtSelfVersion.Text = TF "SelfVersion" (Format-Ver $script:SelfVersion)
+    $tag = if ($script:SelfInfo) { [string]$script:SelfInfo.Tag } else { "" }
+    $ui.TxtSelfState.Text = switch ($script:SelfState) {
+        "checking"    { T "SelfStateChecking" }
+        "latest"      { T "SelfStateLatest" }
+        "found"       { TF "SelfStateFound" $tag }
+        "downloading" { TF "SelfDownloading" $tag }
+        "error"       { TF "SelfStateError" $script:SelfError }
+        default       { T "SelfStateIdle" }
+    }
+    $working = ($script:SelfState -eq "checking" -or $script:SelfState -eq "downloading")
+    $ui.BtnSelfCheck.IsEnabled = -not $working
+    $found = ($script:SelfState -eq "found")
+    $ui.BtnSelfInstall.Visibility = if ($found) { $vis::Visible } else { $vis::Collapsed }
+    $ui.BtnSelfInstall.IsEnabled  = $found -and -not $script:Busy
+    $ui.BtnSelfNotes.Visibility   = if (($found -or $script:SelfState -eq "downloading") -and $script:SelfInfo -and $script:SelfInfo.Page) { $vis::Visible } else { $vis::Collapsed }
+}
+
 function Start-NotesWorker([string]$tag) {
     $notesSync.Args   = @{ Tag = $tag }
     $notesSync.Done   = $false
@@ -3910,7 +4344,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -3953,6 +4387,8 @@ function Set-SettingsControls {
     Update-LangCombo
     $ui.ChkAuto.IsChecked        = [bool]$s.AutoCheck
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
+    $ui.ChkSelfUpdate.IsChecked  = [bool]$s.SelfUpdateCheck
+    Update-SelfCard
 }
 
 # --- Navigation
@@ -3991,6 +4427,9 @@ $ui.BtnMore.Add_Click({
     try { Start-Load ([math]::Min(10, [math]::Max(1, $script:LoadedPages) + 1)) }
     catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
+$ui.BtnSelfCheck.Add_Click({ Start-SelfCheck $false })
+$ui.BtnSelfInstall.Add_Click({ Start-SelfDownload })
+$ui.BtnSelfNotes.Add_Click({ try { if ($script:SelfInfo.Page) { Start-Process $script:SelfInfo.Page } } catch {} })
 $ui.BtnLogToggle.Add_Click({ Set-LogVisible ($ui.TxtLog.Visibility -ne "Visible") })
 $ui.BtnCancel.Add_Click({ $sync.Cancel = $true; Add-UiLog (T "LogCancelReq") })
 $ui.List.Add_SelectionChanged({ Update-Ui; try { Show-Notes } catch {} })
@@ -4046,6 +4485,7 @@ $ui.BtnSave.Add_Click({
             ThemePreset  = (Get-ThemeKey)
             AutoCheck    = [bool]$ui.ChkAuto.IsChecked
             AutoInstall  = [bool]$ui.ChkAutoInstall.IsChecked
+            SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
             Language     = $lang
         }
         Save-Settings
@@ -4080,6 +4520,12 @@ $timer.Add_Tick({
             if ($sync.Done) { Complete-Worker }
         }
         if ($script:NotesWorker -and $notesSync.Done) { Complete-Notes }
+        if ($script:SelfWorker -and $selfSync.Done) { Complete-Self }
+        if ($script:SelfPrompt -and -not $script:Busy -and -not $script:MsgWin -and -not $script:ThemeWin) {
+            $script:SelfPrompt = $false
+            Ask-SelfUpdate
+        }
+        if ($script:SelfCleanAt -and [DateTime]::Now -gt $script:SelfCleanAt) { $script:SelfCleanAt = $null; Remove-SelfOld }
     } catch {}
 })
 
@@ -4122,6 +4568,15 @@ $window.Add_ContentRendered({
     $timer.Start()
     Start-FadeIn $ui.RootGrid 0
     if ($script:FirstRun) { Invoke-FirstRun }
+    if ($script:SelfExe) {
+        $dir = Split-Path -Parent $script:SelfExe
+        if (@(Get-ChildItem -LiteralPath $dir -Filter "EdenUpdater*.old" -Force -ErrorAction SilentlyContinue).Count) {
+            Add-UiLog (TF "SelfUpdated" (Format-Ver $script:SelfVersion))
+        }
+        Remove-SelfOld
+        $script:SelfCleanAt = [DateTime]::Now.AddSeconds(4)   # falls die alte Instanz noch kurz lief
+        if ($script:Settings.SelfUpdateCheck) { Start-SelfCheck $true }
+    }
     if ($script:Settings.AutoCheck) { Start-Load ([int]$script:Settings.Pages) }
     else { Add-UiLog (TF "LogAutoOff" (T "BtnReload")); $script:StartupCheck = $false }
 })
