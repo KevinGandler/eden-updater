@@ -1,0 +1,42 @@
+name: Build
+
+# Laeuft bei jedem Push, Pull Request und neuen Tag.
+# Tag v1.2.3 pushen -> EXE wird mit Version 1.2.3 gebaut und als Release veroeffentlicht.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skript pruefen (Syntax, Sprachen, XAML)
+        shell: powershell
+        run: .\tests\Test-Script.ps1
+
+      - name: EXE bauen
+        shell: powershell
+        run: |
+          $v = if ($env:GITHUB_REF_TYPE -eq 'tag') { $env:GITHUB_REF_NAME } else { '' }
+          .\build\build.ps1 -Version $v
+
+      - name: EXE als Artefakt ablegen
+        uses: actions/upload-artifact@v4
+        with:
+          name: EdenUpdater
+          path: dist/EdenUpdater.exe
+
+      - name: Release veroeffentlichen
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/EdenUpdater.exe
+          generate_release_notes: true

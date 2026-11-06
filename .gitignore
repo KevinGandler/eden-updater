@@ -1,0 +1,4 @@
+dist/
+obj/
+*.old
+eden-updater-settings.json
