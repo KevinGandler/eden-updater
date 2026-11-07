@@ -316,6 +316,24 @@ ThContrast=Lesbarkeit {0} : 1
 ThContrastOk=gut
 ThContrastLow=zu gering, Text wird automatisch angepasst
 GamesClose=Updater beim Spielstart schließen
+NavMods=Mods
+ModsInfo={0} Mods für {1} Spiele
+ModsScanning=Suche nach Mods...
+ModsInstalling=Mod wird installiert...
+ModsFolder=Mod-Ordner öffnen
+ModsAdd=Mod hinzufügen...
+ModsDelete=Löschen
+ModsSelectGame=Wähle links ein Spiel aus.
+ModsGameInfo={0} Mods · {1} aktiv
+ModsNoMods=keine Mods
+ModsEmptyGame=Für dieses Spiel sind keine Mods installiert. Füge mit 'Mod hinzufügen...' ein ZIP hinzu oder kopiere Mod-Ordner in den Mod-Ordner.
+ModsUnknownGame=Unbekanntes Spiel
+ModsEdenRunning=Eden läuft gerade. Schließe Eden, um Mods zu ändern, sonst überschreibt Eden die Änderungen beim Beenden.
+ModsAskDelete=Mod '{0}' wirklich löschen?\n\nDer Ordner wird in den Papierkorb verschoben.
+ModsDeleted=Mod gelöscht: {0}
+ModsAdded=Mod hinzugefügt: {0}
+ModsToggledOn=Mod aktiviert: {0}
+ModsToggledOff=Mod deaktiviert: {0}
 '@
 en = @'
 Name=English
@@ -487,6 +505,24 @@ ThContrast=Readability {0} : 1
 ThContrastOk=good
 ThContrastLow=too low, text will be adjusted automatically
 GamesClose=Close updater when a game starts
+NavMods=Mods
+ModsInfo={0} mods for {1} games
+ModsScanning=Searching for mods...
+ModsInstalling=Installing mod...
+ModsFolder=Open mod folder
+ModsAdd=Add mod...
+ModsDelete=Delete
+ModsSelectGame=Select a game on the left.
+ModsGameInfo={0} mods · {1} active
+ModsNoMods=no mods
+ModsEmptyGame=No mods installed for this game. Use 'Add mod...' to add a ZIP or copy mod folders into the mod folder.
+ModsUnknownGame=Unknown game
+ModsEdenRunning=Eden is running. Close Eden to change mods, otherwise Eden overwrites the changes when it exits.
+ModsAskDelete=Really delete mod '{0}'?\n\nThe folder will be moved to the Recycle Bin.
+ModsDeleted=Mod deleted: {0}
+ModsAdded=Mod added: {0}
+ModsToggledOn=Mod enabled: {0}
+ModsToggledOff=Mod disabled: {0}
 '@
 es = @'
 Name=Español
@@ -658,6 +694,24 @@ ThContrast=Legibilidad {0} : 1
 ThContrastOk=buena
 ThContrastLow=demasiado baja, el texto se ajustará automáticamente
 GamesClose=Cerrar el actualizador al iniciar un juego
+NavMods=Mods
+ModsInfo={0} mods para {1} juegos
+ModsScanning=Buscando mods...
+ModsInstalling=Instalando mod...
+ModsFolder=Abrir carpeta de mods
+ModsAdd=Añadir mod...
+ModsDelete=Eliminar
+ModsSelectGame=Selecciona un juego a la izquierda.
+ModsGameInfo={0} mods · {1} activos
+ModsNoMods=sin mods
+ModsEmptyGame=No hay mods instalados para este juego. Usa 'Añadir mod...' para añadir un ZIP o copia carpetas de mods en la carpeta de mods.
+ModsUnknownGame=Juego desconocido
+ModsEdenRunning=Eden está en ejecución. Cierra Eden para cambiar mods; si no, Eden sobrescribirá los cambios al cerrarse.
+ModsAskDelete=¿Eliminar el mod '{0}'?\n\nLa carpeta se moverá a la papelera de reciclaje.
+ModsDeleted=Mod eliminado: {0}
+ModsAdded=Mod añadido: {0}
+ModsToggledOn=Mod activado: {0}
+ModsToggledOff=Mod desactivado: {0}
 '@
 fr = @'
 Name=Français
@@ -829,6 +883,24 @@ ThContrast=Lisibilité {0} : 1
 ThContrastOk=bonne
 ThContrastLow=trop faible, le texte sera ajusté automatiquement
 GamesClose=Fermer l'outil au lancement du jeu
+NavMods=Mods
+ModsInfo={0} mods pour {1} jeux
+ModsScanning=Recherche des mods...
+ModsInstalling=Installation du mod...
+ModsFolder=Ouvrir le dossier des mods
+ModsAdd=Ajouter un mod...
+ModsDelete=Supprimer
+ModsSelectGame=Sélectionnez un jeu à gauche.
+ModsGameInfo={0} mods · {1} actifs
+ModsNoMods=aucun mod
+ModsEmptyGame=Aucun mod installé pour ce jeu. Utilisez 'Ajouter un mod...' pour ajouter un ZIP ou copiez des dossiers de mods dans le dossier des mods.
+ModsUnknownGame=Jeu inconnu
+ModsEdenRunning=Eden est en cours d'exécution. Fermez Eden pour modifier les mods, sinon Eden écrasera les changements à sa fermeture.
+ModsAskDelete=Supprimer vraiment le mod '{0}' ?\n\nLe dossier sera déplacé dans la corbeille.
+ModsDeleted=Mod supprimé : {0}
+ModsAdded=Mod ajouté : {0}
+ModsToggledOn=Mod activé : {0}
+ModsToggledOff=Mod désactivé : {0}
 '@
 it = @'
 Name=Italiano
@@ -1000,6 +1072,24 @@ ThContrast=Leggibilità {0} : 1
 ThContrastOk=buona
 ThContrastLow=troppo bassa, il testo verrà adattato automaticamente
 GamesClose=Chiudi l'updater all'avvio del gioco
+NavMods=Mod
+ModsInfo={0} mod per {1} giochi
+ModsScanning=Ricerca mod...
+ModsInstalling=Installazione mod...
+ModsFolder=Apri cartella mod
+ModsAdd=Aggiungi mod...
+ModsDelete=Elimina
+ModsSelectGame=Seleziona un gioco a sinistra.
+ModsGameInfo={0} mod · {1} attive
+ModsNoMods=nessuna mod
+ModsEmptyGame=Nessuna mod installata per questo gioco. Usa 'Aggiungi mod...' per aggiungere uno ZIP o copia le cartelle delle mod nella cartella mod.
+ModsUnknownGame=Gioco sconosciuto
+ModsEdenRunning=Eden è in esecuzione. Chiudi Eden per modificare le mod, altrimenti Eden sovrascrive le modifiche alla chiusura.
+ModsAskDelete=Eliminare davvero la mod '{0}'?\n\nLa cartella verrà spostata nel Cestino.
+ModsDeleted=Mod eliminata: {0}
+ModsAdded=Mod aggiunta: {0}
+ModsToggledOn=Mod attivata: {0}
+ModsToggledOff=Mod disattivata: {0}
 '@
 pt = @'
 Name=Português
@@ -1171,6 +1261,24 @@ ThContrast=Legibilidade {0} : 1
 ThContrastOk=boa
 ThContrastLow=baixa demais, o texto será ajustado automaticamente
 GamesClose=Fechar o atualizador ao iniciar o jogo
+NavMods=Mods
+ModsInfo={0} mods para {1} jogos
+ModsScanning=Procurando mods...
+ModsInstalling=Instalando mod...
+ModsFolder=Abrir pasta de mods
+ModsAdd=Adicionar mod...
+ModsDelete=Excluir
+ModsSelectGame=Selecione um jogo à esquerda.
+ModsGameInfo={0} mods · {1} ativos
+ModsNoMods=sem mods
+ModsEmptyGame=Nenhum mod instalado para este jogo. Use 'Adicionar mod...' para adicionar um ZIP ou copie pastas de mods para a pasta de mods.
+ModsUnknownGame=Jogo desconhecido
+ModsEdenRunning=O Eden está em execução. Feche o Eden para alterar mods, senão o Eden sobrescreve as alterações ao fechar.
+ModsAskDelete=Excluir mesmo o mod '{0}'?\n\nA pasta será movida para a Lixeira.
+ModsDeleted=Mod excluído: {0}
+ModsAdded=Mod adicionado: {0}
+ModsToggledOn=Mod ativado: {0}
+ModsToggledOff=Mod desativado: {0}
 '@
 nl = @'
 Name=Nederlands
@@ -1342,6 +1450,24 @@ ThContrast=Leesbaarheid {0} : 1
 ThContrastOk=goed
 ThContrastLow=te laag, tekst wordt automatisch aangepast
 GamesClose=Updater sluiten bij het starten van een game
+NavMods=Mods
+ModsInfo={0} mods voor {1} games
+ModsScanning=Zoeken naar mods...
+ModsInstalling=Mod installeren...
+ModsFolder=Modmap openen
+ModsAdd=Mod toevoegen...
+ModsDelete=Verwijderen
+ModsSelectGame=Selecteer links een game.
+ModsGameInfo={0} mods · {1} actief
+ModsNoMods=geen mods
+ModsEmptyGame=Geen mods geïnstalleerd voor deze game. Gebruik 'Mod toevoegen...' voor een ZIP of kopieer modmappen naar de modmap.
+ModsUnknownGame=Onbekende game
+ModsEdenRunning=Eden draait. Sluit Eden om mods te wijzigen, anders overschrijft Eden de wijzigingen bij het afsluiten.
+ModsAskDelete=Mod '{0}' echt verwijderen?\n\nDe map wordt naar de Prullenbak verplaatst.
+ModsDeleted=Mod verwijderd: {0}
+ModsAdded=Mod toegevoegd: {0}
+ModsToggledOn=Mod ingeschakeld: {0}
+ModsToggledOff=Mod uitgeschakeld: {0}
 '@
 pl = @'
 Name=Polski
@@ -1513,6 +1639,24 @@ ThContrast=Czytelność {0} : 1
 ThContrastOk=dobra
 ThContrastLow=za niska, tekst zostanie dopasowany automatycznie
 GamesClose=Zamknij aktualizator po uruchomieniu gry
+NavMods=Mody
+ModsInfo=Mody: {0} dla gier: {1}
+ModsScanning=Wyszukiwanie modów...
+ModsInstalling=Instalowanie moda...
+ModsFolder=Otwórz folder modów
+ModsAdd=Dodaj mod...
+ModsDelete=Usuń
+ModsSelectGame=Wybierz grę po lewej.
+ModsGameInfo=Mody: {0} · aktywne: {1}
+ModsNoMods=brak modów
+ModsEmptyGame=Brak modów dla tej gry. Użyj 'Dodaj mod...', aby dodać ZIP, lub skopiuj foldery modów do folderu modów.
+ModsUnknownGame=Nieznana gra
+ModsEdenRunning=Eden jest uruchomiony. Zamknij Eden, aby zmieniać mody, inaczej Eden nadpisze zmiany przy zamknięciu.
+ModsAskDelete=Na pewno usunąć mod '{0}'?\n\nFolder zostanie przeniesiony do Kosza.
+ModsDeleted=Usunięto mod: {0}
+ModsAdded=Dodano mod: {0}
+ModsToggledOn=Włączono mod: {0}
+ModsToggledOff=Wyłączono mod: {0}
 '@
 tr = @'
 Name=Türkçe
@@ -1684,6 +1828,24 @@ ThContrast=Okunabilirlik {0} : 1
 ThContrastOk=iyi
 ThContrastLow=çok düşük, metin otomatik olarak ayarlanacak
 GamesClose=Oyun başlarken güncelleyiciyi kapat
+NavMods=Modlar
+ModsInfo={1} oyun için {0} mod
+ModsScanning=Modlar aranıyor...
+ModsInstalling=Mod yükleniyor...
+ModsFolder=Mod klasörünü aç
+ModsAdd=Mod ekle...
+ModsDelete=Sil
+ModsSelectGame=Soldan bir oyun seçin.
+ModsGameInfo={0} mod · {1} etkin
+ModsNoMods=mod yok
+ModsEmptyGame=Bu oyun için mod yüklü değil. ZIP eklemek için 'Mod ekle...' kullanın veya mod klasörlerini mod klasörüne kopyalayın.
+ModsUnknownGame=Bilinmeyen oyun
+ModsEdenRunning=Eden çalışıyor. Modları değiştirmek için Eden'i kapatın, aksi halde Eden kapanırken değişikliklerin üzerine yazar.
+ModsAskDelete='{0}' modu gerçekten silinsin mi?\n\nKlasör Geri Dönüşüm Kutusu'na taşınacak.
+ModsDeleted=Mod silindi: {0}
+ModsAdded=Mod eklendi: {0}
+ModsToggledOn=Mod etkinleştirildi: {0}
+ModsToggledOff=Mod devre dışı: {0}
 '@
 ru = @'
 Name=Русский
@@ -1855,6 +2017,24 @@ ThContrast=Читаемость {0} : 1
 ThContrastOk=хорошая
 ThContrastLow=слишком низкая, текст будет настроен автоматически
 GamesClose=Закрывать программу при запуске игры
+NavMods=Моды
+ModsInfo=Модов: {0}, игр: {1}
+ModsScanning=Поиск модов...
+ModsInstalling=Установка мода...
+ModsFolder=Открыть папку модов
+ModsAdd=Добавить мод...
+ModsDelete=Удалить
+ModsSelectGame=Выберите игру слева.
+ModsGameInfo=Модов: {0} · активно: {1}
+ModsNoMods=нет модов
+ModsEmptyGame=Для этой игры моды не установлены. Нажмите «Добавить мод...», чтобы добавить ZIP, или скопируйте папки модов в папку модов.
+ModsUnknownGame=Неизвестная игра
+ModsEdenRunning=Eden запущен. Закройте Eden, чтобы изменить моды, иначе Eden перезапишет изменения при выходе.
+ModsAskDelete=Удалить мод «{0}»?\n\nПапка будет перемещена в корзину.
+ModsDeleted=Мод удалён: {0}
+ModsAdded=Мод добавлен: {0}
+ModsToggledOn=Мод включён: {0}
+ModsToggledOff=Мод отключён: {0}
 '@
 ja = @'
 Name=日本語
@@ -2026,6 +2206,24 @@ ThContrast=読みやすさ {0} : 1
 ThContrastOk=良好
 ThContrastLow=低すぎます。テキストは自動調整されます
 GamesClose=ゲーム起動時にアップデーターを閉じる
+NavMods=Mod
+ModsInfo={1} 本のゲームに {0} 個のMod
+ModsScanning=Modを検索中...
+ModsInstalling=Modをインストール中...
+ModsFolder=Modフォルダーを開く
+ModsAdd=Modを追加...
+ModsDelete=削除
+ModsSelectGame=左でゲームを選択してください。
+ModsGameInfo=Mod {0} 個 · 有効 {1} 個
+ModsNoMods=Modなし
+ModsEmptyGame=このゲームにはModがインストールされていません。「Modを追加...」でZIPを追加するか、ModフォルダーにModフォルダーをコピーしてください。
+ModsUnknownGame=不明なゲーム
+ModsEdenRunning=Edenが実行中です。Modを変更するにはEdenを閉じてください。閉じないと終了時に変更が上書きされます。
+ModsAskDelete=Mod「{0}」を削除しますか?\n\nフォルダーはごみ箱に移動されます。
+ModsDeleted=Modを削除しました: {0}
+ModsAdded=Modを追加しました: {0}
+ModsToggledOn=Modを有効にしました: {0}
+ModsToggledOff=Modを無効にしました: {0}
 '@
 zh = @'
 Name=中文（简体）
@@ -2197,6 +2395,24 @@ ThContrast=可读性 {0} : 1
 ThContrastOk=良好
 ThContrastLow=过低, 文字将自动调整
 GamesClose=启动游戏时关闭更新程序
+NavMods=模组
+ModsInfo={1} 个游戏的 {0} 个模组
+ModsScanning=正在搜索模组...
+ModsInstalling=正在安装模组...
+ModsFolder=打开模组文件夹
+ModsAdd=添加模组...
+ModsDelete=删除
+ModsSelectGame=请在左侧选择一个游戏。
+ModsGameInfo={0} 个模组 · {1} 个已启用
+ModsNoMods=无模组
+ModsEmptyGame=此游戏没有安装模组。点击「添加模组...」添加 ZIP, 或将模组文件夹复制到模组文件夹。
+ModsUnknownGame=未知游戏
+ModsEdenRunning=Eden 正在运行。请先关闭 Eden 再更改模组, 否则 Eden 退出时会覆盖更改。
+ModsAskDelete=确定删除模组「{0}」?\n\n文件夹将移至回收站。
+ModsDeleted=已删除模组: {0}
+ModsAdded=已添加模组: {0}
+ModsToggledOn=已启用模组: {0}
+ModsToggledOff=已禁用模组: {0}
 '@
 ko = @'
 Name=한국어
@@ -2368,6 +2584,24 @@ ThContrast=가독성 {0} : 1
 ThContrastOk=좋음
 ThContrastLow=너무 낮음, 텍스트가 자동으로 조정됩니다
 GamesClose=게임 시작 시 업데이터 닫기
+NavMods=모드
+ModsInfo=게임 {1}개에 모드 {0}개
+ModsScanning=모드 검색 중...
+ModsInstalling=모드 설치 중...
+ModsFolder=모드 폴더 열기
+ModsAdd=모드 추가...
+ModsDelete=삭제
+ModsSelectGame=왼쪽에서 게임을 선택하세요.
+ModsGameInfo=모드 {0}개 · 활성 {1}개
+ModsNoMods=모드 없음
+ModsEmptyGame=이 게임에 설치된 모드가 없습니다. '모드 추가...'로 ZIP을 추가하거나 모드 폴더에 모드 폴더를 복사하세요.
+ModsUnknownGame=알 수 없는 게임
+ModsEdenRunning=Eden이 실행 중입니다. 모드를 변경하려면 Eden을 닫으세요. 그렇지 않으면 종료 시 변경 사항을 덮어씁니다.
+ModsAskDelete='{0}' 모드를 삭제할까요?\n\n폴더는 휴지통으로 이동됩니다.
+ModsDeleted=모드 삭제됨: {0}
+ModsAdded=모드 추가됨: {0}
+ModsToggledOn=모드 활성화됨: {0}
+ModsToggledOff=모드 비활성화됨: {0}
 '@
 }
 
@@ -2459,6 +2693,11 @@ $gameSync = [hashtable]::Synchronized(@{
     Result = $null
     Args   = $null
 })
+$modSync = [hashtable]::Synchronized(@{
+    Done   = $false
+    Result = $null
+    Args   = $null
+})
 $notesSync = [hashtable]::Synchronized(@{
     Log    = (New-Object 'System.Collections.Concurrent.ConcurrentQueue[string]')
     Done   = $false
@@ -2509,6 +2748,25 @@ $jobGames = {
             }
         }
 
+        # Title-ID aus dem (unverschluesselten) Inhaltsverzeichnis einer NSP lesen:
+        # PFS0-Container, die Ticket-Datei heisst <TitleID><Schluesselgeneration>.tik
+        function Get-NspTid([string]$path) {
+            $fs = $null
+            try {
+                $fs = [IO.File]::OpenRead($path)
+                $br = New-Object IO.BinaryReader($fs)
+                if ([Text.Encoding]::ASCII.GetString($br.ReadBytes(4)) -ne "PFS0") { return $null }
+                $n = $br.ReadUInt32(); $strSize = $br.ReadUInt32(); [void]$br.ReadUInt32()
+                if ($n -gt 4096 -or $strSize -gt 1048576) { return $null }
+                [void]$br.ReadBytes([int](24 * $n))
+                $tbl = [Text.Encoding]::ASCII.GetString($br.ReadBytes([int]$strSize))
+                foreach ($nm in $tbl.Split([char]0)) {
+                    if ($nm -match '^(01[0-9a-fA-F]{14})[0-9a-fA-F]{16}\.(tik|cert)$') { return $Matches[1].ToUpperInvariant() }
+                }
+            } catch {} finally { if ($fs) { $fs.Close() } }
+            return $null
+        }
+
         $games = New-Object System.Collections.ArrayList
         $seen  = @{}
         foreach ($d in $dirs) {
@@ -2519,8 +2777,9 @@ $jobGames = {
                 if ($seen.ContainsKey($f.FullName)) { continue }
                 $base = [IO.Path]::GetFileNameWithoutExtension($f.Name)
                 # Updates/DLCs ueberspringen (Title-ID endet nicht auf 000)
-                $tid = [regex]::Match($base, '(?i)\b(01[0-9a-f]{14})\b')
-                if ($tid.Success -and -not $tid.Value.EndsWith("000")) { continue }
+                $tidM = [regex]::Match($base, '(?i)\b(01[0-9a-f]{14})\b')
+                $tidS = if ($tidM.Success) { $tidM.Value.ToUpperInvariant() } elseif ($f.Extension -eq ".nsp") { Get-NspTid $f.FullName } else { $null }
+                if ($tidS -and -not $tidS.EndsWith("000")) { continue }
                 if ($base -match '(?i)\[(upd|update|dlc)\]') { continue }
                 $name = [regex]::Replace($base, '\[[^\]]*\]', '')
                 $name = [regex]::Replace($name, '_', ' ')
@@ -2528,7 +2787,7 @@ $jobGames = {
                 if (-not $name) { $name = $base }
                 # Passenden Cache-Eintrag suchen: zuerst ueber die Title-ID im Dateinamen, sonst ueber den Namen
                 $hit = $null
-                if ($tid.Success) { $k = $tid.Value.ToUpperInvariant(); if ($meta.ContainsKey($k)) { $hit = $meta[$k] } }
+                if ($tidS -and $meta.ContainsKey($tidS)) { $hit = $meta[$tidS] }
                 if (-not $hit) {
                     $n = Get-Norm $name
                     if ($n.Length -ge 4) {
@@ -2546,13 +2805,88 @@ $jobGames = {
                     Info    = ($f.Extension.TrimStart('.').ToUpper() + "  ·  " + $(if ($f.Length -ge 1GB) { "{0:N1} GB" -f ($f.Length / 1GB) } else { "{0:N0} MB" -f [Math]::Max(1, $f.Length / 1MB) }))
                     Initial = $name.Substring(0, 1).ToUpper()
                     Icon    = $icon
+                    Tid     = [string]$tidS
                 })
             }
         }
         $sorted = @($games | Sort-Object Name)
-        $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg }
+        $names = @{}
+        foreach ($k in $meta.Keys) { if ($meta[$k].Name) { $names[$k] = $meta[$k].Name } }
+        $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg; CacheNames = $names }
     } catch {
         $sync.Result = @{ Ok = $false; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
+
+# Mods: <Eden-Daten>\load\<TitleID>\<Modname>\  (scan = auflisten, add = ZIP entpacken)
+$jobMods = {
+    $a = $sync.Args
+    try {
+        $load = [string]$a.LoadDir
+        if ($a.Mode -eq "add") {
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            $known  = @("exefs", "romfs", "cheats", "romfslite", "exefs_patches")
+            $target = Join-Path $load $a.Tid
+            New-Item -ItemType Directory -Path $target -Force | Out-Null
+            $tmp = Join-Path $target (".eu-tmp-" + [guid]::NewGuid().ToString("N"))
+            [IO.Compression.ZipFile]::ExtractToDirectory([string]$a.Zip, $tmp)
+            try {
+                $top     = @(Get-ChildItem -LiteralPath $tmp -Force)
+                $topDirs = @($top | Where-Object { $_.PSIsContainer })
+                $hasKnown = { param($dir) @(Get-ChildItem -LiteralPath $dir -Directory -Force | Where-Object { $known -contains $_.Name.ToLowerInvariant() }).Count -gt 0 }
+                $sources = @()
+                if (& $hasKnown $tmp) {
+                    # exefs/romfs liegen direkt im ZIP -> Mod heisst wie das ZIP
+                    $sources = @(@{ Src = $tmp; Name = [IO.Path]::GetFileNameWithoutExtension([string]$a.Zip); Whole = $true })
+                } elseif ($topDirs.Count -eq 1 -and $top.Count -eq 1 -and $topDirs[0].Name -match '^[0-9a-fA-F]{16}$') {
+                    # ZIP enthaelt <TitleID>\<Mod>\... -> jede Mod einzeln
+                    foreach ($m in Get-ChildItem -LiteralPath $topDirs[0].FullName -Directory) { $sources += @{ Src = $m.FullName; Name = $m.Name; Whole = $false } }
+                } elseif ($topDirs.Count -ge 1 -and @($topDirs | Where-Object { & $hasKnown $_.FullName }).Count -eq $topDirs.Count) {
+                    # ein oder mehrere Mod-Ordner
+                    foreach ($m in $topDirs) { $sources += @{ Src = $m.FullName; Name = $m.Name; Whole = $false } }
+                } else {
+                    $sources = @(@{ Src = $tmp; Name = [IO.Path]::GetFileNameWithoutExtension([string]$a.Zip); Whole = $true })
+                }
+                $added = @()
+                foreach ($src in $sources) {
+                    $name = ($src.Name -replace '[\\/:*?"<>|]', '_').Trim()
+                    if (-not $name) { $name = "Mod" }
+                    $dest = Join-Path $target $name
+                    $i = 2
+                    while (Test-Path -LiteralPath $dest) { $dest = Join-Path $target ("{0} ({1})" -f $name, $i); $i++ }
+                    if ($src.Whole) {
+                        New-Item -ItemType Directory -Path $dest -Force | Out-Null
+                        Get-ChildItem -LiteralPath $src.Src -Force | Move-Item -Destination $dest
+                    } else {
+                        Move-Item -LiteralPath $src.Src -Destination $dest
+                    }
+                    $added += (Split-Path -Leaf $dest)
+                }
+                $sync.Result = @{ Ok = $true; Mode = "add"; Added = $added }
+            } finally {
+                Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue
+            }
+            return
+        }
+        $mods = New-Object System.Collections.ArrayList
+        if ($load -and (Test-Path -LiteralPath $load)) {
+            foreach ($td in Get-ChildItem -LiteralPath $load -Directory -ErrorAction SilentlyContinue) {
+                if ($td.Name -notmatch '^[0-9a-fA-F]{16}$') { continue }
+                foreach ($md in Get-ChildItem -LiteralPath $td.FullName -Directory -ErrorAction SilentlyContinue) {
+                    if ($md.Name.StartsWith(".eu-tmp-")) { continue }
+                    $size = 0L
+                    foreach ($f in Get-ChildItem -LiteralPath $md.FullName -File -Recurse -Force -ErrorAction SilentlyContinue) { $size += $f.Length }
+                    $parts = @(Get-ChildItem -LiteralPath $md.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.Name.ToLowerInvariant() } |
+                               Where-Object { $_ -in @("exefs", "romfs", "cheats", "romfslite", "exefs_patches") })
+                    [void]$mods.Add(@{ Tid = $td.Name.ToUpperInvariant(); Name = $md.Name; Path = $md.FullName; Size = $size; Parts = ($parts -join ", ") })
+                }
+            }
+        }
+        $sync.Result = @{ Ok = $true; Mode = "scan"; Mods = @($mods) }
+    } catch {
+        $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
     } finally {
         $sync.Done = $true
     }
@@ -3103,6 +3437,46 @@ $xaml = @'
       </Setter>
     </Style>
 
+    <!-- Ein/Aus-Schalter -->
+    <Style x:Key="Switch" TargetType="CheckBox">
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <Grid x:Name="root" Width="40" Height="22" Background="Transparent">
+              <Border x:Name="track" CornerRadius="11" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1.5"/>
+              <Border x:Name="fill" CornerRadius="11" Background="{DynamicResource BrAccent}" Opacity="0"/>
+              <Ellipse x:Name="knob" Width="14" Height="14" HorizontalAlignment="Left" Margin="4,0,0,0" Fill="{DynamicResource BrMuted}">
+                <Ellipse.RenderTransform>
+                  <TranslateTransform x:Name="kx" X="0"/>
+                </Ellipse.RenderTransform>
+              </Ellipse>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="knob" Property="Fill" Value="{DynamicResource BrAccentFg}"/>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="18" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.16"/>
+                </Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16"/>
+                </Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="track" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="root" Property="Opacity" Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
     <Style x:Key="ScrollThumb" TargetType="Thumb">
       <Setter Property="Template">
         <Setter.Value>
@@ -3552,6 +3926,7 @@ $xaml = @'
           <Button x:Name="BtnNavVer"   Tag="&#xE8FD;" Content="{DynamicResource L_NavVersions}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavNotes" Tag="&#xE8A5;" Content="{DynamicResource L_NavNotes}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavGames" Tag="&#xE7FC;" Content="{DynamicResource L_NavGames}"    Style="{StaticResource BtnNav}"/>
+          <Button x:Name="BtnNavMods"  Tag="&#xEA86;" Content="{DynamicResource L_NavMods}"     Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSet"   Tag="&#xE713;" Content="{DynamicResource L_NavSettings}" Style="{StaticResource BtnNav}"/>
         </StackPanel>
 
@@ -3783,6 +4158,140 @@ $xaml = @'
             <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="16,0,0,0"/>
             <CheckBox x:Name="ChkGamesClose" Content="{DynamicResource L_GamesClose}" VerticalAlignment="Center" Margin="20,0,0,0"/>
           </StackPanel>
+        </Grid>
+
+        <!-- Seite: Mods -->
+        <Grid x:Name="PanelMods" Visibility="Collapsed">
+          <Grid.RenderTransform>
+            <TranslateTransform/>
+          </Grid.RenderTransform>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="4,0,0,8">
+            <TextBlock x:Name="TxtModsInfo" Style="{StaticResource Label}" VerticalAlignment="Center"/>
+            <Button x:Name="BtnModsReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" HorizontalAlignment="Right"/>
+          </Grid>
+
+          <Border x:Name="ModsBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
+                  Background="{DynamicResource BrBadgeInstBg}">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+              <TextBlock Text="{DynamicResource L_ModsEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="290"/>
+              <ColumnDefinition Width="12"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
+              <ListBox x:Name="ListModGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                      </Grid.ColumnDefinitions>
+                      <Grid Width="36" Height="36" VerticalAlignment="Center">
+                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
+                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
+                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border CornerRadius="8">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
+                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Margin="20,16,16,12">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                    <TextBlock x:Name="TxtModGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="TxtModGameSub" Style="{StaticResource Hint}" FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,0"/>
+                  </StackPanel>
+                  <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="BtnModFolder" Tag="&#xE838;" Content="{DynamicResource L_ModsFolder}" Style="{StaticResource BtnGhost}" Margin="0,0,6,0"/>
+                    <Button x:Name="BtnModAdd" Tag="&#xE710;" Content="{DynamicResource L_ModsAdd}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
+                  </StackPanel>
+                </Grid>
+                <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
+                <ListBox x:Name="ListMods" Grid.Row="1" Margin="8,8,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+                      <Setter Property="Template">
+                        <Setter.Value>
+                          <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Margin="0,0,0,3">
+                              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
+                              <ContentPresenter Margin="14,10,8,10"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                              <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="hov" Property="Opacity" Value="1"/>
+                              </Trigger>
+                            </ControlTemplate.Triggers>
+                          </ControlTemplate>
+                        </Setter.Value>
+                      </Setter>
+                    </Style>
+                  </ListBox.ItemContainerStyle>
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto"/>
+                          <ColumnDefinition Width="*"/>
+                          <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Uid="toggle" Style="{StaticResource Switch}" IsChecked="{Binding Enabled, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+                          <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14"
+                                     FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                          <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Uid="delete" Tag="&#xE74D;" Content="{DynamicResource L_ModsDelete}" Style="{StaticResource BtnGhost}"
+                                VerticalAlignment="Center"/>
+                      </Grid>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock x:Name="TxtModsEmpty" Grid.Row="1" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="360" Visibility="Collapsed"/>
+              </Grid>
+            </Border>
+          </Grid>
         </Grid>
 
         <!-- Seite: Einstellungen -->
@@ -4960,15 +5469,18 @@ function Set-Page([string]$page) {
     $ui.PanelNotes.Visibility    = if ($page -eq "notes")    { "Visible" } else { "Collapsed" }
     $ui.PanelSettings.Visibility = if ($page -eq "settings") { "Visible" } else { "Collapsed" }
     $ui.PanelGames.Visibility    = if ($page -eq "games")    { "Visible" } else { "Collapsed" }
+    $ui.PanelMods.Visibility     = if ($page -eq "mods")     { "Visible" } else { "Collapsed" }
     Set-NavActive $ui.BtnNavVer   ($page -eq "versions")
     Set-NavActive $ui.BtnNavNotes ($page -eq "notes")
     Set-NavActive $ui.BtnNavGames ($page -eq "games")
+    Set-NavActive $ui.BtnNavMods  ($page -eq "mods")
     Set-NavActive $ui.BtnNavSet   ($page -eq "settings")
-    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
+    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "mods" { "L_NavMods" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
     if ($page -eq "games" -and -not $script:GamesLoaded) { Start-GameScan }
+    if ($page -eq "mods" -and -not $script:Snapshot) { Open-ModsTab }
     $ui.TxtPageTitle.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $titleKey)
     if ($prev -ne $page) {
-        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "settings" { $ui.PanelSettings } }
+        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "settings" { $ui.PanelSettings } }
         Start-FadeIn $el
     }
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
@@ -5077,6 +5589,7 @@ function Complete-GameScan {
             $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
         }
         $script:Games     = @($r.Games)
+        if ($r.CacheNames) { $script:CacheNames = $r.CacheNames }
         $script:GamesDirs = [int]$r.Dirs
     } else {
         $script:Games = @()
@@ -5084,6 +5597,7 @@ function Complete-GameScan {
         if ($r) { Add-UiLog ((T "ErrPrefix") + " " + $r.Error) }
     }
     Update-GameList
+    if ($script:ModsLoaded) { Update-ModGames }
 }
 
 function Update-GameList {
@@ -5129,6 +5643,296 @@ function Start-Game($game) {
     # Standard: in die Taskleiste minimieren; optional ganz schliessen
     if ($script:Settings.GamesCloseOnStart) { $window.Close() }
     else { $window.WindowState = [System.Windows.WindowState]::Minimized }
+}
+
+# ------------------------------------------------------------
+#  Mods-Tab
+# ------------------------------------------------------------
+$script:Mods         = @()
+$script:ModsLoaded   = $false
+$script:ModWorker    = $null
+$script:CacheNames   = @{}
+$script:ModGames     = @()
+$script:EdenRunning  = $false
+$script:EdenCheckAt  = [DateTime]::MinValue
+
+# Eden-Datenordner: portabel (<Eden>\user) oder %APPDATA%\eden
+function Get-EdenDataDir {
+    $u = Join-Path $script:Settings.EdenPath "user"
+    if (Test-Path -LiteralPath $u) { return $u }
+    if ($env:APPDATA) { return (Join-Path $env:APPDATA "eden") }
+    return $u
+}
+function Get-EdenConfigPath { return (Join-Path (Get-EdenDataDir) "config\qt-config.ini") }
+
+function Test-EdenRunning {
+    try { return [bool](Get-Process -Name "eden" -ErrorAction SilentlyContinue) } catch { return $false }
+}
+
+# [DisabledAddOns] aus Edens qt-config.ini lesen: TitleID (dezimal) -> Liste deaktivierter Namen
+function Read-DisabledAddOns([string]$cfg) {
+    $map = [ordered]@{}
+    if (-not (Test-Path -LiteralPath $cfg)) { return $map }
+    $in = $false; $tids = @{}; $lists = @{}
+    foreach ($line in [IO.File]::ReadAllLines($cfg)) {
+        $t = $line.Trim()
+        if ($t.StartsWith("[")) { $in = ($t -eq "[DisabledAddOns]"); continue }
+        if (-not $in) { continue }
+        if ($t -match '^(\d+)\\title_id=(\d+)$') { $tids[$Matches[1]] = $Matches[2]; continue }
+        if ($t -match '^(\d+)\\disabled\\(\d+)\\d=(.*)$') {
+            if (-not $lists.ContainsKey($Matches[1])) { $lists[$Matches[1]] = New-Object System.Collections.Generic.List[string] }
+            $lists[$Matches[1]].Add($Matches[3])
+        }
+    }
+    foreach ($i in ($tids.Keys | Sort-Object { [int]$_ })) {
+        $l = New-Object System.Collections.Generic.List[string]
+        if ($lists.ContainsKey($i)) { foreach ($x in $lists[$i]) { if ($x) { $l.Add($x) } } }
+        $map[$tids[$i]] = $l
+    }
+    return $map
+}
+
+# [DisabledAddOns] im gleichen Format wie Eden zurueckschreiben (Rest der Datei bleibt unveraendert)
+function Write-DisabledAddOns([string]$cfg, $map) {
+    $sec = New-Object System.Collections.Generic.List[string]
+    $sec.Add("[DisabledAddOns]")
+    $i = 0
+    foreach ($tid in $map.Keys) {
+        $list = $map[$tid]
+        if (-not $list -or $list.Count -eq 0) { continue }
+        $i++
+        $sec.Add("$i\title_id\default=false")
+        $sec.Add("$i\title_id=$tid")
+        $j = 0
+        foreach ($d in $list) {
+            $j++
+            $sec.Add("$i\disabled\$j\d\default=false")
+            $sec.Add("$i\disabled\$j\d=$($d.Replace('\', '/'))")
+        }
+        $sec.Add("$i\disabled\size=$j")
+    }
+    $sec.Add("size=$i")
+
+    $nl = "`r`n"; $bom = $false; $lines = @()
+    if (Test-Path -LiteralPath $cfg) {
+        $bytes = [IO.File]::ReadAllBytes($cfg)
+        $bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
+        $text = [Text.Encoding]::UTF8.GetString($bytes)
+        if ($bom) { $text = $text.Substring(1) }
+        if ($text -notmatch "`r`n") { $nl = "`n" }
+        $lines = $text -split "\r?\n"
+        Copy-Item -LiteralPath $cfg -Destination ($cfg + ".eden-updater.bak") -Force   # Sicherung vor dem Schreiben
+    } else {
+        New-Item -ItemType Directory -Path (Split-Path -Parent $cfg) -Force | Out-Null
+    }
+    $out = New-Object System.Collections.Generic.List[string]
+    $skip = $false; $done = $false
+    foreach ($line in $lines) {
+        $t = $line.Trim()
+        if ($t.StartsWith("[")) {
+            if ($t -eq "[DisabledAddOns]") { foreach ($x in $sec) { $out.Add($x) }; $out.Add(""); $skip = $true; $done = $true; continue }
+            $skip = $false
+        }
+        if (-not $skip) { $out.Add($line) }
+    }
+    if (-not $done) {
+        while ($out.Count -gt 0 -and $out[$out.Count - 1] -eq "") { $out.RemoveAt($out.Count - 1) }
+        if ($out.Count -gt 0) { $out.Add("") }
+        foreach ($x in $sec) { $out.Add($x) }
+        $out.Add("")
+    }
+    $enc = New-Object Text.UTF8Encoding($bom)
+    [IO.File]::WriteAllText($cfg, ($out -join $nl), $enc)
+}
+
+function ConvertTo-TidDec([string]$hex) { return ([Convert]::ToUInt64($hex, 16)).ToString() }
+
+function Start-ModWorker([hashtable]$jobArgs) {
+    if ($script:ModWorker) { return }
+    $modSync.Args = $jobArgs; $modSync.Done = $false; $modSync.Result = $null
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $modSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobMods.ToString())
+    $script:ModWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+}
+
+function Start-ModScan {
+    $ui.TxtModsInfo.Text = T "ModsScanning"
+    Start-ModWorker @{ Mode = "scan"; LoadDir = (Join-Path (Get-EdenDataDir) "load") }
+}
+
+function Complete-ModWorker {
+    $w = $script:ModWorker
+    $script:ModWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $modSync.Result
+    if (-not $r) { return }
+    if (-not $r.Ok) {
+        Add-UiLog ((T "ErrPrefix") + " " + $r.Error)
+        if ($r.Mode -eq "add") { Show-Msg $r.Error "Error" }
+        if ($r.Mode -eq "scan") { $script:ModsLoaded = $true; Update-ModGames }
+        return
+    }
+    if ($r.Mode -eq "add") {
+        foreach ($n in @($r.Added)) { Add-UiLog (TF "ModsAdded" $n) }
+        Start-ModScan
+        return
+    }
+    $script:Mods = @($r.Mods)
+    $script:ModsLoaded = $true
+    Update-ModGames
+}
+
+# Linke Liste: alle Spiele aus der Bibliothek (mit Title-ID) + Spiele, fuer die Mods vorhanden sind
+function Update-ModGames {
+    $byTid = @{}
+    foreach ($g in @($script:Games)) {
+        if ($g.Tid -and -not $byTid.ContainsKey($g.Tid)) { $byTid[$g.Tid] = @{ Tid = $g.Tid; Name = $g.Name; IconImg = $g.IconImg } }
+    }
+    foreach ($m in @($script:Mods)) {
+        if (-not $byTid.ContainsKey($m.Tid)) {
+            $nm = if ($script:CacheNames.ContainsKey($m.Tid)) { $script:CacheNames[$m.Tid] } else { T "ModsUnknownGame" }
+            $byTid[$m.Tid] = @{ Tid = $m.Tid; Name = $nm; IconImg = $null }
+        }
+    }
+    $disabled = Read-DisabledAddOns (Get-EdenConfigPath)
+    $list = foreach ($e in $byTid.Values) {
+        $ms = @($script:Mods | Where-Object { $_.Tid -eq $e.Tid })
+        $dec = ConvertTo-TidDec $e.Tid
+        $off = if ($disabled.Contains($dec)) { @($disabled[$dec]) } else { @() }
+        $on = @($ms | Where-Object { $off -notcontains $_.Name }).Count
+        [pscustomobject]@{
+            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg
+            Initial = $(if ($e.Name) { $e.Name.Substring(0, 1).ToUpper() } else { "?" })
+            Count = $ms.Count
+            Info = $(if ($ms.Count) { TF "ModsGameInfo" $ms.Count $on } else { T "ModsNoMods" })
+        }
+    }
+    # Spiele mit Mods zuerst, dann alphabetisch
+    $script:ModGames = @($list | Sort-Object @{ Expression = { $_.Count -gt 0 }; Descending = $true }, Name)
+    $selTid = if ($ui.ListModGames.SelectedItem) { $ui.ListModGames.SelectedItem.Tid } else { $null }
+    $ui.ListModGames.ItemsSource = $script:ModGames
+    if ($selTid) { $ui.ListModGames.SelectedItem = ($script:ModGames | Where-Object { $_.Tid -eq $selTid } | Select-Object -First 1) }
+    if (-not $ui.ListModGames.SelectedItem -and $script:ModGames.Count) { $ui.ListModGames.SelectedIndex = 0 }
+    $withMods = @($script:ModGames | Where-Object { $_.Count -gt 0 }).Count
+    $ui.TxtModsInfo.Text = TF "ModsInfo" $script:Mods.Count $withMods
+    Update-ModList
+}
+
+# Rechte Liste: Mods des gewaehlten Spiels
+function Update-ModList {
+    $g = $ui.ListModGames.SelectedItem
+    Update-ModsBanner
+    if (-not $g) {
+        $ui.TxtModGameTitle.Text = T "ModsSelectGame"; $ui.TxtModGameSub.Text = ""
+        $ui.ListMods.ItemsSource = $null
+        $ui.TxtModsEmpty.Visibility = "Collapsed"
+        $ui.BtnModAdd.IsEnabled = $false; $ui.BtnModFolder.IsEnabled = $false
+        return
+    }
+    $ui.TxtModGameTitle.Text = $g.Name
+    $ui.TxtModGameSub.Text = "Title-ID " + $g.Tid
+    $disabled = Read-DisabledAddOns (Get-EdenConfigPath)
+    $dec = ConvertTo-TidDec $g.Tid
+    $off = if ($disabled.Contains($dec)) { @($disabled[$dec]) } else { @() }
+    $items = foreach ($m in @($script:Mods | Where-Object { $_.Tid -eq $g.Tid } | Sort-Object { $_.Name })) {
+        $sz = if ($m.Size -ge 1GB) { "{0:N1} GB" -f ($m.Size / 1GB) } elseif ($m.Size -ge 1MB) { "{0:N1} MB" -f ($m.Size / 1MB) } else { "{0:N0} KB" -f [Math]::Max(1, $m.Size / 1KB) }
+        [pscustomobject]@{
+            Name = $m.Name; Path = $m.Path; Tid = $m.Tid
+            Enabled = ($off -notcontains $m.Name)
+            Info = $(if ($m.Parts) { $sz + "  ·  " + $m.Parts } else { $sz })
+        }
+    }
+    $ui.ListMods.ItemsSource = @($items)
+    $ui.TxtModsEmpty.Text = T "ModsEmptyGame"
+    $ui.TxtModsEmpty.Visibility = if (@($items).Count) { "Collapsed" } else { "Visible" }
+    $ui.BtnModAdd.IsEnabled = -not $script:EdenRunning
+    $ui.BtnModFolder.IsEnabled = $true
+}
+
+function Update-ModsBanner([bool]$force = $false) {
+    if ($force -or ([DateTime]::Now - $script:EdenCheckAt).TotalSeconds -gt 2) {
+        $script:EdenCheckAt = [DateTime]::Now
+        $was = $script:EdenRunning
+        $script:EdenRunning = Test-EdenRunning
+        $ui.ModsBanner.Visibility = if ($script:EdenRunning) { "Visible" } else { "Collapsed" }
+        $ui.ListMods.IsEnabled = -not $script:EdenRunning
+        if ($ui.ListModGames.SelectedItem) { $ui.BtnModAdd.IsEnabled = -not $script:EdenRunning }
+    }
+}
+
+function Open-ModsTab {
+    if (-not $script:GamesLoaded) { Start-GameScan }
+    if (-not $script:ModsLoaded) { Start-ModScan } else { Update-ModGames }
+    Update-ModsBanner $true
+}
+
+function Set-ModEnabled($mod, [bool]$on) {
+    Update-ModsBanner $true
+    if ($script:EdenRunning) { Show-Msg (T "ModsEdenRunning") "Warning"; Update-ModList; return }
+    try {
+        $cfg = Get-EdenConfigPath
+        $map = Read-DisabledAddOns $cfg
+        $dec = ConvertTo-TidDec $mod.Tid
+        if (-not $map.Contains($dec)) { $map[$dec] = New-Object System.Collections.Generic.List[string] }
+        $list = $map[$dec]
+        if ($on) { [void]$list.RemoveAll([Predicate[string]]{ param($x) $x -eq $mod.Name }) }
+        elseif (-not $list.Contains($mod.Name)) { $list.Add($mod.Name) }
+        Write-DisabledAddOns $cfg $map
+        Add-UiLog (TF $(if ($on) { "ModsToggledOn" } else { "ModsToggledOff" }) $mod.Name)
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Update-ModGames
+}
+
+function Remove-Mod($mod) {
+    Update-ModsBanner $true
+    if ($script:EdenRunning) { Show-Msg (T "ModsEdenRunning") "Warning"; return }
+    if ((Show-Dialog (TF "ModsAskDelete" $mod.Name) "YesNo" "Question") -ne "Yes") { return }
+    try {
+        Add-Type -AssemblyName Microsoft.VisualBasic
+        [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory($mod.Path, "OnlyErrorDialogs", "SendToRecycleBin")
+        # auch aus Edens Liste der deaktivierten Mods entfernen
+        $cfg = Get-EdenConfigPath
+        $map = Read-DisabledAddOns $cfg
+        $dec = ConvertTo-TidDec $mod.Tid
+        if ($map.Contains($dec) -and $map[$dec].Contains($mod.Name)) {
+            [void]$map[$dec].Remove($mod.Name)
+            Write-DisabledAddOns $cfg $map
+        }
+        Add-UiLog (TF "ModsDeleted" $mod.Name)
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Start-ModScan
+}
+
+function Add-ModFromZip {
+    $g = $ui.ListModGames.SelectedItem
+    if (-not $g) { return }
+    Update-ModsBanner $true
+    if ($script:EdenRunning) { Show-Msg (T "ModsEdenRunning") "Warning"; return }
+    $dlg = New-Object Microsoft.Win32.OpenFileDialog
+    $dlg.Title  = T "ModsAdd"
+    $dlg.Filter = "ZIP (*.zip)|*.zip"
+    $dlg.Multiselect = $false
+    if (-not $dlg.ShowDialog($window)) { return }
+    $ui.TxtModsInfo.Text = T "ModsInstalling"
+    Start-ModWorker @{ Mode = "add"; LoadDir = (Join-Path (Get-EdenDataDir) "load"); Tid = $g.Tid; Zip = $dlg.FileName }
+}
+
+function Open-ModFolder {
+    $g = $ui.ListModGames.SelectedItem
+    if (-not $g) { return }
+    $dir = Join-Path (Join-Path (Get-EdenDataDir) "load") $g.Tid
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    Start-Process explorer.exe -ArgumentList ('"' + $dir + '"')
 }
 
 # ------------------------------------------------------------
@@ -5419,7 +6223,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -5474,6 +6278,20 @@ $ui.BtnNavVer.Add_Click({ Set-Page "versions" })
 $ui.BtnNavNotes.Add_Click({ Set-Page "notes" })
 $ui.BtnNavSet.Add_Click({ Set-Page "settings" })
 $ui.BtnNavGames.Add_Click({ Set-Page "games" })
+$ui.BtnNavMods.Add_Click({ Set-Page "mods" })
+$ui.BtnModsReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-ModScan })
+$ui.BtnModAdd.Add_Click({ Add-ModFromZip })
+$ui.BtnModFolder.Add_Click({ Open-ModFolder })
+$ui.ListModGames.Add_SelectionChanged({ Update-ModList })
+# Schalter und Loeschen-Buttons in der Mod-Liste (Uid unterscheidet die Aktion)
+$ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
+    param($sender, $e)
+    $src = $e.OriginalSource
+    $mod = $src.DataContext
+    if (-not $mod) { return }
+    if ($src.Uid -eq "toggle") { Set-ModEnabled $mod ([bool]$src.IsChecked) }
+    elseif ($src.Uid -eq "delete") { Remove-Mod $mod }
+})
 $ui.BtnGamesReload.Add_Click({ Start-GameScan })
 $ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
 $ui.ListGames.Add_MouseDoubleClick({ if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
@@ -5619,6 +6437,8 @@ $timer.Add_Tick({
         if ($script:NotesWorker -and $notesSync.Done) { Complete-Notes }
         if ($script:SelfWorker -and $selfSync.Done) { Complete-Self }
         if ($script:GameWorker -and $gameSync.Done) { Complete-GameScan }
+        if ($script:ModWorker -and $modSync.Done) { Complete-ModWorker }
+        if ($script:CurrentPage -eq "mods") { Update-ModsBanner }
         if ($script:SelfPrompt -and -not $script:Busy -and -not $script:MsgWin -and -not $script:ThemeWin) {
             $script:SelfPrompt = $false
             Ask-SelfUpdate
@@ -5682,8 +6502,19 @@ function Start-Snapshots {
     }
     $script:GamesLoaded = $true
     $script:GamesDirs   = 1
+    $i = 0
+    foreach ($g in $script:Games) { $i++; $g | Add-Member -NotePropertyName Tid -NotePropertyValue ("0100000000{0:X2}0000" -f $i) -Force }
+    $script:Mods = @(
+        @{ Tid = "0100000000010000"; Name = "60 FPS"; Path = ""; Size = 48KB; Parts = "exefs" },
+        @{ Tid = "0100000000010000"; Name = "HD-Texturen"; Path = ""; Size = 1.4GB; Parts = "romfs" },
+        @{ Tid = "0100000000010000"; Name = "Unendlich Ausdauer"; Path = ""; Size = 2KB; Parts = "cheats" },
+        @{ Tid = "0100000000020000"; Name = "Dynamische Aufloesung aus"; Path = ""; Size = 12KB; Parts = "exefs" }
+    )
+    $script:ModsLoaded = $true
     Update-List
     Update-GameList
+    Update-ModGames
+    $ui.ListModGames.SelectedIndex = 0
     $ui.List.SelectedIndex = 1
     $ui.ListGames.SelectedIndex = 0
     $ui.TxtNotesTitle.Text = $script:Releases[1].Tag
@@ -5694,7 +6525,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
+        foreach ($pg in @("versions", "notes", "games", "mods", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
