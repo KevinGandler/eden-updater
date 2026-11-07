@@ -1,0 +1,59 @@
+name: XC3 HD Texturen
+
+on:
+  push:
+    branches: [xc3-hd]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Karten-Werkzeug bauen (Rust)
+        shell: bash
+        run: |
+          cd maptex
+          cargo build --release
+          ls -la target/release/*.exe
+
+      - name: Skript pruefen
+        shell: powershell
+        run: .\tests\Test-Script.ps1
+
+      - name: EXE bauen
+        shell: powershell
+        run: .\build\build.ps1
+
+      - name: Karten-Werkzeug testen
+        shell: powershell
+        run: |
+          & .\dist\xc3_maptex.exe 2>&1 | Out-String | Write-Host
+          if ($LASTEXITCODE -ne 1) { throw "unerwarteter Exit-Code $LASTEXITCODE" }
+
+      - name: Screenshot
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory snap -Force | Out-Null
+          $env:XC3HD_SNAPSHOT = Join-Path $pwd "snap\ui.png"
+          $env:XC3HD_ROOT = Join-Path $pwd "snaproot"
+          New-Item -ItemType Directory $env:XC3HD_ROOT -Force | Out-Null
+          $p = Start-Process .\dist\XC3HD.exe -PassThru
+          if (-not $p.WaitForExit(120000)) { $p.Kill(); throw "Timeout" }
+          if (-not (Test-Path snap\ui.png)) { throw "kein Screenshot" }
+
+      - name: Ergebnis in Branch 'xc3-hd-bin' ablegen
+        shell: bash
+        run: |
+          mkdir out && cp dist/XC3HD.exe dist/xc3_maptex.exe snap/ui.png out/
+          cd out
+          git init -q -b xc3-hd-bin
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Build von ${GITHUB_SHA::7}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" xc3-hd-bin
