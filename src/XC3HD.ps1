@@ -1,5 +1,5 @@
 ﻿# ==========================================================================
-#  XC3 HD Texturen - KI-Upscaling fuer Xenoblade Chronicles 3 (Eden)
+#  XC3 HD Texturen - KI-Upscaling für Xenoblade Chronicles 3 (Eden)
 #  Nur fuer den eigenen Gebrauch mit einem Dump der eigenen Spielkopie.
 #
 #  Werkzeuge: XbTool (AlexCSDev), xc3_tex / xc3_lib (ScanMountGoat),
@@ -113,7 +113,7 @@ public static class Xc3Img
         return dst;
     }
 
-    // KI-Ergebnis (4x, mit Rand) zuschneiden, sauber auf Zielgroesse bringen, Alpha wieder einsetzen
+    // KI-Ergebnis (4x, mit Rand) zuschneiden, sauber auf Zielgröße bringen, Alpha wieder einsetzen
     public static void Finish(string upPng, string alphaPng, int w, int h, int pad, int scale, int outW, int outH, string outPng)
     {
         using (var up = Load(upPng))
@@ -528,7 +528,7 @@ function Invoke-BuildModels($t, [string]$folder) {
             Set-Content $marker ""
         } catch {
             Complete-Encodes
-            Log "  Uebersprungen: $rel ($($_.Exception.Message))" "warn"
+            Log "  Übersprungen: $rel ($($_.Exception.Message))" "warn"
         }
         $n++
     }
@@ -609,11 +609,11 @@ function Invoke-BuildMap($t, $map) {
 # ---------------- Installieren ----------------
 function Test-EdenRunning { [bool](Get-Process -Name eden, eden-cli -ErrorAction SilentlyContinue) }
 function Invoke-Install($t) {
-    if (Test-EdenRunning) { Fail "Eden laeuft gerade. Bitte zuerst schliessen." }
+    if (Test-EdenRunning) { Fail "Eden läuft gerade. Bitte zuerst schließen." }
     if (-not (Test-Path (Join-Path $ModDir "romfs"))) { Fail "Es wurde noch nichts gebaut." }
     $load = Join-Path $Cfg.EdenData "load\$TitleId"
     $src = Get-ChildItem $t.Loader -Recurse -Directory -Filter $TitleId | Select-Object -First 1
-    if (-not $src) { Fail "File-Loader-Paket unvollstaendig." }
+    if (-not $src) { Fail "File-Loader-Paket unvollständig." }
     $fl = Join-Path $load "XCNX File Loader"
     New-Item -ItemType Directory -Path $fl -Force | Out-Null
     Copy-Item (Join-Path $src.FullName "*") $fl -Recurse -Force
@@ -624,7 +624,7 @@ function Invoke-Install($t) {
     $p = New-Proc "robocopy.exe" @($ModDir, $dst, "/E", "/NFL", "/NDL", "/NJH", "/NJS", "/NP", "/R:1", "/W:1") $false
     $p.WaitForExit()
     if ($p.ExitCode -ge 8) { Fail "Kopieren fehlgeschlagen (robocopy $($p.ExitCode))." }
-    Log "In Eden installiert. Beide Mods (XC3 HD Texturen + XCNX File Loader) muessen in Eden aktiviert sein." "ok"
+    Log "In Eden installiert. Beide Mods (XC3 HD Texturen + XCNX File Loader) müssen in Eden aktiviert sein." "ok"
 }
 
 # ---------------- Modell-Vergleich ----------------
@@ -683,7 +683,7 @@ function Invoke-Job([string]$job) {
         "install" { Invoke-Install $t }
         "build" {
             Invoke-Extract $t
-            if (-not $Cfg.UpscaylModel) { Fail "Kein KI-Modell gewaehlt." }
+            if (-not $Cfg.UpscaylModel) { Fail "Kein KI-Modell gewählt." }
             Log ("Start: Modell {0}, {1}x bis max. {2} px, Kompression {3}" -f $Cfg.UpscaylModel, $Cfg.Factor, $Cfg.MaxSize, $Cfg.Quality) "accent"
             foreach ($f in $Categories.Keys) {
                 if (Test-Stop) { break }
@@ -693,9 +693,9 @@ function Invoke-Job([string]$job) {
                 if (Test-Stop) { break }
                 if (@($Cfg.Maps) -contains $map.Id) { Invoke-BuildMap $t $map }
             }
-            if (Test-Stop) { Log "Angehalten. Beim naechsten Start geht es an derselben Stelle weiter." "warn" }
+            if (Test-Stop) { Log "Angehalten. Beim nächsten Start geht es an derselben Stelle weiter." "warn" }
             if ($Cfg.AutoInstall -and (Test-Path (Join-Path $ModDir "romfs"))) {
-                if (Test-EdenRunning) { Log "Eden laeuft - Installation uebersprungen. Spaeter auf 'In Eden installieren' klicken." "warn" }
+                if (Test-EdenRunning) { Log "Eden läuft - Installation uebersprungen. Spaeter auf 'In Eden installieren' klicken." "warn" }
                 else { Invoke-Install $t }
             }
         }
@@ -827,7 +827,7 @@ $xaml = @'
       <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
       <StackPanel>
         <TextBlock Text="XC3 HD Texturen" FontSize="22" FontWeight="SemiBold"/>
-        <TextBlock Text="KI-Upscaling fuer Xenoblade Chronicles 3 in Eden" Foreground="{StaticResource Muted}" Margin="0,2,0,0"/>
+        <TextBlock Text="KI-Upscaling für Xenoblade Chronicles 3 in Eden" Foreground="{StaticResource Muted}" Margin="0,2,0,0"/>
       </StackPanel>
       <Border Grid.Column="1" x:Name="Chip" CornerRadius="12" Padding="12,5" VerticalAlignment="Center" Background="#202734">
         <TextBlock x:Name="ChipText" Text="Bereit" FontWeight="SemiBold"/>
@@ -914,16 +914,16 @@ $xaml = @'
               <Button Grid.Column="1" x:Name="BtnCompare" Style="{StaticResource Btn}" Content="Vergleichen" Margin="8,0,0,10" Padding="10,5"
                       ToolTip="Erstellt ein Vergleichsbild aller Modelle mit echten Spieltexturen"/>
             </Grid>
-            <TextBlock Style="{StaticResource Label}" Text="Zielgroesse"/>
+            <TextBlock Style="{StaticResource Label}" Text="Zielgröße"/>
             <ComboBox x:Name="CbSize" SelectedValuePath="Tag"/>
-            <TextBlock Style="{StaticResource Label}" Text="Kompressionsqualitaet"/>
+            <TextBlock Style="{StaticResource Label}" Text="Kompressionsqualität"/>
             <ComboBox x:Name="CbQuality" SelectedValuePath="Tag"/>
             <TextBlock Style="{StaticResource Label}" Text="Parallele Komprimierungen (CPU)"/>
             <ComboBox x:Name="CbEncoders"/>
             <CheckBox x:Name="ChkAutoInstall" Content="Nach dem Bauen automatisch in Eden installieren"/>
             <Expander Header="Pfade" Foreground="#E6EAF0" Margin="0,8,0,0">
               <StackPanel Margin="0,8,0,0">
-                <TextBlock Style="{StaticResource Label}" Text="Eden-Datenordner (enthaelt dump und load)"/>
+                <TextBlock Style="{StaticResource Label}" Text="Eden-Datenordner (enthält dump und load)"/>
                 <Grid Margin="0,0,0,8">
                   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                   <TextBox x:Name="TxtEden" IsReadOnly="True"/>
@@ -945,7 +945,7 @@ $xaml = @'
             <Grid Margin="0,0,0,8">
               <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
               <TextBlock Style="{StaticResource H}" Text="Protokoll" Margin="0"/>
-              <Button Grid.Column="1" x:Name="BtnFolder" Style="{StaticResource Btn}" Content="Ordner oeffnen" Padding="10,3" Margin="0"/>
+              <Button Grid.Column="1" x:Name="BtnFolder" Style="{StaticResource Btn}" Content="Ordner öffnen" Padding="10,3" Margin="0"/>
             </Grid>
             <TextBox Grid.Row="1" x:Name="TxtLog" IsReadOnly="True" FontFamily="Consolas" FontSize="12"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" TextWrapping="Wrap" BorderThickness="0"/>
@@ -954,7 +954,7 @@ $xaml = @'
       </Grid>
     </Grid>
 
-    <!-- Fusszeile: Fortschritt + Aktionen -->
+    <!-- Fußzeile: Fortschritt + Aktionen -->
     <Border Grid.Row="2" Style="{StaticResource CardBorder}" Margin="0,12,0,0">
       <Grid>
         <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -1053,7 +1053,7 @@ function Update-Models {
 
 function Init-Settings {
     $Cfg = Get-Cfg
-    [void]$ui.CbSize.Items.Add((New-CbItem "Doppelt, bis 4096 px (beste Qualitaet)" "4096"))
+    [void]$ui.CbSize.Items.Add((New-CbItem "Doppelt, bis 4096 px (beste Qualität)" "4096"))
     [void]$ui.CbSize.Items.Add((New-CbItem "Doppelt, bis 2048 px (kleiner, schneller)" "2048"))
     $ui.CbSize.SelectedValue = [string]$Cfg.MaxSize
     if ($ui.CbSize.SelectedIndex -lt 0) { $ui.CbSize.SelectedIndex = 0 }
@@ -1130,7 +1130,7 @@ function Set-BusyUi([bool]$busy) {
     }
     $ui.BtnStop.IsEnabled = $busy
     $ui.BtnStop.Content = "Anhalten"
-    if ($busy) { Set-Chip "Laeuft" "Accent" }
+    if ($busy) { Set-Chip "Läuft" "Accent" }
 }
 
 $script:Timer = New-Object Windows.Threading.DispatcherTimer
@@ -1178,7 +1178,7 @@ $script:Timer.Add_Tick({
 $ui.BtnStart.Add_Click({
     $sel = @($script:CatItems | Where-Object { $_.On }).Count + @($script:MapItems | Where-Object { $_.On }).Count
     if ($sel -eq 0 -and (Test-Extracted)) {
-        [Windows.MessageBox]::Show($window, "Bitte zuerst links auswaehlen, was hochskaliert werden soll.", "XC3 HD Texturen") | Out-Null
+        [Windows.MessageBox]::Show($window, "Bitte zuerst links auswählen, was hochskaliert werden soll.", "XC3 HD Texturen") | Out-Null
         return
     }
     if (-not $ui.CbModel.SelectedItem) {
@@ -1190,13 +1190,13 @@ $ui.BtnStart.Add_Click({
 $ui.BtnStop.Add_Click({
     $script:Sync.Stop = $true
     $ui.BtnStop.IsEnabled = $false
-    $ui.BtnStop.Content = "Haelt an..."
+    $ui.BtnStop.Content = "Hält an..."
     Add-LogLine ("{0:HH:mm:ss}  Wird nach dem aktuellen Schritt angehalten..." -f (Get-Date))
 })
 $ui.BtnSetup.Add_Click({ Start-Work "setup" })
 $ui.BtnCompare.Add_Click({ Start-Work "compare" })
 $ui.BtnInstall.Add_Click({
-    if (Test-EdenRunning) { [Windows.MessageBox]::Show($window, "Eden laeuft gerade. Bitte zuerst schliessen.", "XC3 HD Texturen") | Out-Null; return }
+    if (Test-EdenRunning) { [Windows.MessageBox]::Show($window, "Eden läuft gerade. Bitte zuerst schließen.", "XC3 HD Texturen") | Out-Null; return }
     Start-Work "install"
 })
 $ui.BtnFolder.Add_Click({ Start-Process explorer.exe $Root })
@@ -1214,20 +1214,20 @@ $ui.BtnMapsAll.Add_Click({ foreach ($m in @($script:MapItems)) { $m.On = $true }
 $ui.BtnMapsNone.Add_Click({ foreach ($m in @($script:MapItems)) { $m.On = $false }; $ui.MapList.Items.Refresh() })
 $ui.BtnEden.Add_Click({
     $d = New-Object System.Windows.Forms.FolderBrowserDialog
-    $d.Description = "Eden-Datenordner waehlen (enthaelt die Ordner dump und load)"
+    $d.Description = "Eden-Datenordner wählen (enthält die Ordner dump und load)"
     $d.SelectedPath = $ui.TxtEden.Text
     if ($d.ShowDialog() -eq "OK") { $c = Get-Cfg; $c.EdenData = $d.SelectedPath; Save-Cfg $c; Update-Status }
 })
 $ui.BtnUpscayl.Add_Click({
     $d = New-Object Microsoft.Win32.OpenFileDialog
     $d.Filter = "upscayl-bin.exe|upscayl-bin.exe"
-    $d.Title = "upscayl-bin.exe auswaehlen (im Upscayl-Ordner unter resources\bin)"
+    $d.Title = "upscayl-bin.exe auswählen (im Upscayl-Ordner unter resources\bin)"
     if ($d.ShowDialog($window)) { $c = Get-Cfg; $c.UpscaylBin = $d.FileName; Save-Cfg $c; Update-Status; Update-Models }
 })
 $window.Add_Closing({
     param($sender, $e)
     if ($script:Busy) {
-        $r = [Windows.MessageBox]::Show($window, "Es laeuft gerade noch etwas. Trotzdem beenden?`n`nDer Fortschritt bleibt erhalten, beim naechsten Start geht es weiter.", "XC3 HD Texturen", "YesNo")
+        $r = [Windows.MessageBox]::Show($window, "Es läuft gerade noch etwas. Trotzdem beenden?`n`nDer Fortschritt bleibt erhalten, beim nächsten Start geht es weiter.", "XC3 HD Texturen", "YesNo")
         if ($r -ne "Yes") { $e.Cancel = $true; return }
         $script:Sync.Stop = $true
     }
