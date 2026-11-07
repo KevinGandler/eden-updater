@@ -51,6 +51,7 @@ jobs:
         shell: powershell
         run: |
           $env:EDEN_UPDATER_SNAPSHOT = Join-Path $pwd "snapshots"
+          $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan,light,light-sand,dark-gold,amoled-red"
           $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','src\EdenUpdater.ps1' -PassThru
           if (-not $p.WaitForExit(300000)) { $p.Kill(); Write-Host "Timeout" }
           Get-ChildItem snapshots | Format-Table Name, Length

@@ -31,6 +31,7 @@ $Defaults = [ordered]@{
     AutoInstall  = $false
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
+    CustomTheme  = $null      # eigenes Theme: @{ Bg; Panel; Text; Accent }
     Language     = "auto"
 }
 
@@ -208,12 +209,6 @@ DlgInfo=Info
 ThemeTag=THEME
 ThemeTitle=Theme auswählen
 ThemeHint=Ein Klick zeigt das Theme sofort als Vorschau.
-ThDarkCyan=Dunkel (Cyan)
-ThDarkViolet=Dunkel (Violett)
-ThDarkGreen=Dunkel (Grün)
-ThDarkOrange=Dunkel (Orange)
-ThAmoled=Schwarz (AMOLED)
-ThLight=Hell (Cyan)
 StReady=Bereit
 StSearching=Suche nach Releases...
 StLoadError=Fehler beim Laden
@@ -294,6 +289,31 @@ GamesEmpty=Keine Spiele gefunden. Füge in Eden unter Datei → Spieleordner hin
 GamesNoEden=Eden ist noch nicht installiert.
 GamesScanning=Suche nach Spielen...
 LogGameStart=Starte {0}...
+ThBaseDark=Dunkel
+ThBaseBlack=Schwarz
+ThBaseLight=Hell
+ThColCyan=Cyan
+ThColBlue=Blau
+ThColIndigo=Indigo
+ThColViolet=Violett
+ThColPink=Rosa
+ThColRed=Rot
+ThColOrange=Orange
+ThColGold=Gold
+ThColGreen=Grün
+ThColGrey=Grau
+ThColSand=Sand
+ThCustom=Eigenes Theme
+ThTabPresets=Vorlagen
+ThTabCustom=Eigenes
+ThSlotBg=Hintergrund
+ThSlotPanel=Flächen
+ThSlotText=Text
+ThSlotAccent=Akzent
+ThCustomHint=Wähle links eine Farbe aus und passe sie rechts an. Die Vorschau siehst du sofort.
+ThContrast=Lesbarkeit {0} : 1
+ThContrastOk=gut
+ThContrastLow=zu gering, Text wird automatisch angepasst
 '@
 en = @'
 Name=English
@@ -359,12 +379,6 @@ DlgInfo=Info
 ThemeTag=THEME
 ThemeTitle=Choose theme
 ThemeHint=Click a theme to preview it instantly.
-ThDarkCyan=Dark (Cyan)
-ThDarkViolet=Dark (Violet)
-ThDarkGreen=Dark (Green)
-ThDarkOrange=Dark (Orange)
-ThAmoled=Black (AMOLED)
-ThLight=Light (Cyan)
 StReady=Ready
 StSearching=Searching for releases...
 StLoadError=Error while loading
@@ -445,6 +459,31 @@ GamesEmpty=No games found. In Eden, add a game folder (File → Add New Game Dir
 GamesNoEden=Eden is not installed yet.
 GamesScanning=Searching for games...
 LogGameStart=Starting {0}...
+ThBaseDark=Dark
+ThBaseBlack=Black
+ThBaseLight=Light
+ThColCyan=Cyan
+ThColBlue=Blue
+ThColIndigo=Indigo
+ThColViolet=Violet
+ThColPink=Pink
+ThColRed=Red
+ThColOrange=Orange
+ThColGold=Gold
+ThColGreen=Green
+ThColGrey=Grey
+ThColSand=Sand
+ThCustom=Custom theme
+ThTabPresets=Presets
+ThTabCustom=Custom
+ThSlotBg=Background
+ThSlotPanel=Surfaces
+ThSlotText=Text
+ThSlotAccent=Accent
+ThCustomHint=Pick a color on the left and adjust it on the right. The preview updates instantly.
+ThContrast=Readability {0} : 1
+ThContrastOk=good
+ThContrastLow=too low, text will be adjusted automatically
 '@
 es = @'
 Name=Español
@@ -510,12 +549,6 @@ DlgInfo=Información
 ThemeTag=TEMA
 ThemeTitle=Elegir tema
 ThemeHint=Un clic muestra el tema al instante como vista previa.
-ThDarkCyan=Oscuro (cian)
-ThDarkViolet=Oscuro (violeta)
-ThDarkGreen=Oscuro (verde)
-ThDarkOrange=Oscuro (naranja)
-ThAmoled=Negro (AMOLED)
-ThLight=Claro (cian)
 StReady=Listo
 StSearching=Buscando versiones...
 StLoadError=Error al cargar
@@ -596,6 +629,31 @@ GamesEmpty=No se encontraron juegos. Añade una carpeta de juegos en Eden (Archi
 GamesNoEden=Eden aún no está instalado.
 GamesScanning=Buscando juegos...
 LogGameStart=Iniciando {0}...
+ThBaseDark=Oscuro
+ThBaseBlack=Negro
+ThBaseLight=Claro
+ThColCyan=Cian
+ThColBlue=Azul
+ThColIndigo=Índigo
+ThColViolet=Violeta
+ThColPink=Rosa
+ThColRed=Rojo
+ThColOrange=Naranja
+ThColGold=Oro
+ThColGreen=Verde
+ThColGrey=Gris
+ThColSand=Arena
+ThCustom=Tema propio
+ThTabPresets=Plantillas
+ThTabCustom=Propio
+ThSlotBg=Fondo
+ThSlotPanel=Superficies
+ThSlotText=Texto
+ThSlotAccent=Acento
+ThCustomHint=Elige un color a la izquierda y ajústalo a la derecha. La vista previa se actualiza al instante.
+ThContrast=Legibilidad {0} : 1
+ThContrastOk=buena
+ThContrastLow=demasiado baja, el texto se ajustará automáticamente
 '@
 fr = @'
 Name=Français
@@ -661,12 +719,6 @@ DlgInfo=Info
 ThemeTag=THÈME
 ThemeTitle=Choisir un thème
 ThemeHint=Un clic affiche aussitôt un aperçu du thème.
-ThDarkCyan=Sombre (cyan)
-ThDarkViolet=Sombre (violet)
-ThDarkGreen=Sombre (vert)
-ThDarkOrange=Sombre (orange)
-ThAmoled=Noir (AMOLED)
-ThLight=Clair (cyan)
 StReady=Prêt
 StSearching=Recherche des versions...
 StLoadError=Erreur de chargement
@@ -747,6 +799,31 @@ GamesEmpty=Aucun jeu trouvé. Ajoutez un dossier de jeux dans Eden (Fichier → 
 GamesNoEden=Eden n'est pas encore installé.
 GamesScanning=Recherche des jeux...
 LogGameStart=Lancement de {0}...
+ThBaseDark=Sombre
+ThBaseBlack=Noir
+ThBaseLight=Clair
+ThColCyan=Cyan
+ThColBlue=Bleu
+ThColIndigo=Indigo
+ThColViolet=Violet
+ThColPink=Rose
+ThColRed=Rouge
+ThColOrange=Orange
+ThColGold=Or
+ThColGreen=Vert
+ThColGrey=Gris
+ThColSand=Sable
+ThCustom=Thème personnalisé
+ThTabPresets=Modèles
+ThTabCustom=Personnalisé
+ThSlotBg=Arrière-plan
+ThSlotPanel=Surfaces
+ThSlotText=Texte
+ThSlotAccent=Accent
+ThCustomHint=Choisissez une couleur à gauche et ajustez-la à droite. L'aperçu est immédiat.
+ThContrast=Lisibilité {0} : 1
+ThContrastOk=bonne
+ThContrastLow=trop faible, le texte sera ajusté automatiquement
 '@
 it = @'
 Name=Italiano
@@ -812,12 +889,6 @@ DlgInfo=Info
 ThemeTag=TEMA
 ThemeTitle=Scegli tema
 ThemeHint=Un clic mostra subito l'anteprima del tema.
-ThDarkCyan=Scuro (ciano)
-ThDarkViolet=Scuro (viola)
-ThDarkGreen=Scuro (verde)
-ThDarkOrange=Scuro (arancione)
-ThAmoled=Nero (AMOLED)
-ThLight=Chiaro (ciano)
 StReady=Pronto
 StSearching=Ricerca versioni...
 StLoadError=Errore durante il caricamento
@@ -898,6 +969,31 @@ GamesEmpty=Nessun gioco trovato. Aggiungi una cartella di giochi in Eden (File �
 GamesNoEden=Eden non è ancora installato.
 GamesScanning=Ricerca giochi...
 LogGameStart=Avvio di {0}...
+ThBaseDark=Scuro
+ThBaseBlack=Nero
+ThBaseLight=Chiaro
+ThColCyan=Ciano
+ThColBlue=Blu
+ThColIndigo=Indaco
+ThColViolet=Viola
+ThColPink=Rosa
+ThColRed=Rosso
+ThColOrange=Arancione
+ThColGold=Oro
+ThColGreen=Verde
+ThColGrey=Grigio
+ThColSand=Sabbia
+ThCustom=Tema personalizzato
+ThTabPresets=Modelli
+ThTabCustom=Personalizzato
+ThSlotBg=Sfondo
+ThSlotPanel=Superfici
+ThSlotText=Testo
+ThSlotAccent=Accento
+ThCustomHint=Scegli un colore a sinistra e regolalo a destra. L'anteprima è immediata.
+ThContrast=Leggibilità {0} : 1
+ThContrastOk=buona
+ThContrastLow=troppo bassa, il testo verrà adattato automaticamente
 '@
 pt = @'
 Name=Português
@@ -963,12 +1059,6 @@ DlgInfo=Info
 ThemeTag=TEMA
 ThemeTitle=Escolher tema
 ThemeHint=Um clique mostra o tema na hora como prévia.
-ThDarkCyan=Escuro (ciano)
-ThDarkViolet=Escuro (violeta)
-ThDarkGreen=Escuro (verde)
-ThDarkOrange=Escuro (laranja)
-ThAmoled=Preto (AMOLED)
-ThLight=Claro (ciano)
 StReady=Pronto
 StSearching=Procurando versões...
 StLoadError=Erro ao carregar
@@ -1049,6 +1139,31 @@ GamesEmpty=Nenhum jogo encontrado. Adicione uma pasta de jogos no Eden (Arquivo 
 GamesNoEden=O Eden ainda não está instalado.
 GamesScanning=Procurando jogos...
 LogGameStart=Iniciando {0}...
+ThBaseDark=Escuro
+ThBaseBlack=Preto
+ThBaseLight=Claro
+ThColCyan=Ciano
+ThColBlue=Azul
+ThColIndigo=Índigo
+ThColViolet=Violeta
+ThColPink=Rosa
+ThColRed=Vermelho
+ThColOrange=Laranja
+ThColGold=Dourado
+ThColGreen=Verde
+ThColGrey=Cinza
+ThColSand=Areia
+ThCustom=Tema próprio
+ThTabPresets=Modelos
+ThTabCustom=Próprio
+ThSlotBg=Fundo
+ThSlotPanel=Superfícies
+ThSlotText=Texto
+ThSlotAccent=Destaque
+ThCustomHint=Escolha uma cor à esquerda e ajuste-a à direita. A prévia é atualizada na hora.
+ThContrast=Legibilidade {0} : 1
+ThContrastOk=boa
+ThContrastLow=baixa demais, o texto será ajustado automaticamente
 '@
 nl = @'
 Name=Nederlands
@@ -1114,12 +1229,6 @@ DlgInfo=Info
 ThemeTag=THEMA
 ThemeTitle=Thema kiezen
 ThemeHint=Eén klik toont het thema direct als voorbeeld.
-ThDarkCyan=Donker (cyaan)
-ThDarkViolet=Donker (violet)
-ThDarkGreen=Donker (groen)
-ThDarkOrange=Donker (oranje)
-ThAmoled=Zwart (AMOLED)
-ThLight=Licht (cyaan)
 StReady=Gereed
 StSearching=Zoeken naar releases...
 StLoadError=Fout bij het laden
@@ -1200,6 +1309,31 @@ GamesEmpty=Geen games gevonden. Voeg in Eden een gamemap toe (Bestand → Gamema
 GamesNoEden=Eden is nog niet geïnstalleerd.
 GamesScanning=Zoeken naar games...
 LogGameStart={0} starten...
+ThBaseDark=Donker
+ThBaseBlack=Zwart
+ThBaseLight=Licht
+ThColCyan=Cyaan
+ThColBlue=Blauw
+ThColIndigo=Indigo
+ThColViolet=Violet
+ThColPink=Roze
+ThColRed=Rood
+ThColOrange=Oranje
+ThColGold=Goud
+ThColGreen=Groen
+ThColGrey=Grijs
+ThColSand=Zand
+ThCustom=Eigen thema
+ThTabPresets=Sjablonen
+ThTabCustom=Eigen
+ThSlotBg=Achtergrond
+ThSlotPanel=Vlakken
+ThSlotText=Tekst
+ThSlotAccent=Accent
+ThCustomHint=Kies links een kleur en pas die rechts aan. Het voorbeeld is direct zichtbaar.
+ThContrast=Leesbaarheid {0} : 1
+ThContrastOk=goed
+ThContrastLow=te laag, tekst wordt automatisch aangepast
 '@
 pl = @'
 Name=Polski
@@ -1265,12 +1399,6 @@ DlgInfo=Informacja
 ThemeTag=MOTYW
 ThemeTitle=Wybierz motyw
 ThemeHint=Kliknięcie od razu pokazuje podgląd motywu.
-ThDarkCyan=Ciemny (cyjan)
-ThDarkViolet=Ciemny (fiolet)
-ThDarkGreen=Ciemny (zielony)
-ThDarkOrange=Ciemny (pomarańczowy)
-ThAmoled=Czarny (AMOLED)
-ThLight=Jasny (cyjan)
 StReady=Gotowe
 StSearching=Wyszukiwanie wydań...
 StLoadError=Błąd wczytywania
@@ -1351,6 +1479,31 @@ GamesEmpty=Nie znaleziono gier. Dodaj folder z grami w Eden (Plik → Dodaj fold
 GamesNoEden=Eden nie jest jeszcze zainstalowany.
 GamesScanning=Wyszukiwanie gier...
 LogGameStart=Uruchamianie {0}...
+ThBaseDark=Ciemny
+ThBaseBlack=Czarny
+ThBaseLight=Jasny
+ThColCyan=Cyjan
+ThColBlue=Niebieski
+ThColIndigo=Indygo
+ThColViolet=Fioletowy
+ThColPink=Różowy
+ThColRed=Czerwony
+ThColOrange=Pomarańczowy
+ThColGold=Złoty
+ThColGreen=Zielony
+ThColGrey=Szary
+ThColSand=Piaskowy
+ThCustom=Własny motyw
+ThTabPresets=Szablony
+ThTabCustom=Własny
+ThSlotBg=Tło
+ThSlotPanel=Powierzchnie
+ThSlotText=Tekst
+ThSlotAccent=Akcent
+ThCustomHint=Wybierz kolor po lewej i dopasuj go po prawej. Podgląd widać od razu.
+ThContrast=Czytelność {0} : 1
+ThContrastOk=dobra
+ThContrastLow=za niska, tekst zostanie dopasowany automatycznie
 '@
 tr = @'
 Name=Türkçe
@@ -1416,12 +1569,6 @@ DlgInfo=Bilgi
 ThemeTag=TEMA
 ThemeTitle=Tema seç
 ThemeHint=Bir tıklama temayı anında önizler.
-ThDarkCyan=Koyu (camgöbeği)
-ThDarkViolet=Koyu (mor)
-ThDarkGreen=Koyu (yeşil)
-ThDarkOrange=Koyu (turuncu)
-ThAmoled=Siyah (AMOLED)
-ThLight=Açık (camgöbeği)
 StReady=Hazır
 StSearching=Sürümler aranıyor...
 StLoadError=Yükleme hatası
@@ -1502,6 +1649,31 @@ GamesEmpty=Oyun bulunamadı. Eden'de bir oyun klasörü ekleyin (Dosya → Oyun 
 GamesNoEden=Eden henüz yüklü değil.
 GamesScanning=Oyunlar aranıyor...
 LogGameStart={0} başlatılıyor...
+ThBaseDark=Koyu
+ThBaseBlack=Siyah
+ThBaseLight=Açık
+ThColCyan=Camgöbeği
+ThColBlue=Mavi
+ThColIndigo=Çivit
+ThColViolet=Mor
+ThColPink=Pembe
+ThColRed=Kırmızı
+ThColOrange=Turuncu
+ThColGold=Altın
+ThColGreen=Yeşil
+ThColGrey=Gri
+ThColSand=Kum
+ThCustom=Özel tema
+ThTabPresets=Şablonlar
+ThTabCustom=Özel
+ThSlotBg=Arka plan
+ThSlotPanel=Yüzeyler
+ThSlotText=Metin
+ThSlotAccent=Vurgu
+ThCustomHint=Soldan bir renk seçin ve sağdan ayarlayın. Önizleme anında görünür.
+ThContrast=Okunabilirlik {0} : 1
+ThContrastOk=iyi
+ThContrastLow=çok düşük, metin otomatik olarak ayarlanacak
 '@
 ru = @'
 Name=Русский
@@ -1567,12 +1739,6 @@ DlgInfo=Информация
 ThemeTag=ТЕМА
 ThemeTitle=Выбор темы
 ThemeHint=Щелчок сразу показывает предпросмотр темы.
-ThDarkCyan=Тёмная (бирюзовая)
-ThDarkViolet=Тёмная (фиолетовая)
-ThDarkGreen=Тёмная (зелёная)
-ThDarkOrange=Тёмная (оранжевая)
-ThAmoled=Чёрная (AMOLED)
-ThLight=Светлая (бирюзовая)
 StReady=Готово
 StSearching=Поиск релизов...
 StLoadError=Ошибка загрузки
@@ -1653,6 +1819,31 @@ GamesEmpty=Игры не найдены. Добавьте папку с игра
 GamesNoEden=Eden ещё не установлен.
 GamesScanning=Поиск игр...
 LogGameStart=Запуск {0}...
+ThBaseDark=Тёмная
+ThBaseBlack=Чёрная
+ThBaseLight=Светлая
+ThColCyan=Бирюзовый
+ThColBlue=Синий
+ThColIndigo=Индиго
+ThColViolet=Фиолетовый
+ThColPink=Розовый
+ThColRed=Красный
+ThColOrange=Оранжевый
+ThColGold=Золотой
+ThColGreen=Зелёный
+ThColGrey=Серый
+ThColSand=Песочный
+ThCustom=Своя тема
+ThTabPresets=Шаблоны
+ThTabCustom=Своя
+ThSlotBg=Фон
+ThSlotPanel=Поверхности
+ThSlotText=Текст
+ThSlotAccent=Акцент
+ThCustomHint=Выберите цвет слева и настройте его справа. Предпросмотр виден сразу.
+ThContrast=Читаемость {0} : 1
+ThContrastOk=хорошая
+ThContrastLow=слишком низкая, текст будет настроен автоматически
 '@
 ja = @'
 Name=日本語
@@ -1718,12 +1909,6 @@ DlgInfo=情報
 ThemeTag=テーマ
 ThemeTitle=テーマを選択
 ThemeHint=クリックするとすぐにプレビューされます。
-ThDarkCyan=ダーク (シアン)
-ThDarkViolet=ダーク (バイオレット)
-ThDarkGreen=ダーク (グリーン)
-ThDarkOrange=ダーク (オレンジ)
-ThAmoled=ブラック (AMOLED)
-ThLight=ライト (シアン)
 StReady=準備完了
 StSearching=リリースを検索中...
 StLoadError=読み込みエラー
@@ -1804,6 +1989,31 @@ GamesEmpty=ゲームが見つかりません。Edenでゲームフォルダー�
 GamesNoEden=Edenはまだインストールされていません。
 GamesScanning=ゲームを検索中...
 LogGameStart={0} を起動中...
+ThBaseDark=ダーク
+ThBaseBlack=ブラック
+ThBaseLight=ライト
+ThColCyan=シアン
+ThColBlue=ブルー
+ThColIndigo=インディゴ
+ThColViolet=バイオレット
+ThColPink=ピンク
+ThColRed=レッド
+ThColOrange=オレンジ
+ThColGold=ゴールド
+ThColGreen=グリーン
+ThColGrey=グレー
+ThColSand=サンド
+ThCustom=カスタムテーマ
+ThTabPresets=テンプレート
+ThTabCustom=カスタム
+ThSlotBg=背景
+ThSlotPanel=パネル
+ThSlotText=テキスト
+ThSlotAccent=アクセント
+ThCustomHint=左で色を選び、右で調整します。プレビューはすぐに反映されます。
+ThContrast=読みやすさ {0} : 1
+ThContrastOk=良好
+ThContrastLow=低すぎます。テキストは自動調整されます
 '@
 zh = @'
 Name=中文（简体）
@@ -1869,12 +2079,6 @@ DlgInfo=信息
 ThemeTag=主题
 ThemeTitle=选择主题
 ThemeHint=点击即可立即预览主题。
-ThDarkCyan=深色 (青色)
-ThDarkViolet=深色 (紫色)
-ThDarkGreen=深色 (绿色)
-ThDarkOrange=深色 (橙色)
-ThAmoled=黑色 (AMOLED)
-ThLight=浅色 (青色)
 StReady=就绪
 StSearching=正在搜索版本...
 StLoadError=加载出错
@@ -1955,6 +2159,31 @@ GamesEmpty=未找到游戏。请在 Eden 中添加游戏文件夹 (文件 → �
 GamesNoEden=尚未安装 Eden。
 GamesScanning=正在搜索游戏...
 LogGameStart=正在启动 {0}...
+ThBaseDark=深色
+ThBaseBlack=黑色
+ThBaseLight=浅色
+ThColCyan=青色
+ThColBlue=蓝色
+ThColIndigo=靛蓝
+ThColViolet=紫色
+ThColPink=粉色
+ThColRed=红色
+ThColOrange=橙色
+ThColGold=金色
+ThColGreen=绿色
+ThColGrey=灰色
+ThColSand=沙色
+ThCustom=自定义主题
+ThTabPresets=模板
+ThTabCustom=自定义
+ThSlotBg=背景
+ThSlotPanel=面板
+ThSlotText=文字
+ThSlotAccent=强调色
+ThCustomHint=在左侧选择颜色, 在右侧调整。预览会立即更新。
+ThContrast=可读性 {0} : 1
+ThContrastOk=良好
+ThContrastLow=过低, 文字将自动调整
 '@
 ko = @'
 Name=한국어
@@ -2020,12 +2249,6 @@ DlgInfo=정보
 ThemeTag=테마
 ThemeTitle=테마 선택
 ThemeHint=클릭하면 바로 테마를 미리 볼 수 있습니다.
-ThDarkCyan=다크 (시안)
-ThDarkViolet=다크 (바이올렛)
-ThDarkGreen=다크 (그린)
-ThDarkOrange=다크 (오렌지)
-ThAmoled=블랙 (AMOLED)
-ThLight=라이트 (시안)
 StReady=준비됨
 StSearching=릴리스 검색 중...
 StLoadError=불러오기 오류
@@ -2106,6 +2329,31 @@ GamesEmpty=게임을 찾지 못했습니다. Eden에서 게임 폴더를 추가�
 GamesNoEden=Eden이 아직 설치되지 않았습니다.
 GamesScanning=게임 검색 중...
 LogGameStart={0} 시작 중...
+ThBaseDark=다크
+ThBaseBlack=블랙
+ThBaseLight=라이트
+ThColCyan=시안
+ThColBlue=블루
+ThColIndigo=인디고
+ThColViolet=바이올렛
+ThColPink=핑크
+ThColRed=레드
+ThColOrange=오렌지
+ThColGold=골드
+ThColGreen=그린
+ThColGrey=그레이
+ThColSand=샌드
+ThCustom=사용자 테마
+ThTabPresets=템플릿
+ThTabCustom=사용자 지정
+ThSlotBg=배경
+ThSlotPanel=패널
+ThSlotText=텍스트
+ThSlotAccent=강조색
+ThCustomHint=왼쪽에서 색을 선택하고 오른쪽에서 조정하세요. 미리 보기가 바로 반영됩니다.
+ThContrast=가독성 {0} : 1
+ThContrastOk=좋음
+ThContrastLow=너무 낮음, 텍스트가 자동으로 조정됩니다
 '@
 }
 
@@ -2745,7 +2993,7 @@ $xaml = @'
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Eden Updater" UseLayoutRounding="True" Width="1080" Height="760" MinWidth="900" MinHeight="640"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrBg}"
-        FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
+        FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13" Foreground="{DynamicResource BrText}">
   <Window.Resources>
     <FontFamily x:Key="FontHead">Bahnschrift, Segoe UI Semibold</FontFamily>
     <FontFamily x:Key="FontIcon">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
@@ -2755,6 +3003,7 @@ $xaml = @'
     <SolidColorBrush x:Key="BrText"   Color="#E6EDF3"/>
     <SolidColorBrush x:Key="BrMuted"  Color="#8B98A9"/>
     <SolidColorBrush x:Key="BrAccent" Color="#22D3EE"/>
+    <SolidColorBrush x:Key="BrAccentText" Color="#22D3EE"/>
     <SolidColorBrush x:Key="BrBg" Color="#0F1419"/>
     <SolidColorBrush x:Key="BrAccentFg" Color="#04222A"/>
     <SolidColorBrush x:Key="BrSel" Color="#12313A"/>
@@ -3212,6 +3461,7 @@ $xaml = @'
 
     <Style x:Key="LbItem" TargetType="ListBoxItem">
       <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
       <Setter Property="Cursor" Value="Hand"/>
       <Setter Property="Template">
         <Setter.Value>
@@ -3280,7 +3530,7 @@ $xaml = @'
           <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock Text="EDEN" FontFamily="{StaticResource FontHead}" FontSize="17" FontWeight="Bold"/>
             <TextBlock Text="UPDATER" FontFamily="{StaticResource FontHead}" FontSize="10.5" FontWeight="Bold"
-                       Foreground="{DynamicResource BrAccent}" Margin="0,-1,0,0"/>
+                       Foreground="{DynamicResource BrAccentText}" Margin="0,-1,0,0"/>
           </StackPanel>
         </StackPanel>
 
@@ -3347,7 +3597,7 @@ $xaml = @'
           <StackPanel Grid.Column="2" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardLatest}"/>
             <TextBlock x:Name="TxtLatest" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold"
-                       Foreground="{DynamicResource BrAccent}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+                       Foreground="{DynamicResource BrAccentText}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
           </StackPanel>
           <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
             <Button x:Name="BtnUpdate" Tag="&#xE896;" Content="{DynamicResource L_BtnUpdate}"
@@ -3382,7 +3632,7 @@ $xaml = @'
           </Grid>
 
           <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8">
-            <ListBox x:Name="List" Background="Transparent" BorderThickness="0"
+            <ListBox x:Name="List" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
                      ItemContainerStyle="{StaticResource LbItem}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
               <ListBox.ItemTemplate>
@@ -3394,7 +3644,7 @@ $xaml = @'
                       <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                      <TextBlock FontFamily="{StaticResource FontHead}" Text="{Binding Tag}" FontSize="14.5" FontWeight="SemiBold"
+                      <TextBlock FontFamily="{StaticResource FontHead}" Text="{Binding Tag}" Foreground="{DynamicResource BrText}" FontSize="14.5" FontWeight="SemiBold"
                                  TextTrimming="CharacterEllipsis"/>
                       <TextBlock Text="{Binding Date}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
                     </StackPanel>
@@ -3404,7 +3654,7 @@ $xaml = @'
                     </Border>
                     <Border Grid.Column="2" Visibility="{Binding InstBadge}" Background="{DynamicResource BrBadgeInstBg}"
                             CornerRadius="10" Padding="9,3" Margin="6,0,0,0" VerticalAlignment="Center">
-                      <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_CardInstalled}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource BrAccent}"/>
+                      <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_CardInstalled}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource BrAccentText}"/>
                     </Border>
                   </Grid>
                 </DataTemplate>
@@ -3479,7 +3729,7 @@ $xaml = @'
 
           <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8">
             <Grid>
-              <ListBox x:Name="ListGames" Background="Transparent" BorderThickness="0"
+              <ListBox x:Name="ListGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
                        ItemContainerStyle="{StaticResource LbItem}"
                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListBox.ItemTemplate>
@@ -3492,7 +3742,7 @@ $xaml = @'
                       <Grid Width="44" Height="44" VerticalAlignment="Center">
                         <Border CornerRadius="9" Background="{DynamicResource BrSelStrong}">
                           <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="Bold"
-                                     Foreground="{DynamicResource BrAccent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <Border CornerRadius="9">
                           <Border.Background>
@@ -3501,7 +3751,7 @@ $xaml = @'
                         </Border>
                       </Grid>
                       <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" FontFamily="{StaticResource FontHead}" FontSize="14.5" FontWeight="SemiBold"
+                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14.5" FontWeight="SemiBold"
                                    TextTrimming="CharacterEllipsis"/>
                         <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
                       </StackPanel>
@@ -3536,7 +3786,7 @@ $xaml = @'
               <Border Style="{StaticResource Card}" Margin="0,0,0,14">
                 <StackPanel>
                   <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                    <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
                     <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpInstall}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
 
@@ -3570,7 +3820,7 @@ $xaml = @'
               <Border Style="{StaticResource Card}" Margin="0,0,0,14">
                 <StackPanel>
                   <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                    <TextBlock Text="&#xE790;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE790;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
                     <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpLook}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
 
@@ -3604,7 +3854,7 @@ $xaml = @'
               <Border Style="{StaticResource Card}" Margin="0,0,0,0">
                 <StackPanel>
                   <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <TextBlock Text="&#xE9F5;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE9F5;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
                     <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpBehavior}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
                   <CheckBox x:Name="ChkBackup" Content="{DynamicResource L_ChkBackup}"/>
@@ -3619,7 +3869,7 @@ $xaml = @'
               <Border Style="{StaticResource Card}" Margin="0,14,0,6">
                 <StackPanel>
                   <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
-                    <TextBlock Text="&#xE895;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE895;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
                     <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpUpdater}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
                   <Grid>
@@ -3665,7 +3915,7 @@ $xaml = @'
                     Margin="8,0,0,0"/>
           </Grid>
           <ProgressBar x:Name="Pb" Height="6" Minimum="0" Maximum="100" Value="0" Margin="0,10,0,0"
-                       Foreground="{DynamicResource BrAccent}" Background="{DynamicResource BrPanel2}"
+                       Foreground="{DynamicResource BrAccentText}" Background="{DynamicResource BrPanel2}"
                        BorderThickness="0"/>
           <TextBox x:Name="TxtLog" Height="130" Margin="0,12,0,2" IsReadOnly="True" Visibility="Collapsed"
                    FontFamily="Cascadia Mono, Consolas" FontSize="12" Background="{DynamicResource BrLog}"
@@ -3683,13 +3933,25 @@ $xaml = @'
 # ------------------------------------------------------------
 #  Farbschema
 # ------------------------------------------------------------
+# Base/Color sind Text-Schluessel (Anzeige: "Dunkel (Cyan)")
 $ThemePresets = [ordered]@{
-    "dark-cyan"   = @{ Label = "Dunkel (Cyan)";    Bg = "#0F1419"; Panel = "#171D26"; Text = "#E6EDF3"; Accent = "#22D3EE" }
-    "dark-violet" = @{ Label = "Dunkel (Violett)"; Bg = "#110F1A"; Panel = "#1A1726"; Text = "#ECE8F5"; Accent = "#A78BFA" }
-    "dark-green"  = @{ Label = "Dunkel (Grün)";    Bg = "#0E1512"; Panel = "#15201B"; Text = "#E4F0EA"; Accent = "#34D399" }
-    "dark-orange" = @{ Label = "Dunkel (Orange)";  Bg = "#15110E"; Panel = "#1F1915"; Text = "#F3EBE4"; Accent = "#FB923C" }
-    "amoled"      = @{ Label = "Schwarz (AMOLED)"; Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#22D3EE" }
-    "light"       = @{ Label = "Hell (Cyan)";      Bg = "#F3F5F8"; Panel = "#FFFFFF"; Text = "#1B2430"; Accent = "#0891B2" }
+    "dark-cyan"     = @{ Base = "ThBaseDark";  Color = "ThColCyan";   Bg = "#0F1419"; Panel = "#171D26"; Text = "#E6EDF3"; Accent = "#22D3EE" }
+    "dark-blue"     = @{ Base = "ThBaseDark";  Color = "ThColBlue";   Bg = "#0E1320"; Panel = "#161D2E"; Text = "#E5EAF5"; Accent = "#60A5FA" }
+    "dark-indigo"   = @{ Base = "ThBaseDark";  Color = "ThColIndigo"; Bg = "#0D0F1E"; Panel = "#15182B"; Text = "#E7E8F7"; Accent = "#818CF8" }
+    "dark-violet"   = @{ Base = "ThBaseDark";  Color = "ThColViolet"; Bg = "#110F1A"; Panel = "#1A1726"; Text = "#ECE8F5"; Accent = "#A78BFA" }
+    "dark-pink"     = @{ Base = "ThBaseDark";  Color = "ThColPink";   Bg = "#160F14"; Panel = "#21171E"; Text = "#F4E8EF"; Accent = "#F472B6" }
+    "dark-red"      = @{ Base = "ThBaseDark";  Color = "ThColRed";    Bg = "#160F10"; Panel = "#211718"; Text = "#F4E9EA"; Accent = "#F87171" }
+    "dark-orange"   = @{ Base = "ThBaseDark";  Color = "ThColOrange"; Bg = "#15110E"; Panel = "#1F1915"; Text = "#F3EBE4"; Accent = "#FB923C" }
+    "dark-gold"     = @{ Base = "ThBaseDark";  Color = "ThColGold";   Bg = "#14120C"; Panel = "#1E1B13"; Text = "#F2EEE2"; Accent = "#FBBF24" }
+    "dark-green"    = @{ Base = "ThBaseDark";  Color = "ThColGreen";  Bg = "#0E1512"; Panel = "#15201B"; Text = "#E4F0EA"; Accent = "#34D399" }
+    "dark-grey"     = @{ Base = "ThBaseDark";  Color = "ThColGrey";   Bg = "#121212"; Panel = "#1C1C1E"; Text = "#EDEDED"; Accent = "#D4D4D8" }
+    "amoled"        = @{ Base = "ThBaseBlack"; Color = "ThColCyan";   Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#22D3EE" }
+    "amoled-red"    = @{ Base = "ThBaseBlack"; Color = "ThColRed";    Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#F87171" }
+    "amoled-violet" = @{ Base = "ThBaseBlack"; Color = "ThColViolet"; Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#A78BFA" }
+    "light"         = @{ Base = "ThBaseLight"; Color = "ThColCyan";   Bg = "#F3F5F8"; Panel = "#FFFFFF"; Text = "#1B2430"; Accent = "#0891B2" }
+    "light-violet"  = @{ Base = "ThBaseLight"; Color = "ThColViolet"; Bg = "#F5F3FA"; Panel = "#FFFFFF"; Text = "#221D33"; Accent = "#7C3AED" }
+    "light-green"   = @{ Base = "ThBaseLight"; Color = "ThColGreen";  Bg = "#F2F6F4"; Panel = "#FFFFFF"; Text = "#17251F"; Accent = "#059669" }
+    "light-sand"    = @{ Base = "ThBaseLight"; Color = "ThColSand";   Bg = "#F4EFE6"; Panel = "#FFFCF6"; Text = "#2B2620"; Accent = "#C2410C" }
 }
 $script:ThemeWin = $null
 $script:ThemePick = ""
@@ -3710,6 +3972,56 @@ function Merge-Color($a, $b, [double]$t) {
 }
 
 function Get-Luma($c) { return (0.2126 * $c.R + 0.7152 * $c.G + 0.0722 * $c.B) / 255 }
+
+# Relative Helligkeit und Kontrast nach WCAG
+function Get-RelLum($c) {
+    $ch = foreach ($v in @($c.R, $c.G, $c.B)) {
+        $x = $v / 255.0
+        if ($x -le 0.03928) { $x / 12.92 } else { [Math]::Pow(($x + 0.055) / 1.055, 2.4) }
+    }
+    return 0.2126 * $ch[0] + 0.7152 * $ch[1] + 0.0722 * $ch[2]
+}
+
+function Get-Contrast($a, $b) {
+    $l1 = Get-RelLum $a; $l2 = Get-RelLum $b
+    return ([Math]::Max($l1, $l2) + 0.05) / ([Math]::Min($l1, $l2) + 0.05)
+}
+
+# Vordergrund so lange Richtung Schwarz bzw. Weiss schieben, bis der Kontrast reicht
+function Get-Readable($fg, $bg, [double]$min) {
+    if ((Get-Contrast $fg $bg) -ge $min) { return $fg }
+    $target = if ((Get-RelLum $bg) -gt 0.18) { [System.Windows.Media.Colors]::Black } else { [System.Windows.Media.Colors]::White }
+    for ($i = 1; $i -le 20; $i++) {
+        $c = Merge-Color $fg $target ($i / 20)
+        if ((Get-Contrast $c $bg) -ge $min) { return $c }
+    }
+    return $target
+}
+
+# HSV <-> Farbe (fuer den Farbwaehler)
+function ConvertTo-Hsv($c) {
+    $r = $c.R / 255.0; $g = $c.G / 255.0; $b = $c.B / 255.0
+    $max = [Math]::Max($r, [Math]::Max($g, $b)); $min = [Math]::Min($r, [Math]::Min($g, $b)); $d = $max - $min
+    $h = 0.0
+    if ($d -gt 0) {
+        if ($max -eq $r)     { $h = 60 * ((($g - $b) / $d) % 6) }
+        elseif ($max -eq $g) { $h = 60 * ((($b - $r) / $d) + 2) }
+        else                 { $h = 60 * ((($r - $g) / $d) + 4) }
+    }
+    if ($h -lt 0) { $h += 360 }
+    $sat = if ($max -eq 0) { 0.0 } else { $d / $max }
+    return @{ H = $h; S = $sat; V = $max }
+}
+
+function ConvertFrom-Hsv([double]$h, [double]$sat, [double]$v) {
+    $h = (($h % 360) + 360) % 360
+    $c = $v * $sat; $x = $c * (1 - [Math]::Abs((($h / 60) % 2) - 1)); $m = $v - $c
+    switch ([int][Math]::Floor($h / 60)) {
+        0 { $r = $c; $g = $x; $b = 0 }  1 { $r = $x; $g = $c; $b = 0 }  2 { $r = 0; $g = $c; $b = $x }
+        3 { $r = 0; $g = $x; $b = $c }  4 { $r = $x; $g = 0; $b = $c }  default { $r = $c; $g = 0; $b = $x }
+    }
+    return [System.Windows.Media.Color]::FromRgb([byte][Math]::Round(($r + $m) * 255), [byte][Math]::Round(($g + $m) * 255), [byte][Math]::Round(($b + $m) * 255))
+}
 
 # ------------------------------------------------------------
 #  Titelleiste und Icon im Theme
@@ -3734,7 +4046,7 @@ public static class DwmTheme {
 }
 
 $script:ThemeColors = $null
-$script:ThemeKeys = @("BrBg","BrPanel","BrPanel2","BrLine","BrText","BrMuted","BrAccent","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg")
+$script:ThemeKeys = @("BrBg","BrPanel","BrPanel2","BrLine","BrText","BrMuted","BrAccent","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg","BrAccentText")
 
 function ConvertTo-ColorRef($c) { return ([int]$c.R -bor ([int]$c.G -shl 8) -bor ([int]$c.B -shl 16)) }
 
@@ -3780,7 +4092,8 @@ function Set-ThemeBrush([string]$key, $color) {
     if ($script:ThemeWin) { $script:ThemeWin.Resources[$key] = $b }
 }
 
-# Aus 4 Grundfarben werden alle weiteren Farben abgeleitet
+# Aus 4 Grundfarben werden alle weiteren Farben abgeleitet.
+# Lesbarkeit wird erzwungen: Text >= 4.5:1, gedaempfter Text und Akzent-Text >= 3:1.
 function Set-Theme($t) {
     $bg     = ConvertTo-WpfColor $t.Bg     "#0F1419"
     $panel  = ConvertTo-WpfColor $t.Panel  "#171D26"
@@ -3788,17 +4101,21 @@ function Set-Theme($t) {
     $accent = ConvertTo-WpfColor $t.Accent "#22D3EE"
     $black  = [System.Windows.Media.Colors]::Black
     $white  = [System.Windows.Media.Colors]::White
-    $light  = ((Get-Luma $panel) -gt 0.5)
+    $light  = ((Get-RelLum $panel) -gt 0.18)
 
-    $panel2    = Merge-Color $panel $text 0.04
-    $line      = Merge-Color $panel $text 0.14
-    $muted     = Merge-Color $text $panel 0.45
-    $sel       = Merge-Color $panel $accent 0.18
-    $selStrong = Merge-Color $panel2 $accent 0.32
-    $log       = if ($light) { Merge-Color $panel $text 0.03 } else { Merge-Color $bg $black 0.35 }
-    $accentFg  = if ((Get-Luma $accent) -gt 0.55) { Merge-Color $accent $black 0.88 } else { $white }
-    $green     = ConvertTo-WpfColor "#34D399" "#34D399"
-    $greenFg   = if ($light) { ConvertTo-WpfColor "#0E8F62" "#0E8F62" } else { $green }
+    $text       = Get-Readable (Get-Readable $text $panel 4.5) $bg 4.5
+    $panel2     = Merge-Color $panel $text 0.045
+    $line       = Merge-Color $panel $text $(if ($light) { 0.16 } else { 0.14 })
+    $muted      = Get-Readable (Merge-Color $text $panel 0.42) $panel 3.0
+    $accentText = Get-Readable $accent $panel 3.0
+    $sel        = Merge-Color $panel $accent 0.18
+    $selStrong  = Merge-Color $panel2 $accent 0.32
+    $log        = if ($light) { Merge-Color $panel $text 0.03 } else { Merge-Color $bg $black 0.35 }
+    $darkFg     = Merge-Color $accent $black 0.88
+    $accentFg   = if ((Get-Contrast $white $accent) -ge (Get-Contrast $darkFg $accent)) { $white } else { $darkFg }
+    $green      = ConvertTo-WpfColor "#34D399" "#34D399"
+    $greenBg    = Merge-Color $panel $green 0.20
+    $greenFg    = Get-Readable $green $greenBg 3.0
 
     Set-ThemeBrush "BrBg"          $bg
     Set-ThemeBrush "BrPanel"       $panel
@@ -3807,11 +4124,12 @@ function Set-Theme($t) {
     Set-ThemeBrush "BrText"        $text
     Set-ThemeBrush "BrMuted"       $muted
     Set-ThemeBrush "BrAccent"      $accent
+    Set-ThemeBrush "BrAccentText"  $accentText
     Set-ThemeBrush "BrAccentFg"    $accentFg
     Set-ThemeBrush "BrSel"         $sel
     Set-ThemeBrush "BrSelStrong"   $selStrong
     Set-ThemeBrush "BrLog"         $log
-    Set-ThemeBrush "BrBadgeNewBg"  (Merge-Color $panel $green 0.20)
+    Set-ThemeBrush "BrBadgeNewBg"  $greenBg
     Set-ThemeBrush "BrBadgeNewFg"  $greenFg
     Set-ThemeBrush "BrBadgeInstBg" (Merge-Color $panel $accent 0.20)
 
@@ -3823,23 +4141,35 @@ function Set-Theme($t) {
 
 function Get-ThemeKey {
     $k = [string]$script:Settings.ThemePreset
+    if ($k -eq "custom" -and $script:Settings.CustomTheme -and $script:Settings.CustomTheme.Bg) { return "custom" }
     if ($k -and $ThemePresets.Contains($k)) { return $k }
     return "dark-cyan"
 }
 
-function Set-ThemeByKey([string]$key) {
-    $p = $ThemePresets[$key]
-    Set-Theme @{ Bg = $p.Bg; Panel = $p.Panel; Text = $p.Text; Accent = $p.Accent }
+# Die 4 Grundfarben eines Themes (Vorlage oder eigenes)
+function Get-ThemeColors([string]$id) {
+    if ($id -eq "custom") {
+        $c = $script:Settings.CustomTheme
+        if ($c -and $c.Bg) { return @{ Bg = [string]$c.Bg; Panel = [string]$c.Panel; Text = [string]$c.Text; Accent = [string]$c.Accent } }
+        $id = "dark-cyan"
+    }
+    if (-not $ThemePresets.Contains($id)) { $id = "dark-cyan" }
+    $p = $ThemePresets[$id]
+    return @{ Bg = $p.Bg; Panel = $p.Panel; Text = $p.Text; Accent = $p.Accent }
 }
 
-$ThemeLabelKeys = @{
-    "dark-cyan" = "ThDarkCyan"; "dark-violet" = "ThDarkViolet"; "dark-green" = "ThDarkGreen"
-    "dark-orange" = "ThDarkOrange"; "amoled" = "ThAmoled"; "light" = "ThLight"
+$script:CurrentThemeId = "dark-cyan"
+function Set-ThemeById([string]$id) {
+    $script:CurrentThemeId = $id
+    Set-Theme (Get-ThemeColors $id)
 }
+function Set-ThemeByKey([string]$key) { Set-ThemeById $key }
 
 function Get-ThemeLabel([string]$key) {
-    if ($ThemeLabelKeys.ContainsKey($key)) { return (T $ThemeLabelKeys[$key]) }
-    return [string]$ThemePresets[$key].Label
+    if ($key -eq "custom") { return (T "ThCustom") }
+    if (-not $ThemePresets.Contains($key)) { $key = "dark-cyan" }
+    $p = $ThemePresets[$key]
+    return ("{0} ({1})" -f (T $p.Base), (T $p.Color))
 }
 
 function Update-ThemeLabel {
@@ -3849,28 +4179,203 @@ function Update-ThemeLabel {
 $themeDlgXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource L_ThemeTitle}" Width="470" SizeToContent="Height" ResizeMode="NoResize"
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{DynamicResource BrBg}" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
+        Title="{DynamicResource L_ThemeTitle}" Width="800" Height="660" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
+        Background="{DynamicResource BrBg}" Foreground="{DynamicResource BrText}"
+        FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
   __RES__
-  <StackPanel Margin="22">
-    <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_ThemeTag}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource BrMuted}"/>
-    <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_ThemeTitle}" FontSize="18" FontWeight="SemiBold" Margin="0,2,0,4"/>
-    <TextBlock Text="{DynamicResource L_ThemeHint}" TextWrapping="Wrap" FontSize="12"
-               Foreground="{DynamicResource BrMuted}" Margin="0,0,0,14"/>
-    <WrapPanel x:Name="ThemeHost"/>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
-      <Button x:Name="BtnThemeCancel" Content="{DynamicResource L_Cancel}" Style="{StaticResource Btn}"/>
-      <Button x:Name="BtnThemeOk" Content="{DynamicResource L_Apply}" Style="{StaticResource BtnPrimary}" Margin="8,0,0,0"/>
+  <Grid Margin="26,22,26,22">
+    <Grid.Resources>
+      <!-- Farbfeld-Auswahl links (Hintergrund, Flaechen, Text, Akzent) -->
+      <Style x:Key="Slot" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BrLine}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="0,0,0,8"/>
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Grid>
+                <Border Background="{DynamicResource BrPanel}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2"
+                        CornerRadius="11" Padding="12,10">
+                  <ContentPresenter/>
+                </Border>
+                <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="11" Opacity="0" IsHitTestVisible="False"/>
+              </Grid>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="hl" Property="Opacity" Value="0.05"/>
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </Grid.Resources>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0">
+      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_ThemeTag}"/>
+      <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_ThemeTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,2,0,2"/>
+      <TextBlock x:Name="TxtDlgHint" Style="{StaticResource Hint}"/>
     </StackPanel>
-  </StackPanel>
+
+    <Border Grid.Row="1" Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"
+            CornerRadius="11" Padding="4" HorizontalAlignment="Left" Margin="0,16,0,16">
+      <StackPanel Orientation="Horizontal">
+        <Button x:Name="TabPresets" Tag="&#xE8FD;" Content="{DynamicResource L_ThTabPresets}" Style="{StaticResource BtnGhost}" Padding="14,7"/>
+        <Button x:Name="TabCustom" Tag="&#xE790;" Content="{DynamicResource L_ThTabCustom}" Style="{StaticResource BtnGhost}" Padding="14,7" Margin="4,0,0,0"/>
+      </StackPanel>
+    </Border>
+
+    <!-- Vorlagen -->
+    <ScrollViewer x:Name="PagePresets" Grid.Row="2" VerticalScrollBarVisibility="Auto">
+      <StackPanel Margin="0,0,6,0">
+        <TextBlock x:Name="HdrDark" Style="{StaticResource Label}" Margin="2,0,0,10"/>
+        <WrapPanel x:Name="HostDark"/>
+        <TextBlock x:Name="HdrBlack" Style="{StaticResource Label}" Margin="2,8,0,10"/>
+        <WrapPanel x:Name="HostBlack"/>
+        <TextBlock x:Name="HdrLight" Style="{StaticResource Label}" Margin="2,8,0,10"/>
+        <WrapPanel x:Name="HostLight"/>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- Eigenes Theme -->
+    <Grid x:Name="PageCustom" Grid.Row="2" Visibility="Collapsed">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="240"/>
+        <ColumnDefinition Width="22"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0">
+        <Button x:Name="SlotBg" Style="{StaticResource Slot}">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Border x:Name="SwBg" Width="30" Height="30" CornerRadius="15" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"/>
+            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_ThSlotBg}"/>
+              <TextBlock x:Name="HxBg" Style="{StaticResource Hint}" FontFamily="Cascadia Mono, Consolas"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button x:Name="SlotPanel" Style="{StaticResource Slot}">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Border x:Name="SwPanel" Width="30" Height="30" CornerRadius="15" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"/>
+            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_ThSlotPanel}"/>
+              <TextBlock x:Name="HxPanel" Style="{StaticResource Hint}" FontFamily="Cascadia Mono, Consolas"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button x:Name="SlotText" Style="{StaticResource Slot}">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Border x:Name="SwText" Width="30" Height="30" CornerRadius="15" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"/>
+            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_ThSlotText}"/>
+              <TextBlock x:Name="HxText" Style="{StaticResource Hint}" FontFamily="Cascadia Mono, Consolas"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Button x:Name="SlotAccent" Style="{StaticResource Slot}">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <Border x:Name="SwAccent" Width="30" Height="30" CornerRadius="15" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"/>
+            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_ThSlotAccent}"/>
+              <TextBlock x:Name="HxAccent" Style="{StaticResource Hint}" FontFamily="Cascadia Mono, Consolas"/>
+            </StackPanel>
+          </Grid>
+        </Button>
+        <Border Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="11"
+                Padding="12,10" Margin="0,6,0,0">
+          <StackPanel Orientation="Horizontal">
+            <Ellipse x:Name="DotContrast" Width="9" Height="9" VerticalAlignment="Center" Fill="{DynamicResource BrBadgeNewFg}"/>
+            <TextBlock x:Name="TxtContrast" TextWrapping="Wrap" FontSize="12" Margin="9,0,0,0" MaxWidth="190" VerticalAlignment="Center"/>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <Border Grid.Column="2" Style="{StaticResource Card}" Padding="18">
+        <StackPanel>
+          <Grid x:Name="SvBox" Width="436" Height="236" Cursor="Cross" Background="Transparent" ClipToBounds="True">
+            <Rectangle x:Name="SvHue" RadiusX="10" RadiusY="10" Fill="Red"/>
+            <Rectangle RadiusX="10" RadiusY="10">
+              <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                  <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                  <GradientStop Color="#00FFFFFF" Offset="1"/>
+                </LinearGradientBrush>
+              </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle RadiusX="10" RadiusY="10">
+              <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                  <GradientStop Color="#00000000" Offset="0"/>
+                  <GradientStop Color="#FF000000" Offset="1"/>
+                </LinearGradientBrush>
+              </Rectangle.Fill>
+            </Rectangle>
+            <Canvas IsHitTestVisible="False">
+              <Grid x:Name="SvDot" Width="20" Height="20">
+                <Ellipse Stroke="#99000000" StrokeThickness="1"/>
+                <Ellipse Margin="1" Stroke="White" StrokeThickness="2.5"/>
+              </Grid>
+            </Canvas>
+          </Grid>
+          <Grid x:Name="HueBar" Width="436" Height="16" Margin="0,16,0,0" Cursor="Hand" Background="Transparent">
+            <Rectangle RadiusX="8" RadiusY="8">
+              <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                  <GradientStop Color="#FF0000" Offset="0"/>
+                  <GradientStop Color="#FFFF00" Offset="0.1667"/>
+                  <GradientStop Color="#00FF00" Offset="0.3333"/>
+                  <GradientStop Color="#00FFFF" Offset="0.5"/>
+                  <GradientStop Color="#0000FF" Offset="0.6667"/>
+                  <GradientStop Color="#FF00FF" Offset="0.8333"/>
+                  <GradientStop Color="#FF0000" Offset="1"/>
+                </LinearGradientBrush>
+              </Rectangle.Fill>
+            </Rectangle>
+            <Canvas IsHitTestVisible="False">
+              <Border x:Name="HueThumb" Width="10" Height="24" Canvas.Top="-4" CornerRadius="5" Background="White"
+                      BorderBrush="#99000000" BorderThickness="1"/>
+            </Canvas>
+          </Grid>
+          <Grid Margin="0,18,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="Auto"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border x:Name="PickSwatch" Width="38" Height="38" CornerRadius="9" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"/>
+            <TextBlock Grid.Column="1" Text="HEX" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="14,0,10,0"/>
+            <TextBox x:Name="TxtHex" Grid.Column="2" Width="130" HorizontalAlignment="Left" FontFamily="Cascadia Mono, Consolas" MaxLength="7"/>
+          </Grid>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+      <Button x:Name="BtnThemeCancel" Content="{DynamicResource L_Cancel}" Style="{StaticResource Btn}"/>
+      <Button x:Name="BtnThemeOk" Tag="&#xE73E;" Content="{DynamicResource L_Apply}" Style="{StaticResource BtnPrimary}" Margin="8,0,0,0"/>
+    </StackPanel>
+  </Grid>
 </Window>
 '@
 
 $themeCardXaml = @'
 <Button xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Tag="@@KEY@@" Width="130" Height="92" Margin="0,0,10,10" Padding="0" Cursor="Hand"
+        Tag="@@KEY@@" Width="132" Height="92" Margin="0,0,12,12" Padding="0" Cursor="Hand"
         BorderThickness="2" BorderBrush="Transparent" Background="Transparent">
   <Button.Template>
     <ControlTemplate TargetType="Button">
@@ -3922,54 +4427,206 @@ function Update-ThemeCards {
         if ($k -eq $script:ThemePick) {
             $btn.SetResourceReference([System.Windows.Controls.Control]::BorderBrushProperty, "BrAccent")
         } else {
-            $btn.ClearValue([System.Windows.Controls.Control]::BorderBrushProperty)
             $btn.BorderBrush = [System.Windows.Media.Brushes]::Transparent
         }
     }
 }
 
-# Kleines Fenster mit allen Themes (Klick = Vorschau, Uebernehmen = speichern)
-function Show-ThemeDialog {
+function New-Brush([string]$hex) {
+    $b = [System.Windows.Media.SolidColorBrush]::new((ConvertTo-WpfColor $hex "#000000"))
+    $b.Freeze()
+    return $b
+}
+
+# Reiter im Theme-Fenster
+function Set-ThemeTab([string]$tab) {
+    $d = $script:Dlg
+    $c = [System.Windows.Controls.Control]
+    foreach ($pair in @(@($d.TabPresets, "presets"), @($d.TabCustom, "custom"))) {
+        if ($pair[1] -eq $tab) {
+            $pair[0].SetResourceReference($c::BackgroundProperty, "BrSel")
+            $pair[0].SetResourceReference($c::ForegroundProperty, "BrAccentText")
+        } else {
+            $pair[0].ClearValue($c::BackgroundProperty)
+            $pair[0].ClearValue($c::ForegroundProperty)
+        }
+    }
+    $d.PagePresets.Visibility = if ($tab -eq "presets") { "Visible" } else { "Collapsed" }
+    $d.PageCustom.Visibility  = if ($tab -eq "custom")  { "Visible" } else { "Collapsed" }
+    $d.TxtDlgHint.Text = if ($tab -eq "custom") { T "ThCustomHint" } else { T "ThemeHint" }
+    if ($tab -eq "custom" -and $script:ThemePick -ne "custom") {
+        # Eigenes Theme startet mit den Farben der zuletzt gewaehlten Vorlage
+        $script:Draft = Get-ThemeColors $script:ThemePick
+        $script:ThemePick = "custom"
+        Set-Theme $script:Draft
+        Update-ThemeCards
+    }
+    if ($tab -eq "custom") { Set-PickerFromHex $script:Draft[$script:Slot]; Update-Slots }
+}
+
+# Farbfelder links + Lesbarkeit
+function Update-Slots {
+    $d = $script:Dlg
+    foreach ($slot in @("Bg", "Panel", "Text", "Accent")) {
+        $hex = [string]$script:Draft[$slot]
+        $d["Sw$slot"].Background = New-Brush $hex
+        $d["Hx$slot"].Text = $hex.ToUpper()
+        $btn = $d["Slot$slot"]
+        if ($slot -eq $script:Slot) { $btn.SetResourceReference([System.Windows.Controls.Control]::BorderBrushProperty, "BrAccent") }
+        else { $btn.SetResourceReference([System.Windows.Controls.Control]::BorderBrushProperty, "BrLine") }
+    }
+    $ratio = Get-Contrast (ConvertTo-WpfColor $script:Draft.Text "#FFFFFF") (ConvertTo-WpfColor $script:Draft.Panel "#000000")
+    $ok = $ratio -ge 4.5
+    $d.TxtContrast.Text = (TF "ThContrast" ([Math]::Round($ratio, 1))) + "  –  " + $(if ($ok) { T "ThContrastOk" } else { T "ThContrastLow" })
+    if ($ok) { $d.DotContrast.SetResourceReference([System.Windows.Shapes.Shape]::FillProperty, "BrBadgeNewFg") }
+    else     { $d.DotContrast.Fill = New-Brush "#F59E0B" }
+}
+
+# Farbwaehler
+$script:Pick = @{ H = 0.0; S = 0.0; V = 0.0 }
+$script:PickWatch = [Diagnostics.Stopwatch]::StartNew()
+
+function Set-PickerFromHex([string]$hex) {
+    $script:Pick = ConvertTo-Hsv (ConvertTo-WpfColor $hex "#000000")
+    Update-PickerVisual
+}
+
+function Update-PickerVisual {
+    $d = $script:Dlg
+    $w = $d.SvBox.Width; $h = $d.SvBox.Height
+    $d.SvHue.Fill = [System.Windows.Media.SolidColorBrush]::new((ConvertFrom-Hsv $script:Pick.H 1 1))
+    [System.Windows.Controls.Canvas]::SetLeft($d.SvDot, $script:Pick.S * $w - 10)
+    [System.Windows.Controls.Canvas]::SetTop($d.SvDot, (1 - $script:Pick.V) * $h - 10)
+    [System.Windows.Controls.Canvas]::SetLeft($d.HueThumb, $script:Pick.H / 360 * $d.HueBar.Width - 5)
+    $c = ConvertFrom-Hsv $script:Pick.H $script:Pick.S $script:Pick.V
+    $d.PickSwatch.Background = [System.Windows.Media.SolidColorBrush]::new($c)
+    if (-not $d.TxtHex.IsKeyboardFocused) { $d.TxtHex.Text = ConvertTo-Hex $c }
+}
+
+# Aktuelle Picker-Farbe ins gewaehlte Feld schreiben (Vorschau gedrosselt, damit das Ziehen fluessig bleibt)
+function Commit-Picker([bool]$force) {
+    $script:Draft[$script:Slot] = ConvertTo-Hex (ConvertFrom-Hsv $script:Pick.H $script:Pick.S $script:Pick.V)
+    Update-Slots
+    if ($force -or $script:PickWatch.ElapsedMilliseconds -gt 60) {
+        Set-Theme $script:Draft
+        $script:PickWatch.Restart()
+    }
+}
+
+function Set-PickFromSv($pt) {
+    $d = $script:Dlg
+    $script:Pick.S = [Math]::Min(1.0, [Math]::Max(0.0, $pt.X / $d.SvBox.Width))
+    $script:Pick.V = [Math]::Min(1.0, [Math]::Max(0.0, 1 - $pt.Y / $d.SvBox.Height))
+    Update-PickerVisual
+}
+
+function Set-PickFromHue($pt) {
+    $script:Pick.H = [Math]::Min(359.9, [Math]::Max(0.0, $pt.X / $script:Dlg.HueBar.Width * 360))
+    Update-PickerVisual
+}
+
+function Set-HexFromBox {
+    $t = $script:Dlg.TxtHex.Text.Trim()
+    if ($t -match '^#?([0-9a-fA-F]{6})$') {
+        $hex = "#" + $Matches[1].ToUpper()
+        $script:Draft[$script:Slot] = $hex
+        Set-PickerFromHex $hex
+        Update-Slots
+        Set-Theme $script:Draft
+    } else {
+        Update-PickerVisual
+    }
+}
+
+# Theme-Fenster aufbauen (wird auch fuer Screenshots genutzt)
+function New-ThemeDialog([string]$tab = "presets") {
     $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
     $dlg = [Windows.Markup.XamlReader]::Parse($themeDlgXaml.Replace('__RES__', $resBlock))
     $dlg.Owner = $window
+    foreach ($k in $script:ThemeKeys) { $dlg.Resources[$k] = $window.Resources[$k] }
     Set-LangResources $dlg
     $script:ThemeWin   = $dlg
-    $script:ThemePick  = Get-ThemeKey
+    $script:ThemePick  = $script:CurrentThemeId
     $script:ThemeCards = @{}
+    $script:Draft      = Get-ThemeColors $script:ThemePick
+    $script:Slot       = "Accent"
 
-    $panelHost = $dlg.FindName("ThemeHost")
+    $d = @{}
+    foreach ($n in @("TxtDlgHint","TabPresets","TabCustom","PagePresets","PageCustom","HdrDark","HdrBlack","HdrLight","HostDark","HostBlack","HostLight",
+                     "SlotBg","SlotPanel","SlotText","SlotAccent","SwBg","SwPanel","SwText","SwAccent","HxBg","HxPanel","HxText","HxAccent",
+                     "TxtContrast","DotContrast","SvBox","SvHue","SvDot","HueBar","HueThumb","PickSwatch","TxtHex","BtnThemeOk","BtnThemeCancel")) {
+        $d[$n] = $dlg.FindName($n)
+    }
+    $script:Dlg = $d
+    $d.HdrDark.Text  = (T "ThBaseDark").ToUpper()
+    $d.HdrBlack.Text = (T "ThBaseBlack").ToUpper() + "  ·  AMOLED"
+    $d.HdrLight.Text = (T "ThBaseLight").ToUpper()
+
     foreach ($k in $ThemePresets.Keys) {
         $p  = $ThemePresets[$k]
-        $cx = $themeCardXaml.Replace('@@KEY@@', $k).Replace('@@BG@@', $p.Bg).Replace('@@PANEL@@', $p.Panel).Replace('@@TEXT@@', $p.Text).Replace('@@ACCENT@@', $p.Accent).Replace('@@LABEL@@', [System.Security.SecurityElement]::Escape((Get-ThemeLabel $k)))
+        $cx = $themeCardXaml.Replace('@@KEY@@', $k).Replace('@@BG@@', $p.Bg).Replace('@@PANEL@@', $p.Panel).Replace('@@TEXT@@', $p.Text).Replace('@@ACCENT@@', $p.Accent).Replace('@@LABEL@@', [System.Security.SecurityElement]::Escape((T $p.Color)))
         $btn = [Windows.Markup.XamlReader]::Parse($cx)
         $btn.Add_Click({
             param($sender, $e)
             try {
                 $script:ThemePick = [string]$sender.Tag
-                Set-ThemeByKey $script:ThemePick
+                $script:Draft = Get-ThemeColors $script:ThemePick
+                Set-ThemeById $script:ThemePick
                 Update-ThemeCards
             } catch {}
         })
-        [void]$panelHost.Children.Add($btn)
+        $hostPanel = switch ($p.Base) { "ThBaseLight" { $d.HostLight } "ThBaseBlack" { $d.HostBlack } default { $d.HostDark } }
+        [void]$hostPanel.Children.Add($btn)
         $script:ThemeCards[$k] = $btn
     }
-    $dlg.FindName("BtnThemeOk").Add_Click({ $script:ThemeWin.Tag = "ok"; $script:ThemeWin.Close() })
-    $dlg.FindName("BtnThemeCancel").Add_Click({ $script:ThemeWin.Close() })
 
+    $d.TabPresets.Add_Click({ Set-ThemeTab "presets" })
+    $d.TabCustom.Add_Click({ Set-ThemeTab "custom" })
+    foreach ($slot in @("Bg", "Panel", "Text", "Accent")) {
+        $d["Slot$slot"].Tag = $slot
+        $d["Slot$slot"].Add_Click({
+            param($sender, $e)
+            $script:Slot = [string]$sender.Tag
+            Set-PickerFromHex $script:Draft[$script:Slot]
+            Update-Slots
+        })
+    }
+    $d.SvBox.Add_MouseLeftButtonDown({ param($sender, $e) [void]$sender.CaptureMouse(); Set-PickFromSv ($e.GetPosition($sender)); Commit-Picker $false })
+    $d.SvBox.Add_MouseMove({ param($sender, $e) if ($sender.IsMouseCaptured) { Set-PickFromSv ($e.GetPosition($sender)); Commit-Picker $false } })
+    $d.SvBox.Add_MouseLeftButtonUp({ param($sender, $e) $sender.ReleaseMouseCapture(); Commit-Picker $true })
+    $d.HueBar.Add_MouseLeftButtonDown({ param($sender, $e) [void]$sender.CaptureMouse(); Set-PickFromHue ($e.GetPosition($sender)); Commit-Picker $false })
+    $d.HueBar.Add_MouseMove({ param($sender, $e) if ($sender.IsMouseCaptured) { Set-PickFromHue ($e.GetPosition($sender)); Commit-Picker $false } })
+    $d.HueBar.Add_MouseLeftButtonUp({ param($sender, $e) $sender.ReleaseMouseCapture(); Commit-Picker $true })
+    $d.TxtHex.Add_KeyDown({ param($sender, $e) if ($e.Key -eq "Return") { Set-HexFromBox } })
+    $d.TxtHex.Add_LostKeyboardFocus({ Set-HexFromBox })
+    $d.BtnThemeOk.Add_Click({ $script:ThemeWin.Tag = "ok"; $script:ThemeWin.Close() })
+    $d.BtnThemeCancel.Add_Click({ $script:ThemeWin.Close() })
     $dlg.Add_SourceInitialized({ Set-TitleBar $script:ThemeWin })
-    $dlg.Add_ContentRendered({ try { Start-FadeIn $script:ThemeWin.Content 0 } catch {} })
-    Set-ThemeByKey $script:ThemePick   # Dialog selbst bekommt das aktuelle Theme
-    Update-ThemeCards
-    [void]$dlg.ShowDialog()
 
+    Set-Theme $script:Draft
+    Update-ThemeCards
+    Update-Slots
+    if ($tab -eq "custom" -and $script:ThemePick -ne "custom") { $script:ThemePick = "custom"; Update-ThemeCards }
+    Set-ThemeTab $tab
+    return $dlg
+}
+
+# Theme-Fenster anzeigen (Klick = Vorschau, Uebernehmen = speichern)
+function Show-ThemeDialog {
+    Set-ThemeById (Get-ThemeKey)
+    $dlg = New-ThemeDialog "presets"
+    $dlg.Add_ContentRendered({ try { Start-FadeIn $script:ThemeWin.Content 0 } catch {} })
+    [void]$dlg.ShowDialog()
     if ($dlg.Tag -eq "ok") {
+        if ($script:ThemePick -eq "custom") {
+            $script:Settings.CustomTheme = @{ Bg = $script:Draft.Bg; Panel = $script:Draft.Panel; Text = $script:Draft.Text; Accent = $script:Draft.Accent }
+        }
         $script:Settings.ThemePreset = $script:ThemePick
         Save-Settings
         Add-UiLog (TF "LogThemeSaved" (Get-ThemeLabel $script:ThemePick))
     }
-    Set-ThemeByKey (Get-ThemeKey)      # Vorschau verwerfen bzw. gespeichertes Theme setzen
     $script:ThemeWin = $null
+    Set-ThemeById (Get-ThemeKey)       # Vorschau verwerfen bzw. gespeichertes Theme setzen
     Update-ThemeLabel
 }
 
@@ -3978,7 +4635,7 @@ $msgDlgXaml = @'
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Eden Updater" Width="460" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
-        Background="{DynamicResource BrBg}" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
+        Background="{DynamicResource BrBg}" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13" Foreground="{DynamicResource BrText}">
   __RES__
   <Border Background="{DynamicResource BrPanel}" CornerRadius="10" Margin="16" Padding="20,18">
     <Grid>
@@ -4176,7 +4833,7 @@ function Update-StateChip($latest) {
     } elseif ($script:UpdateAvailable) {
         Set-StateChip (T "ChipUpdate") "BrBadgeNewBg" "BrBadgeNewFg" $true
     } elseif ($latest) {
-        Set-StateChip (T "BtnUpToDate") "BrBadgeInstBg" "BrAccent" $false
+        Set-StateChip (T "BtnUpToDate") "BrBadgeInstBg" "BrAccentText" $false
     } else {
         $ui.ChipState.Visibility = "Collapsed"
     }
@@ -4272,7 +4929,7 @@ function Set-NavActive($btn, [bool]$active) {
     $c = [System.Windows.Controls.Control]
     if ($active) {
         $btn.SetResourceReference($c::BackgroundProperty,  "BrPanel2")
-        $btn.SetResourceReference($c::ForegroundProperty,  "BrAccent")
+        $btn.SetResourceReference($c::ForegroundProperty,  "BrAccentText")
         $btn.SetResourceReference($c::BorderBrushProperty, "BrAccent")
     } else {
         $btn.ClearValue($c::BackgroundProperty)
@@ -4893,6 +5550,7 @@ $ui.BtnSave.Add_Click({
             StartAfter   = [bool]$ui.ChkStart.IsChecked
             CloseAfterStart = [bool]$ui.ChkClose.IsChecked
             ThemePreset  = (Get-ThemeKey)
+            CustomTheme  = $old.CustomTheme
             AutoCheck    = [bool]$ui.ChkAuto.IsChecked
             AutoInstall  = [bool]$ui.ChkAutoInstall.IsChecked
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
@@ -5016,7 +5674,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "settings", "settings-end", "dialog", "themes")) {
+        foreach ($pg in @("versions", "notes", "games", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
@@ -5030,10 +5688,11 @@ function Start-Snapshots {
                 $st = $script:SnapPending
                 $script:SnapPending = $null
                 $name = "{0}-{1}" -f $st.Theme, $st.Page
-                if ($st.Page -eq "themes" -and -not $st.Win) { return }
+                if ($st.Page -like "themes*" -and -not $st.Win) { return }
                 if ($st.Win) {
                     Save-Snapshot $st.Win.Content $st.Win.Background $name
                     $st.Win.Close()
+                    $script:ThemeWin = $null
                 } else {
                     Save-Snapshot $window.Content $window.Background $name
                 }
@@ -5047,7 +5706,8 @@ function Start-Snapshots {
                 "settings-end" { Set-Page "settings"; $ui.SettingsScroll.ScrollToEnd() }
                 "settings"     { Set-Page "settings"; $ui.SettingsScroll.ScrollToTop() }
                 "dialog"       { Set-Page "versions"; $st.Win = New-SnapDialog }
-                "themes"       { Set-Page "versions"; $st.Win = New-SnapThemeDialog }
+                "themes"        { Set-Page "versions"; $st.Win = New-SnapThemeDialog "presets" }
+                "themes-custom" { Set-Page "versions"; $st.Win = New-SnapThemeDialog "custom" }
                 default        { Set-Page $st.Page }
             }
             $script:SnapPending = $st
@@ -5084,13 +5744,10 @@ function New-SnapDialog {
     return $d
 }
 
-function New-SnapThemeDialog {
-    if (Get-Command New-ThemeDialog -ErrorAction SilentlyContinue) {
-        $d = New-ThemeDialog
-        $d.Show()
-        return $d
-    }
-    return $null
+function New-SnapThemeDialog([string]$tab) {
+    $d = New-ThemeDialog $tab
+    $d.Show()
+    return $d
 }
 
 $window.Add_ContentRendered({
@@ -5118,5 +5775,5 @@ $window.Add_ContentRendered({
 })
 
 Set-LangResources $window
-Set-ThemeByKey (Get-ThemeKey)
+Set-ThemeById (Get-ThemeKey)
 [void]$window.ShowDialog()
