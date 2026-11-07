@@ -109,6 +109,13 @@ function Get-Excludes {
 
 $script:FirstRun       = $false
 $script:Settings       = Get-Settings
+# Screenshot-Modus (nur fuer automatische Tests): EDEN_UPDATER_SNAPSHOT=<Zielordner>
+$script:Snapshot = [string]$env:EDEN_UPDATER_SNAPSHOT
+if ($script:Snapshot) {
+    $script:Settings.Language    = $(if ($env:EDEN_UPDATER_SNAPSHOT_LANG) { $env:EDEN_UPDATER_SNAPSHOT_LANG } else { "de" })
+    $script:Settings.AutoCheck   = $false
+    $script:Settings.NotesLayout = "page"
+}
 # Alte Einstellungen (neben dem Updater) automatisch in den Eden-Ordner umziehen
 try {
     $want = Get-SettingsPathFor ([string]$script:Settings.EdenPath)
@@ -3522,7 +3529,7 @@ $xaml = @'
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
-          <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <ScrollViewer x:Name="SettingsScroll" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,0,8,0">
 
               <!-- Installation -->
@@ -4235,7 +4242,7 @@ function Set-NotesLayout {
 #  Animationen
 # ------------------------------------------------------------
 function Start-FadeIn($el, [double]$slide = 10) {
-    if (-not $el) { return }
+    if (-not $el -or $script:Snapshot) { return }
     $ease = [System.Windows.Media.Animation.CubicEase]::new()
     $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
     $fade = [System.Windows.Media.Animation.DoubleAnimation]::new(0.0, 1.0, [TimeSpan]::FromMilliseconds(260))
@@ -4622,6 +4629,7 @@ function Start-NotesWorker([string]$tag) {
 }
 
 function Show-Notes {
+    if ($script:Snapshot) { return }
     $sel = $ui.List.SelectedItem
     if (-not $sel) {
         $ui.TxtNotesTitle.Text = ""
@@ -4733,7 +4741,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -4963,6 +4971,128 @@ function Invoke-FirstRun {
 }
 
 $window.Add_SourceInitialized({ Set-TitleBar $window })
+# ------------------------------------------------------------
+#  Screenshot-Modus: jede Seite in jedem Theme als PNG speichern, dann beenden
+# ------------------------------------------------------------
+function Save-Snapshot([System.Windows.FrameworkElement]$root, $bg, [string]$name) {
+    $root.UpdateLayout()
+    $w = [int][Math]::Ceiling($root.ActualWidth); $h = [int][Math]::Ceiling($root.ActualHeight)
+    if ($w -le 0 -or $h -le 0) { return }
+    $dv = [System.Windows.Media.DrawingVisual]::new()
+    $dc = $dv.RenderOpen()
+    $rect = [System.Windows.Rect]::new(0, 0, $w, $h)
+    $dc.DrawRectangle($bg, $null, $rect)
+    $vb = [System.Windows.Media.VisualBrush]::new($root)
+    $dc.DrawRectangle($vb, $null, $rect)
+    $dc.Close()
+    $rtb = [System.Windows.Media.Imaging.RenderTargetBitmap]::new($w, $h, 96, 96, [System.Windows.Media.PixelFormats]::Pbgra32)
+    $rtb.Render($dv)
+    $enc = [System.Windows.Media.Imaging.PngBitmapEncoder]::new()
+    $enc.Frames.Add([System.Windows.Media.Imaging.BitmapFrame]::Create($rtb))
+    $fs = [IO.File]::Create((Join-Path $script:Snapshot ($name + ".png")))
+    try { $enc.Save($fs) } finally { $fs.Close() }
+}
+
+function Start-Snapshots {
+    New-Item -ItemType Directory -Path $script:Snapshot -Force | Out-Null
+    # Beispieldaten
+    $script:Releases = @(for ($i = 0; $i -lt 9; $i++) {
+        [pscustomobject]@{ Tag = ("v17937{0}5818.0{1}677aa50{0}" -f (9 - $i), $i); Url = ""; Date = [DateTime]::Now.AddDays(-$i * 2).ToString("g") }
+    })
+    $script:Games = @("Abenteuer im Nebelwald", "Kart Turbo Deluxe", "Pixel Quest", "Sternenhafen 2", "Zeitreise-Labor") | ForEach-Object {
+        [pscustomobject]@{ Name = $_; Path = ""; Info = "NSP  ·  4,2 GB"; Initial = $_.Substring(0, 1); Icon = ""; IconImg = $null }
+    }
+    $script:GamesLoaded = $true
+    $script:GamesDirs   = 1
+    Update-List
+    Update-GameList
+    $ui.List.SelectedIndex = 1
+    $ui.ListGames.SelectedIndex = 0
+    $ui.TxtNotesTitle.Text = $script:Releases[1].Tag
+    $ui.TxtNotes.Text = "Neu`r`n  • Beispiel-Eintrag für die Vorschau`r`n  • Noch ein Eintrag mit etwas längerem Text, damit der Umbruch sichtbar wird`r`n`r`nBehoben`r`n  • Absturz beim Laden bestimmter Spielstände"
+    $ui.TxtLog.Visibility = "Visible"
+    $ui.TxtLog.Text = "Suche nach Releases...`r`n9 Versionen gefunden.`r`nFEHLER: Beispiel-Fehlermeldung"
+
+    $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
+    $script:SnapSteps = New-Object System.Collections.Queue
+    foreach ($t in $themes) {
+        foreach ($pg in @("versions", "notes", "games", "settings", "settings-end", "dialog", "themes")) {
+            $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
+        }
+    }
+    $script:SnapTimer = [System.Windows.Threading.DispatcherTimer]::new()
+    $script:SnapTimer.Interval = [TimeSpan]::FromMilliseconds(700)
+    $script:SnapPending = $null
+    $script:SnapTimer.Add_Tick({
+        try {
+            # 1. vorbereiteten Schritt fotografieren
+            if ($script:SnapPending) {
+                $st = $script:SnapPending
+                $script:SnapPending = $null
+                $name = "{0}-{1}" -f $st.Theme, $st.Page
+                if ($st.Page -eq "themes" -and -not $st.Win) { return }
+                if ($st.Win) {
+                    Save-Snapshot $st.Win.Content $st.Win.Background $name
+                    $st.Win.Close()
+                } else {
+                    Save-Snapshot $window.Content $window.Background $name
+                }
+                return
+            }
+            if ($script:SnapSteps.Count -eq 0) { $script:SnapTimer.Stop(); $window.Close(); return }
+            # 2. naechsten Schritt vorbereiten (Animationen bekommen bis zum naechsten Tick Zeit)
+            $st = $script:SnapSteps.Dequeue()
+            Set-SnapTheme $st.Theme
+            switch ($st.Page) {
+                "settings-end" { Set-Page "settings"; $ui.SettingsScroll.ScrollToEnd() }
+                "settings"     { Set-Page "settings"; $ui.SettingsScroll.ScrollToTop() }
+                "dialog"       { Set-Page "versions"; $st.Win = New-SnapDialog }
+                "themes"       { Set-Page "versions"; $st.Win = New-SnapThemeDialog }
+                default        { Set-Page $st.Page }
+            }
+            $script:SnapPending = $st
+        } catch {
+            try { Add-Content -Path (Join-Path $script:Snapshot "errors.txt") -Value ($_.Exception.Message + " | " + $_.InvocationInfo.PositionMessage) } catch {}
+        }
+    })
+    $script:SnapTimer.Start()
+}
+
+# Theme fuer Screenshots setzen (Hook, damit es auch fuer spaetere Theme-Systeme passt)
+function Set-SnapTheme([string]$key) {
+    if (Get-Command Set-ThemeById -ErrorAction SilentlyContinue) { Set-ThemeById $key } else { Set-ThemeByKey $key }
+}
+
+function New-SnapDialog {
+    $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
+    $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
+    foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
+    Set-LangResources $d
+    $d.Owner = $window
+    $d.FindName("MsgTitle").Text = T "DlgQuestion"
+    $d.FindName("MsgText").Text  = TF "AskInstallBackup" "v1793745818.07677aa500"
+    $bh = $d.FindName("MsgButtons")
+    foreach ($def in @(@((T "No"), "Btn"), @((T "Yes"), "BtnPrimary"))) {
+        $b = [System.Windows.Controls.Button]::new()
+        $b.Content = $def[0]
+        $b.Style = $window.FindResource($def[1])
+        $b.MinWidth = 90
+        $b.Margin = [System.Windows.Thickness]::new(8, 0, 0, 0)
+        [void]$bh.Children.Add($b)
+    }
+    $d.Show()
+    return $d
+}
+
+function New-SnapThemeDialog {
+    if (Get-Command New-ThemeDialog -ErrorAction SilentlyContinue) {
+        $d = New-ThemeDialog
+        $d.Show()
+        return $d
+    }
+    return $null
+}
+
 $window.Add_ContentRendered({
     if ($script:Initialized) { return }
     $script:Initialized = $true
@@ -4971,6 +5101,7 @@ $window.Add_ContentRendered({
     Set-Page "versions"
     Update-Ui
     $timer.Start()
+    if ($script:Snapshot) { Start-Snapshots; return }
     Start-FadeIn $ui.RootGrid 0
     if ($script:FirstRun) { Invoke-FirstRun }
     if ($script:SelfExe) {

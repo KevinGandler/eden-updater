@@ -40,3 +40,26 @@ jobs:
         with:
           files: dist/EdenUpdater.exe
           generate_release_notes: true
+
+  # Screenshots aller Seiten in allen Themes (zum Pruefen der Oberflaeche)
+  snapshots:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Screenshots erstellen
+        shell: powershell
+        run: |
+          $env:EDEN_UPDATER_SNAPSHOT = Join-Path $pwd "snapshots"
+          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','src\EdenUpdater.ps1' -PassThru
+          if (-not $p.WaitForExit(300000)) { $p.Kill(); Write-Host "Timeout" }
+          Get-ChildItem snapshots | Format-Table Name, Length
+          if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
+          if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
+
+      - name: Screenshots ablegen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Screenshots
+          path: snapshots/
