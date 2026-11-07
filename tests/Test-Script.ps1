@@ -68,7 +68,7 @@ foreach ($code in $tables.Keys) {
 Ok "$($tables.Count) Sprachen, je $($de.Count) Texte"
 
 $xaml = Get-AssignedString 'xaml'
-$used = [regex]::Matches($xaml, 'L_(\w+)\}') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
+$used = [regex]::Matches(($xaml + (Get-AssignedString 'themeDlgXaml')), 'L_(\w+)\}') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique
 $missing = @($used | Where-Object { -not $de.ContainsKey($_) })
 if ($missing.Count) { Bad "Texte im XAML ohne Uebersetzung: $($missing -join ', ')" } else { Ok "alle $($used.Count) XAML-Texte vorhanden" }
 
@@ -90,6 +90,36 @@ if (-not $isWin) {
         try { [void][Windows.Markup.XamlReader]::Parse($tests[$name]); Ok $name }
         catch { Bad "$name : $($_.Exception.InnerException.Message) $($_.Exception.Message)" }
     }
+
+    # ---------- 4) Farben: jedes Theme muss lesbar sein ----------
+    Write-Host "Farben"
+    $fnNames = @("ConvertTo-WpfColor","ConvertTo-Hex","Merge-Color","Get-RelLum","Get-Contrast","Get-Readable","ConvertTo-Hsv","ConvertFrom-Hsv")
+    foreach ($f in $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $true)) {
+        if ($fnNames -contains $f.Name) { Invoke-Expression $f.Extent.Text }
+    }
+    $presetAst = $ast.Find({ param($n) $n -is [System.Management.Automation.Language.AssignmentStatementAst] -and $n.Left.Extent.Text -eq '$ThemePresets' }, $true)
+    $presets = Invoke-Expression $presetAst.Right.Extent.Text
+    # Testfaelle: alle Vorlagen + absichtlich unlesbare eigene Themes
+    $cases = [ordered]@{}
+    foreach ($k in $presets.Keys) { $cases[$k] = $presets[$k] }
+    $cases["custom-weiss-auf-weiss"] = @{ Bg = "#FFFFFF"; Panel = "#FFFFFF"; Text = "#FFFFFF"; Accent = "#FFFF00" }
+    $cases["custom-schwarz-auf-schwarz"] = @{ Bg = "#000000"; Panel = "#050505"; Text = "#101010"; Accent = "#000080" }
+    foreach ($k in $cases.Keys) {
+        $t = $cases[$k]
+        $panel = ConvertTo-WpfColor $t.Panel "#000000"; $bg = ConvertTo-WpfColor $t.Bg "#000000"
+        $text  = Get-Readable (Get-Readable (ConvertTo-WpfColor $t.Text "#000000") $panel 4.5) $bg 4.5
+        $muted = Get-Readable (Merge-Color $text $panel 0.42) $panel 3.0
+        $acc   = Get-Readable (ConvertTo-WpfColor $t.Accent "#000000") $panel 3.0
+        $ct = Get-Contrast $text $panel; $cm = Get-Contrast $muted $panel; $ca = Get-Contrast $acc $panel
+        if ($ct -lt 4.5 -or $cm -lt 3.0 -or $ca -lt 3.0) { Bad ("{0}: Text {1:N1} / gedaempft {2:N1} / Akzent {3:N1}" -f $k, $ct, $cm, $ca) }
+    }
+    Ok "$($cases.Count) Themes lesbar (Text >= 4.5:1, Rest >= 3:1)"
+    $bad = 0
+    foreach ($hex in "#22D3EE","#FF0000","#7C3AED","#123456","#FFFFFF","#000000","#808080","#C2410C") {
+        $h = ConvertTo-Hsv (ConvertTo-WpfColor $hex "#000000")
+        if ((ConvertTo-Hex (ConvertFrom-Hsv $h.H $h.S $h.V)) -ne $hex) { $bad++ }
+    }
+    if ($bad) { Bad "Farbwaehler: $bad Farben nicht exakt umgerechnet" } else { Ok "Farbwaehler rechnet exakt (HSV)" }
 }
 
 Write-Host ""
