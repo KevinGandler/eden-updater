@@ -12,7 +12,8 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Patchnotes als eigene Seite oder neben der Versionsliste
 - Spiele-Tab: liest die Spieleordner aus Eden, Suche, Start per Doppelklick (optional im Vollbild)
 - Auswahl der Build-Variante (Standard: PGO, Windows amd64) oder eigener Regex-Filter
-- 6 Farbschemata, 13 Sprachen (automatische Erkennung, sonst Deutsch)
+- 17 Theme-Vorlagen (dunkel, AMOLED, hell) und eigenes Theme mit Farbwähler; Lesbarkeit wird automatisch sichergestellt
+- 13 Sprachen (automatische Erkennung, sonst Deutsch)
 - Update-Status oben rechts, optional automatische Suche und Installation beim Start
 - Einstellungen liegen im Eden-Installationsordner (`eden-updater-settings.json`)
 - Eine einzige portable `EdenUpdater.exe`, kein Konsolenfenster

@@ -5078,7 +5078,11 @@ function Update-GameList {
     $list = if ($q) { @($script:Games | Where-Object { $_.Name.IndexOf($q, [StringComparison]::OrdinalIgnoreCase) -ge 0 }) } else { @($script:Games) }
     $ui.ListGames.ItemsSource = $list
     $hasEden = Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")
-    if (-not $hasEden) {
+    if (-not $hasEden -and $script:Games.Count -gt 0) {
+        # Spiele gefunden, aber Eden fehlt: Hinweis in der Info-Zeile statt ueber der Liste
+        $ui.TxtGamesInfo.Text = T "GamesNoEden"
+        $ui.TxtGamesEmpty.Visibility = "Collapsed"
+    } elseif (-not $hasEden) {
         $ui.TxtGamesInfo.Text  = ""
         $ui.TxtGamesEmpty.Text = T "GamesNoEden"
         $ui.TxtGamesEmpty.Visibility = "Visible"
@@ -5636,15 +5640,8 @@ function Save-Snapshot([System.Windows.FrameworkElement]$root, $bg, [string]$nam
     $root.UpdateLayout()
     $w = [int][Math]::Ceiling($root.ActualWidth); $h = [int][Math]::Ceiling($root.ActualHeight)
     if ($w -le 0 -or $h -le 0) { return }
-    $dv = [System.Windows.Media.DrawingVisual]::new()
-    $dc = $dv.RenderOpen()
-    $rect = [System.Windows.Rect]::new(0, 0, $w, $h)
-    $dc.DrawRectangle($bg, $null, $rect)
-    $vb = [System.Windows.Media.VisualBrush]::new($root)
-    $dc.DrawRectangle($vb, $null, $rect)
-    $dc.Close()
     $rtb = [System.Windows.Media.Imaging.RenderTargetBitmap]::new($w, $h, 96, 96, [System.Windows.Media.PixelFormats]::Pbgra32)
-    $rtb.Render($dv)
+    $rtb.Render($root)
     $enc = [System.Windows.Media.Imaging.PngBitmapEncoder]::new()
     $enc.Frames.Add([System.Windows.Media.Imaging.BitmapFrame]::Create($rtb))
     $fs = [IO.File]::Create((Join-Path $script:Snapshot ($name + ".png")))
@@ -5690,11 +5687,11 @@ function Start-Snapshots {
                 $name = "{0}-{1}" -f $st.Theme, $st.Page
                 if ($st.Page -like "themes*" -and -not $st.Win) { return }
                 if ($st.Win) {
-                    Save-Snapshot $st.Win.Content $st.Win.Background $name
+                    Save-Snapshot ([System.Windows.Media.VisualTreeHelper]::GetChild($st.Win, 0)) $st.Win.Background $name
                     $st.Win.Close()
                     $script:ThemeWin = $null
                 } else {
-                    Save-Snapshot $window.Content $window.Background $name
+                    Save-Snapshot ([System.Windows.Media.VisualTreeHelper]::GetChild($window, 0)) $window.Background $name
                 }
                 return
             }
