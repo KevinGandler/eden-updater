@@ -31,6 +31,7 @@ $Defaults = [ordered]@{
     AutoInstall  = $false
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
+    GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
     CustomTheme  = $null      # eigenes Theme: @{ Bg; Panel; Text; Accent }
     Language     = "auto"
 }
@@ -314,6 +315,7 @@ ThCustomHint=Wähle links eine Farbe aus und passe sie rechts an. Die Vorschau s
 ThContrast=Lesbarkeit {0} : 1
 ThContrastOk=gut
 ThContrastLow=zu gering, Text wird automatisch angepasst
+GamesClose=Updater beim Spielstart schließen
 '@
 en = @'
 Name=English
@@ -484,6 +486,7 @@ ThCustomHint=Pick a color on the left and adjust it on the right. The preview up
 ThContrast=Readability {0} : 1
 ThContrastOk=good
 ThContrastLow=too low, text will be adjusted automatically
+GamesClose=Close updater when a game starts
 '@
 es = @'
 Name=Español
@@ -654,6 +657,7 @@ ThCustomHint=Elige un color a la izquierda y ajústalo a la derecha. La vista pr
 ThContrast=Legibilidad {0} : 1
 ThContrastOk=buena
 ThContrastLow=demasiado baja, el texto se ajustará automáticamente
+GamesClose=Cerrar el actualizador al iniciar un juego
 '@
 fr = @'
 Name=Français
@@ -824,6 +828,7 @@ ThCustomHint=Choisissez une couleur à gauche et ajustez-la à droite. L'aperçu
 ThContrast=Lisibilité {0} : 1
 ThContrastOk=bonne
 ThContrastLow=trop faible, le texte sera ajusté automatiquement
+GamesClose=Fermer l'outil au lancement du jeu
 '@
 it = @'
 Name=Italiano
@@ -994,6 +999,7 @@ ThCustomHint=Scegli un colore a sinistra e regolalo a destra. L'anteprima è imm
 ThContrast=Leggibilità {0} : 1
 ThContrastOk=buona
 ThContrastLow=troppo bassa, il testo verrà adattato automaticamente
+GamesClose=Chiudi l'updater all'avvio del gioco
 '@
 pt = @'
 Name=Português
@@ -1164,6 +1170,7 @@ ThCustomHint=Escolha uma cor à esquerda e ajuste-a à direita. A prévia é atu
 ThContrast=Legibilidade {0} : 1
 ThContrastOk=boa
 ThContrastLow=baixa demais, o texto será ajustado automaticamente
+GamesClose=Fechar o atualizador ao iniciar o jogo
 '@
 nl = @'
 Name=Nederlands
@@ -1334,6 +1341,7 @@ ThCustomHint=Kies links een kleur en pas die rechts aan. Het voorbeeld is direct
 ThContrast=Leesbaarheid {0} : 1
 ThContrastOk=goed
 ThContrastLow=te laag, tekst wordt automatisch aangepast
+GamesClose=Updater sluiten bij het starten van een game
 '@
 pl = @'
 Name=Polski
@@ -1504,6 +1512,7 @@ ThCustomHint=Wybierz kolor po lewej i dopasuj go po prawej. Podgląd widać od r
 ThContrast=Czytelność {0} : 1
 ThContrastOk=dobra
 ThContrastLow=za niska, tekst zostanie dopasowany automatycznie
+GamesClose=Zamknij aktualizator po uruchomieniu gry
 '@
 tr = @'
 Name=Türkçe
@@ -1674,6 +1683,7 @@ ThCustomHint=Soldan bir renk seçin ve sağdan ayarlayın. Önizleme anında gö
 ThContrast=Okunabilirlik {0} : 1
 ThContrastOk=iyi
 ThContrastLow=çok düşük, metin otomatik olarak ayarlanacak
+GamesClose=Oyun başlarken güncelleyiciyi kapat
 '@
 ru = @'
 Name=Русский
@@ -1844,6 +1854,7 @@ ThCustomHint=Выберите цвет слева и настройте его �
 ThContrast=Читаемость {0} : 1
 ThContrastOk=хорошая
 ThContrastLow=слишком низкая, текст будет настроен автоматически
+GamesClose=Закрывать программу при запуске игры
 '@
 ja = @'
 Name=日本語
@@ -2014,6 +2025,7 @@ ThCustomHint=左で色を選び、右で調整します。プレビューはす�
 ThContrast=読みやすさ {0} : 1
 ThContrastOk=良好
 ThContrastLow=低すぎます。テキストは自動調整されます
+GamesClose=ゲーム起動時にアップデーターを閉じる
 '@
 zh = @'
 Name=中文（简体）
@@ -2184,6 +2196,7 @@ ThCustomHint=在左侧选择颜色, 在右侧调整。预览会立即更新。
 ThContrast=可读性 {0} : 1
 ThContrastOk=良好
 ThContrastLow=过低, 文字将自动调整
+GamesClose=启动游戏时关闭更新程序
 '@
 ko = @'
 Name=한국어
@@ -2354,6 +2367,7 @@ ThCustomHint=왼쪽에서 색을 선택하고 오른쪽에서 조정하세요. �
 ThContrast=가독성 {0} : 1
 ThContrastOk=좋음
 ThContrastLow=너무 낮음, 텍스트가 자동으로 조정됩니다
+GamesClose=게임 시작 시 업데이터 닫기
 '@
 }
 
@@ -3767,6 +3781,7 @@ $xaml = @'
           <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
             <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
             <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="16,0,0,0"/>
+            <CheckBox x:Name="ChkGamesClose" Content="{DynamicResource L_GamesClose}" VerticalAlignment="Center" Margin="20,0,0,0"/>
           </StackPanel>
         </Grid>
 
@@ -5111,7 +5126,9 @@ function Start-Game($game) {
     $argList += ('"' + $game.Path + '"')
     Start-Process -FilePath $exe -ArgumentList $argList -WorkingDirectory $script:Settings.EdenPath
     Add-UiLog (TF "LogGameStart" $game.Name)
-    if ($script:Settings.CloseAfterStart) { $window.Close() }
+    # Standard: in die Taskleiste minimieren; optional ganz schliessen
+    if ($script:Settings.GamesCloseOnStart) { $window.Close() }
+    else { $window.WindowState = [System.Windows.WindowState]::Minimized }
 }
 
 # ------------------------------------------------------------
@@ -5402,7 +5419,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -5447,6 +5464,7 @@ function Set-SettingsControls {
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
     $ui.ChkSelfUpdate.IsChecked  = [bool]$s.SelfUpdateCheck
     $ui.ChkGamesFull.IsChecked   = [bool]$s.GamesFullscreen
+    $ui.ChkGamesClose.IsChecked  = [bool]$s.GamesCloseOnStart
     try { Update-GameList } catch {}
     Update-SelfCard
 }
@@ -5462,6 +5480,10 @@ $ui.ListGames.Add_MouseDoubleClick({ if ($ui.ListGames.SelectedItem) { Start-Gam
 $ui.ListGames.Add_SelectionChanged({ Update-GameButton })
 $ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
+$ui.ChkGamesClose.Add_Click({
+    $script:Settings.GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
+    try { Save-Settings } catch {}
+})
 $ui.ChkGamesFull.Add_Click({
     $script:Settings.GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
     try { Save-Settings } catch {}
@@ -5559,6 +5581,7 @@ $ui.BtnSave.Add_Click({
             AutoInstall  = [bool]$ui.ChkAutoInstall.IsChecked
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
             GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
+            GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
             Language     = $lang
         }
         Save-Settings
