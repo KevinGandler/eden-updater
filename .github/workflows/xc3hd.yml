@@ -32,8 +32,8 @@ jobs:
       - name: Karten-Werkzeug testen
         shell: powershell
         run: |
-          & .\dist\xc3_maptex.exe 2>&1 | Out-String | Write-Host
-          if ($LASTEXITCODE -ne 1) { throw "unerwarteter Exit-Code $LASTEXITCODE" }
+          $p = Start-Process .\dist\xc3_maptex.exe -Wait -PassThru -NoNewWindow
+          if ($p.ExitCode -ne 1) { throw "unerwarteter Exit-Code $($p.ExitCode)" }
 
       - name: Screenshot
         shell: powershell
