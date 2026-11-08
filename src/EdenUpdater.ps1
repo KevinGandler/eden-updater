@@ -8239,6 +8239,7 @@ $ui.BtnSave.Add_Click({
             GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
             GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
             FavoriteGames = @($old.FavoriteGames)
+            FirmwareVersion = [string]$old.FirmwareVersion
             Language     = $lang
         }
         Save-Settings
