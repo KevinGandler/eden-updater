@@ -12,7 +12,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Patchnotes als eigene Seite oder neben der Versionsliste
 - Spiele-Tab: liest die Spieleordner aus Eden, Suche, Favoriten per Stern (stehen oben), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
-- Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)
+- Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen; über Eden in den NAND installierte Updates/DLCs werden mit den prod.keys erkannt und angezeigt – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)
 - Spieldaten: Spielstände pro Spiel sichern und wiederherstellen (ZIP-Backups in `user\save-backups`, vor dem Wiederherstellen wird der aktuelle Stand gesichert), automatisches Backup vor jedem Eden-Update (nur Spiele mit Änderungen, die letzten 10 automatischen pro Spiel bleiben), Shader-Cache pro Spiel oder komplett löschen
 - Firmware: aus ZIP oder Ordner installieren/aktualisieren (alte Firmware bleibt bei Fehlern erhalten), löschen, Version anzeigen
 - Schlüssel: `prod.keys` (+ `title.keys`) installieren und löschen, Warnung wenn die Keys zu alt für die Firmware sind

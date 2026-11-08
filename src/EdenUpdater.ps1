@@ -356,6 +356,8 @@ ContentUpdateAny=Update
 ContentDlc=DLC {0}
 ContentUnknown=Update/DLC
 ContentFromGameDir=aus dem Spieleordner
+ContentFromNand=im NAND installiert
+ContentNandNoKeys=Im NAND installierte Updates/DLCs können ohne prod.keys nicht erkannt werden (siehe Firmware-Tab).
 ContentDlcAll=Schalter gilt für alle DLCs
 ContentAskDelete='{0}' löschen?\n\nDie Datei wird in den Papierkorb verschoben.
 ContentDeleted=Gelöscht: {0}
@@ -641,6 +643,8 @@ ContentUpdateAny=Update
 ContentDlc=DLC {0}
 ContentUnknown=Update/DLC
 ContentFromGameDir=from the game folder
+ContentFromNand=installed in NAND
+ContentNandNoKeys=Updates/DLCs installed in NAND can't be identified without prod.keys (see Firmware tab).
 ContentDlcAll=Switch applies to all DLCs
 ContentAskDelete=Delete '{0}'?\n\nThe file will be moved to the Recycle Bin.
 ContentDeleted=Deleted: {0}
@@ -926,6 +930,8 @@ ContentUpdateAny=Actualización
 ContentDlc=DLC {0}
 ContentUnknown=Actualización/DLC
 ContentFromGameDir=de la carpeta de juegos
+ContentFromNand=instalado en la NAND
+ContentNandNoKeys=Las actualizaciones/DLC instalados en la NAND no se pueden identificar sin prod.keys (ver pestaña Firmware).
 ContentDlcAll=El interruptor afecta a todos los DLC
 ContentAskDelete=¿Eliminar '{0}'?\n\nEl archivo se moverá a la Papelera.
 ContentDeleted=Eliminado: {0}
@@ -1211,6 +1217,8 @@ ContentUpdateAny=Mise à jour
 ContentDlc=DLC {0}
 ContentUnknown=Mise à jour/DLC
 ContentFromGameDir=du dossier de jeux
+ContentFromNand=installé dans la NAND
+ContentNandNoKeys=Les mises à jour/DLC installés dans la NAND ne peuvent pas être identifiés sans prod.keys (voir l'onglet Firmware).
 ContentDlcAll=L'interrupteur s'applique à tous les DLC
 ContentAskDelete=Supprimer '{0}' ?\n\nLe fichier sera placé dans la Corbeille.
 ContentDeleted=Supprimé : {0}
@@ -1496,6 +1504,8 @@ ContentUpdateAny=Aggiornamento
 ContentDlc=DLC {0}
 ContentUnknown=Aggiornamento/DLC
 ContentFromGameDir=dalla cartella giochi
+ContentFromNand=installato nella NAND
+ContentNandNoKeys=Aggiornamenti/DLC installati nella NAND non possono essere riconosciuti senza prod.keys (vedi scheda Firmware).
 ContentDlcAll=L'interruttore vale per tutti i DLC
 ContentAskDelete=Eliminare '{0}'?\n\nIl file verrà spostato nel Cestino.
 ContentDeleted=Eliminato: {0}
@@ -1781,6 +1791,8 @@ ContentUpdateAny=Atualização
 ContentDlc=DLC {0}
 ContentUnknown=Atualização/DLC
 ContentFromGameDir=da pasta de jogos
+ContentFromNand=instalado na NAND
+ContentNandNoKeys=Atualizações/DLCs instalados na NAND não podem ser identificados sem prod.keys (veja a aba Firmware).
 ContentDlcAll=O botão vale para todos os DLCs
 ContentAskDelete=Excluir '{0}'?\n\nO arquivo será movido para a Lixeira.
 ContentDeleted=Excluído: {0}
@@ -2066,6 +2078,8 @@ ContentUpdateAny=Update
 ContentDlc=DLC {0}
 ContentUnknown=Update/DLC
 ContentFromGameDir=uit de gamemap
+ContentFromNand=geïnstalleerd in NAND
+ContentNandNoKeys=In NAND geïnstalleerde updates/DLC's kunnen zonder prod.keys niet worden herkend (zie tabblad Firmware).
 ContentDlcAll=Schakelaar geldt voor alle DLC's
 ContentAskDelete='{0}' verwijderen?\n\nHet bestand wordt naar de Prullenbak verplaatst.
 ContentDeleted=Verwijderd: {0}
@@ -2351,6 +2365,8 @@ ContentUpdateAny=Aktualizacja
 ContentDlc=DLC {0}
 ContentUnknown=Aktualizacja/DLC
 ContentFromGameDir=z folderu gier
+ContentFromNand=zainstalowane w NAND
+ContentNandNoKeys=Aktualizacji/DLC zainstalowanych w NAND nie da się rozpoznać bez prod.keys (zobacz kartę Firmware).
 ContentDlcAll=Przełącznik dotyczy wszystkich DLC
 ContentAskDelete=Usunąć '{0}'?\n\nPlik zostanie przeniesiony do Kosza.
 ContentDeleted=Usunięto: {0}
@@ -2636,6 +2652,8 @@ ContentUpdateAny=Güncelleme
 ContentDlc=DLC {0}
 ContentUnknown=Güncelleme/DLC
 ContentFromGameDir=oyun klasöründen
+ContentFromNand=NAND'e yüklü
+ContentNandNoKeys=NAND'e yüklü güncellemeler/DLC'ler prod.keys olmadan tanınamaz (Firmware sekmesine bakın).
 ContentDlcAll=Anahtar tüm DLC'ler için geçerli
 ContentAskDelete='{0}' silinsin mi?\n\nDosya Geri Dönüşüm Kutusu'na taşınacak.
 ContentDeleted=Silindi: {0}
@@ -2921,6 +2939,8 @@ ContentUpdateAny=Обновление
 ContentDlc=DLC {0}
 ContentUnknown=Обновление/DLC
 ContentFromGameDir=из папки с играми
+ContentFromNand=установлено в NAND
+ContentNandNoKeys=Обновления/DLC, установленные в NAND, нельзя распознать без prod.keys (см. вкладку «Прошивка»).
 ContentDlcAll=Переключатель действует на все DLC
 ContentAskDelete=Удалить «{0}»?\n\nФайл будет перемещён в корзину.
 ContentDeleted=Удалено: {0}
@@ -3206,6 +3226,8 @@ ContentUpdateAny=アップデート
 ContentDlc=DLC {0}
 ContentUnknown=アップデート/DLC
 ContentFromGameDir=ゲームフォルダーから
+ContentFromNand=NANDにインストール済み
+ContentNandNoKeys=NANDにインストールされたアップデート/DLCは prod.keys がないと識別できません (ファームウェアタブを参照)。
 ContentDlcAll=スイッチはすべてのDLCに適用されます
 ContentAskDelete='{0}' を削除しますか?\n\nファイルはごみ箱に移動されます。
 ContentDeleted=削除しました: {0}
@@ -3491,6 +3513,8 @@ ContentUpdateAny=更新
 ContentDlc=DLC {0}
 ContentUnknown=更新/DLC
 ContentFromGameDir=来自游戏文件夹
+ContentFromNand=已安装到 NAND
+ContentNandNoKeys=没有 prod.keys 无法识别安装在 NAND 中的更新/DLC (见固件选项卡)。
 ContentDlcAll=开关适用于所有 DLC
 ContentAskDelete=删除「{0}」?\n\n文件将被移到回收站。
 ContentDeleted=已删除: {0}
@@ -3776,6 +3800,8 @@ ContentUpdateAny=업데이트
 ContentDlc=DLC {0}
 ContentUnknown=업데이트/DLC
 ContentFromGameDir=게임 폴더에서
+ContentFromNand=NAND에 설치됨
+ContentNandNoKeys=NAND에 설치된 업데이트/DLC는 prod.keys 없이 식별할 수 없습니다 (펌웨어 탭 참조).
 ContentDlcAll=스위치는 모든 DLC에 적용됩니다
 ContentAskDelete='{0}'을(를) 삭제할까요?\n\n파일은 휴지통으로 이동됩니다.
 ContentDeleted=삭제됨: {0}
@@ -4130,6 +4156,157 @@ $jobContent = {
         return "other"
     }
     function Get-BaseTid([string]$tid) { return $tid.Substring(0, 12) + (([Convert]::ToInt32($tid.Substring(12), 16)) -band 0xE000).ToString("X4") }
+    # --- Ueber Eden in den NAND installierte Inhalte: Meta-NCA entschluesseln (Header: AES-XTS mit
+    # header_key und Nintendo-Tweak; Abschnitt: AES-CTR mit Schluessel aus dem Key-Area) und das CNMT lesen.
+    function Read-ProdKeys([string]$path) {
+        $k = @{}
+        if (-not $path -or -not (Test-Path -LiteralPath $path)) { return $k }
+        foreach ($line in [IO.File]::ReadAllLines($path)) {
+            if ($line -notmatch '^\s*([A-Za-z0-9_]+)\s*=\s*([0-9A-Fa-f]+)\s*$') { continue }
+            $hex = $Matches[2]
+            if ($hex.Length % 2) { continue }
+            $b = New-Object byte[] ($hex.Length / 2)
+            for ($i = 0; $i -lt $b.Length; $i++) { $b[$i] = [Convert]::ToByte($hex.Substring(2 * $i, 2), 16) }
+            $k[$Matches[1].ToLowerInvariant()] = $b
+        }
+        return $k
+    }
+    function New-EcbTransform([byte[]]$key, [bool]$encrypt) {
+        $aes = [Security.Cryptography.Aes]::Create()
+        $aes.Mode = [Security.Cryptography.CipherMode]::ECB
+        $aes.Padding = [Security.Cryptography.PaddingMode]::None
+        $aes.Key = $key
+        if ($encrypt) { return $aes.CreateEncryptor() }
+        return $aes.CreateDecryptor()
+    }
+    function Invoke-XtsDecrypt([byte[]]$data, [byte[]]$key, [int64]$sector) {
+        $k1 = New-Object byte[] 16; $k2 = New-Object byte[] 16
+        [Array]::Copy($key, 0, $k1, 0, 16); [Array]::Copy($key, 16, $k2, 0, 16)
+        $dec = New-EcbTransform $k1 $false
+        $enc = New-EcbTransform $k2 $true
+        $out = New-Object byte[] $data.Length
+        $tw = New-Object byte[] 0x200
+        $x = New-Object byte[] 0x200
+        for ($s = 0; $s -lt [int]($data.Length / 0x200); $s++) {
+            $t = New-Object byte[] 16
+            $n = $sector + $s
+            for ($i = 15; $i -ge 0; $i--) { $t[$i] = [byte]($n -band 0xFF); $n = $n -shr 8 }
+            $T = $enc.TransformFinalBlock($t, 0, 16)
+            for ($j = 0; $j -lt 32; $j++) {
+                [Array]::Copy($T, 0, $tw, $j * 16, 16)
+                $c = 0
+                for ($i = 0; $i -lt 16; $i++) { $nc = ($T[$i] -shr 7) -band 1; $T[$i] = [byte]((($T[$i] -shl 1) -band 0xFF) -bor $c); $c = $nc }
+                if ($c) { $T[0] = [byte]($T[0] -bxor 0x87) }
+            }
+            $o = $s * 0x200
+            for ($i = 0; $i -lt 0x200; $i++) { $x[$i] = $data[$o + $i] -bxor $tw[$i] }
+            $y = $dec.TransformFinalBlock($x, 0, 0x200)
+            for ($i = 0; $i -lt 0x200; $i++) { $out[$o + $i] = $y[$i] -bxor $tw[$i] }
+        }
+        return , $out
+    }
+    function Invoke-CtrDecrypt([byte[]]$data, [byte[]]$key, [byte[]]$upper, [int64]$offset) {
+        $ctr = New-Object byte[] $data.Length
+        $blk = [int64]($offset / 16)
+        for ($b = 0; $b -lt [int]($data.Length / 16); $b++) {
+            [Array]::Copy($upper, 0, $ctr, $b * 16, 8)
+            $v = $blk + $b
+            for ($i = 15; $i -ge 8; $i--) { $ctr[$b * 16 + $i] = [byte]($v -band 0xFF); $v = $v -shr 8 }
+        }
+        $ks = (New-EcbTransform $key $true).TransformFinalBlock($ctr, 0, $ctr.Length)
+        $out = New-Object byte[] $data.Length
+        for ($i = 0; $i -lt $data.Length; $i++) { $out[$i] = $data[$i] -bxor $ks[$i] }
+        return , $out
+    }
+    # Liefert @{ Tid; Type (0x81 Update, 0x82 DLC); Version; Contents = @(@{ Id; Size }) } oder $null (keine Meta-NCA)
+    function Read-NcaMeta($item, $keys) {
+        $path = if ($item.PSIsContainer) { Join-Path $item.FullName "00" } else { $item.FullName }
+        if (-not (Test-Path -LiteralPath $path)) { return $null }
+        $fs = $null
+        try {
+            $fs = [IO.File]::OpenRead($path)
+            if ($fs.Length -lt 0xC00) { return $null }
+            $raw = New-Object byte[] 0x600
+            [void]$fs.Read($raw, 0, 0x600)
+            $h = Invoke-XtsDecrypt $raw $keys["header_key"] 0
+            if ([Text.Encoding]::ASCII.GetString($h, 0x200, 4) -ne "NCA3") { return $null }
+            if ($h[0x205] -ne 1) { return $null }
+            $r = @{ Tid = [BitConverter]::ToUInt64($h, 0x210).ToString("X16"); Type = 0; Version = $null; Contents = @() }
+            $gen = [Math]::Max([int]$h[0x206], [int]$h[0x220])
+            $mk = [Math]::Max($gen, 1) - 1
+            $kakType = @("application", "ocean", "system")[[Math]::Min([int]$h[0x207], 2)]
+            $kak = $keys[("key_area_key_{0}_{1:x2}" -f $kakType, $mk)]
+            $fh = 0x400
+            $encType = $h[$fh + 4]
+            $layers = [BitConverter]::ToInt32($h, $fh + 0x2C)
+            if (-not $kak -or $layers -lt 1 -or $layers -gt 5 -or ($encType -ne 1 -and $encType -ne 3)) { return $r }
+            $rOff  = [BitConverter]::ToInt64($h, $fh + 0x30 + 0x10 * ($layers - 1))
+            $rSize = [BitConverter]::ToInt64($h, $fh + 0x38 + 0x10 * ($layers - 1))
+            $abs = [int64][BitConverter]::ToUInt32($h, 0x240) * 0x200 + $rOff
+            $len = [int][Math]::Min($rSize, 256KB)
+            $start = $abs - ($abs % 16)
+            $pre = [int]($abs - $start)
+            $total = $pre + $len
+            if ($total % 16) { $total += 16 - ($total % 16) }
+            $buf = New-Object byte[] $total
+            $fs.Position = $start
+            $got = $fs.Read($buf, 0, $total)
+            if ($got -lt $pre + $len) { return $r }
+            if ($encType -eq 3) {
+                $encKey = New-Object byte[] 16
+                [Array]::Copy($h, 0x320, $encKey, 0, 16)
+                $ctrKey = (New-EcbTransform $kak $false).TransformFinalBlock($encKey, 0, 16)
+                $upper = New-Object byte[] 8
+                for ($i = 0; $i -lt 8; $i++) { $upper[$i] = $h[$fh + 0x140 + 7 - $i] }
+                $buf = Invoke-CtrDecrypt $buf $ctrKey $upper $start
+            }
+            # PFS0 mit der .cnmt-Datei
+            if ([Text.Encoding]::ASCII.GetString($buf, $pre, 4) -ne "PFS0") { return $r }
+            $n = [BitConverter]::ToInt32($buf, $pre + 4)
+            $strSize = [BitConverter]::ToInt32($buf, $pre + 8)
+            if ($n -lt 1 -or $n -gt 64) { return $r }
+            $strBase = $pre + 0x10 + 24 * $n
+            $dataBase = $strBase + $strSize
+            for ($e = 0; $e -lt $n; $e++) {
+                $eo = $pre + 0x10 + 24 * $e
+                $dOff = [int][BitConverter]::ToInt64($buf, $eo)
+                $nOff = [BitConverter]::ToInt32($buf, $eo + 16)
+                $end = [Array]::IndexOf($buf, [byte]0, $strBase + $nOff)
+                $name = [Text.Encoding]::ASCII.GetString($buf, $strBase + $nOff, $end - $strBase - $nOff)
+                if (-not $name.EndsWith(".cnmt")) { continue }
+                $c = $dataBase + $dOff
+                if ($c + 0x20 -gt $buf.Length) { return $r }
+                $r.Tid = [BitConverter]::ToUInt64($buf, $c).ToString("X16")
+                $r.Version = [int64][BitConverter]::ToUInt32($buf, $c + 8)
+                $r.Type = [int]$buf[$c + 0xC]
+                $tbl = [BitConverter]::ToUInt16($buf, $c + 0xE)
+                $cnt = [BitConverter]::ToUInt16($buf, $c + 0x10)
+                $list = @()
+                for ($k = 0; $k -lt $cnt; $k++) {
+                    $ro = $c + 0x20 + $tbl + 0x38 * $k
+                    if ($ro + 0x38 -gt $buf.Length) { break }
+                    $id = ([BitConverter]::ToString($buf, $ro + 0x20, 16)).Replace("-", "").ToLowerInvariant()
+                    $sz = [int64]0
+                    for ($i = 5; $i -ge 0; $i--) { $sz = $sz * 256 + $buf[$ro + 0x30 + $i] }
+                    $list += @{ Id = $id; Size = $sz }
+                }
+                $r.Contents = $list
+                break
+            }
+            return $r
+        } catch {
+            return $null
+        } finally {
+            if ($fs) { $fs.Close() }
+        }
+    }
+    function Get-ItemSize($it) {
+        if (-not $it.PSIsContainer) { return [int64]$it.Length }
+        $s = [int64]0
+        foreach ($f in Get-ChildItem -LiteralPath $it.FullName -File -Force -ErrorAction SilentlyContinue) { $s += $f.Length }
+        return $s
+    }
+
     function Get-CleanName([string]$file) {
         $n = [IO.Path]::GetFileNameWithoutExtension($file)
         $n = [regex]::Replace($n, '\[[^\]]*\]|\([^\)]*\)', '')
@@ -4234,8 +4411,39 @@ $jobContent = {
                 })
             }
         }
+        # Ueber Eden in den NAND installierte Updates/DLCs
+        $nandNoKeys = $false
+        $reg = [string]$a.NandReg
+        if ($reg -and (Test-Path -LiteralPath $reg)) {
+            $ncas = @(Get-ChildItem -LiteralPath $reg -Recurse -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '(?i)^[0-9a-f]{32}(\.cnmt)?\.nca$' })
+            if ($ncas.Count) {
+                $keys = Read-ProdKeys ([string]$a.KeysFile)
+                if (-not $keys.ContainsKey("header_key") -or $keys["header_key"].Length -ne 32) {
+                    $nandNoKeys = $true
+                } else {
+                    $byId = @{}
+                    foreach ($n in $ncas) { $id = $n.Name.Substring(0, 32).ToLowerInvariant(); if (-not $byId.ContainsKey($id)) { $byId[$id] = $n } }
+                    foreach ($n in $ncas) {
+                        $meta = Read-NcaMeta $n $keys
+                        if (-not $meta) { continue }
+                        $kind = if ($meta.Type -eq 0x81) { "update" } elseif ($meta.Type -eq 0x82) { "dlc" } else { Get-Kind $meta.Tid }
+                        if ($kind -ne "update" -and $kind -ne "dlc") { continue }
+                        $paths = @($n.FullName); $size = Get-ItemSize $n
+                        foreach ($c in @($meta.Contents)) {
+                            if (-not $byId.ContainsKey($c.Id)) { continue }
+                            $p = $byId[$c.Id]
+                            if ($p.FullName -ne $n.FullName) { $paths += $p.FullName; $size += Get-ItemSize $p }
+                        }
+                        [void]$items.Add(@{
+                            Base = (Get-BaseTid $meta.Tid); Tid = $meta.Tid; Kind = $kind; Version = $meta.Version
+                            Name = ""; File = $n.Name; Path = $n.FullName; Paths = $paths; Size = $size; Source = "nand"; Managed = $false
+                        })
+                    }
+                }
+            }
+        }
         $registered = @($extDirs | Where-Object { (& $norm $_) -eq (& $norm $managed) }).Count -gt 0
-        $sync.Result = @{ Ok = $true; Mode = "scan"; Items = @($items); Registered = $registered }
+        $sync.Result = @{ Ok = $true; Mode = "scan"; Items = @($items); Registered = $registered; NandNoKeys = $nandNoKeys }
     } catch {
         $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
     } finally {
@@ -8207,7 +8415,11 @@ function Start-ContentWorker([hashtable]$jobArgs) {
 
 function Start-ContentScan {
     $ui.TxtContentInfo.Text = T "ContentScanning"
-    Start-ContentWorker @{ Mode = "scan"; Config = (Get-EdenConfigPath); Managed = (Get-ManagedContentDir) }
+    Start-ContentWorker @{
+        Mode = "scan"; Config = (Get-EdenConfigPath); Managed = (Get-ManagedContentDir)
+        NandReg = $(try { Join-Path (Get-NandDir) "user\Contents\registered" } catch { "" })
+        KeysFile = $(try { Join-Path (Get-KeysDir) "prod.keys" } catch { "" })
+    }
 }
 
 function Complete-ContentWorker {
@@ -8233,6 +8445,7 @@ function Complete-ContentWorker {
     }
     $script:Content = @($r.Items)
     $script:ContentLoaded = $true
+    if ($r.NandNoKeys) { Add-UiLog (T "ContentNandNoKeys") }
     # Liegen Dateien in unserem Ordner, der noch nicht in Eden eingetragen ist? Dann jetzt eintragen.
     if (-not $r.Registered -and @($script:Content | Where-Object { $_.Managed }).Count -and -not (Test-EdenRunning)) {
         try {
@@ -8305,12 +8518,14 @@ function Update-ContentList {
         elseif ($c.Kind -ne "update" -and $c.Kind -ne "dlc") { $title = $c.File }
         $parts += (Format-Size $c.Size)
         if ($c.Source -eq "game") { $parts += (T "ContentFromGameDir") }
+        if ($c.Source -eq "nand") { $parts += (T "ContentFromNand") }
         if ($c.Kind -eq "dlc") { $parts += (T "ContentDlcAll") }
         $en = $true
-        if ($c.Kind -eq "update") { $en = -not (($off -contains "Update") -or ($null -ne $c.Version -and ($off -contains ("Update@" + $c.Version)))) }
+        if ($c.Kind -eq "update" -and $c.Source -eq "nand") { $en = -not (($off -contains "Update") -or ($off -contains "Update (NAND)")) }
+        elseif ($c.Kind -eq "update") { $en = -not (($off -contains "Update") -or ($null -ne $c.Version -and ($off -contains ("Update@" + $c.Version)))) }
         elseif ($c.Kind -eq "dlc") { $en = -not ($off -contains "DLC") }
         [pscustomobject]@{
-            Name = $title; File = $c.File; Path = $c.Path; Base = $c.Base; Kind = $c.Kind; Version = $c.Version
+            Name = $title; File = $c.File; Path = $c.Path; Paths = @($c.Paths); Source = $c.Source; Base = $c.Base; Kind = $c.Kind; Version = $c.Version
             Enabled = [bool]$en; CanToggle = ($c.Kind -eq "update" -or $c.Kind -eq "dlc")
             Info = ($parts -join "  ·  ")
         }
@@ -8338,12 +8553,12 @@ function Set-ContentEnabled($item, [bool]$on) {
         $dec = ConvertTo-TidDec $item.Base
         if (-not $map.Contains($dec)) { $map[$dec] = New-Object System.Collections.Generic.List[string] }
         $list = $map[$dec]
-        $key = if ($item.Kind -eq "dlc") { "DLC" } elseif ($null -ne $item.Version) { "Update@" + $item.Version } else { "Update" }
+        $key = if ($item.Kind -eq "dlc") { "DLC" } elseif ($item.Source -eq "nand") { "Update (NAND)" } elseif ($null -ne $item.Version) { "Update@" + $item.Version } else { "Update" }
         if ($on) {
             if ($item.Kind -eq "update" -and $list.Contains("Update") -and $key -ne "Update") {
                 # "Update" sperrt alle Versionen: die anderen einzeln gesperrt lassen
-                foreach ($c in @($script:Content | Where-Object { $_.Base -eq $item.Base -and $_.Kind -eq "update" -and $null -ne $_.Version })) {
-                    $k2 = "Update@" + $c.Version
+                foreach ($c in @($script:Content | Where-Object { $_.Base -eq $item.Base -and $_.Kind -eq "update" -and ($null -ne $_.Version -or $_.Source -eq "nand") })) {
+                    $k2 = if ($c.Source -eq "nand") { "Update (NAND)" } else { "Update@" + $c.Version }
                     if ($k2 -ne $key -and -not $list.Contains($k2)) { $list.Add($k2) }
                 }
                 [void]$list.RemoveAll([Predicate[string]]{ param($x) $x -eq "Update" })
@@ -8363,18 +8578,23 @@ function Set-ContentEnabled($item, [bool]$on) {
 function Remove-ContentItem($item) {
     Update-SysBanners $true
     if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return }
-    if ((Show-Dialog (TF "ContentAskDelete" $item.File) "YesNo" "Question") -ne "Yes") { return }
+    $label = if ($item.Source -eq "nand") { $item.Name } else { $item.File }
+    if ((Show-Dialog (TF "ContentAskDelete" $label) "YesNo" "Question") -ne "Yes") { return }
     try {
         Add-Type -AssemblyName Microsoft.VisualBasic
-        [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($item.Path, "OnlyErrorDialogs", "SendToRecycleBin")
-        if ($item.Kind -eq "update" -and $null -ne $item.Version) {
+        $del = if ($item.Source -eq "nand" -and @($item.Paths).Count) { @($item.Paths) } else { @($item.Path) }
+        foreach ($d in $del) {
+            if (Test-Path -LiteralPath $d -PathType Container) { [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteDirectory($d, "OnlyErrorDialogs", "SendToRecycleBin") }
+            elseif (Test-Path -LiteralPath $d) { [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($d, "OnlyErrorDialogs", "SendToRecycleBin") }
+        }
+        if ($item.Kind -eq "update" -and $item.Source -ne "nand" -and $null -ne $item.Version) {
             $cfg = Get-EdenConfigPath
             $map = Read-DisabledAddOns $cfg
             $dec = ConvertTo-TidDec $item.Base
             $k = "Update@" + $item.Version
             if ($map.Contains($dec) -and $map[$dec].Contains($k)) { [void]$map[$dec].Remove($k); Write-DisabledAddOns $cfg $map }
         }
-        Add-UiLog (TF "ContentDeleted" $item.File)
+        Add-UiLog (TF "ContentDeleted" $label)
     } catch {
         Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
     }
@@ -9493,7 +9713,8 @@ function Start-Snapshots {
         @{ Base = "0100000000010000"; Tid = "0100000000010800"; Kind = "update"; Version = 196608; Name = "Abenteuer im Nebelwald"; File = "a.nsp"; Path = ""; Size = 812MB; Source = "ext"; Managed = $true },
         @{ Base = "0100000000010000"; Tid = "0100000000010800"; Kind = "update"; Version = 131072; Name = "Abenteuer im Nebelwald"; File = "b.nsp"; Path = ""; Size = 640MB; Source = "game"; Managed = $false },
         @{ Base = "0100000000010000"; Tid = "0100000000011001"; Kind = "dlc"; Version = 0; Name = "Abenteuer im Nebelwald - Erweiterungspass"; File = "c.nsp"; Path = ""; Size = 2.1GB; Source = "ext"; Managed = $true },
-        @{ Base = "0100000000020000"; Tid = "0100000000020800"; Kind = "update"; Version = 65536; Name = "Kart Turbo Deluxe"; File = "d.nsp"; Path = ""; Size = 420MB; Source = "ext"; Managed = $true }
+        @{ Base = "0100000000020000"; Tid = "0100000000020800"; Kind = "update"; Version = 65536; Name = "Kart Turbo Deluxe"; File = "d.nsp"; Path = ""; Size = 420MB; Source = "ext"; Managed = $true },
+        @{ Base = "0100000000010000"; Tid = "0100000000011002"; Kind = "dlc"; Version = 0; Name = ""; File = "e.nca"; Path = ""; Paths = @(); Size = 96MB; Source = "nand"; Managed = $false }
     )
     $script:ContentLoaded = $true
     $now = Get-Date
