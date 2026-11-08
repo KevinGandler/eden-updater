@@ -975,6 +975,31 @@ $xaml = @'
       <Setter Property="Margin" Value="0,0,0,4"/>
       <Setter Property="FontSize" Value="12"/>
     </Style>
+    <Style TargetType="ScrollBar">
+      <Setter Property="Width" Value="8"/>
+      <Setter Property="MinWidth" Value="8"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ScrollBar">
+            <Track x:Name="PART_Track" IsDirectionReversed="True">
+              <Track.Thumb>
+                <Thumb>
+                  <Thumb.Template>
+                    <ControlTemplate TargetType="Thumb"><Border Background="#2E3746" CornerRadius="4" Margin="1,0"/></ControlTemplate>
+                  </Thumb.Template>
+                </Thumb>
+              </Track.Thumb>
+            </Track>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="Orientation" Value="Horizontal">
+          <Setter Property="Width" Value="Auto"/><Setter Property="Height" Value="0"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
   </Window.Resources>
 
   <Grid Margin="18">
@@ -1035,10 +1060,11 @@ $xaml = @'
               <ItemsControl x:Name="CatList">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <StackPanel Margin="0,2,0,4">
+                    <Grid Margin="0,1">
+                      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                       <CheckBox Content="{Binding Name}" IsChecked="{Binding On, Mode=OneWay}" Tag="{Binding Id}"/>
-                      <TextBlock Text="{Binding Info}" Foreground="#8B95A5" FontSize="12" Margin="22,0,0,0"/>
-                    </StackPanel>
+                      <TextBlock Grid.Column="1" Text="{Binding Info}" Foreground="#8B95A5" FontSize="12" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                    </Grid>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
