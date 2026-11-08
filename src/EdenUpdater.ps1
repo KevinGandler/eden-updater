@@ -6201,37 +6201,43 @@ $xaml = @'
                   <RowDefinition Height="Auto"/>
                   <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Margin="20,16,16,14">
-                  <TextBlock x:Name="TxtSaveGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                  <TextBlock x:Name="TxtSaveGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                             FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,12"/>
-                  <!-- Spielstand -->
+                <StackPanel Margin="20,14,14,10">
                   <Grid>
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Center">
-                      <TextBlock Text="{DynamicResource L_SavesSaveTitle}" Style="{StaticResource FieldTitle}"/>
-                      <TextBlock x:Name="TxtSaveState" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                      <TextBlock x:Name="TxtSaveGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                      <TextBlock x:Name="TxtSaveGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                                 FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,0"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
-                      <Button x:Name="BtnSaveFolder" Tag="&#xE838;" Content="{DynamicResource L_SavesOpenFolder}" Style="{StaticResource BtnGhost}" Margin="0,0,6,0"/>
-                      <Button x:Name="BtnSaveBackup" Tag="&#xE74E;" Content="{DynamicResource L_SavesBackupNow}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
-                    </StackPanel>
+                    <Button x:Name="BtnSaveBackup" Grid.Column="1" Tag="&#xE74E;" Content="{DynamicResource L_SavesBackupNow}" Style="{StaticResource BtnPrimary}"
+                            Padding="14,8" VerticalAlignment="Center" Margin="10,0,0,0"/>
                   </Grid>
-                  <!-- Shader-Cache -->
-                  <Grid Margin="0,12,0,0">
+                  <!-- Spielstand -->
+                  <Grid Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel VerticalAlignment="Center" Background="Transparent" ToolTip="{DynamicResource L_SavesShaderHint}">
-                      <TextBlock Text="{DynamicResource L_SavesShaderTitle}" Style="{StaticResource FieldTitle}"/>
-                      <TextBlock x:Name="TxtShaderState" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
-                    </StackPanel>
-                    <Button x:Name="BtnShaderDelete" Grid.Column="1" Tag="&#xE74D;" Content="{DynamicResource L_SavesShaderDelete}" Style="{StaticResource BtnGhost}"
-                            VerticalAlignment="Center" Margin="10,0,0,0" ToolTip="{DynamicResource L_SavesShaderHint}"/>
+                    <TextBlock Text="&#xE74E;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtSaveState" Grid.Column="1" Foreground="{DynamicResource BrText}" FontSize="12.5" Margin="10,0,8,0"
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                    <Button x:Name="BtnSaveFolder" Grid.Column="2" Tag="&#xE838;" Content="{DynamicResource L_SavesOpenFolder}" Style="{StaticResource BtnGhost}"/>
+                  </Grid>
+                  <!-- Shader-Cache -->
+                  <Grid Margin="0,2,0,0" ToolTip="{DynamicResource L_SavesShaderHint}" Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="&#xE950;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtShaderState" Grid.Column="1" Foreground="{DynamicResource BrText}" FontSize="12.5" Margin="10,0,8,0"
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                    <Button x:Name="BtnShaderDelete" Grid.Column="2" Tag="&#xE74D;" Content="{DynamicResource L_SavesShaderDelete}" Style="{StaticResource BtnGhost}"/>
                   </Grid>
                 </StackPanel>
                 <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}"/>
@@ -8535,12 +8541,13 @@ function Update-SaveDetail {
     $ui.TxtSaveGameTitle.Text = $i.Game.Name
     $ui.TxtSaveGameSub.Text = "Title-ID " + $i.Game.Tid
     $script:SaveSelHas = [bool]($i.Save -and $i.Save.Files)
-    $ui.TxtSaveState.Text = if ($script:SaveSelHas) {
+    $ui.TxtSaveState.Text = (T "SavesSaveTitle") + "  ·  " + $(if ($script:SaveSelHas) {
         TF "SavesSaveInfo" (Format-Size $i.Save.Size) ($i.Save.Newest.ToLocalTime().ToString("g", $script:CI))
-    } else { T "SavesSaveNone" }
+    } else { T "SavesSaveNone" })
+    $ui.TxtSaveState.ToolTip = $ui.TxtSaveState.Text
     $ui.BtnSaveFolder.IsEnabled = [bool]($i.Save -and @($i.Save.Dirs).Count)
     $script:ShaderSelHas = [bool]($i.Shader -and $i.Shader.Size)
-    $ui.TxtShaderState.Text = if ($script:ShaderSelHas) { Format-Size $i.Shader.Size } else { T "SavesShaderNone" }
+    $ui.TxtShaderState.Text = if ($script:ShaderSelHas) { (T "SavesShaderTitle") + "  ·  " + (Format-Size $i.Shader.Size) } else { T "SavesShaderNone" }
     $reasons = @{ manual = (T "SavesReasonManual"); auto = (T "SavesReasonAuto"); restore = (T "SavesReasonRestore") }
     $items = foreach ($b in $i.Backups) {
         [pscustomobject]@{
