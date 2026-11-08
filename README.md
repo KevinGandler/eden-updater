@@ -12,6 +12,9 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Patchnotes als eigene Seite oder neben der Versionsliste
 - Spiele-Tab: liest die Spieleordner aus Eden, Suche, Favoriten per Stern (stehen oben), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
+- Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)
+- Firmware: aus ZIP oder Ordner installieren/aktualisieren (alte Firmware bleibt bei Fehlern erhalten), löschen, Version anzeigen
+- Schlüssel: `prod.keys` (+ `title.keys`) installieren und löschen, Warnung wenn die Keys zu alt für die Firmware sind
 - Auswahl der Build-Variante (Standard: PGO, Windows amd64) oder eigener Regex-Filter
 - 17 Theme-Vorlagen (dunkel, AMOLED, hell) und eigenes Theme mit Farbwähler; Lesbarkeit wird automatisch sichergestellt
 - 13 Sprachen (automatische Erkennung, sonst Deutsch)

@@ -33,6 +33,7 @@ $Defaults = [ordered]@{
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
     GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
     FavoriteGames = @()       # Favoriten (Title-ID, sonst Dateipfad) - stehen oben in der Spieleliste
+    FirmwareVersion = ""      # zuletzt ueber den Updater installierte Firmware (aus dem Datei-/Ordnernamen)
     CustomTheme  = $null      # eigenes Theme: @{ Bg; Panel; Text; Accent }
     Language     = "auto"
 }
@@ -336,6 +337,63 @@ ModsDeleted=Mod gelöscht: {0}
 ModsAdded=Mod hinzugefügt: {0}
 ModsToggledOn=Mod aktiviert: {0}
 ModsToggledOff=Mod deaktiviert: {0}
+NavContent=Updates & DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden läuft gerade. Schließe Eden, bevor du hier etwas änderst, sonst überschreibt Eden die Änderungen beim Beenden.
+ContentInfo={0} Updates · {1} DLCs
+ContentScanning=Suche nach Updates und DLCs...
+ContentCopying=Kopiere {0}...
+ContentAdd=Update/DLC hinzufügen...
+ContentFolder=Ordner öffnen
+ContentDelete=Löschen
+ContentGameInfo={0} Updates · {1} DLCs
+ContentNone=Keine Updates/DLCs
+ContentEmptyGame=Für dieses Spiel sind keine Updates oder DLCs vorhanden. Füge mit 'Update/DLC hinzufügen...' eine NSP- oder XCI-Datei hinzu.
+ContentUpdate=Update {0}
+ContentUpdateAny=Update
+ContentDlc=DLC {0}
+ContentUnknown=Update/DLC
+ContentFromGameDir=aus dem Spieleordner
+ContentDlcAll=Schalter gilt für alle DLCs
+ContentAskDelete='{0}' löschen?\n\nDie Datei wird in den Papierkorb verschoben.
+ContentDeleted=Gelöscht: {0}
+ContentAdded=Hinzugefügt: {0}
+ContentOtherGame='{0}' gehört zu einem anderen Spiel (Title-ID {1}) und wird dort angezeigt.
+ContentToggledOn=Aktiviert: {0}
+ContentToggledOff=Deaktiviert: {0}
+ContentRegistered=Ordner in Eden als externer Inhaltsordner eingetragen: {0}
+FwTitle=Firmware
+FwNone=Keine Firmware installiert
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware installiert (Version unbekannt)
+FwFiles={0} Dateien · {1}
+FwInstallZip=Aus ZIP installieren...
+FwInstallDir=Aus Ordner...
+FwDelete=Löschen
+FwFolder=Ordner öffnen
+FwHint=Beim Installieren wird die vorhandene Firmware ersetzt. Klappt etwas nicht, bleibt die alte Firmware erhalten.
+FwPreparing=Bereite Firmware vor...
+FwInstalling=Installiere Firmware... {0}/{1}
+FwDone=Firmware installiert ({0} Dateien).
+FwNoNca=In der Auswahl wurden keine .nca-Dateien gefunden.
+FwAskReplace=Es ist bereits Firmware installiert ({0}). Ersetzen?
+FwAskDelete=Firmware wirklich löschen?\n\nSpiele, die Firmware brauchen, starten danach nicht mehr.
+FwDeleted=Firmware gelöscht.
+FwKeysTooOld=Deine prod.keys sind zu alt für diese Firmware (sie reichen bis Firmware {0}).
+KeysTitle=Schlüssel
+KeysNone=Keine prod.keys installiert
+KeysInstalled=prod.keys · {0} Schlüssel
+KeysGen=Reicht bis Firmware {1} (Master-Key {0})
+KeysGenRaw=Master-Key {0}
+KeysTitleKeys=title.keys · {0} Einträge
+KeysInstall=prod.keys installieren...
+KeysDelete=Löschen
+KeysHint=title.keys und key_retail.bin aus demselben Ordner werden mitkopiert.
+KeysInvalid=Die gewählte Datei sieht nicht wie eine prod.keys aus.
+KeysDone=Schlüssel installiert.
+KeysAskDelete=prod.keys und title.keys löschen?\n\nDie Dateien werden in den Papierkorb verschoben.
+KeysDeleted=Schlüssel gelöscht.
+KeysMissingForFw=Ohne prod.keys kann Eden die Firmware nicht nutzen.
 '@
 en = @'
 Name=English
@@ -526,6 +584,63 @@ ModsDeleted=Mod deleted: {0}
 ModsAdded=Mod added: {0}
 ModsToggledOn=Mod enabled: {0}
 ModsToggledOff=Mod disabled: {0}
+NavContent=Updates & DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden is running. Close Eden before changing anything here, otherwise Eden overwrites the changes when it exits.
+ContentInfo={0} updates · {1} DLCs
+ContentScanning=Searching for updates and DLCs...
+ContentCopying=Copying {0}...
+ContentAdd=Add update/DLC...
+ContentFolder=Open folder
+ContentDelete=Delete
+ContentGameInfo={0} updates · {1} DLCs
+ContentNone=No updates/DLCs
+ContentEmptyGame=No updates or DLCs for this game. Use 'Add update/DLC...' to add an NSP or XCI file.
+ContentUpdate=Update {0}
+ContentUpdateAny=Update
+ContentDlc=DLC {0}
+ContentUnknown=Update/DLC
+ContentFromGameDir=from the game folder
+ContentDlcAll=Switch applies to all DLCs
+ContentAskDelete=Delete '{0}'?\n\nThe file will be moved to the Recycle Bin.
+ContentDeleted=Deleted: {0}
+ContentAdded=Added: {0}
+ContentOtherGame='{0}' belongs to a different game (Title ID {1}) and is shown there.
+ContentToggledOn=Enabled: {0}
+ContentToggledOff=Disabled: {0}
+ContentRegistered=Folder added to Eden as an external content folder: {0}
+FwTitle=Firmware
+FwNone=No firmware installed
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware installed (version unknown)
+FwFiles={0} files · {1}
+FwInstallZip=Install from ZIP...
+FwInstallDir=From folder...
+FwDelete=Delete
+FwFolder=Open folder
+FwHint=Installing replaces the current firmware. If something goes wrong, the old firmware is kept.
+FwPreparing=Preparing firmware...
+FwInstalling=Installing firmware... {0}/{1}
+FwDone=Firmware installed ({0} files).
+FwNoNca=No .nca files were found in the selection.
+FwAskReplace=Firmware is already installed ({0}). Replace it?
+FwAskDelete=Really delete the firmware?\n\nGames that need firmware will no longer start.
+FwDeleted=Firmware deleted.
+FwKeysTooOld=Your prod.keys are too old for this firmware (they cover up to firmware {0}).
+KeysTitle=Keys
+KeysNone=No prod.keys installed
+KeysInstalled=prod.keys · {0} keys
+KeysGen=Covers up to firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} entries
+KeysInstall=Install prod.keys...
+KeysDelete=Delete
+KeysHint=title.keys and key_retail.bin from the same folder are copied too.
+KeysInvalid=The selected file doesn't look like a prod.keys file.
+KeysDone=Keys installed.
+KeysAskDelete=Delete prod.keys and title.keys?\n\nThe files will be moved to the Recycle Bin.
+KeysDeleted=Keys deleted.
+KeysMissingForFw=Eden can't use the firmware without prod.keys.
 '@
 es = @'
 Name=Español
@@ -716,6 +831,63 @@ ModsDeleted=Mod eliminado: {0}
 ModsAdded=Mod añadido: {0}
 ModsToggledOn=Mod activado: {0}
 ModsToggledOff=Mod desactivado: {0}
+NavContent=Actualizaciones y DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden se está ejecutando. Cierra Eden antes de cambiar algo aquí; si no, Eden sobrescribirá los cambios al cerrarse.
+ContentInfo={0} actualizaciones · {1} DLC
+ContentScanning=Buscando actualizaciones y DLC...
+ContentCopying=Copiando {0}...
+ContentAdd=Añadir actualización/DLC...
+ContentFolder=Abrir carpeta
+ContentDelete=Eliminar
+ContentGameInfo={0} actualizaciones · {1} DLC
+ContentNone=Sin actualizaciones/DLC
+ContentEmptyGame=No hay actualizaciones ni DLC para este juego. Usa 'Añadir actualización/DLC...' para añadir un archivo NSP o XCI.
+ContentUpdate=Actualización {0}
+ContentUpdateAny=Actualización
+ContentDlc=DLC {0}
+ContentUnknown=Actualización/DLC
+ContentFromGameDir=de la carpeta de juegos
+ContentDlcAll=El interruptor afecta a todos los DLC
+ContentAskDelete=¿Eliminar '{0}'?\n\nEl archivo se moverá a la Papelera.
+ContentDeleted=Eliminado: {0}
+ContentAdded=Añadido: {0}
+ContentOtherGame='{0}' pertenece a otro juego (Title ID {1}) y se muestra allí.
+ContentToggledOn=Activado: {0}
+ContentToggledOff=Desactivado: {0}
+ContentRegistered=Carpeta añadida a Eden como carpeta de contenido externo: {0}
+FwTitle=Firmware
+FwNone=No hay firmware instalado
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware instalado (versión desconocida)
+FwFiles={0} archivos · {1}
+FwInstallZip=Instalar desde ZIP...
+FwInstallDir=Desde carpeta...
+FwDelete=Eliminar
+FwFolder=Abrir carpeta
+FwHint=Al instalar se reemplaza el firmware actual. Si algo falla, se conserva el firmware anterior.
+FwPreparing=Preparando firmware...
+FwInstalling=Instalando firmware... {0}/{1}
+FwDone=Firmware instalado ({0} archivos).
+FwNoNca=No se encontraron archivos .nca en la selección.
+FwAskReplace=Ya hay firmware instalado ({0}). ¿Reemplazarlo?
+FwAskDelete=¿Eliminar el firmware?\n\nLos juegos que necesitan firmware dejarán de iniciarse.
+FwDeleted=Firmware eliminado.
+FwKeysTooOld=Tus prod.keys son demasiado antiguas para este firmware (llegan hasta el firmware {0}).
+KeysTitle=Claves
+KeysNone=No hay prod.keys instaladas
+KeysInstalled=prod.keys · {0} claves
+KeysGen=Válidas hasta el firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} entradas
+KeysInstall=Instalar prod.keys...
+KeysDelete=Eliminar
+KeysHint=También se copian title.keys y key_retail.bin de la misma carpeta.
+KeysInvalid=El archivo seleccionado no parece un prod.keys.
+KeysDone=Claves instaladas.
+KeysAskDelete=¿Eliminar prod.keys y title.keys?\n\nLos archivos se moverán a la Papelera.
+KeysDeleted=Claves eliminadas.
+KeysMissingForFw=Sin prod.keys, Eden no puede usar el firmware.
 '@
 fr = @'
 Name=Français
@@ -906,6 +1078,63 @@ ModsDeleted=Mod supprimé : {0}
 ModsAdded=Mod ajouté : {0}
 ModsToggledOn=Mod activé : {0}
 ModsToggledOff=Mod désactivé : {0}
+NavContent=Mises à jour & DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden est en cours d'exécution. Fermez Eden avant de modifier quoi que ce soit ici, sinon Eden écrasera les modifications en quittant.
+ContentInfo={0} mises à jour · {1} DLC
+ContentScanning=Recherche des mises à jour et DLC...
+ContentCopying=Copie de {0}...
+ContentAdd=Ajouter une mise à jour/DLC...
+ContentFolder=Ouvrir le dossier
+ContentDelete=Supprimer
+ContentGameInfo={0} mises à jour · {1} DLC
+ContentNone=Aucune mise à jour/DLC
+ContentEmptyGame=Aucune mise à jour ni DLC pour ce jeu. Utilisez 'Ajouter une mise à jour/DLC...' pour ajouter un fichier NSP ou XCI.
+ContentUpdate=Mise à jour {0}
+ContentUpdateAny=Mise à jour
+ContentDlc=DLC {0}
+ContentUnknown=Mise à jour/DLC
+ContentFromGameDir=du dossier de jeux
+ContentDlcAll=L'interrupteur s'applique à tous les DLC
+ContentAskDelete=Supprimer '{0}' ?\n\nLe fichier sera placé dans la Corbeille.
+ContentDeleted=Supprimé : {0}
+ContentAdded=Ajouté : {0}
+ContentOtherGame='{0}' appartient à un autre jeu (Title ID {1}) et y est affiché.
+ContentToggledOn=Activé : {0}
+ContentToggledOff=Désactivé : {0}
+ContentRegistered=Dossier ajouté à Eden comme dossier de contenu externe : {0}
+FwTitle=Firmware
+FwNone=Aucun firmware installé
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware installé (version inconnue)
+FwFiles={0} fichiers · {1}
+FwInstallZip=Installer depuis un ZIP...
+FwInstallDir=Depuis un dossier...
+FwDelete=Supprimer
+FwFolder=Ouvrir le dossier
+FwHint=L'installation remplace le firmware actuel. En cas de problème, l'ancien firmware est conservé.
+FwPreparing=Préparation du firmware...
+FwInstalling=Installation du firmware... {0}/{1}
+FwDone=Firmware installé ({0} fichiers).
+FwNoNca=Aucun fichier .nca trouvé dans la sélection.
+FwAskReplace=Un firmware est déjà installé ({0}). Le remplacer ?
+FwAskDelete=Vraiment supprimer le firmware ?\n\nLes jeux qui en ont besoin ne démarreront plus.
+FwDeleted=Firmware supprimé.
+FwKeysTooOld=Vos prod.keys sont trop anciennes pour ce firmware (elles vont jusqu'au firmware {0}).
+KeysTitle=Clés
+KeysNone=Aucun prod.keys installé
+KeysInstalled=prod.keys · {0} clés
+KeysGen=Valables jusqu'au firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} entrées
+KeysInstall=Installer prod.keys...
+KeysDelete=Supprimer
+KeysHint=title.keys et key_retail.bin du même dossier sont aussi copiés.
+KeysInvalid=Le fichier choisi ne ressemble pas à un prod.keys.
+KeysDone=Clés installées.
+KeysAskDelete=Supprimer prod.keys et title.keys ?\n\nLes fichiers seront placés dans la Corbeille.
+KeysDeleted=Clés supprimées.
+KeysMissingForFw=Sans prod.keys, Eden ne peut pas utiliser le firmware.
 '@
 it = @'
 Name=Italiano
@@ -1096,6 +1325,63 @@ ModsDeleted=Mod eliminata: {0}
 ModsAdded=Mod aggiunta: {0}
 ModsToggledOn=Mod attivata: {0}
 ModsToggledOff=Mod disattivata: {0}
+NavContent=Aggiornamenti e DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden è in esecuzione. Chiudi Eden prima di modificare qualcosa qui, altrimenti Eden sovrascrive le modifiche alla chiusura.
+ContentInfo={0} aggiornamenti · {1} DLC
+ContentScanning=Ricerca di aggiornamenti e DLC...
+ContentCopying=Copia di {0}...
+ContentAdd=Aggiungi aggiornamento/DLC...
+ContentFolder=Apri cartella
+ContentDelete=Elimina
+ContentGameInfo={0} aggiornamenti · {1} DLC
+ContentNone=Nessun aggiornamento/DLC
+ContentEmptyGame=Nessun aggiornamento o DLC per questo gioco. Usa 'Aggiungi aggiornamento/DLC...' per aggiungere un file NSP o XCI.
+ContentUpdate=Aggiornamento {0}
+ContentUpdateAny=Aggiornamento
+ContentDlc=DLC {0}
+ContentUnknown=Aggiornamento/DLC
+ContentFromGameDir=dalla cartella giochi
+ContentDlcAll=L'interruttore vale per tutti i DLC
+ContentAskDelete=Eliminare '{0}'?\n\nIl file verrà spostato nel Cestino.
+ContentDeleted=Eliminato: {0}
+ContentAdded=Aggiunto: {0}
+ContentOtherGame='{0}' appartiene a un altro gioco (Title ID {1}) e viene mostrato lì.
+ContentToggledOn=Attivato: {0}
+ContentToggledOff=Disattivato: {0}
+ContentRegistered=Cartella aggiunta a Eden come cartella di contenuti esterni: {0}
+FwTitle=Firmware
+FwNone=Nessun firmware installato
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware installato (versione sconosciuta)
+FwFiles={0} file · {1}
+FwInstallZip=Installa da ZIP...
+FwInstallDir=Da cartella...
+FwDelete=Elimina
+FwFolder=Apri cartella
+FwHint=L'installazione sostituisce il firmware attuale. Se qualcosa va storto, il vecchio firmware viene mantenuto.
+FwPreparing=Preparazione del firmware...
+FwInstalling=Installazione firmware... {0}/{1}
+FwDone=Firmware installato ({0} file).
+FwNoNca=Nessun file .nca trovato nella selezione.
+FwAskReplace=È già installato un firmware ({0}). Sostituirlo?
+FwAskDelete=Eliminare davvero il firmware?\n\nI giochi che lo richiedono non si avvieranno più.
+FwDeleted=Firmware eliminato.
+FwKeysTooOld=Le tue prod.keys sono troppo vecchie per questo firmware (arrivano fino al firmware {0}).
+KeysTitle=Chiavi
+KeysNone=Nessun prod.keys installato
+KeysInstalled=prod.keys · {0} chiavi
+KeysGen=Valide fino al firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} voci
+KeysInstall=Installa prod.keys...
+KeysDelete=Elimina
+KeysHint=Vengono copiati anche title.keys e key_retail.bin dalla stessa cartella.
+KeysInvalid=Il file selezionato non sembra un prod.keys.
+KeysDone=Chiavi installate.
+KeysAskDelete=Eliminare prod.keys e title.keys?\n\nI file verranno spostati nel Cestino.
+KeysDeleted=Chiavi eliminate.
+KeysMissingForFw=Senza prod.keys Eden non può usare il firmware.
 '@
 pt = @'
 Name=Português
@@ -1286,6 +1572,63 @@ ModsDeleted=Mod excluído: {0}
 ModsAdded=Mod adicionado: {0}
 ModsToggledOn=Mod ativado: {0}
 ModsToggledOff=Mod desativado: {0}
+NavContent=Atualizações e DLC
+NavFirmware=Firmware
+SysEdenRunning=O Eden está em execução. Feche o Eden antes de alterar algo aqui, senão o Eden sobrescreve as alterações ao sair.
+ContentInfo={0} atualizações · {1} DLCs
+ContentScanning=Procurando atualizações e DLCs...
+ContentCopying=Copiando {0}...
+ContentAdd=Adicionar atualização/DLC...
+ContentFolder=Abrir pasta
+ContentDelete=Excluir
+ContentGameInfo={0} atualizações · {1} DLCs
+ContentNone=Sem atualizações/DLCs
+ContentEmptyGame=Não há atualizações nem DLCs para este jogo. Use 'Adicionar atualização/DLC...' para adicionar um arquivo NSP ou XCI.
+ContentUpdate=Atualização {0}
+ContentUpdateAny=Atualização
+ContentDlc=DLC {0}
+ContentUnknown=Atualização/DLC
+ContentFromGameDir=da pasta de jogos
+ContentDlcAll=O botão vale para todos os DLCs
+ContentAskDelete=Excluir '{0}'?\n\nO arquivo será movido para a Lixeira.
+ContentDeleted=Excluído: {0}
+ContentAdded=Adicionado: {0}
+ContentOtherGame='{0}' pertence a outro jogo (Title ID {1}) e é mostrado lá.
+ContentToggledOn=Ativado: {0}
+ContentToggledOff=Desativado: {0}
+ContentRegistered=Pasta adicionada ao Eden como pasta de conteúdo externo: {0}
+FwTitle=Firmware
+FwNone=Nenhum firmware instalado
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware instalado (versão desconhecida)
+FwFiles={0} arquivos · {1}
+FwInstallZip=Instalar de ZIP...
+FwInstallDir=De pasta...
+FwDelete=Excluir
+FwFolder=Abrir pasta
+FwHint=A instalação substitui o firmware atual. Se algo der errado, o firmware antigo é mantido.
+FwPreparing=Preparando firmware...
+FwInstalling=Instalando firmware... {0}/{1}
+FwDone=Firmware instalado ({0} arquivos).
+FwNoNca=Nenhum arquivo .nca encontrado na seleção.
+FwAskReplace=Já existe firmware instalado ({0}). Substituir?
+FwAskDelete=Excluir mesmo o firmware?\n\nJogos que precisam de firmware não vão mais iniciar.
+FwDeleted=Firmware excluído.
+FwKeysTooOld=Suas prod.keys são antigas demais para este firmware (vão até o firmware {0}).
+KeysTitle=Chaves
+KeysNone=Nenhum prod.keys instalado
+KeysInstalled=prod.keys · {0} chaves
+KeysGen=Válidas até o firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} entradas
+KeysInstall=Instalar prod.keys...
+KeysDelete=Excluir
+KeysHint=title.keys e key_retail.bin da mesma pasta também são copiados.
+KeysInvalid=O arquivo escolhido não parece um prod.keys.
+KeysDone=Chaves instaladas.
+KeysAskDelete=Excluir prod.keys e title.keys?\n\nOs arquivos serão movidos para a Lixeira.
+KeysDeleted=Chaves excluídas.
+KeysMissingForFw=Sem prod.keys o Eden não consegue usar o firmware.
 '@
 nl = @'
 Name=Nederlands
@@ -1476,6 +1819,63 @@ ModsDeleted=Mod verwijderd: {0}
 ModsAdded=Mod toegevoegd: {0}
 ModsToggledOn=Mod ingeschakeld: {0}
 ModsToggledOff=Mod uitgeschakeld: {0}
+NavContent=Updates & DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden is actief. Sluit Eden voordat je hier iets wijzigt, anders overschrijft Eden de wijzigingen bij het afsluiten.
+ContentInfo={0} updates · {1} DLC's
+ContentScanning=Zoeken naar updates en DLC's...
+ContentCopying={0} kopiëren...
+ContentAdd=Update/DLC toevoegen...
+ContentFolder=Map openen
+ContentDelete=Verwijderen
+ContentGameInfo={0} updates · {1} DLC's
+ContentNone=Geen updates/DLC's
+ContentEmptyGame=Geen updates of DLC's voor deze game. Gebruik 'Update/DLC toevoegen...' om een NSP- of XCI-bestand toe te voegen.
+ContentUpdate=Update {0}
+ContentUpdateAny=Update
+ContentDlc=DLC {0}
+ContentUnknown=Update/DLC
+ContentFromGameDir=uit de gamemap
+ContentDlcAll=Schakelaar geldt voor alle DLC's
+ContentAskDelete='{0}' verwijderen?\n\nHet bestand wordt naar de Prullenbak verplaatst.
+ContentDeleted=Verwijderd: {0}
+ContentAdded=Toegevoegd: {0}
+ContentOtherGame='{0}' hoort bij een andere game (Title ID {1}) en wordt daar getoond.
+ContentToggledOn=Ingeschakeld: {0}
+ContentToggledOff=Uitgeschakeld: {0}
+ContentRegistered=Map aan Eden toegevoegd als externe inhoudsmap: {0}
+FwTitle=Firmware
+FwNone=Geen firmware geïnstalleerd
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware geïnstalleerd (versie onbekend)
+FwFiles={0} bestanden · {1}
+FwInstallZip=Installeren uit ZIP...
+FwInstallDir=Uit map...
+FwDelete=Verwijderen
+FwFolder=Map openen
+FwHint=Installeren vervangt de huidige firmware. Gaat er iets mis, dan blijft de oude firmware behouden.
+FwPreparing=Firmware voorbereiden...
+FwInstalling=Firmware installeren... {0}/{1}
+FwDone=Firmware geïnstalleerd ({0} bestanden).
+FwNoNca=Geen .nca-bestanden gevonden in de selectie.
+FwAskReplace=Er is al firmware geïnstalleerd ({0}). Vervangen?
+FwAskDelete=Firmware echt verwijderen?\n\nGames die firmware nodig hebben, starten dan niet meer.
+FwDeleted=Firmware verwijderd.
+FwKeysTooOld=Je prod.keys zijn te oud voor deze firmware (ze gaan tot firmware {0}).
+KeysTitle=Sleutels
+KeysNone=Geen prod.keys geïnstalleerd
+KeysInstalled=prod.keys · {0} sleutels
+KeysGen=Geldig tot firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} items
+KeysInstall=prod.keys installeren...
+KeysDelete=Verwijderen
+KeysHint=title.keys en key_retail.bin uit dezelfde map worden ook gekopieerd.
+KeysInvalid=Het gekozen bestand lijkt geen prod.keys te zijn.
+KeysDone=Sleutels geïnstalleerd.
+KeysAskDelete=prod.keys en title.keys verwijderen?\n\nDe bestanden worden naar de Prullenbak verplaatst.
+KeysDeleted=Sleutels verwijderd.
+KeysMissingForFw=Zonder prod.keys kan Eden de firmware niet gebruiken.
 '@
 pl = @'
 Name=Polski
@@ -1666,6 +2066,63 @@ ModsDeleted=Usunięto mod: {0}
 ModsAdded=Dodano mod: {0}
 ModsToggledOn=Włączono mod: {0}
 ModsToggledOff=Wyłączono mod: {0}
+NavContent=Aktualizacje i DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden jest uruchomiony. Zamknij Eden, zanim coś tu zmienisz, inaczej Eden nadpisze zmiany przy zamykaniu.
+ContentInfo=Aktualizacje: {0} · DLC: {1}
+ContentScanning=Wyszukiwanie aktualizacji i DLC...
+ContentCopying=Kopiowanie {0}...
+ContentAdd=Dodaj aktualizację/DLC...
+ContentFolder=Otwórz folder
+ContentDelete=Usuń
+ContentGameInfo=Aktualizacje: {0} · DLC: {1}
+ContentNone=Brak aktualizacji/DLC
+ContentEmptyGame=Brak aktualizacji i DLC dla tej gry. Użyj 'Dodaj aktualizację/DLC...', aby dodać plik NSP lub XCI.
+ContentUpdate=Aktualizacja {0}
+ContentUpdateAny=Aktualizacja
+ContentDlc=DLC {0}
+ContentUnknown=Aktualizacja/DLC
+ContentFromGameDir=z folderu gier
+ContentDlcAll=Przełącznik dotyczy wszystkich DLC
+ContentAskDelete=Usunąć '{0}'?\n\nPlik zostanie przeniesiony do Kosza.
+ContentDeleted=Usunięto: {0}
+ContentAdded=Dodano: {0}
+ContentOtherGame='{0}' należy do innej gry (Title ID {1}) i jest tam wyświetlany.
+ContentToggledOn=Włączono: {0}
+ContentToggledOff=Wyłączono: {0}
+ContentRegistered=Folder dodany do Eden jako folder zawartości zewnętrznej: {0}
+FwTitle=Firmware
+FwNone=Brak zainstalowanego firmware
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware zainstalowany (wersja nieznana)
+FwFiles=Pliki: {0} · {1}
+FwInstallZip=Zainstaluj z ZIP...
+FwInstallDir=Z folderu...
+FwDelete=Usuń
+FwFolder=Otwórz folder
+FwHint=Instalacja zastępuje obecny firmware. Jeśli coś pójdzie nie tak, stary firmware zostaje zachowany.
+FwPreparing=Przygotowywanie firmware...
+FwInstalling=Instalowanie firmware... {0}/{1}
+FwDone=Firmware zainstalowany (pliki: {0}).
+FwNoNca=W wyborze nie znaleziono plików .nca.
+FwAskReplace=Firmware jest już zainstalowany ({0}). Zastąpić?
+FwAskDelete=Na pewno usunąć firmware?\n\nGry wymagające firmware przestaną się uruchamiać.
+FwDeleted=Firmware usunięty.
+FwKeysTooOld=Twoje prod.keys są za stare dla tego firmware (obejmują do firmware {0}).
+KeysTitle=Klucze
+KeysNone=Brak zainstalowanego prod.keys
+KeysInstalled=prod.keys · kluczy: {0}
+KeysGen=Obejmują do firmware {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · wpisów: {0}
+KeysInstall=Zainstaluj prod.keys...
+KeysDelete=Usuń
+KeysHint=title.keys i key_retail.bin z tego samego folderu też są kopiowane.
+KeysInvalid=Wybrany plik nie wygląda na prod.keys.
+KeysDone=Klucze zainstalowane.
+KeysAskDelete=Usunąć prod.keys i title.keys?\n\nPliki zostaną przeniesione do Kosza.
+KeysDeleted=Klucze usunięte.
+KeysMissingForFw=Bez prod.keys Eden nie może użyć firmware.
 '@
 tr = @'
 Name=Türkçe
@@ -1856,6 +2313,63 @@ ModsDeleted=Mod silindi: {0}
 ModsAdded=Mod eklendi: {0}
 ModsToggledOn=Mod etkinleştirildi: {0}
 ModsToggledOff=Mod devre dışı: {0}
+NavContent=Güncellemeler ve DLC
+NavFirmware=Firmware
+SysEdenRunning=Eden çalışıyor. Burada bir şey değiştirmeden önce Eden'i kapatın, aksi halde Eden çıkarken değişikliklerin üzerine yazar.
+ContentInfo={0} güncelleme · {1} DLC
+ContentScanning=Güncellemeler ve DLC'ler aranıyor...
+ContentCopying={0} kopyalanıyor...
+ContentAdd=Güncelleme/DLC ekle...
+ContentFolder=Klasörü aç
+ContentDelete=Sil
+ContentGameInfo={0} güncelleme · {1} DLC
+ContentNone=Güncelleme/DLC yok
+ContentEmptyGame=Bu oyun için güncelleme veya DLC yok. NSP ya da XCI dosyası eklemek için 'Güncelleme/DLC ekle...' kullanın.
+ContentUpdate=Güncelleme {0}
+ContentUpdateAny=Güncelleme
+ContentDlc=DLC {0}
+ContentUnknown=Güncelleme/DLC
+ContentFromGameDir=oyun klasöründen
+ContentDlcAll=Anahtar tüm DLC'ler için geçerli
+ContentAskDelete='{0}' silinsin mi?\n\nDosya Geri Dönüşüm Kutusu'na taşınacak.
+ContentDeleted=Silindi: {0}
+ContentAdded=Eklendi: {0}
+ContentOtherGame='{0}' başka bir oyuna ait (Title ID {1}) ve orada gösteriliyor.
+ContentToggledOn=Etkinleştirildi: {0}
+ContentToggledOff=Devre dışı bırakıldı: {0}
+ContentRegistered=Klasör Eden'e harici içerik klasörü olarak eklendi: {0}
+FwTitle=Firmware
+FwNone=Yüklü firmware yok
+FwVersion=Firmware {0}
+FwVersionUnknown=Firmware yüklü (sürüm bilinmiyor)
+FwFiles={0} dosya · {1}
+FwInstallZip=ZIP'ten yükle...
+FwInstallDir=Klasörden...
+FwDelete=Sil
+FwFolder=Klasörü aç
+FwHint=Yükleme mevcut firmware'i değiştirir. Bir sorun olursa eski firmware korunur.
+FwPreparing=Firmware hazırlanıyor...
+FwInstalling=Firmware yükleniyor... {0}/{1}
+FwDone=Firmware yüklendi ({0} dosya).
+FwNoNca=Seçimde .nca dosyası bulunamadı.
+FwAskReplace=Zaten firmware yüklü ({0}). Değiştirilsin mi?
+FwAskDelete=Firmware gerçekten silinsin mi?\n\nFirmware gerektiren oyunlar artık başlamaz.
+FwDeleted=Firmware silindi.
+FwKeysTooOld=prod.keys dosyanız bu firmware için çok eski (firmware {0} sürümüne kadar yetiyor).
+KeysTitle=Anahtarlar
+KeysNone=Yüklü prod.keys yok
+KeysInstalled=prod.keys · {0} anahtar
+KeysGen=Firmware {1} sürümüne kadar (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} kayıt
+KeysInstall=prod.keys yükle...
+KeysDelete=Sil
+KeysHint=Aynı klasördeki title.keys ve key_retail.bin de kopyalanır.
+KeysInvalid=Seçilen dosya bir prod.keys gibi görünmüyor.
+KeysDone=Anahtarlar yüklendi.
+KeysAskDelete=prod.keys ve title.keys silinsin mi?\n\nDosyalar Geri Dönüşüm Kutusu'na taşınacak.
+KeysDeleted=Anahtarlar silindi.
+KeysMissingForFw=prod.keys olmadan Eden firmware'i kullanamaz.
 '@
 ru = @'
 Name=Русский
@@ -2046,6 +2560,63 @@ ModsDeleted=Мод удалён: {0}
 ModsAdded=Мод добавлен: {0}
 ModsToggledOn=Мод включён: {0}
 ModsToggledOff=Мод отключён: {0}
+NavContent=Обновления и DLC
+NavFirmware=Прошивка
+SysEdenRunning=Eden запущен. Закройте Eden, прежде чем что-то менять здесь, иначе Eden перезапишет изменения при выходе.
+ContentInfo=Обновлений: {0} · DLC: {1}
+ContentScanning=Поиск обновлений и DLC...
+ContentCopying=Копирование {0}...
+ContentAdd=Добавить обновление/DLC...
+ContentFolder=Открыть папку
+ContentDelete=Удалить
+ContentGameInfo=Обновлений: {0} · DLC: {1}
+ContentNone=Нет обновлений/DLC
+ContentEmptyGame=Для этой игры нет обновлений и DLC. Нажмите «Добавить обновление/DLC...», чтобы добавить файл NSP или XCI.
+ContentUpdate=Обновление {0}
+ContentUpdateAny=Обновление
+ContentDlc=DLC {0}
+ContentUnknown=Обновление/DLC
+ContentFromGameDir=из папки с играми
+ContentDlcAll=Переключатель действует на все DLC
+ContentAskDelete=Удалить «{0}»?\n\nФайл будет перемещён в корзину.
+ContentDeleted=Удалено: {0}
+ContentAdded=Добавлено: {0}
+ContentOtherGame=«{0}» относится к другой игре (Title ID {1}) и показывается там.
+ContentToggledOn=Включено: {0}
+ContentToggledOff=Выключено: {0}
+ContentRegistered=Папка добавлена в Eden как папка внешнего контента: {0}
+FwTitle=Прошивка
+FwNone=Прошивка не установлена
+FwVersion=Прошивка {0}
+FwVersionUnknown=Прошивка установлена (версия неизвестна)
+FwFiles=Файлов: {0} · {1}
+FwInstallZip=Установить из ZIP...
+FwInstallDir=Из папки...
+FwDelete=Удалить
+FwFolder=Открыть папку
+FwHint=Установка заменяет текущую прошивку. Если что-то пойдёт не так, старая прошивка сохранится.
+FwPreparing=Подготовка прошивки...
+FwInstalling=Установка прошивки... {0}/{1}
+FwDone=Прошивка установлена (файлов: {0}).
+FwNoNca=В выбранном не найдено файлов .nca.
+FwAskReplace=Прошивка уже установлена ({0}). Заменить?
+FwAskDelete=Точно удалить прошивку?\n\nИгры, которым нужна прошивка, перестанут запускаться.
+FwDeleted=Прошивка удалена.
+FwKeysTooOld=Ваши prod.keys слишком старые для этой прошивки (подходят до прошивки {0}).
+KeysTitle=Ключи
+KeysNone=prod.keys не установлены
+KeysInstalled=prod.keys · ключей: {0}
+KeysGen=Подходят до прошивки {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · записей: {0}
+KeysInstall=Установить prod.keys...
+KeysDelete=Удалить
+KeysHint=title.keys и key_retail.bin из той же папки тоже копируются.
+KeysInvalid=Выбранный файл не похож на prod.keys.
+KeysDone=Ключи установлены.
+KeysAskDelete=Удалить prod.keys и title.keys?\n\nФайлы будут перемещены в корзину.
+KeysDeleted=Ключи удалены.
+KeysMissingForFw=Без prod.keys Eden не сможет использовать прошивку.
 '@
 ja = @'
 Name=日本語
@@ -2236,6 +2807,63 @@ ModsDeleted=Modを削除しました: {0}
 ModsAdded=Modを追加しました: {0}
 ModsToggledOn=Modを有効にしました: {0}
 ModsToggledOff=Modを無効にしました: {0}
+NavContent=アップデートとDLC
+NavFirmware=ファームウェア
+SysEdenRunning=Edenが実行中です。ここで変更する前にEdenを閉じてください。そうしないと、Eden終了時に変更が上書きされます。
+ContentInfo=アップデート {0} 件 · DLC {1} 件
+ContentScanning=アップデートとDLCを検索中...
+ContentCopying={0} をコピー中...
+ContentAdd=アップデート/DLCを追加...
+ContentFolder=フォルダーを開く
+ContentDelete=削除
+ContentGameInfo=アップデート {0} 件 · DLC {1} 件
+ContentNone=アップデート/DLCなし
+ContentEmptyGame=このゲームのアップデートやDLCはありません。「アップデート/DLCを追加...」でNSPまたはXCIファイルを追加してください。
+ContentUpdate=アップデート {0}
+ContentUpdateAny=アップデート
+ContentDlc=DLC {0}
+ContentUnknown=アップデート/DLC
+ContentFromGameDir=ゲームフォルダーから
+ContentDlcAll=スイッチはすべてのDLCに適用されます
+ContentAskDelete='{0}' を削除しますか?\n\nファイルはごみ箱に移動されます。
+ContentDeleted=削除しました: {0}
+ContentAdded=追加しました: {0}
+ContentOtherGame='{0}' は別のゲーム (Title ID {1}) のもので、そちらに表示されます。
+ContentToggledOn=有効化: {0}
+ContentToggledOff=無効化: {0}
+ContentRegistered=フォルダーをEdenの外部コンテンツフォルダーとして登録しました: {0}
+FwTitle=ファームウェア
+FwNone=ファームウェアがインストールされていません
+FwVersion=ファームウェア {0}
+FwVersionUnknown=ファームウェアあり (バージョン不明)
+FwFiles={0} ファイル · {1}
+FwInstallZip=ZIPからインストール...
+FwInstallDir=フォルダーから...
+FwDelete=削除
+FwFolder=フォルダーを開く
+FwHint=インストールすると現在のファームウェアが置き換えられます。失敗した場合は古いファームウェアが残ります。
+FwPreparing=ファームウェアを準備中...
+FwInstalling=ファームウェアをインストール中... {0}/{1}
+FwDone=ファームウェアをインストールしました ({0} ファイル)。
+FwNoNca=選択した中に .nca ファイルが見つかりません。
+FwAskReplace=ファームウェアは既にインストールされています ({0})。置き換えますか?
+FwAskDelete=ファームウェアを削除しますか?\n\nファームウェアが必要なゲームは起動しなくなります。
+FwDeleted=ファームウェアを削除しました。
+FwKeysTooOld=prod.keys がこのファームウェアには古すぎます (ファームウェア {0} まで対応)。
+KeysTitle=キー
+KeysNone=prod.keys がインストールされていません
+KeysInstalled=prod.keys · {0} 個のキー
+KeysGen=ファームウェア {1} まで対応 (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} 件
+KeysInstall=prod.keys をインストール...
+KeysDelete=削除
+KeysHint=同じフォルダーの title.keys と key_retail.bin もコピーされます。
+KeysInvalid=選択したファイルは prod.keys ではないようです。
+KeysDone=キーをインストールしました。
+KeysAskDelete=prod.keys と title.keys を削除しますか?\n\nファイルはごみ箱に移動されます。
+KeysDeleted=キーを削除しました。
+KeysMissingForFw=prod.keys がないとEdenはファームウェアを使用できません。
 '@
 zh = @'
 Name=中文（简体）
@@ -2426,6 +3054,63 @@ ModsDeleted=已删除模组: {0}
 ModsAdded=已添加模组: {0}
 ModsToggledOn=已启用模组: {0}
 ModsToggledOff=已禁用模组: {0}
+NavContent=更新和 DLC
+NavFirmware=固件
+SysEdenRunning=Eden 正在运行。在此处更改前请先关闭 Eden，否则 Eden 退出时会覆盖更改。
+ContentInfo={0} 个更新 · {1} 个 DLC
+ContentScanning=正在搜索更新和 DLC...
+ContentCopying=正在复制 {0}...
+ContentAdd=添加更新/DLC...
+ContentFolder=打开文件夹
+ContentDelete=删除
+ContentGameInfo={0} 个更新 · {1} 个 DLC
+ContentNone=没有更新/DLC
+ContentEmptyGame=此游戏没有更新或 DLC。点击「添加更新/DLC...」添加 NSP 或 XCI 文件。
+ContentUpdate=更新 {0}
+ContentUpdateAny=更新
+ContentDlc=DLC {0}
+ContentUnknown=更新/DLC
+ContentFromGameDir=来自游戏文件夹
+ContentDlcAll=开关适用于所有 DLC
+ContentAskDelete=删除「{0}」?\n\n文件将被移到回收站。
+ContentDeleted=已删除: {0}
+ContentAdded=已添加: {0}
+ContentOtherGame=「{0}」属于另一个游戏 (Title ID {1})，会显示在那里。
+ContentToggledOn=已启用: {0}
+ContentToggledOff=已禁用: {0}
+ContentRegistered=已将文件夹作为外部内容文件夹添加到 Eden: {0}
+FwTitle=固件
+FwNone=未安装固件
+FwVersion=固件 {0}
+FwVersionUnknown=已安装固件 (版本未知)
+FwFiles={0} 个文件 · {1}
+FwInstallZip=从 ZIP 安装...
+FwInstallDir=从文件夹...
+FwDelete=删除
+FwFolder=打开文件夹
+FwHint=安装会替换当前固件。如果出错，旧固件会被保留。
+FwPreparing=正在准备固件...
+FwInstalling=正在安装固件... {0}/{1}
+FwDone=固件已安装 ({0} 个文件)。
+FwNoNca=所选内容中没有找到 .nca 文件。
+FwAskReplace=已安装固件 ({0})。要替换吗?
+FwAskDelete=确定删除固件吗?\n\n需要固件的游戏将无法启动。
+FwDeleted=固件已删除。
+FwKeysTooOld=你的 prod.keys 对此固件来说太旧了 (最高支持固件 {0})。
+KeysTitle=密钥
+KeysNone=未安装 prod.keys
+KeysInstalled=prod.keys · {0} 个密钥
+KeysGen=最高支持固件 {1} (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · {0} 条
+KeysInstall=安装 prod.keys...
+KeysDelete=删除
+KeysHint=同一文件夹中的 title.keys 和 key_retail.bin 也会被复制。
+KeysInvalid=所选文件看起来不是 prod.keys。
+KeysDone=密钥已安装。
+KeysAskDelete=删除 prod.keys 和 title.keys?\n\n文件将被移到回收站。
+KeysDeleted=密钥已删除。
+KeysMissingForFw=没有 prod.keys，Eden 无法使用固件。
 '@
 ko = @'
 Name=한국어
@@ -2616,6 +3301,63 @@ ModsDeleted=모드 삭제됨: {0}
 ModsAdded=모드 추가됨: {0}
 ModsToggledOn=모드 활성화됨: {0}
 ModsToggledOff=모드 비활성화됨: {0}
+NavContent=업데이트 및 DLC
+NavFirmware=펌웨어
+SysEdenRunning=Eden이 실행 중입니다. 여기서 변경하기 전에 Eden을 닫으세요. 그렇지 않으면 종료 시 변경 사항을 덮어씁니다.
+ContentInfo=업데이트 {0}개 · DLC {1}개
+ContentScanning=업데이트와 DLC 검색 중...
+ContentCopying={0} 복사 중...
+ContentAdd=업데이트/DLC 추가...
+ContentFolder=폴더 열기
+ContentDelete=삭제
+ContentGameInfo=업데이트 {0}개 · DLC {1}개
+ContentNone=업데이트/DLC 없음
+ContentEmptyGame=이 게임에 대한 업데이트나 DLC가 없습니다. '업데이트/DLC 추가...'로 NSP 또는 XCI 파일을 추가하세요.
+ContentUpdate=업데이트 {0}
+ContentUpdateAny=업데이트
+ContentDlc=DLC {0}
+ContentUnknown=업데이트/DLC
+ContentFromGameDir=게임 폴더에서
+ContentDlcAll=스위치는 모든 DLC에 적용됩니다
+ContentAskDelete='{0}'을(를) 삭제할까요?\n\n파일은 휴지통으로 이동됩니다.
+ContentDeleted=삭제됨: {0}
+ContentAdded=추가됨: {0}
+ContentOtherGame='{0}'은(는) 다른 게임(Title ID {1})의 것이며 그쪽에 표시됩니다.
+ContentToggledOn=활성화됨: {0}
+ContentToggledOff=비활성화됨: {0}
+ContentRegistered=폴더를 Eden의 외부 콘텐츠 폴더로 등록했습니다: {0}
+FwTitle=펌웨어
+FwNone=설치된 펌웨어 없음
+FwVersion=펌웨어 {0}
+FwVersionUnknown=펌웨어 설치됨 (버전 알 수 없음)
+FwFiles=파일 {0}개 · {1}
+FwInstallZip=ZIP에서 설치...
+FwInstallDir=폴더에서...
+FwDelete=삭제
+FwFolder=폴더 열기
+FwHint=설치하면 현재 펌웨어가 교체됩니다. 문제가 생기면 이전 펌웨어가 유지됩니다.
+FwPreparing=펌웨어 준비 중...
+FwInstalling=펌웨어 설치 중... {0}/{1}
+FwDone=펌웨어 설치됨 (파일 {0}개).
+FwNoNca=선택한 항목에서 .nca 파일을 찾지 못했습니다.
+FwAskReplace=이미 펌웨어가 설치되어 있습니다 ({0}). 교체할까요?
+FwAskDelete=정말 펌웨어를 삭제할까요?\n\n펌웨어가 필요한 게임은 더 이상 실행되지 않습니다.
+FwDeleted=펌웨어가 삭제되었습니다.
+FwKeysTooOld=prod.keys가 이 펌웨어에 비해 너무 오래되었습니다 (펌웨어 {0}까지 지원).
+KeysTitle=키
+KeysNone=설치된 prod.keys 없음
+KeysInstalled=prod.keys · 키 {0}개
+KeysGen=펌웨어 {1}까지 지원 (master key {0})
+KeysGenRaw=Master key {0}
+KeysTitleKeys=title.keys · 항목 {0}개
+KeysInstall=prod.keys 설치...
+KeysDelete=삭제
+KeysHint=같은 폴더의 title.keys와 key_retail.bin도 함께 복사됩니다.
+KeysInvalid=선택한 파일이 prod.keys가 아닌 것 같습니다.
+KeysDone=키가 설치되었습니다.
+KeysAskDelete=prod.keys와 title.keys를 삭제할까요?\n\n파일은 휴지통으로 이동됩니다.
+KeysDeleted=키가 삭제되었습니다.
+KeysMissingForFw=prod.keys가 없으면 Eden이 펌웨어를 사용할 수 없습니다.
 '@
 }
 
@@ -2711,6 +3453,20 @@ $modSync = [hashtable]::Synchronized(@{
     Done   = $false
     Result = $null
     Args   = $null
+})
+$contentSync = [hashtable]::Synchronized(@{
+    Done     = $false
+    Result   = $null
+    Args     = $null
+    Status   = ""
+    Progress = -1
+})
+$fwSync = [hashtable]::Synchronized(@{
+    Done   = $false
+    Result = $null
+    Args   = $null
+    Cur    = 0
+    Total  = 0
 })
 $notesSync = [hashtable]::Synchronized(@{
     Log    = (New-Object 'System.Collections.Concurrent.ConcurrentQueue[string]')
@@ -2829,6 +3585,213 @@ $jobGames = {
         $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg; CacheNames = $names }
     } catch {
         $sync.Result = @{ Ok = $false; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
+
+# Updates/DLC: NSP/NSZ/XCI/XCZ in Edens externen Inhaltsordnern (+ Spieleordnern) finden
+# und neue Dateien in den eigenen Ordner <Eden-Daten>\external_content\<TitleID>\ kopieren.
+# Title-IDs: Spiel = ...000, Update = Spiel + 0x800, DLC = Spiel + 0x1000 + Nummer
+$jobContent = {
+    $a = $sync.Args
+    function Get-NspTid([string]$path) {
+        $fs = $null
+        try {
+            $fs = [IO.File]::OpenRead($path)
+            $br = New-Object IO.BinaryReader($fs)
+            if ([Text.Encoding]::ASCII.GetString($br.ReadBytes(4)) -ne "PFS0") { return $null }
+            $n = $br.ReadUInt32(); $strSize = $br.ReadUInt32(); [void]$br.ReadUInt32()
+            if ($n -gt 4096 -or $strSize -gt 1048576) { return $null }
+            [void]$br.ReadBytes([int](24 * $n))
+            $tbl = [Text.Encoding]::ASCII.GetString($br.ReadBytes([int]$strSize))
+            foreach ($nm in $tbl.Split([char]0)) {
+                if ($nm -match '^(01[0-9a-fA-F]{14})[0-9a-fA-F]{16}\.(tik|cert)$') { return $Matches[1].ToUpperInvariant() }
+            }
+        } catch {} finally { if ($fs) { $fs.Close() } }
+        return $null
+    }
+    function Get-ContentId([string]$path) {
+        $base = [IO.Path]::GetFileNameWithoutExtension($path)
+        $m = [regex]::Match($base, '(?i)\b(01[0-9a-f]{14})\b')
+        $tid = if ($m.Success) { $m.Groups[1].Value.ToUpperInvariant() } elseif ($path -match '(?i)\.(nsp|nsz)$') { Get-NspTid $path } else { $null }
+        $ver = $null
+        $vm = [regex]::Match($base, '(?i)\[v(\d+)\]')
+        if (-not $vm.Success) { $vm = [regex]::Match($base, '(?i)(?<![\w.])v(\d{5,10})(?!\d)') }
+        if ($vm.Success) { $ver = [int64]$vm.Groups[1].Value }
+        return @{ Tid = $tid; Version = $ver }
+    }
+    function Get-Kind([string]$tid) {
+        $low = [Convert]::ToInt32($tid.Substring(12), 16) -band 0x1FFF
+        if ($low -eq 0) { return "base" }
+        if ($low -eq 0x800) { return "update" }
+        if ($low -ge 0x1000) { return "dlc" }
+        return "other"
+    }
+    function Get-BaseTid([string]$tid) { return $tid.Substring(0, 12) + (([Convert]::ToInt32($tid.Substring(12), 16)) -band 0xE000).ToString("X4") }
+    function Get-CleanName([string]$file) {
+        $n = [IO.Path]::GetFileNameWithoutExtension($file)
+        $n = [regex]::Replace($n, '\[[^\]]*\]|\([^\)]*\)', '')
+        $n = [regex]::Replace($n.Replace('_', ' '), '\s{2,}', ' ').Trim(' ', '-', '.')
+        if (-not $n) { $n = $file }
+        return $n
+    }
+    try {
+        $managed = [string]$a.Managed
+        if ($a.Mode -eq "add") {
+            $added = @(); $other = @(); $skipped = @()
+            foreach ($src in @($a.Files)) {
+                $id = Get-ContentId $src
+                $kind = if ($id.Tid) { Get-Kind $id.Tid } else { "unknown" }
+                $name = [IO.Path]::GetFileName($src)
+                if ($kind -eq "base" -or $kind -eq "other") { $skipped += $name; continue }
+                $base = if ($kind -eq "update" -or $kind -eq "dlc") { Get-BaseTid $id.Tid } else { [string]$a.Base }
+                $dir = Join-Path $managed $base
+                New-Item -ItemType Directory -Path $dir -Force | Out-Null
+                $dest = Join-Path $dir $name
+                if ([IO.Path]::GetFullPath($src) -ne [IO.Path]::GetFullPath($dest)) {
+                    $sync.Status = $name; $sync.Progress = 0
+                    $tmp = $dest + ".eu-part"
+                    $in = $null; $out = $null
+                    try {
+                        $in  = [IO.File]::OpenRead($src)
+                        $out = [IO.File]::Create($tmp)
+                        $buf = New-Object byte[] (4MB)
+                        $tot = [Math]::Max(1L, $in.Length); $done = 0L
+                        while (($n = $in.Read($buf, 0, $buf.Length)) -gt 0) {
+                            $out.Write($buf, 0, $n); $done += $n
+                            $sync.Progress = [int](100 * $done / $tot)
+                        }
+                    } catch {
+                        if ($out) { $out.Close(); $out = $null }
+                        Remove-Item -LiteralPath $tmp -Force -ErrorAction SilentlyContinue
+                        throw
+                    } finally {
+                        if ($in) { $in.Close() }
+                        if ($out) { $out.Close() }
+                    }
+                    Move-Item -LiteralPath $tmp -Destination $dest -Force
+                }
+                $added += $name
+                if ($base -ne [string]$a.Base) { $other += ,@($name, $base) }
+            }
+            $sync.Result = @{ Ok = $true; Mode = "add"; Added = $added; Other = $other; Skipped = $skipped }
+            return
+        }
+
+        # Edens Einstellungen: externe Inhaltsordner, Spieleordner, "Updates/DLC aus Spieleordnern laden"
+        $cfg = [string]$a.Config
+        $extDirs = @(); $gameDirs = @(); $fromGame = $true
+        if ($cfg -and (Test-Path -LiteralPath $cfg)) {
+            $txt = [IO.File]::ReadAllText($cfg)
+            $mm = [regex]::Match($txt, '(?m)^ext_content_from_game_dirs=(\w+)\s*$')
+            if ($mm.Success) { $fromGame = ($mm.Groups[1].Value.Trim() -eq "true") }
+            foreach ($m in [regex]::Matches($txt, '(?m)^external_content_dirs\\\d+\\path=(.*)$')) {
+                $pth = $m.Groups[1].Value.Trim().Trim('"').Replace('/', '\')
+                if ($pth) { $extDirs += $pth }
+            }
+            $paths = @{}; $deep = @{}
+            foreach ($m in [regex]::Matches($txt, '(?m)gamedirs\\(\d+)\\path=(.*)$'))      { $paths[$m.Groups[1].Value] = $m.Groups[2].Value.Trim() }
+            foreach ($m in [regex]::Matches($txt, '(?m)gamedirs\\(\d+)\\deep_scan=(.*)$')) { $deep[$m.Groups[1].Value]  = ($m.Groups[2].Value.Trim() -eq "true") }
+            foreach ($k in $paths.Keys) {
+                $pth = $paths[$k].Trim('"')
+                if (-not $pth -or $pth -in @("SDMC", "UserNAND", "SysNAND")) { continue }
+                $gameDirs += @{ Path = $pth.Replace('/', '\'); Deep = [bool]$deep[$k] }
+            }
+        }
+        $norm = { param($x) ([string]$x).Replace('/', '\').TrimEnd('\').ToLowerInvariant() }
+        $roots = New-Object System.Collections.ArrayList
+        [void]$roots.Add(@{ Path = $managed; Deep = $true; Source = "ext" })
+        foreach ($d in $extDirs) { [void]$roots.Add(@{ Path = $d; Deep = $true; Source = "ext" }) }
+        if ($fromGame) { foreach ($d in $gameDirs) { [void]$roots.Add(@{ Path = $d.Path; Deep = $d.Deep; Source = "game" }) } }
+
+        $items = New-Object System.Collections.ArrayList
+        $seen = @{}
+        $mRoot = (& $norm $managed) + '\'
+        foreach ($r in $roots) {
+            if (-not $r.Path -or -not (Test-Path -LiteralPath $r.Path)) { continue }
+            $files = if ($r.Deep) { Get-ChildItem -LiteralPath $r.Path -File -Recurse -ErrorAction SilentlyContinue }
+                     else         { Get-ChildItem -LiteralPath $r.Path -File -ErrorAction SilentlyContinue }
+            foreach ($f in $files) {
+                if ($f.Extension -notmatch '^\.(nsp|nsz|xci|xcz)$') { continue }
+                $key = & $norm $f.FullName
+                if ($seen.ContainsKey($key)) { continue }
+                $seen[$key] = $true
+                $id = Get-ContentId $f.FullName
+                $kind = if ($id.Tid) { Get-Kind $id.Tid } else { "unknown" }
+                if ($kind -eq "base" -or $kind -eq "other") { continue }
+                $base = if ($id.Tid) { Get-BaseTid $id.Tid } else { $null }
+                if (-not $base) {
+                    # ohne Title-ID nur zuordnen, wenn die Datei in unserem Ordner <TitleID>\ liegt
+                    $par = Split-Path -Leaf (Split-Path -Parent $f.FullName)
+                    if ($key.StartsWith($mRoot) -and $par -match '^[0-9A-Fa-f]{16}$') { $base = $par.ToUpperInvariant() } else { continue }
+                }
+                [void]$items.Add(@{
+                    Base = $base; Tid = [string]$id.Tid; Kind = $kind; Version = $id.Version
+                    Name = (Get-CleanName $f.Name); File = $f.Name; Path = $f.FullName; Size = $f.Length; Source = $r.Source
+                    Managed = $key.StartsWith($mRoot)
+                })
+            }
+        }
+        $registered = @($extDirs | Where-Object { (& $norm $_) -eq (& $norm $managed) }).Count -gt 0
+        $sync.Result = @{ Ok = $true; Mode = "scan"; Items = @($items); Registered = $registered }
+    } catch {
+        $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
+
+# Firmware: alle .nca aus ZIP/Ordner flach nach nand\system\Contents\registered (wie Edens "Firmware installieren").
+# Die alte Firmware wird erst nach Erfolg geloescht, bei einem Fehler kommt sie zurueck.
+$jobFirmware = {
+    $a = $sync.Args
+    try {
+        $target = [string]$a.Target
+        $old    = $target + ".eu-old"
+        if ($a.Mode -eq "delete") {
+            if (Test-Path -LiteralPath $target) { Remove-Item -LiteralPath $target -Recurse -Force }
+            New-Item -ItemType Directory -Path $target -Force | Out-Null
+            $sync.Result = @{ Ok = $true; Mode = "delete" }
+            return
+        }
+        Add-Type -AssemblyName System.IO.Compression
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        $zip = $null
+        try {
+            if ($a.Zip) {
+                $zip  = [IO.Compression.ZipFile]::OpenRead([string]$a.Source)
+                $list = @($zip.Entries | Where-Object { $_.Name -match '(?i)\.nca$' })
+            } else {
+                $list = @(Get-ChildItem -LiteralPath ([string]$a.Source) -File -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '(?i)\.nca$' })
+            }
+            if ($list.Count -eq 0) { $sync.Result = @{ Ok = $false; Mode = "install"; Error = "nonca" }; return }
+            $sync.Total = $list.Count; $sync.Cur = 0
+            if (Test-Path -LiteralPath $old) { Remove-Item -LiteralPath $old -Recurse -Force }
+            $hadOld = Test-Path -LiteralPath $target
+            if ($hadOld) { [IO.Directory]::Move($target, $old) }
+            New-Item -ItemType Directory -Path $target -Force | Out-Null
+            try {
+                $i = 0
+                foreach ($e in $list) {
+                    $i++
+                    $dest = Join-Path $target $e.Name
+                    if ($zip) { [IO.Compression.ZipFileExtensions]::ExtractToFile($e, $dest, $true) }
+                    else      { [IO.File]::Copy($e.FullName, $dest, $true) }
+                    $sync.Cur = $i
+                }
+            } catch {
+                Remove-Item -LiteralPath $target -Recurse -Force -ErrorAction SilentlyContinue
+                if ($hadOld) { [IO.Directory]::Move($old, $target) }
+                throw
+            }
+            if ($hadOld) { Remove-Item -LiteralPath $old -Recurse -Force -ErrorAction SilentlyContinue }
+            $sync.Result = @{ Ok = $true; Mode = "install"; Count = $list.Count }
+        } finally {
+            if ($zip) { $zip.Dispose() }
+        }
+    } catch {
+        $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
     } finally {
         $sync.Done = $true
     }
@@ -3941,6 +4904,8 @@ $xaml = @'
           <Button x:Name="BtnNavNotes" Tag="&#xE8A5;" Content="{DynamicResource L_NavNotes}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavGames" Tag="&#xE7FC;" Content="{DynamicResource L_NavGames}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavMods"  Tag="&#xEA86;" Content="{DynamicResource L_NavMods}"     Style="{StaticResource BtnNav}"/>
+          <Button x:Name="BtnNavContent" Tag="&#xE7B8;" Content="{DynamicResource L_NavContent}" Style="{StaticResource BtnNav}"/>
+          <Button x:Name="BtnNavFw"    Tag="&#xE950;" Content="{DynamicResource L_NavFirmware}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSet"   Tag="&#xE713;" Content="{DynamicResource L_NavSettings}" Style="{StaticResource BtnNav}"/>
         </StackPanel>
 
@@ -4326,6 +5291,217 @@ $xaml = @'
               </Grid>
             </Border>
           </Grid>
+        </Grid>
+
+        <!-- Seite: Updates/DLC (externe Inhaltsordner von Eden) -->
+        <Grid x:Name="PanelContent" Visibility="Collapsed">
+          <Grid.RenderTransform>
+            <TranslateTransform/>
+          </Grid.RenderTransform>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="4,0,0,8">
+            <TextBlock x:Name="TxtContentInfo" Style="{StaticResource Label}" VerticalAlignment="Center"/>
+            <Button x:Name="BtnContentReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" HorizontalAlignment="Right"/>
+          </Grid>
+
+          <Border x:Name="ContentBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
+                  Background="{DynamicResource BrBadgeInstBg}">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+              <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="290"/>
+              <ColumnDefinition Width="12"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
+              <ListBox x:Name="ListContentGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                      </Grid.ColumnDefinitions>
+                      <Grid Width="36" Height="36" VerticalAlignment="Center">
+                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
+                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
+                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border CornerRadius="8">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
+                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Margin="20,16,16,12">
+                  <TextBlock x:Name="TxtContentGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                  <TextBlock x:Name="TxtContentGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                             FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,10"/>
+                  <StackPanel Orientation="Horizontal">
+                    <Button x:Name="BtnContentAdd" Tag="&#xE710;" Content="{DynamicResource L_ContentAdd}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
+                    <Button x:Name="BtnContentFolder" Tag="&#xE838;" Content="{DynamicResource L_ContentFolder}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
+                  </StackPanel>
+                </StackPanel>
+                <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
+                <ListBox x:Name="ListContent" Grid.Row="1" Margin="8,8,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+                      <Setter Property="Template">
+                        <Setter.Value>
+                          <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Margin="0,0,0,3">
+                              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
+                              <ContentPresenter Margin="14,10,8,10"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                              <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="hov" Property="Opacity" Value="1"/>
+                              </Trigger>
+                            </ControlTemplate.Triggers>
+                          </ControlTemplate>
+                        </Setter.Value>
+                      </Setter>
+                    </Style>
+                  </ListBox.ItemContainerStyle>
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto"/>
+                          <ColumnDefinition Width="*"/>
+                          <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Uid="toggle" IsChecked="{Binding Enabled, Mode=OneWay}" VerticalAlignment="Center">
+                          <CheckBox.Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource Switch}">
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding CanToggle}" Value="False">
+                                  <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </CheckBox.Style>
+                        </CheckBox>
+                        <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+                          <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14"
+                                     FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                          <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <Button Grid.Column="2" Uid="delete" Tag="&#xE74D;" Content="{DynamicResource L_ContentDelete}" Style="{StaticResource BtnGhost}"
+                                VerticalAlignment="Center"/>
+                      </Grid>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock x:Name="TxtContentEmpty" Grid.Row="1" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="360" Visibility="Collapsed"/>
+              </Grid>
+            </Border>
+          </Grid>
+        </Grid>
+
+        <!-- Seite: Firmware und Schluessel -->
+        <Grid x:Name="PanelFirmware" Visibility="Collapsed">
+          <Grid.RenderTransform>
+            <TranslateTransform/>
+          </Grid.RenderTransform>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <Border x:Name="FwBanner" Grid.Row="0" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
+                  Background="{DynamicResource BrBadgeInstBg}">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+              <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+              <!-- Firmware -->
+              <Border Style="{StaticResource Card}">
+                <StackPanel>
+                  <Grid Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                      <TextBlock Text="&#xE950;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_FwTitle}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button x:Name="BtnFwFolder" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
+                            HorizontalAlignment="Right" Margin="0,-6,-6,-6"/>
+                  </Grid>
+                  <TextBlock x:Name="TxtFwState" Style="{StaticResource FieldTitle}" FontSize="17"/>
+                  <TextBlock x:Name="TxtFwSub" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+                  <Border x:Name="FwWarn" Visibility="Collapsed" CornerRadius="10" Padding="12,8" Margin="0,12,0,0" Background="{DynamicResource BrBadgeInstBg}">
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                      <TextBlock x:Name="TxtFwWarn" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    </StackPanel>
+                  </Border>
+                  <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <Button x:Name="BtnFwZip" Tag="&#xE896;" Content="{DynamicResource L_FwInstallZip}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
+                    <Button x:Name="BtnFwDir" Tag="&#xE8B7;" Content="{DynamicResource L_FwInstallDir}" Style="{StaticResource Btn}" Padding="14,8" Margin="8,0,0,0"/>
+                    <Button x:Name="BtnFwDelete" Tag="&#xE74D;" Content="{DynamicResource L_FwDelete}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
+                  </StackPanel>
+                  <TextBlock Text="{DynamicResource L_FwHint}" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+                </StackPanel>
+              </Border>
+
+              <!-- Schluessel -->
+              <Border Style="{StaticResource Card}" Margin="0,14,0,6">
+                <StackPanel>
+                  <Grid Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                      <TextBlock Text="&#xE8D7;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_KeysTitle}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button x:Name="BtnKeysFolder" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
+                            HorizontalAlignment="Right" Margin="0,-6,-6,-6"/>
+                  </Grid>
+                  <TextBlock x:Name="TxtKeysState" Style="{StaticResource FieldTitle}" FontSize="17"/>
+                  <TextBlock x:Name="TxtKeysSub" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+                  <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <Button x:Name="BtnKeysInstall" Tag="&#xE896;" Content="{DynamicResource L_KeysInstall}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
+                    <Button x:Name="BtnKeysDelete" Tag="&#xE74D;" Content="{DynamicResource L_KeysDelete}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
+                  </StackPanel>
+                  <TextBlock Text="{DynamicResource L_KeysHint}" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
         </Grid>
 
         <!-- Seite: Einstellungen -->
@@ -5504,17 +6680,23 @@ function Set-Page([string]$page) {
     $ui.PanelSettings.Visibility = if ($page -eq "settings") { "Visible" } else { "Collapsed" }
     $ui.PanelGames.Visibility    = if ($page -eq "games")    { "Visible" } else { "Collapsed" }
     $ui.PanelMods.Visibility     = if ($page -eq "mods")     { "Visible" } else { "Collapsed" }
+    $ui.PanelContent.Visibility  = if ($page -eq "content")  { "Visible" } else { "Collapsed" }
+    $ui.PanelFirmware.Visibility = if ($page -eq "firmware") { "Visible" } else { "Collapsed" }
     Set-NavActive $ui.BtnNavVer   ($page -eq "versions")
     Set-NavActive $ui.BtnNavNotes ($page -eq "notes")
     Set-NavActive $ui.BtnNavGames ($page -eq "games")
     Set-NavActive $ui.BtnNavMods  ($page -eq "mods")
+    Set-NavActive $ui.BtnNavContent ($page -eq "content")
+    Set-NavActive $ui.BtnNavFw    ($page -eq "firmware")
     Set-NavActive $ui.BtnNavSet   ($page -eq "settings")
-    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "mods" { "L_NavMods" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
+    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "mods" { "L_NavMods" } "content" { "L_NavContent" } "firmware" { "L_NavFirmware" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
     if ($page -eq "games" -and -not $script:GamesLoaded) { Start-GameScan }
     if ($page -eq "mods" -and -not $script:Snapshot) { Open-ModsTab }
+    if ($page -eq "content" -and -not $script:Snapshot) { Open-ContentTab }
+    if ($page -eq "firmware") { Update-FirmwarePage }
     $ui.TxtPageTitle.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $titleKey)
     if ($prev -ne $page) {
-        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "settings" { $ui.PanelSettings } }
+        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "content" { $ui.PanelContent } "firmware" { $ui.PanelFirmware } "settings" { $ui.PanelSettings } }
         Start-FadeIn $el
     }
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
@@ -5633,6 +6815,7 @@ function Complete-GameScan {
     }
     Update-GameList
     if ($script:ModsLoaded) { Update-ModGames }
+    if ($script:ContentLoaded) { Update-ContentGames }
 }
 
 function Update-GameList {
@@ -6015,6 +7198,552 @@ function Open-ModFolder {
 }
 
 # ------------------------------------------------------------
+#  Gemeinsame Helfer fuer Updates/DLC und Firmware
+# ------------------------------------------------------------
+function Format-Size([double]$b) {
+    if ($b -ge 1GB) { return ("{0:N1} GB" -f ($b / 1GB)) }
+    if ($b -ge 1MB) { return ("{0:N1} MB" -f ($b / 1MB)) }
+    return ("{0:N0} KB" -f [Math]::Max(1, $b / 1KB))
+}
+
+function Open-Dir([string]$dir) {
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    Start-Process explorer.exe -ArgumentList ('"' + $dir + '"')
+}
+
+# Einen Wert aus Edens qt-config.ini lesen ([Abschnitt] Schluessel=Wert)
+function Read-EdenIni([string]$cfg, [string]$section, [string]$key) {
+    if (-not (Test-Path -LiteralPath $cfg)) { return $null }
+    $in = $false
+    foreach ($line in [IO.File]::ReadAllLines($cfg)) {
+        $t = $line.Trim()
+        if ($t.StartsWith("[")) { $in = ($t -eq "[$section]"); continue }
+        if ($in -and $t.StartsWith($key + "=")) { return $t.Substring($key.Length + 1).Trim().Trim('"') }
+    }
+    return $null
+}
+
+# Ordner in [Paths] external_content_dirs eintragen (so wie Eden ihn selbst speichert).
+# Rueckgabe: $true wenn neu eingetragen, $false wenn schon vorhanden.
+function Register-ExternalDir([string]$cfg, [string]$dir) {
+    $val  = ([IO.Path]::GetFullPath($dir).TrimEnd('\') + '\').Replace('\', '/')
+    $norm = { param($x) ([string]$x).Replace('\', '/').TrimEnd('/').ToLowerInvariant() }
+    $nl = "`r`n"; $bom = $false; $lines = @()
+    if (Test-Path -LiteralPath $cfg) {
+        $bytes = [IO.File]::ReadAllBytes($cfg)
+        $bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
+        $text = [Text.Encoding]::UTF8.GetString($bytes)
+        if ($bom) { $text = $text.Substring(1) }
+        if ($text -notmatch "`r`n") { $nl = "`n" }
+        $lines = @($text -split "\r?\n")
+    } else {
+        New-Item -ItemType Directory -Path (Split-Path -Parent $cfg) -Force | Out-Null
+    }
+    $start = -1; $end = $lines.Count
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $t = $lines[$i].Trim()
+        if ($start -lt 0) { if ($t -eq "[Paths]") { $start = $i } }
+        elseif ($t.StartsWith("[")) { $end = $i; break }
+    }
+    $found = @{}
+    if ($start -ge 0) {
+        for ($i = $start + 1; $i -lt $end; $i++) {
+            if ($lines[$i].Trim() -match '^external_content_dirs\\(\d+)\\path=(.*)$') { $found[[int]$Matches[1]] = $Matches[2].Trim() }
+        }
+    }
+    $dirs = @($found.Keys | Sort-Object | ForEach-Object { $found[$_] } | Where-Object { $_ })
+    foreach ($d in $dirs) { if ((& $norm $d) -eq (& $norm $val)) { return $false } }
+    $dirs += $val
+    $new = New-Object System.Collections.Generic.List[string]
+    for ($k = 0; $k -lt $dirs.Count; $k++) { $new.Add(("external_content_dirs\{0}\path={1}" -f ($k + 1), $dirs[$k])) }
+    $new.Add("external_content_dirs\size=$($dirs.Count)")
+
+    $out = New-Object System.Collections.Generic.List[string]
+    if ($start -lt 0) {
+        foreach ($l in $lines) { $out.Add($l) }
+        while ($out.Count -gt 0 -and $out[$out.Count - 1] -eq "") { $out.RemoveAt($out.Count - 1) }
+        if ($out.Count -gt 0) { $out.Add("") }
+        $out.Add("[Paths]")
+        foreach ($x in $new) { $out.Add($x) }
+        $out.Add("")
+    } else {
+        for ($i = 0; $i -le $start; $i++) { $out.Add($lines[$i]) }
+        $body = New-Object System.Collections.Generic.List[string]
+        for ($i = $start + 1; $i -lt $end; $i++) { if ($lines[$i].Trim() -notmatch '^external_content_dirs\\') { $body.Add($lines[$i]) } }
+        while ($body.Count -gt 0 -and $body[$body.Count - 1].Trim() -eq "") { $body.RemoveAt($body.Count - 1) }
+        foreach ($x in $body) { $out.Add($x) }
+        foreach ($x in $new) { $out.Add($x) }
+        if ($end -lt $lines.Count) { $out.Add("") }
+        for ($i = $end; $i -lt $lines.Count; $i++) { $out.Add($lines[$i]) }
+    }
+    if (Test-Path -LiteralPath $cfg) { Copy-Item -LiteralPath $cfg -Destination ($cfg + ".eden-updater.bak") -Force }
+    [IO.File]::WriteAllText($cfg, ($out -join $nl), (New-Object Text.UTF8Encoding($bom)))
+    return $true
+}
+
+# Eden-Banner ("Eden laeuft") auf den neuen Seiten; nutzt die gleiche Pruefung wie der Mods-Tab
+function Update-SysBanners([bool]$force = $false) {
+    Update-ModsBanner $force
+    $run = $script:EdenRunning
+    $ui.ContentBanner.Visibility = if ($run) { "Visible" } else { "Collapsed" }
+    $ui.FwBanner.Visibility      = if ($run) { "Visible" } else { "Collapsed" }
+    $ui.ListContent.IsEnabled    = -not $run
+    $ui.BtnContentAdd.IsEnabled  = [bool]($ui.ListContentGames.SelectedItem) -and -not $run -and -not $script:ContentWorker
+    $fwFree = -not $run -and -not $script:FwWorker
+    $ui.BtnFwZip.IsEnabled    = $fwFree
+    $ui.BtnFwDir.IsEnabled    = $fwFree
+    $ui.BtnFwDelete.IsEnabled = $fwFree -and $script:FwHas
+}
+
+# ------------------------------------------------------------
+#  Updates/DLC-Tab
+# ------------------------------------------------------------
+$script:Content         = @()
+$script:ContentLoaded   = $false
+$script:ContentWorker   = $null
+$script:ContentGames    = @()
+
+function Get-ManagedContentDir { return (Join-Path (Get-EdenDataDir) "external_content") }
+
+function Start-ContentWorker([hashtable]$jobArgs) {
+    if ($script:ContentWorker) { return }
+    $contentSync.Args = $jobArgs; $contentSync.Done = $false; $contentSync.Result = $null
+    $contentSync.Status = ""; $contentSync.Progress = -1
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $contentSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobContent.ToString())
+    $script:ContentWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+    Update-SysBanners $true
+}
+
+function Start-ContentScan {
+    $ui.TxtContentInfo.Text = T "ContentScanning"
+    Start-ContentWorker @{ Mode = "scan"; Config = (Get-EdenConfigPath); Managed = (Get-ManagedContentDir) }
+}
+
+function Complete-ContentWorker {
+    $w = $script:ContentWorker
+    $script:ContentWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $contentSync.Result
+    Update-SysBanners $true
+    if (-not $r) { return }
+    if (-not $r.Ok) {
+        Add-UiLog ((T "ErrPrefix") + " " + $r.Error)
+        if ($r.Mode -eq "add") { Show-Msg $r.Error "Error"; Start-ContentScan }
+        if ($r.Mode -eq "scan") { $script:ContentLoaded = $true; Update-ContentGames }
+        return
+    }
+    if ($r.Mode -eq "add") {
+        foreach ($n in @($r.Added)) { Add-UiLog (TF "ContentAdded" $n) }
+        foreach ($o in @($r.Other)) { if ($o) { Show-Msg (TF "ContentOtherGame" $o[0] $o[1]) "Information" } }
+        foreach ($n in @($r.Skipped)) { Add-UiLog ((T "ErrPrefix") + " " + $n + " - " + (T "ContentUnknown") + "?") }
+        Start-ContentScan
+        return
+    }
+    $script:Content = @($r.Items)
+    $script:ContentLoaded = $true
+    # Liegen Dateien in unserem Ordner, der noch nicht in Eden eingetragen ist? Dann jetzt eintragen.
+    if (-not $r.Registered -and @($script:Content | Where-Object { $_.Managed }).Count -and -not (Test-EdenRunning)) {
+        try {
+            $m = Get-ManagedContentDir
+            if (Register-ExternalDir (Get-EdenConfigPath) $m) { Add-UiLog (TF "ContentRegistered" $m) }
+        } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
+    }
+    Update-ContentGames
+}
+
+# Linke Liste: Spiele aus der Bibliothek + Spiele, fuer die Updates/DLCs gefunden wurden
+function Update-ContentGames {
+    $byTid = @{}
+    foreach ($g in @($script:Games)) {
+        if ($g.Tid -and -not $byTid.ContainsKey($g.Tid)) { $byTid[$g.Tid] = @{ Tid = $g.Tid; Name = $g.Name; IconImg = $g.IconImg } }
+    }
+    foreach ($c in @($script:Content)) {
+        if (-not $byTid.ContainsKey($c.Base)) {
+            $nm = if ($script:CacheNames.ContainsKey($c.Base)) { $script:CacheNames[$c.Base] } else { T "ModsUnknownGame" }
+            $byTid[$c.Base] = @{ Tid = $c.Base; Name = $nm; IconImg = $null }
+        }
+    }
+    $list = foreach ($e in $byTid.Values) {
+        $cs = @($script:Content | Where-Object { $_.Base -eq $e.Tid })
+        $nd = @($cs | Where-Object { $_.Kind -eq "dlc" }).Count
+        [pscustomobject]@{
+            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg
+            Initial = $(if ($e.Name) { $e.Name.Substring(0, 1).ToUpper() } else { "?" })
+            Count = $cs.Count
+            Info = $(if ($cs.Count) { TF "ContentGameInfo" ($cs.Count - $nd) $nd } else { T "ContentNone" })
+        }
+    }
+    # Spiele mit Updates/DLCs zuerst, dann alphabetisch
+    $script:ContentGames = @($list | Sort-Object @{ Expression = { $_.Count -gt 0 }; Descending = $true }, Name)
+    $selTid = if ($ui.ListContentGames.SelectedItem) { $ui.ListContentGames.SelectedItem.Tid } else { $null }
+    $ui.ListContentGames.ItemsSource = $script:ContentGames
+    if ($selTid) { $ui.ListContentGames.SelectedItem = ($script:ContentGames | Where-Object { $_.Tid -eq $selTid } | Select-Object -First 1) }
+    if (-not $ui.ListContentGames.SelectedItem -and $script:ContentGames.Count) { $ui.ListContentGames.SelectedIndex = 0 }
+    $allD = @($script:Content | Where-Object { $_.Kind -eq "dlc" }).Count
+    if (-not $script:ContentWorker) { $ui.TxtContentInfo.Text = TF "ContentInfo" (@($script:Content).Count - $allD) $allD }
+    Update-ContentList
+}
+
+# Rechte Liste: Updates/DLCs des gewaehlten Spiels
+function Update-ContentList {
+    $g = $ui.ListContentGames.SelectedItem
+    Update-SysBanners
+    if (-not $g) {
+        $ui.TxtContentGameTitle.Text = T "ModsSelectGame"; $ui.TxtContentGameSub.Text = ""
+        $ui.ListContent.ItemsSource = $null
+        $ui.TxtContentEmpty.Visibility = "Collapsed"
+        $ui.BtnContentAdd.IsEnabled = $false; $ui.BtnContentFolder.IsEnabled = $false
+        return
+    }
+    $ui.TxtContentGameTitle.Text = $g.Name
+    $ui.TxtContentGameSub.Text = "Title-ID " + $g.Tid
+    $disabled = Read-DisabledAddOns (Get-EdenConfigPath)
+    $dec = ConvertTo-TidDec $g.Tid
+    $off = if ($disabled.Contains($dec)) { @($disabled[$dec]) } else { @() }
+    $sorted = @($script:Content | Where-Object { $_.Base -eq $g.Tid } |
+                Sort-Object @{ Expression = { if ($_.Kind -eq "update") { 0 } elseif ($_.Kind -eq "dlc") { 1 } else { 2 } } },
+                            @{ Expression = { [int64]$_.Version }; Descending = $true }, @{ Expression = { $_.Tid } }, @{ Expression = { $_.Name } })
+    $items = foreach ($c in $sorted) {
+        $kindTxt = if ($c.Kind -eq "update") { if ($null -ne $c.Version) { TF "ContentUpdate" ("v" + $c.Version) } else { T "ContentUpdateAny" } }
+                   elseif ($c.Kind -eq "dlc") { TF "ContentDlc" ([Convert]::ToInt32($c.Tid.Substring(12), 16) -band 0xFFF) }
+                   else { T "ContentUnknown" }
+        $parts = @($kindTxt, (Format-Size $c.Size))
+        if ($c.Source -eq "game") { $parts += (T "ContentFromGameDir") }
+        if ($c.Kind -eq "dlc") { $parts += (T "ContentDlcAll") }
+        $en = $true
+        if ($c.Kind -eq "update") { $en = -not (($off -contains "Update") -or ($null -ne $c.Version -and ($off -contains ("Update@" + $c.Version)))) }
+        elseif ($c.Kind -eq "dlc") { $en = -not ($off -contains "DLC") }
+        [pscustomobject]@{
+            Name = $c.Name; File = $c.File; Path = $c.Path; Base = $c.Base; Kind = $c.Kind; Version = $c.Version
+            Enabled = [bool]$en; CanToggle = ($c.Kind -eq "update" -or $c.Kind -eq "dlc")
+            Info = ($parts -join "  ·  ")
+        }
+    }
+    $ui.ListContent.ItemsSource = @($items)
+    $ui.TxtContentEmpty.Text = T "ContentEmptyGame"
+    $ui.TxtContentEmpty.Visibility = if (@($items).Count) { "Collapsed" } else { "Visible" }
+    $ui.BtnContentAdd.IsEnabled = -not $script:EdenRunning -and -not $script:ContentWorker
+    $ui.BtnContentFolder.IsEnabled = $true
+}
+
+function Open-ContentTab {
+    if (-not $script:GamesLoaded) { Start-GameScan }
+    if (-not $script:ContentLoaded) { Start-ContentScan } else { Update-ContentGames }
+    Update-SysBanners $true
+}
+
+# Schalter: Eden merkt sich deaktivierte Updates als "Update@<Version>" (alle: "Update"), DLCs nur gesamt als "DLC"
+function Set-ContentEnabled($item, [bool]$on) {
+    Update-SysBanners $true
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; Update-ContentList; return }
+    try {
+        $cfg = Get-EdenConfigPath
+        $map = Read-DisabledAddOns $cfg
+        $dec = ConvertTo-TidDec $item.Base
+        if (-not $map.Contains($dec)) { $map[$dec] = New-Object System.Collections.Generic.List[string] }
+        $list = $map[$dec]
+        $key = if ($item.Kind -eq "dlc") { "DLC" } elseif ($null -ne $item.Version) { "Update@" + $item.Version } else { "Update" }
+        if ($on) {
+            if ($item.Kind -eq "update" -and $list.Contains("Update") -and $key -ne "Update") {
+                # "Update" sperrt alle Versionen: die anderen einzeln gesperrt lassen
+                foreach ($c in @($script:Content | Where-Object { $_.Base -eq $item.Base -and $_.Kind -eq "update" -and $null -ne $_.Version })) {
+                    $k2 = "Update@" + $c.Version
+                    if ($k2 -ne $key -and -not $list.Contains($k2)) { $list.Add($k2) }
+                }
+                [void]$list.RemoveAll([Predicate[string]]{ param($x) $x -eq "Update" })
+            }
+            [void]$list.RemoveAll([Predicate[string]]{ param($x) $x -eq $key })
+        } elseif (-not $list.Contains($key)) {
+            $list.Add($key)
+        }
+        Write-DisabledAddOns $cfg $map
+        Add-UiLog (TF $(if ($on) { "ContentToggledOn" } else { "ContentToggledOff" }) $item.Name)
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Update-ContentGames
+}
+
+function Remove-ContentItem($item) {
+    Update-SysBanners $true
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return }
+    if ((Show-Dialog (TF "ContentAskDelete" $item.File) "YesNo" "Question") -ne "Yes") { return }
+    try {
+        Add-Type -AssemblyName Microsoft.VisualBasic
+        [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($item.Path, "OnlyErrorDialogs", "SendToRecycleBin")
+        if ($item.Kind -eq "update" -and $null -ne $item.Version) {
+            $cfg = Get-EdenConfigPath
+            $map = Read-DisabledAddOns $cfg
+            $dec = ConvertTo-TidDec $item.Base
+            $k = "Update@" + $item.Version
+            if ($map.Contains($dec) -and $map[$dec].Contains($k)) { [void]$map[$dec].Remove($k); Write-DisabledAddOns $cfg $map }
+        }
+        Add-UiLog (TF "ContentDeleted" $item.File)
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Start-ContentScan
+}
+
+function Add-ContentFiles {
+    $g = $ui.ListContentGames.SelectedItem
+    if (-not $g -or $script:ContentWorker) { return }
+    Update-SysBanners $true
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return }
+    $dlg = New-Object Microsoft.Win32.OpenFileDialog
+    $dlg.Title  = T "ContentAdd"
+    $dlg.Filter = "Switch (*.nsp;*.nsz;*.xci;*.xcz)|*.nsp;*.nsz;*.xci;*.xcz"
+    $dlg.Multiselect = $true
+    if (-not $dlg.ShowDialog($window)) { return }
+    $managed = Get-ManagedContentDir
+    try {
+        New-Item -ItemType Directory -Path $managed -Force | Out-Null
+        if (Register-ExternalDir (Get-EdenConfigPath) $managed) { Add-UiLog (TF "ContentRegistered" $managed) }
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+        return
+    }
+    $ui.TxtContentInfo.Text = TF "ContentCopying" ([IO.Path]::GetFileName($dlg.FileNames[0]))
+    Start-ContentWorker @{ Mode = "add"; Files = @($dlg.FileNames); Managed = $managed; Base = $g.Tid }
+}
+
+function Open-ContentFolder {
+    $g = $ui.ListContentGames.SelectedItem
+    if (-not $g) { return }
+    Open-Dir (Join-Path (Get-ManagedContentDir) $g.Tid)
+}
+
+# ------------------------------------------------------------
+#  Firmware & Schluessel
+# ------------------------------------------------------------
+# Master-Key-Generation -> erste Firmware, die sie braucht (Index = Generation)
+$KeyGenFirmware = @("1.0.0", "3.0.0", "3.0.1", "4.0.0", "5.0.0", "6.0.0", "6.2.0", "7.0.0", "8.1.0", "9.0.0", "9.1.0",
+                    "12.1.0", "13.0.0", "14.0.0", "15.0.0", "16.0.0", "17.0.0", "18.0.0", "19.0.0", "20.0.0", "21.0.0")
+$script:FwWorker = $null
+$script:FwHas    = $false
+$script:FwPendingVersion = ""
+
+# NAND-Ordner: Edens Einstellung [Data Storage] nand_directory, sonst <Eden-Daten>\nand
+function Get-NandDir {
+    $v = Read-EdenIni (Get-EdenConfigPath) "Data%20Storage" "nand_directory"
+    if ($v) { return $v.Replace('/', '\').TrimEnd('\') }
+    return (Join-Path (Get-EdenDataDir) "nand")
+}
+function Get-FirmwareDir { return (Join-Path (Get-NandDir) "system\Contents\registered") }
+function Get-KeysDir { return (Join-Path (Get-EdenDataDir) "keys") }
+
+function Get-FirmwareInfo {
+    $dir = Get-FirmwareDir
+    $r = @{ Dir = $dir; Count = 0; Size = 0L; Version = $null }
+    if (-not (Test-Path -LiteralPath $dir)) { return $r }
+    foreach ($e in Get-ChildItem -LiteralPath $dir -Force -ErrorAction SilentlyContinue) {
+        if ($e.Name -notmatch '(?i)\.nca$') { continue }
+        $r.Count++
+        if ($e.PSIsContainer) { foreach ($f in Get-ChildItem -LiteralPath $e.FullName -File -Recurse -Force -ErrorAction SilentlyContinue) { $r.Size += $f.Length } }
+        else { $r.Size += $e.Length }
+    }
+    if ($r.Count -eq 0) { return $r }
+    # Version: Eden schreibt beim Start "Installed firmware: x.y.z" ins Log. Gilt nur, wenn das Log neuer ist als die Firmware.
+    $log = Join-Path (Get-EdenDataDir) "log\eden_log.txt"
+    try {
+        if ((Test-Path -LiteralPath $log) -and (Get-Item -LiteralPath $log).LastWriteTime -gt (Get-Item -LiteralPath $dir).LastWriteTime) {
+            $fs = [IO.File]::Open($log, 'Open', 'Read', 'ReadWrite')
+            try { $txt = (New-Object IO.StreamReader($fs)).ReadToEnd() } finally { $fs.Close() }
+            $m = [regex]::Matches($txt, 'Installed firmware: (\d+\.\d+\.\d+)')
+            if ($m.Count) { $r.Version = $m[$m.Count - 1].Groups[1].Value }
+        }
+    } catch {}
+    if (-not $r.Version -and $script:Settings.FirmwareVersion) { $r.Version = [string]$script:Settings.FirmwareVersion }
+    return $r
+}
+
+function Get-KeysInfo {
+    $d = Get-KeysDir
+    $r = @{ Dir = $d; Prod = $false; Count = 0; Gen = -1; Title = -1 }
+    $p = Join-Path $d "prod.keys"
+    if (Test-Path -LiteralPath $p) {
+        $r.Prod = $true
+        foreach ($line in [IO.File]::ReadAllLines($p)) {
+            if ($line -notmatch '^\s*([A-Za-z0-9_]+)\s*=\s*[0-9A-Fa-f]+') { continue }
+            $name = $Matches[1]
+            $r.Count++
+            if ($name -match '^master_key_([0-9a-fA-F]{2})$') { $g = [Convert]::ToInt32($Matches[1], 16); if ($g -gt $r.Gen) { $r.Gen = $g } }
+        }
+    }
+    $t = Join-Path $d "title.keys"
+    if (Test-Path -LiteralPath $t) { $r.Title = @([IO.File]::ReadAllLines($t) | Where-Object { $_ -match '^\s*[0-9A-Fa-f]{32}\s*=' }).Count }
+    return $r
+}
+
+# Mindestens benoetigte Master-Key-Generation fuer eine Firmware-Version
+function Get-FwRequiredGen([string]$ver) {
+    try { $v = [version]$ver } catch { return -1 }
+    $g = -1
+    for ($i = 0; $i -lt $KeyGenFirmware.Count; $i++) { if ([version]$KeyGenFirmware[$i] -le $v) { $g = $i } }
+    return $g
+}
+
+function Update-FirmwarePage {
+    $fw = Get-FirmwareInfo
+    $k  = Get-KeysInfo
+    $script:FwHas = ($fw.Count -gt 0)
+    if (-not $script:FwWorker) {
+        if ($fw.Count) {
+            $ui.TxtFwState.Text = if ($fw.Version) { TF "FwVersion" $fw.Version } else { T "FwVersionUnknown" }
+            $ui.TxtFwSub.Text   = TF "FwFiles" $fw.Count (Format-Size $fw.Size)
+        } else {
+            $ui.TxtFwState.Text = T "FwNone"
+            $ui.TxtFwSub.Text   = $fw.Dir
+        }
+    }
+    if ($k.Prod) {
+        $ui.TxtKeysState.Text = TF "KeysInstalled" $k.Count
+        $parts = @()
+        if ($k.Gen -ge 0) {
+            $gx = "0x{0:X2}" -f $k.Gen
+            $parts += $(if ($k.Gen -lt $KeyGenFirmware.Count) { TF "KeysGen" $gx $KeyGenFirmware[$k.Gen] } else { TF "KeysGenRaw" $gx })
+        }
+        if ($k.Title -ge 0) { $parts += (TF "KeysTitleKeys" $k.Title) }
+        $ui.TxtKeysSub.Text = ($parts -join "  ·  ")
+    } else {
+        $ui.TxtKeysState.Text = T "KeysNone"
+        $ui.TxtKeysSub.Text   = $k.Dir
+    }
+    $ui.BtnKeysDelete.IsEnabled = $k.Prod
+    # Warnung: Firmware ohne Keys oder Keys aelter als die Firmware
+    $warn = $null
+    if ($fw.Count -and -not $k.Prod) { $warn = T "KeysMissingForFw" }
+    elseif ($fw.Count -and $fw.Version -and $k.Gen -ge 0 -and $k.Gen -lt $KeyGenFirmware.Count) {
+        if ((Get-FwRequiredGen $fw.Version) -gt $k.Gen) { $warn = TF "FwKeysTooOld" $KeyGenFirmware[$k.Gen] }
+    }
+    $ui.TxtFwWarn.Text = [string]$warn
+    $ui.FwWarn.Visibility = if ($warn) { "Visible" } else { "Collapsed" }
+    Update-SysBanners $true
+}
+
+function Start-FwWorker([hashtable]$jobArgs) {
+    if ($script:FwWorker) { return }
+    $fwSync.Args = $jobArgs; $fwSync.Done = $false; $fwSync.Result = $null; $fwSync.Cur = 0; $fwSync.Total = 0
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $fwSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobFirmware.ToString())
+    $script:FwWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+    $ui.TxtFwSub.Text = T "FwPreparing"
+    Update-SysBanners $true
+}
+
+function Complete-FwWorker {
+    $w = $script:FwWorker
+    $script:FwWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $fwSync.Result
+    if ($r -and $r.Ok) {
+        if ($r.Mode -eq "install") {
+            $script:Settings.FirmwareVersion = $script:FwPendingVersion
+            Add-UiLog (TF "FwDone" $r.Count)
+        } else {
+            $script:Settings.FirmwareVersion = ""
+            Add-UiLog (T "FwDeleted")
+        }
+        try { Save-Settings } catch {}
+    } elseif ($r) {
+        if ($r.Error -eq "nonca") { Show-Msg (T "FwNoNca") "Warning" }
+        else { Add-UiLog ((T "ErrPrefix") + " " + $r.Error); Show-Msg ((T "ErrPrefix") + " " + $r.Error) "Error" }
+    }
+    Update-FirmwarePage
+}
+
+function Install-Firmware([bool]$fromZip) {
+    if ($script:FwWorker) { return }
+    Update-SysBanners $true
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return }
+    $src = $null
+    if ($fromZip) {
+        $dlg = New-Object Microsoft.Win32.OpenFileDialog
+        $dlg.Title  = T "FwInstallZip"
+        $dlg.Filter = "ZIP (*.zip)|*.zip"
+        if (-not $dlg.ShowDialog($window)) { return }
+        $src = $dlg.FileName
+    } else {
+        $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
+        $dlg.Description = T "FwInstallDir"
+        if ($dlg.ShowDialog() -ne "OK") { return }
+        $src = $dlg.SelectedPath
+    }
+    $fw = Get-FirmwareInfo
+    if ($fw.Count) {
+        $v = if ($fw.Version) { $fw.Version } else { "?" }
+        if ((Show-Dialog (TF "FwAskReplace" $v) "YesNo" "Question") -ne "Yes") { return }
+    }
+    # Version aus dem Namen merken (z.B. "Firmware 20.1.0.zip")
+    $m = [regex]::Match([IO.Path]::GetFileName($src.TrimEnd('\')), '(?<![\d.])(\d{1,2}\.\d{1,2}\.\d{1,2})(?![\d.])')
+    $script:FwPendingVersion = if ($m.Success) { $m.Groups[1].Value } else { "" }
+    Start-FwWorker @{ Mode = "install"; Source = $src; Zip = $fromZip; Target = $fw.Dir }
+}
+
+function Remove-Firmware {
+    if ($script:FwWorker) { return }
+    Update-SysBanners $true
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return }
+    if ((Show-Dialog (T "FwAskDelete") "YesNo" "Warning") -ne "Yes") { return }
+    Start-FwWorker @{ Mode = "delete"; Target = (Get-FirmwareDir) }
+}
+
+# Wie Eden: prod.keys + (falls vorhanden) title.keys und key_retail.bin aus demselben Ordner kopieren
+function Install-Keys {
+    $dlg = New-Object Microsoft.Win32.OpenFileDialog
+    $dlg.Title  = T "KeysInstall"
+    $dlg.Filter = "prod.keys (*.keys)|*.keys|* (*.*)|*.*"
+    if (-not $dlg.ShowDialog($window)) { return }
+    $src = $dlg.FileName
+    try {
+        $txt = [IO.File]::ReadAllText($src)
+        if ($txt -notmatch '(?m)^\s*(header_key|master_key_[0-9a-fA-F]{2}|key_area_key_application_[0-9a-fA-F]{2})\s*=\s*[0-9A-Fa-f]{32}') {
+            Show-Msg (T "KeysInvalid") "Warning"; return
+        }
+        $d = Get-KeysDir
+        New-Item -ItemType Directory -Path $d -Force | Out-Null
+        Copy-Item -LiteralPath $src -Destination (Join-Path $d "prod.keys") -Force
+        $srcDir = Split-Path -Parent $src
+        foreach ($n in @("title.keys", "key_retail.bin")) {
+            $f = Join-Path $srcDir $n
+            if (Test-Path -LiteralPath $f) { Copy-Item -LiteralPath $f -Destination (Join-Path $d $n) -Force }
+        }
+        Add-UiLog (T "KeysDone")
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Update-FirmwarePage
+}
+
+function Remove-Keys {
+    if ((Show-Dialog (T "KeysAskDelete") "YesNo" "Warning") -ne "Yes") { return }
+    try {
+        Add-Type -AssemblyName Microsoft.VisualBasic
+        foreach ($n in @("prod.keys", "title.keys")) {
+            $f = Join-Path (Get-KeysDir) $n
+            if (Test-Path -LiteralPath $f) { [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($f, "OnlyErrorDialogs", "SendToRecycleBin") }
+        }
+        Add-UiLog (T "KeysDeleted")
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Update-FirmwarePage
+}
+
+# ------------------------------------------------------------
 #  Selbst-Update des Updaters (nur in der EXE)
 # ------------------------------------------------------------
 $SelfRepo = "KevinGandler/eden-updater"
@@ -6302,7 +8031,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -6371,6 +8100,27 @@ $ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEv
     if ($src.Uid -eq "toggle") { Set-ModEnabled $mod ([bool]$src.IsChecked) }
     elseif ($src.Uid -eq "delete") { Remove-Mod $mod }
 })
+$ui.BtnNavContent.Add_Click({ Set-Page "content" })
+$ui.BtnNavFw.Add_Click({ Set-Page "firmware" })
+$ui.BtnContentReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-ContentScan })
+$ui.BtnContentAdd.Add_Click({ Add-ContentFiles })
+$ui.BtnContentFolder.Add_Click({ Open-ContentFolder })
+$ui.ListContentGames.Add_SelectionChanged({ Update-ContentList })
+$ui.ListContent.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
+    param($sender, $e)
+    $src = $e.OriginalSource
+    $item = $src.DataContext
+    if (-not $item) { return }
+    if ($src.Uid -eq "toggle") { Set-ContentEnabled $item ([bool]$src.IsChecked) }
+    elseif ($src.Uid -eq "delete") { Remove-ContentItem $item }
+})
+$ui.BtnFwZip.Add_Click({ Install-Firmware $true })
+$ui.BtnFwDir.Add_Click({ Install-Firmware $false })
+$ui.BtnFwDelete.Add_Click({ Remove-Firmware })
+$ui.BtnFwFolder.Add_Click({ Open-Dir (Get-FirmwareDir) })
+$ui.BtnKeysInstall.Add_Click({ Install-Keys })
+$ui.BtnKeysDelete.Add_Click({ Remove-Keys })
+$ui.BtnKeysFolder.Add_Click({ Open-Dir (Get-KeysDir) })
 $ui.BtnGamesReload.Add_Click({ Start-GameScan })
 $ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
 $ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
@@ -6523,6 +8273,17 @@ $timer.Add_Tick({
         if ($script:GameWorker -and $gameSync.Done) { Complete-GameScan }
         if ($script:ModWorker -and $modSync.Done) { Complete-ModWorker }
         if ($script:CurrentPage -eq "mods") { Update-ModsBanner }
+        if ($script:ContentWorker) {
+            if ($contentSync.Done) { Complete-ContentWorker }
+            elseif ($contentSync.Args.Mode -eq "add" -and $contentSync.Status) {
+                $ui.TxtContentInfo.Text = (TF "ContentCopying" $contentSync.Status) + $(if ($contentSync.Progress -ge 0) { "  " + $contentSync.Progress + " %" } else { "" })
+            }
+        }
+        if ($script:FwWorker) {
+            if ($fwSync.Done) { Complete-FwWorker }
+            elseif ($fwSync.Total) { $ui.TxtFwSub.Text = TF "FwInstalling" $fwSync.Cur $fwSync.Total }
+        }
+        if ($script:CurrentPage -eq "content" -or $script:CurrentPage -eq "firmware") { Update-SysBanners }
         if ($script:SelfPrompt -and -not $script:Busy -and -not $script:MsgWin -and -not $script:ThemeWin) {
             $script:SelfPrompt = $false
             Ask-SelfUpdate
@@ -6535,6 +8296,9 @@ $timer.Add_Tick({
 $window.Add_Closing({
     param($s, $e)
     if ($script:Busy -and ($script:BusyKind -eq "install" -or $script:BusyKind -eq "restore")) {
+        $e.Cancel = $true
+        Show-Msg (T "MsgBusyClose") "Information"
+    } elseif ($script:FwWorker -or ($script:ContentWorker -and $contentSync.Args.Mode -eq "add")) {
         $e.Cancel = $true
         Show-Msg (T "MsgBusyClose") "Information"
     }
@@ -6596,9 +8360,17 @@ function Start-Snapshots {
         @{ Tid = "0100000000020000"; Name = "Dynamische Aufloesung aus"; Path = ""; Size = 12KB; Parts = "exefs" }
     )
     $script:ModsLoaded = $true
+    $script:Content = @(
+        @{ Base = "0100000000010000"; Tid = "0100000000010800"; Kind = "update"; Version = 196608; Name = "Abenteuer im Nebelwald"; File = "a.nsp"; Path = ""; Size = 812MB; Source = "ext"; Managed = $true },
+        @{ Base = "0100000000010000"; Tid = "0100000000010800"; Kind = "update"; Version = 131072; Name = "Abenteuer im Nebelwald"; File = "b.nsp"; Path = ""; Size = 640MB; Source = "game"; Managed = $false },
+        @{ Base = "0100000000010000"; Tid = "0100000000011001"; Kind = "dlc"; Version = 0; Name = "Abenteuer im Nebelwald - Erweiterungspass"; File = "c.nsp"; Path = ""; Size = 2.1GB; Source = "ext"; Managed = $true },
+        @{ Base = "0100000000020000"; Tid = "0100000000020800"; Kind = "update"; Version = 65536; Name = "Kart Turbo Deluxe"; File = "d.nsp"; Path = ""; Size = 420MB; Source = "ext"; Managed = $true }
+    )
+    $script:ContentLoaded = $true
     Update-List
     Update-GameList
     Update-ModGames
+    Update-ContentGames
     $ui.ListModGames.SelectedIndex = 0
     $ui.List.SelectedIndex = 1
     $ui.ListGames.SelectedIndex = 0
@@ -6610,7 +8382,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "mods", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
+        foreach ($pg in @("versions", "notes", "games", "mods", "content", "firmware", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
