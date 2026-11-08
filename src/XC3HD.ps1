@@ -200,12 +200,18 @@ $ModDir   = Join-Path $Root "mod\$ModName"
 $CfgFile  = Join-Path $Root "xc3hd-einstellungen.json"
 $LogFile  = Join-Path $Root "xc3hd.log"
 
-$Categories = [ordered]@{
-    ch = "Charaktere & Outfits"
-    wp = "Waffen"
-    en = "Monster & Gegner"
-    oj = "Objekte"
+# Alles, was sich hochskalieren laesst (Ordner im entpackten Spiel + Dateityp)
+$Sources = [ordered]@{
+    ch      = @{ Name = "Charaktere & Outfits";               Dir = "chr\ch";  Kind = "wimdo" }
+    wp      = @{ Name = "Waffen";                             Dir = "chr\wp";  Kind = "wimdo" }
+    en      = @{ Name = "Monster & Gegner";                   Dir = "chr\en";  Kind = "wimdo" }
+    oj      = @{ Name = "Objekte";                            Dir = "chr\oj";  Kind = "wimdo" }
+    bt      = @{ Name = "Kampf-Objekte";                      Dir = "chr\bt";  Kind = "wimdo" }
+    mapobj  = @{ Name = "Karten-Modelle";                     Dir = "map";     Kind = "wimdo" }
+    monolib = @{ Name = "Gemeinsame Texturen (monolib)";      Dir = "monolib"; Kind = "witex" }
+    menu    = @{ Name = "Menüs & Oberfläche (experimentell)"; Dir = "menu";    Kind = "wilay" }
 }
+$Categories = [ordered]@{}; foreach ($k in $Sources.Keys) { $Categories[$k] = $Sources[$k].Name }
 
 # ---------------- Einstellungen ----------------
 function Get-DefaultCfg {
@@ -459,16 +465,18 @@ function Complete-Encodes([switch]$OnlyExited) {
 }
 
 # ---------------- Modelle (Charaktere, Waffen, Monster, Objekte) ----------------
-function Get-ModelFiles([string]$folder) {
-    $d = Join-Path $Extract "chr\$folder"
+function Get-ModelFiles([string]$id) {
+    $src = $Sources[$id]
+    $d = Join-Path $Extract $src.Dir
     if (-not (Test-Path $d)) { return @() }
-    return @(Get-ChildItem $d -Recurse -Filter *.wimdo -File | Sort-Object FullName)
+    return @(Get-ChildItem $d -Recurse -Filter ("*." + $src.Kind) -File | Sort-Object FullName)
 }
 function Get-ModelMarker([string]$rel) { Join-Path $WorkDir ("fertig-v3\" + $rel + ".ok") }
-function Get-ModelDoneCount([string]$folder) {
-    $d = Join-Path $WorkDir "fertig-v3\chr\$folder"
+function Get-ModelDoneCount([string]$id) {
+    $src = $Sources[$id]
+    $d = Join-Path $WorkDir ("fertig-v3\" + $src.Dir)
     if (-not (Test-Path $d)) { return 0 }
-    return @(Get-ChildItem $d -Recurse -Filter *.ok -File).Count
+    return @(Get-ChildItem $d -Recurse -Filter ("*." + $src.Kind + ".ok") -File).Count
 }
 function Export-Model($t, $wimdo) {
     $rel = $wimdo.FullName.Substring($Extract.Length + 1)
@@ -482,6 +490,9 @@ function Export-Model($t, $wimdo) {
 }
 
 function Invoke-BuildModels($t, [string]$folder) {
+    $kind = $Sources[$folder].Kind
+    if ($kind -eq "witex") { return (Invoke-BuildWitex $t $folder) }
+    if ($kind -eq "wilay") { return (Invoke-BuildWilay $t $folder) }
     $files = @(Get-ModelFiles $folder)
     $label = $Categories[$folder]
     $model = $Cfg.UpscaylModel
@@ -536,6 +547,102 @@ function Invoke-BuildModels($t, [string]$folder) {
     Log "$label fertig." "ok"
 }
 
+# Gemeinsame Schleife fuer Einzeldateien (witex/wilay): $process bekommt Datei + rel und meldet $true bei Aenderung
+function Invoke-FileLoop($t, [string]$id, [scriptblock]$process) {
+    $files = @(Get-ModelFiles $id)
+    $label = $Categories[$id]
+    $todo = @($files | Where-Object { -not (Test-Path (Get-ModelMarker ($_.FullName.Substring($Extract.Length + 1)))) })
+    $already = $files.Count - $todo.Count
+    Log ("{0}: {1} Dateien, {2} schon fertig" -f $label, $files.Count, $already) "accent"
+    $sw = [Diagnostics.Stopwatch]::StartNew(); $n = 0
+    foreach ($f in $todo) {
+        if (Test-Stop) { return }
+        $rel = $f.FullName.Substring($Extract.Length + 1)
+        $eta = if ($n -gt 0) { [TimeSpan]::FromSeconds($sw.Elapsed.TotalSeconds / $n * ($todo.Count - $n)) } else { $null }
+        Set-Progress $label ($already + $n) $files.Count (Split-Path -Leaf $rel) $eta
+        try {
+            & $process $f $rel
+            $marker = Get-ModelMarker $rel
+            New-Item -ItemType Directory -Path (Split-Path -Parent $marker) -Force | Out-Null
+            Set-Content $marker ""
+        } catch {
+            Complete-Encodes
+            Log "  Übersprungen: $rel ($($_.Exception.Message))" "warn"
+        }
+        $n++
+    }
+    Set-Progress $label $files.Count $files.Count "" $null
+    Log "$label fertig." "ok"
+}
+
+# Einzelne Texturdateien (.witex) - direkt als .witex in die Mod
+function Invoke-BuildWitex($t, [string]$id) {
+    Invoke-FileLoop $t $id {
+        param($f, $rel)
+        $base = Join-Path $WorkDir ("final-v2\" + $rel)
+        New-Item -ItemType Directory -Path (Split-Path -Parent $base) -Force | Out-Null
+        $dds = "$base.orig.dds"
+        Run $t.Tex @($f.FullName, $dds) -Quiet | Out-Null
+        $info = Get-DdsInfo $dds
+        $png = "$base.orig.png"
+        $ok = $false
+        if ($info -and $ColorFormats -contains $info.Dxgi -and -not $info.Cube -and $info.Array -le 1) {
+            Run $t.Tex @($dds, $png) -Quiet | Out-Null
+            $ok = Test-Upscale $info $png
+        }
+        if ($ok) {
+            $hi = "$base.hd.png"
+            Invoke-UpscaleTexture $t $png $info $Cfg.UpscaylModel $base $hi
+            $out = Join-Path $ModDir ("romfs\" + $rel)
+            New-Item -ItemType Directory -Path (Split-Path -Parent $out) -Force | Out-Null
+            Start-Encode $t $hi (Join-Path (Split-Path -Parent $base) ("_enc\" + (Split-Path -Leaf $rel))) $out $info.Format ""
+            Complete-Encodes
+        }
+        Remove-Item $dds, $png -ErrorAction SilentlyContinue
+    }
+}
+
+# Menue-Layouts (.wilay) - nur DDS-Texturen, JPEG-Bilder bleiben original
+function Invoke-BuildWilay($t, [string]$id) {
+    Invoke-FileLoop $t $id {
+        param($f, $rel)
+        $stem = [IO.Path]::ChangeExtension($rel, $null).TrimEnd('.')
+        $exp = Join-Path $WorkDir ("export\" + $stem)
+        $final = Join-Path $WorkDir ("final-v2\" + $stem)
+        $tmp = Join-Path $final "_tmp"
+        if (-not (Test-Path (Join-Path $exp ".fertig"))) {
+            New-Item -ItemType Directory -Path $exp -Force | Out-Null
+            Run $t.Tex @($f.FullName, $exp) -Quiet | Out-Null
+            Set-Content (Join-Path $exp ".fertig") ""
+        }
+        New-Item -ItemType Directory -Path $tmp -Force | Out-Null
+        $count = 0
+        foreach ($dds in Get-ChildItem $exp -Filter *.dds) {
+            $target = Join-Path $final $dds.Name
+            if (Test-Path $target) { $count++; continue }
+            $info = Get-DdsInfo $dds.FullName
+            $png = Join-Path $tmp ($dds.BaseName + ".orig.png")
+            $ok = $false
+            if ($info -and $ColorFormats -contains $info.Dxgi -and -not $info.Cube -and $info.Array -le 1) {
+                Run $t.Tex @($dds.FullName, $png) -Quiet | Out-Null
+                $ok = Test-Upscale $info $png
+            }
+            if (-not $ok) { Remove-Item $png -ErrorAction SilentlyContinue; continue }
+            $hi = Join-Path $tmp ($dds.BaseName + ".hd.png")
+            Invoke-UpscaleTexture $t $png $info $Cfg.UpscaylModel (Join-Path $tmp $dds.BaseName) $hi
+            Remove-Item $png -ErrorAction SilentlyContinue
+            Start-Encode $t $hi (Join-Path $tmp ("_enc\" + $dds.Name)) $target $info.Format ""
+            $count++
+        }
+        Complete-Encodes
+        if (@(Get-ChildItem $final -Filter *.dds -File).Count -gt 0) {
+            $out = Join-Path $ModDir ("romfs\" + $rel)
+            New-Item -ItemType Directory -Path (Split-Path -Parent $out) -Force | Out-Null
+            Run $t.Tex @("edit-wilay", $f.FullName, $final, $out) -Quiet | Out-Null
+        }
+    }
+}
+
 # ---------------- Karten ----------------
 function Get-MapList {
     $d = Join-Path $Extract "map"
@@ -551,7 +658,8 @@ function Get-MapState([string]$id) {
     $total = if (Test-Path $exp) { @(Get-ChildItem $exp -Filter *.dds -File).Count } else { 0 }
     $hd = if (Test-Path (Join-Path $dir "hd")) { @(Get-ChildItem (Join-Path $dir "hd") -Filter *.dds -File).Count } else { 0 }
     $skip = if (Test-Path (Join-Path $dir "hd\_tmp")) { @(Get-ChildItem (Join-Path $dir "hd\_tmp") -Filter *.skip -File).Count } else { 0 }
-    return @{ Total = $total; Hd = $hd; Done = $hd + $skip; Complete = (Test-Path (Join-Path $dir ".fertig")) }
+    $complete = (Test-Path (Join-Path $dir ".fertig")) -or ($total -gt 0 -and ($hd + $skip) -ge $total)
+    return @{ Total = $total; Hd = $hd; Done = $hd + $skip; Complete = $complete }
 }
 
 function Invoke-BuildMap($t, $map) {
@@ -798,9 +906,63 @@ $xaml = @'
       <Setter Property="VerticalContentAlignment" Value="Center"/>
       <Setter Property="Margin" Value="0,3"/>
     </Style>
+    <Style TargetType="ComboBoxItem">
+      <Setter Property="Foreground" Value="#E6EAF0"/>
+      <Setter Property="Padding" Value="10,6"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ComboBoxItem">
+            <Border x:Name="b" Background="Transparent" CornerRadius="5" Padding="{TemplateBinding Padding}" Margin="3,1">
+              <ContentPresenter TextElement.Foreground="#E6EAF0"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsHighlighted" Value="True"><Setter TargetName="b" Property="Background" Value="#263040"/></Trigger>
+              <Trigger Property="IsSelected" Value="True"><Setter TargetName="b" Property="Background" Value="#1D4E66"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
     <Style TargetType="ComboBox">
       <Setter Property="Margin" Value="0,0,0,10"/>
-      <Setter Property="Padding" Value="8,5"/>
+      <Setter Property="Foreground" Value="#E6EAF0"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ComboBox">
+            <Grid>
+              <ToggleButton x:Name="Toggle" Focusable="False" ClickMode="Press"
+                            IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                <ToggleButton.Template>
+                  <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="tb" Background="#0E1116" BorderBrush="#2E3746" BorderThickness="1" CornerRadius="7">
+                      <Path HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
+                            Data="M 0 0 L 5 5 L 10 0" Stroke="#8B95A5" StrokeThickness="1.6"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="tb" Property="BorderBrush" Value="#3FB6E8"/></Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </ToggleButton.Template>
+              </ToggleButton>
+              <ContentPresenter IsHitTestVisible="False" Margin="11,0,32,0" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                TextElement.Foreground="#E6EAF0"/>
+              <Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade"
+                     IsOpen="{TemplateBinding IsDropDownOpen}">
+                <Border Background="#161B22" BorderBrush="#2E3746" BorderThickness="1" CornerRadius="7" Margin="0,4,0,0" Padding="0,4"
+                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="320">
+                  <ScrollViewer VerticalScrollBarVisibility="Auto"><ItemsPresenter/></ScrollViewer>
+                </Border>
+              </Popup>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.5"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
     <Style TargetType="TextBox">
       <Setter Property="Background" Value="#0E1116"/>

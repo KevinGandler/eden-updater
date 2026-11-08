@@ -42,6 +42,12 @@ jobs:
           $env:XC3HD_SNAPSHOT = Join-Path $pwd "snap\ui.png"
           $env:XC3HD_ROOT = Join-Path $pwd "snaproot"
           New-Item -ItemType Directory $env:XC3HD_ROOT -Force | Out-Null
+          $e = Join-Path $env:XC3HD_ROOT "entpackt"
+          foreach ($d in "chr\ch","chr\wp","chr\en","map","menu","monolib") { New-Item -ItemType Directory (Join-Path $e $d) -Force | Out-Null }
+          Set-Content (Join-Path $e ".fertig") ""
+          foreach ($m in "ma01a","ma04a","ma07a","ma09a","ma11a","ma14a","ma15a","ma17a") { Set-Content (Join-Path $e "map\$m.wismhd") ""; Set-Content (Join-Path $e "map\$m.wismda") "" }
+          1..5 | ForEach-Object { Set-Content (Join-Path $e "chr\ch\ch$_.wimdo") "" }
+          Set-Content (Join-Path $env:XC3HD_ROOT "xc3hd-einstellungen.json") '{"Folders":["ch","en"],"Maps":["ma04a"],"Encoders":6}'
           $p = Start-Process .\dist\XC3HD.exe -PassThru
           if (-not $p.WaitForExit(120000)) { $p.Kill(); throw "Timeout" }
           if (-not (Test-Path snap\ui.png)) { throw "kein Screenshot" }
