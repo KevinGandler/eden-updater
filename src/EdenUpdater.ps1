@@ -5417,7 +5417,7 @@ $xaml = @'
                         <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
                           <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14"
                                      FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                          <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                          <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0" TextWrapping="Wrap"/>
                         </StackPanel>
                         <Button Grid.Column="2" Uid="delete" Tag="&#xE74D;" Content="{DynamicResource L_ContentDelete}" Style="{StaticResource BtnGhost}"
                                 VerticalAlignment="Center"/>
@@ -7414,14 +7414,18 @@ function Update-ContentList {
         $kindTxt = if ($c.Kind -eq "update") { if ($null -ne $c.Version) { TF "ContentUpdate" ("v" + $c.Version) } else { T "ContentUpdateAny" } }
                    elseif ($c.Kind -eq "dlc") { TF "ContentDlc" ([Convert]::ToInt32($c.Tid.Substring(12), 16) -band 0xFFF) }
                    else { T "ContentUnknown" }
-        $parts = @($kindTxt, (Format-Size $c.Size))
+        $title = $kindTxt
+        $parts = @()
+        if ($c.Kind -eq "dlc" -and $c.Name -and $c.Name -ne $g.Name) { $title = $c.Name; $parts += $kindTxt }
+        elseif ($c.Kind -ne "update" -and $c.Kind -ne "dlc") { $title = $c.File }
+        $parts += (Format-Size $c.Size)
         if ($c.Source -eq "game") { $parts += (T "ContentFromGameDir") }
         if ($c.Kind -eq "dlc") { $parts += (T "ContentDlcAll") }
         $en = $true
         if ($c.Kind -eq "update") { $en = -not (($off -contains "Update") -or ($null -ne $c.Version -and ($off -contains ("Update@" + $c.Version)))) }
         elseif ($c.Kind -eq "dlc") { $en = -not ($off -contains "DLC") }
         [pscustomobject]@{
-            Name = $c.Name; File = $c.File; Path = $c.Path; Base = $c.Base; Kind = $c.Kind; Version = $c.Version
+            Name = $title; File = $c.File; Path = $c.Path; Base = $c.Base; Kind = $c.Kind; Version = $c.Version
             Enabled = [bool]$en; CanToggle = ($c.Kind -eq "update" -or $c.Kind -eq "dlc")
             Info = ($parts -join "  ·  ")
         }
