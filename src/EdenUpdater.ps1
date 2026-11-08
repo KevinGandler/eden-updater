@@ -6484,6 +6484,7 @@ $ui.BtnSave.Add_Click({
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
             GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
             GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
+            FavoriteGames = @($old.FavoriteGames)
             Language     = $lang
         }
         Save-Settings
