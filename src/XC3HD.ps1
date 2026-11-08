@@ -201,14 +201,14 @@ $CfgFile  = Join-Path $Root "xc3hd-einstellungen.json"
 $LogFile  = Join-Path $Root "xc3hd.log"
 
 # Alles, was sich hochskalieren laesst (Ordner im entpackten Spiel + Dateityp)
+# NICHT: monolib\shader (Shader-Hilfstexturen, Groesse muss exakt bleiben -> schwarze Welt),
+#        map\*.wimdo (anderes Format, xc3_tex kann es nicht lesen)
 $Sources = [ordered]@{
     ch      = @{ Name = "Charaktere & Outfits";               Dir = "chr\ch";  Kind = "wimdo" }
     wp      = @{ Name = "Waffen";                             Dir = "chr\wp";  Kind = "wimdo" }
     en      = @{ Name = "Monster & Gegner";                   Dir = "chr\en";  Kind = "wimdo" }
     oj      = @{ Name = "Objekte";                            Dir = "chr\oj";  Kind = "wimdo" }
     bt      = @{ Name = "Kampf-Objekte";                      Dir = "chr\bt";  Kind = "wimdo" }
-    mapobj  = @{ Name = "Karten-Modelle";                     Dir = "map";     Kind = "wimdo" }
-    monolib = @{ Name = "Gemeinsame Texturen (monolib)";      Dir = "monolib"; Kind = "witex" }
     menu    = @{ Name = "Menüs & UI (experimentell)"; Dir = "menu";    Kind = "wilay" }
 }
 $Categories = [ordered]@{}; foreach ($k in $Sources.Keys) { $Categories[$k] = $Sources[$k].Name }
