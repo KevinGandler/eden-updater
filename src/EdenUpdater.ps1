@@ -34,6 +34,8 @@ $Defaults = [ordered]@{
     GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
     FavoriteGames = @()       # Favoriten (Title-ID, sonst Dateipfad) - stehen oben in der Spieleliste
     FirmwareVersion = ""      # zuletzt ueber den Updater installierte Firmware (aus dem Datei-/Ordnernamen)
+    SaveBackupOnUpdate = $true # Spielstaende vor jedem Eden-Update sichern (nur Spiele mit Aenderungen)
+    SaveBackupKeep = 10       # so viele automatische Backups pro Spiel behalten
     CustomTheme  = $null      # eigenes Theme: @{ Bg; Panel; Text; Accent }
     Language     = "auto"
 }
@@ -394,6 +396,44 @@ KeysDone=Schlüssel installiert.
 KeysAskDelete=prod.keys und title.keys löschen?\n\nDie Dateien werden in den Papierkorb verschoben.
 KeysDeleted=Schlüssel gelöscht.
 KeysMissingForFw=Ohne prod.keys kann Eden die Firmware nicht nutzen.
+NavSaves=Spieldaten
+SavesInfo={0} Spielstände · {1} Backups · Shader-Cache {2}
+SavesScanning=Suche Spielstände und Shader-Caches...
+SavesWorking=Bitte warten...
+SavesBackupDir=Backup-Ordner
+SavesShaderAll=Alle Shader-Caches löschen
+SavesGameSave=Spielstand {0}
+SavesGameNoSave=Kein Spielstand
+SavesGameShader=Shader {0}
+SavesGameBackups={0} Backups
+SavesSaveTitle=Spielstand
+SavesSaveInfo={0} · geändert {1}
+SavesSaveNone=Noch kein Spielstand – Eden legt ihn beim ersten Speichern im Spiel an.
+SavesBackupNow=Jetzt sichern
+SavesOpenFolder=Ordner öffnen
+SavesShaderTitle=Shader-Cache
+SavesShaderNone=Kein Shader-Cache
+SavesShaderDelete=Cache löschen
+SavesShaderHint=Hilft bei Grafikfehlern nach einem Eden-Update. Eden baut den Cache beim Spielen neu auf (anfangs kurze Ruckler).
+SavesBackupsTitle=Backups
+SavesBackupsEmpty=Noch keine Backups für dieses Spiel. Mit 'Jetzt sichern' legst du eins an.
+SavesRestore=Wiederherstellen
+SavesDelete=Löschen
+SavesReasonManual=Manuell
+SavesReasonAuto=Automatisch vor Eden-Update
+SavesReasonRestore=Stand vor dem Wiederherstellen
+SavesBackupDone=Spielstand gesichert: {0}
+SavesNothing=Für dieses Spiel gibt es keinen Spielstand zum Sichern.
+SavesAskRestore=Spielstand vom {0} wiederherstellen?\n\nDer aktuelle Spielstand wird vorher gesichert.
+SavesRestored=Spielstand wiederhergestellt: {0}
+SavesAskDelete=Backup vom {0} löschen?\n\nDie Datei wird in den Papierkorb verschoben.
+SavesDeleted=Backup gelöscht: {0}
+SavesAskShader=Shader-Cache von '{0}' löschen ({1})?
+SavesAskShaderAll=Alle Shader-Caches löschen ({0})?\n\nEden baut sie beim Spielen neu auf.
+SavesShaderDeleted=Shader-Cache gelöscht: {0}
+ChkSaveAuto=Spielstände vor jedem Eden-Update sichern
+WSavesBackup=Sichere Spielstände...
+WSavesBacked=Spielstände gesichert ({0} Spiele mit Änderungen).
 '@
 en = @'
 Name=English
@@ -641,6 +681,44 @@ KeysDone=Keys installed.
 KeysAskDelete=Delete prod.keys and title.keys?\n\nThe files will be moved to the Recycle Bin.
 KeysDeleted=Keys deleted.
 KeysMissingForFw=Eden can't use the firmware without prod.keys.
+NavSaves=Game data
+SavesInfo={0} saves · {1} backups · shader cache {2}
+SavesScanning=Searching for saves and shader caches...
+SavesWorking=Please wait...
+SavesBackupDir=Backup folder
+SavesShaderAll=Delete all shader caches
+SavesGameSave=Save {0}
+SavesGameNoSave=No save
+SavesGameShader=Shaders {0}
+SavesGameBackups={0} backups
+SavesSaveTitle=Save data
+SavesSaveInfo={0} · changed {1}
+SavesSaveNone=No save yet – Eden creates it the first time you save in the game.
+SavesBackupNow=Back up now
+SavesOpenFolder=Open folder
+SavesShaderTitle=Shader cache
+SavesShaderNone=No shader cache
+SavesShaderDelete=Delete cache
+SavesShaderHint=Helps with graphics glitches after an Eden update. Eden rebuilds the cache while you play (short stutters at first).
+SavesBackupsTitle=Backups
+SavesBackupsEmpty=No backups for this game yet. Use 'Back up now' to create one.
+SavesRestore=Restore
+SavesDelete=Delete
+SavesReasonManual=Manual
+SavesReasonAuto=Automatic before Eden update
+SavesReasonRestore=State before restoring
+SavesBackupDone=Save backed up: {0}
+SavesNothing=There is no save to back up for this game.
+SavesAskRestore=Restore the save from {0}?\n\nThe current save is backed up first.
+SavesRestored=Save restored: {0}
+SavesAskDelete=Delete the backup from {0}?\n\nThe file will be moved to the Recycle Bin.
+SavesDeleted=Backup deleted: {0}
+SavesAskShader=Delete the shader cache of '{0}' ({1})?
+SavesAskShaderAll=Delete all shader caches ({0})?\n\nEden rebuilds them while you play.
+SavesShaderDeleted=Shader cache deleted: {0}
+ChkSaveAuto=Back up saves before every Eden update
+WSavesBackup=Backing up saves...
+WSavesBacked=Saves backed up ({0} games with changes).
 '@
 es = @'
 Name=Español
@@ -888,6 +966,44 @@ KeysDone=Claves instaladas.
 KeysAskDelete=¿Eliminar prod.keys y title.keys?\n\nLos archivos se moverán a la Papelera.
 KeysDeleted=Claves eliminadas.
 KeysMissingForFw=Sin prod.keys, Eden no puede usar el firmware.
+NavSaves=Datos de juego
+SavesInfo={0} partidas · {1} copias · caché de shaders {2}
+SavesScanning=Buscando partidas y cachés de shaders...
+SavesWorking=Espera un momento...
+SavesBackupDir=Carpeta de copias
+SavesShaderAll=Eliminar todas las cachés de shaders
+SavesGameSave=Partida {0}
+SavesGameNoSave=Sin partida
+SavesGameShader=Shaders {0}
+SavesGameBackups={0} copias
+SavesSaveTitle=Partida guardada
+SavesSaveInfo={0} · modificada {1}
+SavesSaveNone=Aún no hay partida: Eden la crea la primera vez que guardas en el juego.
+SavesBackupNow=Copiar ahora
+SavesOpenFolder=Abrir carpeta
+SavesShaderTitle=Caché de shaders
+SavesShaderNone=Sin caché de shaders
+SavesShaderDelete=Eliminar caché
+SavesShaderHint=Ayuda con fallos gráficos tras una actualización de Eden. Eden reconstruye la caché mientras juegas (al principio con tirones breves).
+SavesBackupsTitle=Copias de seguridad
+SavesBackupsEmpty=Todavía no hay copias de este juego. Crea una con 'Copiar ahora'.
+SavesRestore=Restaurar
+SavesDelete=Eliminar
+SavesReasonManual=Manual
+SavesReasonAuto=Automática antes de actualizar Eden
+SavesReasonRestore=Estado antes de restaurar
+SavesBackupDone=Partida copiada: {0}
+SavesNothing=Este juego no tiene partida que copiar.
+SavesAskRestore=¿Restaurar la partida del {0}?\n\nAntes se hace una copia de la partida actual.
+SavesRestored=Partida restaurada: {0}
+SavesAskDelete=¿Eliminar la copia del {0}?\n\nEl archivo se moverá a la Papelera.
+SavesDeleted=Copia eliminada: {0}
+SavesAskShader=¿Eliminar la caché de shaders de '{0}' ({1})?
+SavesAskShaderAll=¿Eliminar todas las cachés de shaders ({0})?\n\nEden las reconstruye mientras juegas.
+SavesShaderDeleted=Caché de shaders eliminada: {0}
+ChkSaveAuto=Copiar las partidas antes de cada actualización de Eden
+WSavesBackup=Copiando partidas...
+WSavesBacked=Partidas copiadas ({0} juegos con cambios).
 '@
 fr = @'
 Name=Français
@@ -1135,6 +1251,44 @@ KeysDone=Clés installées.
 KeysAskDelete=Supprimer prod.keys et title.keys ?\n\nLes fichiers seront placés dans la Corbeille.
 KeysDeleted=Clés supprimées.
 KeysMissingForFw=Sans prod.keys, Eden ne peut pas utiliser le firmware.
+NavSaves=Données de jeu
+SavesInfo={0} sauvegardes · {1} copies · cache de shaders {2}
+SavesScanning=Recherche des sauvegardes et caches de shaders...
+SavesWorking=Veuillez patienter...
+SavesBackupDir=Dossier des copies
+SavesShaderAll=Supprimer tous les caches de shaders
+SavesGameSave=Sauvegarde {0}
+SavesGameNoSave=Aucune sauvegarde
+SavesGameShader=Shaders {0}
+SavesGameBackups={0} copies
+SavesSaveTitle=Sauvegarde
+SavesSaveInfo={0} · modifiée le {1}
+SavesSaveNone=Pas encore de sauvegarde – Eden la crée la première fois que vous sauvegardez dans le jeu.
+SavesBackupNow=Copier maintenant
+SavesOpenFolder=Ouvrir le dossier
+SavesShaderTitle=Cache de shaders
+SavesShaderNone=Aucun cache de shaders
+SavesShaderDelete=Supprimer le cache
+SavesShaderHint=Aide en cas de problèmes graphiques après une mise à jour d'Eden. Eden reconstruit le cache en jouant (petites saccades au début).
+SavesBackupsTitle=Copies
+SavesBackupsEmpty=Pas encore de copie pour ce jeu. Utilisez 'Copier maintenant' pour en créer une.
+SavesRestore=Restaurer
+SavesDelete=Supprimer
+SavesReasonManual=Manuelle
+SavesReasonAuto=Automatique avant la mise à jour d'Eden
+SavesReasonRestore=État avant restauration
+SavesBackupDone=Sauvegarde copiée : {0}
+SavesNothing=Ce jeu n'a pas de sauvegarde à copier.
+SavesAskRestore=Restaurer la sauvegarde du {0} ?\n\nLa sauvegarde actuelle est copiée avant.
+SavesRestored=Sauvegarde restaurée : {0}
+SavesAskDelete=Supprimer la copie du {0} ?\n\nLe fichier sera placé dans la Corbeille.
+SavesDeleted=Copie supprimée : {0}
+SavesAskShader=Supprimer le cache de shaders de '{0}' ({1}) ?
+SavesAskShaderAll=Supprimer tous les caches de shaders ({0}) ?\n\nEden les reconstruit en jouant.
+SavesShaderDeleted=Cache de shaders supprimé : {0}
+ChkSaveAuto=Copier les sauvegardes avant chaque mise à jour d'Eden
+WSavesBackup=Copie des sauvegardes...
+WSavesBacked=Sauvegardes copiées ({0} jeux modifiés).
 '@
 it = @'
 Name=Italiano
@@ -1382,6 +1536,44 @@ KeysDone=Chiavi installate.
 KeysAskDelete=Eliminare prod.keys e title.keys?\n\nI file verranno spostati nel Cestino.
 KeysDeleted=Chiavi eliminate.
 KeysMissingForFw=Senza prod.keys Eden non può usare il firmware.
+NavSaves=Dati di gioco
+SavesInfo={0} salvataggi · {1} backup · cache shader {2}
+SavesScanning=Ricerca di salvataggi e cache shader...
+SavesWorking=Attendere...
+SavesBackupDir=Cartella backup
+SavesShaderAll=Elimina tutte le cache shader
+SavesGameSave=Salvataggio {0}
+SavesGameNoSave=Nessun salvataggio
+SavesGameShader=Shader {0}
+SavesGameBackups={0} backup
+SavesSaveTitle=Salvataggio
+SavesSaveInfo={0} · modificato {1}
+SavesSaveNone=Ancora nessun salvataggio: Eden lo crea la prima volta che salvi nel gioco.
+SavesBackupNow=Esegui backup
+SavesOpenFolder=Apri cartella
+SavesShaderTitle=Cache shader
+SavesShaderNone=Nessuna cache shader
+SavesShaderDelete=Elimina cache
+SavesShaderHint=Aiuta con errori grafici dopo un aggiornamento di Eden. Eden ricrea la cache durante il gioco (all'inizio brevi scatti).
+SavesBackupsTitle=Backup
+SavesBackupsEmpty=Ancora nessun backup per questo gioco. Creane uno con 'Esegui backup'.
+SavesRestore=Ripristina
+SavesDelete=Elimina
+SavesReasonManual=Manuale
+SavesReasonAuto=Automatico prima dell'aggiornamento di Eden
+SavesReasonRestore=Stato prima del ripristino
+SavesBackupDone=Salvataggio copiato: {0}
+SavesNothing=Questo gioco non ha un salvataggio da copiare.
+SavesAskRestore=Ripristinare il salvataggio del {0}?\n\nPrima viene fatto un backup del salvataggio attuale.
+SavesRestored=Salvataggio ripristinato: {0}
+SavesAskDelete=Eliminare il backup del {0}?\n\nIl file verrà spostato nel Cestino.
+SavesDeleted=Backup eliminato: {0}
+SavesAskShader=Eliminare la cache shader di '{0}' ({1})?
+SavesAskShaderAll=Eliminare tutte le cache shader ({0})?\n\nEden le ricrea durante il gioco.
+SavesShaderDeleted=Cache shader eliminata: {0}
+ChkSaveAuto=Esegui il backup dei salvataggi prima di ogni aggiornamento di Eden
+WSavesBackup=Backup dei salvataggi...
+WSavesBacked=Salvataggi copiati ({0} giochi con modifiche).
 '@
 pt = @'
 Name=Português
@@ -1629,6 +1821,44 @@ KeysDone=Chaves instaladas.
 KeysAskDelete=Excluir prod.keys e title.keys?\n\nOs arquivos serão movidos para a Lixeira.
 KeysDeleted=Chaves excluídas.
 KeysMissingForFw=Sem prod.keys o Eden não consegue usar o firmware.
+NavSaves=Dados de jogo
+SavesInfo={0} saves · {1} backups · cache de shaders {2}
+SavesScanning=Procurando saves e caches de shaders...
+SavesWorking=Aguarde...
+SavesBackupDir=Pasta de backups
+SavesShaderAll=Excluir todos os caches de shaders
+SavesGameSave=Save {0}
+SavesGameNoSave=Sem save
+SavesGameShader=Shaders {0}
+SavesGameBackups={0} backups
+SavesSaveTitle=Save
+SavesSaveInfo={0} · alterado {1}
+SavesSaveNone=Ainda não há save – o Eden o cria na primeira vez que você salva no jogo.
+SavesBackupNow=Fazer backup agora
+SavesOpenFolder=Abrir pasta
+SavesShaderTitle=Cache de shaders
+SavesShaderNone=Sem cache de shaders
+SavesShaderDelete=Excluir cache
+SavesShaderHint=Ajuda com falhas gráficas após uma atualização do Eden. O Eden recria o cache enquanto você joga (no início com breves travadas).
+SavesBackupsTitle=Backups
+SavesBackupsEmpty=Ainda não há backups deste jogo. Crie um com 'Fazer backup agora'.
+SavesRestore=Restaurar
+SavesDelete=Excluir
+SavesReasonManual=Manual
+SavesReasonAuto=Automático antes da atualização do Eden
+SavesReasonRestore=Estado antes de restaurar
+SavesBackupDone=Save copiado: {0}
+SavesNothing=Este jogo não tem save para copiar.
+SavesAskRestore=Restaurar o save de {0}?\n\nAntes é feito um backup do save atual.
+SavesRestored=Save restaurado: {0}
+SavesAskDelete=Excluir o backup de {0}?\n\nO arquivo será movido para a Lixeira.
+SavesDeleted=Backup excluído: {0}
+SavesAskShader=Excluir o cache de shaders de '{0}' ({1})?
+SavesAskShaderAll=Excluir todos os caches de shaders ({0})?\n\nO Eden os recria enquanto você joga.
+SavesShaderDeleted=Cache de shaders excluído: {0}
+ChkSaveAuto=Fazer backup dos saves antes de cada atualização do Eden
+WSavesBackup=Fazendo backup dos saves...
+WSavesBacked=Saves copiados ({0} jogos com alterações).
 '@
 nl = @'
 Name=Nederlands
@@ -1876,6 +2106,44 @@ KeysDone=Sleutels geïnstalleerd.
 KeysAskDelete=prod.keys en title.keys verwijderen?\n\nDe bestanden worden naar de Prullenbak verplaatst.
 KeysDeleted=Sleutels verwijderd.
 KeysMissingForFw=Zonder prod.keys kan Eden de firmware niet gebruiken.
+NavSaves=Gamedata
+SavesInfo={0} saves · {1} back-ups · shadercache {2}
+SavesScanning=Zoeken naar saves en shadercaches...
+SavesWorking=Even geduld...
+SavesBackupDir=Back-upmap
+SavesShaderAll=Alle shadercaches verwijderen
+SavesGameSave=Save {0}
+SavesGameNoSave=Geen save
+SavesGameShader=Shaders {0}
+SavesGameBackups={0} back-ups
+SavesSaveTitle=Save
+SavesSaveInfo={0} · gewijzigd {1}
+SavesSaveNone=Nog geen save – Eden maakt die aan zodra je in de game opslaat.
+SavesBackupNow=Nu back-up maken
+SavesOpenFolder=Map openen
+SavesShaderTitle=Shadercache
+SavesShaderNone=Geen shadercache
+SavesShaderDelete=Cache verwijderen
+SavesShaderHint=Helpt bij grafische fouten na een Eden-update. Eden bouwt de cache tijdens het spelen opnieuw op (in het begin korte haperingen).
+SavesBackupsTitle=Back-ups
+SavesBackupsEmpty=Nog geen back-ups voor deze game. Maak er een met 'Nu back-up maken'.
+SavesRestore=Herstellen
+SavesDelete=Verwijderen
+SavesReasonManual=Handmatig
+SavesReasonAuto=Automatisch vóór Eden-update
+SavesReasonRestore=Stand vóór het herstellen
+SavesBackupDone=Save geback-upt: {0}
+SavesNothing=Deze game heeft geen save om te back-uppen.
+SavesAskRestore=Save van {0} herstellen?\n\nVan de huidige save wordt eerst een back-up gemaakt.
+SavesRestored=Save hersteld: {0}
+SavesAskDelete=Back-up van {0} verwijderen?\n\nHet bestand wordt naar de Prullenbak verplaatst.
+SavesDeleted=Back-up verwijderd: {0}
+SavesAskShader=Shadercache van '{0}' verwijderen ({1})?
+SavesAskShaderAll=Alle shadercaches verwijderen ({0})?\n\nEden bouwt ze tijdens het spelen opnieuw op.
+SavesShaderDeleted=Shadercache verwijderd: {0}
+ChkSaveAuto=Saves back-uppen vóór elke Eden-update
+WSavesBackup=Saves back-uppen...
+WSavesBacked=Saves geback-upt ({0} games met wijzigingen).
 '@
 pl = @'
 Name=Polski
@@ -2123,6 +2391,44 @@ KeysDone=Klucze zainstalowane.
 KeysAskDelete=Usunąć prod.keys i title.keys?\n\nPliki zostaną przeniesione do Kosza.
 KeysDeleted=Klucze usunięte.
 KeysMissingForFw=Bez prod.keys Eden nie może użyć firmware.
+NavSaves=Dane gier
+SavesInfo=Zapisy: {0} · kopie: {1} · cache shaderów {2}
+SavesScanning=Wyszukiwanie zapisów i cache shaderów...
+SavesWorking=Proszę czekać...
+SavesBackupDir=Folder kopii
+SavesShaderAll=Usuń wszystkie cache shaderów
+SavesGameSave=Zapis {0}
+SavesGameNoSave=Brak zapisu
+SavesGameShader=Shadery {0}
+SavesGameBackups=Kopie: {0}
+SavesSaveTitle=Zapis gry
+SavesSaveInfo={0} · zmieniono {1}
+SavesSaveNone=Brak zapisu – Eden utworzy go przy pierwszym zapisie w grze.
+SavesBackupNow=Utwórz kopię
+SavesOpenFolder=Otwórz folder
+SavesShaderTitle=Cache shaderów
+SavesShaderNone=Brak cache shaderów
+SavesShaderDelete=Usuń cache
+SavesShaderHint=Pomaga przy błędach grafiki po aktualizacji Edena. Eden odbuduje cache podczas gry (na początku krótkie przycięcia).
+SavesBackupsTitle=Kopie zapasowe
+SavesBackupsEmpty=Brak kopii dla tej gry. Utwórz ją przyciskiem 'Utwórz kopię'.
+SavesRestore=Przywróć
+SavesDelete=Usuń
+SavesReasonManual=Ręczna
+SavesReasonAuto=Automatyczna przed aktualizacją Edena
+SavesReasonRestore=Stan przed przywróceniem
+SavesBackupDone=Zapis skopiowany: {0}
+SavesNothing=Ta gra nie ma zapisu do skopiowania.
+SavesAskRestore=Przywrócić zapis z {0}?\n\nNajpierw zostanie utworzona kopia obecnego zapisu.
+SavesRestored=Zapis przywrócony: {0}
+SavesAskDelete=Usunąć kopię z {0}?\n\nPlik zostanie przeniesiony do Kosza.
+SavesDeleted=Kopia usunięta: {0}
+SavesAskShader=Usunąć cache shaderów gry '{0}' ({1})?
+SavesAskShaderAll=Usunąć wszystkie cache shaderów ({0})?\n\nEden odbuduje je podczas gry.
+SavesShaderDeleted=Cache shaderów usunięty: {0}
+ChkSaveAuto=Twórz kopię zapisów przed każdą aktualizacją Edena
+WSavesBackup=Kopiowanie zapisów...
+WSavesBacked=Zapisy skopiowane (gry ze zmianami: {0}).
 '@
 tr = @'
 Name=Türkçe
@@ -2370,6 +2676,44 @@ KeysDone=Anahtarlar yüklendi.
 KeysAskDelete=prod.keys ve title.keys silinsin mi?\n\nDosyalar Geri Dönüşüm Kutusu'na taşınacak.
 KeysDeleted=Anahtarlar silindi.
 KeysMissingForFw=prod.keys olmadan Eden firmware'i kullanamaz.
+NavSaves=Oyun verileri
+SavesInfo={0} kayıt · {1} yedek · shader önbelleği {2}
+SavesScanning=Kayıtlar ve shader önbellekleri aranıyor...
+SavesWorking=Lütfen bekleyin...
+SavesBackupDir=Yedek klasörü
+SavesShaderAll=Tüm shader önbelleklerini sil
+SavesGameSave=Kayıt {0}
+SavesGameNoSave=Kayıt yok
+SavesGameShader=Shader {0}
+SavesGameBackups={0} yedek
+SavesSaveTitle=Oyun kaydı
+SavesSaveInfo={0} · değiştirildi {1}
+SavesSaveNone=Henüz kayıt yok – Eden, oyunda ilk kez kaydettiğinizde oluşturur.
+SavesBackupNow=Şimdi yedekle
+SavesOpenFolder=Klasörü aç
+SavesShaderTitle=Shader önbelleği
+SavesShaderNone=Shader önbelleği yok
+SavesShaderDelete=Önbelleği sil
+SavesShaderHint=Eden güncellemesinden sonraki grafik hatalarına yardımcı olur. Eden önbelleği oynarken yeniden oluşturur (başta kısa takılmalar).
+SavesBackupsTitle=Yedekler
+SavesBackupsEmpty=Bu oyun için henüz yedek yok. 'Şimdi yedekle' ile bir tane oluşturun.
+SavesRestore=Geri yükle
+SavesDelete=Sil
+SavesReasonManual=Elle
+SavesReasonAuto=Eden güncellemesinden önce otomatik
+SavesReasonRestore=Geri yüklemeden önceki durum
+SavesBackupDone=Kayıt yedeklendi: {0}
+SavesNothing=Bu oyunun yedeklenecek kaydı yok.
+SavesAskRestore={0} tarihli kayıt geri yüklensin mi?\n\nMevcut kaydın önce yedeği alınır.
+SavesRestored=Kayıt geri yüklendi: {0}
+SavesAskDelete={0} tarihli yedek silinsin mi?\n\nDosya Geri Dönüşüm Kutusu'na taşınacak.
+SavesDeleted=Yedek silindi: {0}
+SavesAskShader='{0}' shader önbelleği silinsin mi ({1})?
+SavesAskShaderAll=Tüm shader önbellekleri silinsin mi ({0})?\n\nEden bunları oynarken yeniden oluşturur.
+SavesShaderDeleted=Shader önbelleği silindi: {0}
+ChkSaveAuto=Her Eden güncellemesinden önce kayıtları yedekle
+WSavesBackup=Kayıtlar yedekleniyor...
+WSavesBacked=Kayıtlar yedeklendi (değişikliği olan {0} oyun).
 '@
 ru = @'
 Name=Русский
@@ -2617,6 +2961,44 @@ KeysDone=Ключи установлены.
 KeysAskDelete=Удалить prod.keys и title.keys?\n\nФайлы будут перемещены в корзину.
 KeysDeleted=Ключи удалены.
 KeysMissingForFw=Без prod.keys Eden не сможет использовать прошивку.
+NavSaves=Данные игр
+SavesInfo=Сохранений: {0} · копий: {1} · кэш шейдеров {2}
+SavesScanning=Поиск сохранений и кэша шейдеров...
+SavesWorking=Подождите...
+SavesBackupDir=Папка копий
+SavesShaderAll=Удалить весь кэш шейдеров
+SavesGameSave=Сохранение {0}
+SavesGameNoSave=Нет сохранения
+SavesGameShader=Шейдеры {0}
+SavesGameBackups=Копий: {0}
+SavesSaveTitle=Сохранение
+SavesSaveInfo={0} · изменено {1}
+SavesSaveNone=Сохранения пока нет — Eden создаст его при первом сохранении в игре.
+SavesBackupNow=Создать копию
+SavesOpenFolder=Открыть папку
+SavesShaderTitle=Кэш шейдеров
+SavesShaderNone=Нет кэша шейдеров
+SavesShaderDelete=Удалить кэш
+SavesShaderHint=Помогает при графических ошибках после обновления Eden. Eden заново создаёт кэш во время игры (сначала возможны подтормаживания).
+SavesBackupsTitle=Резервные копии
+SavesBackupsEmpty=Для этой игры ещё нет копий. Создайте её кнопкой «Создать копию».
+SavesRestore=Восстановить
+SavesDelete=Удалить
+SavesReasonManual=Вручную
+SavesReasonAuto=Автоматически перед обновлением Eden
+SavesReasonRestore=Состояние перед восстановлением
+SavesBackupDone=Сохранение скопировано: {0}
+SavesNothing=У этой игры нет сохранения для копирования.
+SavesAskRestore=Восстановить сохранение от {0}?\n\nПеред этим будет создана копия текущего сохранения.
+SavesRestored=Сохранение восстановлено: {0}
+SavesAskDelete=Удалить копию от {0}?\n\nФайл будет перемещён в корзину.
+SavesDeleted=Копия удалена: {0}
+SavesAskShader=Удалить кэш шейдеров «{0}» ({1})?
+SavesAskShaderAll=Удалить весь кэш шейдеров ({0})?\n\nEden создаст его заново во время игры.
+SavesShaderDeleted=Кэш шейдеров удалён: {0}
+ChkSaveAuto=Копировать сохранения перед каждым обновлением Eden
+WSavesBackup=Копирование сохранений...
+WSavesBacked=Сохранения скопированы (игр с изменениями: {0}).
 '@
 ja = @'
 Name=日本語
@@ -2864,6 +3246,44 @@ KeysDone=キーをインストールしました。
 KeysAskDelete=prod.keys と title.keys を削除しますか?\n\nファイルはごみ箱に移動されます。
 KeysDeleted=キーを削除しました。
 KeysMissingForFw=prod.keys がないとEdenはファームウェアを使用できません。
+NavSaves=ゲームデータ
+SavesInfo=セーブ {0} 件 · バックアップ {1} 件 · シェーダーキャッシュ {2}
+SavesScanning=セーブとシェーダーキャッシュを検索中...
+SavesWorking=お待ちください...
+SavesBackupDir=バックアップフォルダー
+SavesShaderAll=すべてのシェーダーキャッシュを削除
+SavesGameSave=セーブ {0}
+SavesGameNoSave=セーブなし
+SavesGameShader=シェーダー {0}
+SavesGameBackups=バックアップ {0} 件
+SavesSaveTitle=セーブデータ
+SavesSaveInfo={0} · 更新 {1}
+SavesSaveNone=まだセーブがありません。ゲームで最初にセーブしたときにEdenが作成します。
+SavesBackupNow=今すぐバックアップ
+SavesOpenFolder=フォルダーを開く
+SavesShaderTitle=シェーダーキャッシュ
+SavesShaderNone=シェーダーキャッシュなし
+SavesShaderDelete=キャッシュを削除
+SavesShaderHint=Edenの更新後のグラフィック不具合に効果があります。キャッシュはプレイ中にEdenが再作成します (最初は短いカクつきあり)。
+SavesBackupsTitle=バックアップ
+SavesBackupsEmpty=このゲームのバックアップはまだありません。「今すぐバックアップ」で作成できます。
+SavesRestore=復元
+SavesDelete=削除
+SavesReasonManual=手動
+SavesReasonAuto=Eden更新前に自動
+SavesReasonRestore=復元前の状態
+SavesBackupDone=セーブをバックアップしました: {0}
+SavesNothing=このゲームにはバックアップするセーブがありません。
+SavesAskRestore={0} のセーブを復元しますか?\n\n現在のセーブは先にバックアップされます。
+SavesRestored=セーブを復元しました: {0}
+SavesAskDelete={0} のバックアップを削除しますか?\n\nファイルはごみ箱に移動されます。
+SavesDeleted=バックアップを削除しました: {0}
+SavesAskShader='{0}' のシェーダーキャッシュを削除しますか ({1})?
+SavesAskShaderAll=すべてのシェーダーキャッシュを削除しますか ({0})?\n\nプレイ中にEdenが再作成します。
+SavesShaderDeleted=シェーダーキャッシュを削除しました: {0}
+ChkSaveAuto=Edenの更新前に毎回セーブをバックアップする
+WSavesBackup=セーブをバックアップ中...
+WSavesBacked=セーブをバックアップしました (変更のあるゲーム {0} 件)。
 '@
 zh = @'
 Name=中文（简体）
@@ -3111,6 +3531,44 @@ KeysDone=密钥已安装。
 KeysAskDelete=删除 prod.keys 和 title.keys?\n\n文件将被移到回收站。
 KeysDeleted=密钥已删除。
 KeysMissingForFw=没有 prod.keys，Eden 无法使用固件。
+NavSaves=游戏数据
+SavesInfo={0} 个存档 · {1} 个备份 · 着色器缓存 {2}
+SavesScanning=正在搜索存档和着色器缓存...
+SavesWorking=请稍候...
+SavesBackupDir=备份文件夹
+SavesShaderAll=删除所有着色器缓存
+SavesGameSave=存档 {0}
+SavesGameNoSave=没有存档
+SavesGameShader=着色器 {0}
+SavesGameBackups={0} 个备份
+SavesSaveTitle=存档
+SavesSaveInfo={0} · 修改于 {1}
+SavesSaveNone=还没有存档——在游戏中第一次保存时 Eden 会创建。
+SavesBackupNow=立即备份
+SavesOpenFolder=打开文件夹
+SavesShaderTitle=着色器缓存
+SavesShaderNone=没有着色器缓存
+SavesShaderDelete=删除缓存
+SavesShaderHint=可解决 Eden 更新后的图形错误。Eden 会在游戏时重建缓存 (开始时会短暂卡顿)。
+SavesBackupsTitle=备份
+SavesBackupsEmpty=此游戏还没有备份。点击「立即备份」创建一个。
+SavesRestore=恢复
+SavesDelete=删除
+SavesReasonManual=手动
+SavesReasonAuto=Eden 更新前自动备份
+SavesReasonRestore=恢复前的状态
+SavesBackupDone=存档已备份: {0}
+SavesNothing=此游戏没有可备份的存档。
+SavesAskRestore=恢复 {0} 的存档?\n\n会先备份当前存档。
+SavesRestored=存档已恢复: {0}
+SavesAskDelete=删除 {0} 的备份?\n\n文件将被移到回收站。
+SavesDeleted=备份已删除: {0}
+SavesAskShader=删除「{0}」的着色器缓存 ({1})?
+SavesAskShaderAll=删除所有着色器缓存 ({0})?\n\nEden 会在游戏时重建。
+SavesShaderDeleted=着色器缓存已删除: {0}
+ChkSaveAuto=每次更新 Eden 前备份存档
+WSavesBackup=正在备份存档...
+WSavesBacked=存档已备份 ({0} 个有改动的游戏)。
 '@
 ko = @'
 Name=한국어
@@ -3358,6 +3816,44 @@ KeysDone=키가 설치되었습니다.
 KeysAskDelete=prod.keys와 title.keys를 삭제할까요?\n\n파일은 휴지통으로 이동됩니다.
 KeysDeleted=키가 삭제되었습니다.
 KeysMissingForFw=prod.keys가 없으면 Eden이 펌웨어를 사용할 수 없습니다.
+NavSaves=게임 데이터
+SavesInfo=세이브 {0}개 · 백업 {1}개 · 셰이더 캐시 {2}
+SavesScanning=세이브와 셰이더 캐시 검색 중...
+SavesWorking=잠시만 기다려 주세요...
+SavesBackupDir=백업 폴더
+SavesShaderAll=모든 셰이더 캐시 삭제
+SavesGameSave=세이브 {0}
+SavesGameNoSave=세이브 없음
+SavesGameShader=셰이더 {0}
+SavesGameBackups=백업 {0}개
+SavesSaveTitle=세이브 데이터
+SavesSaveInfo={0} · 변경 {1}
+SavesSaveNone=아직 세이브가 없습니다. 게임에서 처음 저장할 때 Eden이 만듭니다.
+SavesBackupNow=지금 백업
+SavesOpenFolder=폴더 열기
+SavesShaderTitle=셰이더 캐시
+SavesShaderNone=셰이더 캐시 없음
+SavesShaderDelete=캐시 삭제
+SavesShaderHint=Eden 업데이트 후 그래픽 오류에 도움이 됩니다. Eden이 플레이 중에 캐시를 다시 만듭니다 (처음에는 잠깐 끊김).
+SavesBackupsTitle=백업
+SavesBackupsEmpty=이 게임의 백업이 아직 없습니다. '지금 백업'으로 만드세요.
+SavesRestore=복원
+SavesDelete=삭제
+SavesReasonManual=수동
+SavesReasonAuto=Eden 업데이트 전 자동
+SavesReasonRestore=복원 전 상태
+SavesBackupDone=세이브 백업됨: {0}
+SavesNothing=이 게임에는 백업할 세이브가 없습니다.
+SavesAskRestore={0}의 세이브를 복원할까요?\n\n현재 세이브는 먼저 백업됩니다.
+SavesRestored=세이브 복원됨: {0}
+SavesAskDelete={0}의 백업을 삭제할까요?\n\n파일은 휴지통으로 이동됩니다.
+SavesDeleted=백업 삭제됨: {0}
+SavesAskShader='{0}'의 셰이더 캐시를 삭제할까요 ({1})?
+SavesAskShaderAll=모든 셰이더 캐시를 삭제할까요 ({0})?\n\nEden이 플레이 중에 다시 만듭니다.
+SavesShaderDeleted=셰이더 캐시 삭제됨: {0}
+ChkSaveAuto=Eden 업데이트 전마다 세이브 백업
+WSavesBackup=세이브 백업 중...
+WSavesBacked=세이브 백업됨 (변경된 게임 {0}개).
 '@
 }
 
@@ -3460,6 +3956,11 @@ $contentSync = [hashtable]::Synchronized(@{
     Args     = $null
     Status   = ""
     Progress = -1
+})
+$savesSync = [hashtable]::Synchronized(@{
+    Done   = $false
+    Result = $null
+    Args   = $null
 })
 $fwSync = [hashtable]::Synchronized(@{
     Done   = $false
@@ -3735,6 +4236,186 @@ $jobContent = {
         }
         $registered = @($extDirs | Where-Object { (& $norm $_) -eq (& $norm $managed) }).Count -gt 0
         $sync.Result = @{ Ok = $true; Mode = "scan"; Items = @($items); Registered = $registered }
+    } catch {
+        $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
+    } finally {
+        $sync.Done = $true
+    }
+}
+
+# Spielstaende: <NAND>\user\save\0000000000000000\<Benutzer-ID>\<TitleID>\ (bzw. Edens neues Format
+# save\account\<Benutzer>\<TitleID>\ und save\device\<TitleID>\). Backups sind ZIPs mit Pfaden relativ zu
+# save\, damit sie genau an dieselbe Stelle zurueckgehen. Wird auch vom Eden-Update (Auto-Backup) genutzt.
+$saveLib = {
+    Add-Type -AssemblyName System.IO.Compression
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+    function Get-SaveTidDirs([string]$root) {
+        $map = @{}
+        if (-not $root -or -not (Test-Path -LiteralPath $root)) { return $map }
+        $cands = New-Object System.Collections.ArrayList
+        foreach ($base in @((Join-Path $root "0000000000000000"), (Join-Path $root "account"))) {
+            if (-not (Test-Path -LiteralPath $base)) { continue }
+            foreach ($u in Get-ChildItem -LiteralPath $base -Directory -ErrorAction SilentlyContinue) {
+                if ($u.Name -notmatch '^[0-9A-Fa-f]{32}$') { continue }
+                foreach ($t in Get-ChildItem -LiteralPath $u.FullName -Directory -ErrorAction SilentlyContinue) { [void]$cands.Add($t) }
+            }
+        }
+        $dev = Join-Path $root "device"
+        if (Test-Path -LiteralPath $dev) { foreach ($t in Get-ChildItem -LiteralPath $dev -Directory -ErrorAction SilentlyContinue) { [void]$cands.Add($t) } }
+        foreach ($t in $cands) {
+            if ($t.Name -notmatch '^[0-9A-Fa-f]{16}$') { continue }
+            $tid = $t.Name.ToUpperInvariant()
+            if ($tid.StartsWith("010000000000")) { continue }   # Systemtitel
+            if (-not $map.ContainsKey($tid)) { $map[$tid] = New-Object System.Collections.ArrayList }
+            [void]$map[$tid].Add($t.FullName)
+        }
+        return $map
+    }
+
+    function Get-DirStats($dirs) {
+        $r = @{ Size = 0L; Files = 0; Newest = [DateTime]::MinValue }
+        foreach ($d in @($dirs)) {
+            if (-not (Test-Path -LiteralPath $d)) { continue }
+            foreach ($f in Get-ChildItem -LiteralPath $d -File -Recurse -Force -ErrorAction SilentlyContinue) {
+                $r.Size += $f.Length; $r.Files++
+                if ($f.LastWriteTimeUtc -gt $r.Newest) { $r.Newest = $f.LastWriteTimeUtc }
+            }
+        }
+        return $r
+    }
+
+    function Get-LastBackupTime([string]$backupDir, [string]$tid) {
+        $d = Join-Path $backupDir $tid
+        if (-not (Test-Path -LiteralPath $d)) { return [DateTime]::MinValue }
+        $z = Get-ChildItem -LiteralPath $d -File -Filter *.zip -ErrorAction SilentlyContinue | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
+        if ($z) { return $z.LastWriteTimeUtc }
+        return [DateTime]::MinValue
+    }
+
+    # reason: manual | auto | restore. Rueckgabe: Pfad der ZIP oder $null (kein Spielstand)
+    function New-SaveBackup([string]$root, [string]$tid, $dirs, [string]$backupDir, [string]$reason) {
+        $rootFull = [IO.Path]::GetFullPath($root).TrimEnd('\', '/')
+        $entries = New-Object System.Collections.ArrayList
+        foreach ($d in @($dirs)) {
+            if (-not (Test-Path -LiteralPath $d)) { continue }
+            $all = @(Get-Item -LiteralPath $d -Force) + @(Get-ChildItem -LiteralPath $d -Recurse -Force -ErrorAction SilentlyContinue)
+            foreach ($e in $all) {
+                $rel = $e.FullName.Substring($rootFull.Length + 1).Replace('\', '/')
+                if ($e.PSIsContainer) {
+                    if (-not @(Get-ChildItem -LiteralPath $e.FullName -Force -ErrorAction SilentlyContinue).Count) { [void]$entries.Add(@{ Rel = $rel + "/"; Full = $null }) }
+                } else { [void]$entries.Add(@{ Rel = $rel; Full = $e.FullName }) }
+            }
+        }
+        if (-not @($entries | Where-Object { $_.Full }).Count) { return $null }
+        $dir = Join-Path $backupDir $tid
+        New-Item -ItemType Directory -Path $dir -Force | Out-Null
+        $stamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+        $path = Join-Path $dir ($stamp + "_" + $reason + ".zip")
+        $n = 2
+        while (Test-Path -LiteralPath $path) { $path = Join-Path $dir ("{0}_{1}_{2}.zip" -f $stamp, $reason, $n); $n++ }
+        $tmp = $path + ".part"
+        $fs = [IO.File]::Create($tmp)
+        $zip = New-Object IO.Compression.ZipArchive($fs, [IO.Compression.ZipArchiveMode]::Create)
+        try {
+            foreach ($e in $entries) {
+                if ($e.Full) { [void][IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $e.Full, $e.Rel, [IO.Compression.CompressionLevel]::Optimal) }
+                else { [void]$zip.CreateEntry($e.Rel) }
+            }
+        } finally {
+            $zip.Dispose(); $fs.Close()
+        }
+        Move-Item -LiteralPath $tmp -Destination $path -Force
+        return $path
+    }
+
+    # Aktuellen Spielstand des Spiels entfernen und das Backup an dieselben Stellen entpacken
+    function Restore-SaveBackup([string]$root, [string]$tid, [string]$zipPath, $currentDirs) {
+        $rootFull = [IO.Path]::GetFullPath($root).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+        $za = [IO.Compression.ZipFile]::OpenRead($zipPath)
+        try {
+            $ok = @($za.Entries | Where-Object { $_.FullName -match ('(^|/)' + $tid + '(/|$)') })
+            if (-not $ok.Count) { throw "Backup enthaelt keinen Spielstand fuer $tid" }
+            foreach ($d in @($currentDirs)) { if (Test-Path -LiteralPath $d) { Remove-Item -LiteralPath $d -Recurse -Force } }
+            foreach ($e in $ok) {
+                $target = [IO.Path]::GetFullPath((Join-Path $root $e.FullName))
+                if (-not $target.StartsWith($rootFull, [StringComparison]::OrdinalIgnoreCase)) { continue }
+                if ($e.FullName.EndsWith('/')) { [void][IO.Directory]::CreateDirectory($target); continue }
+                [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($target))
+                [IO.Compression.ZipFileExtensions]::ExtractToFile($e, $target, $true)
+            }
+        } finally {
+            $za.Dispose()
+        }
+    }
+
+    function Remove-OldAutoBackups([string]$backupDir, [string]$tid, [int]$keep) {
+        if ($keep -lt 1) { return }
+        $d = Join-Path $backupDir $tid
+        if (-not (Test-Path -LiteralPath $d)) { return }
+        Get-ChildItem -LiteralPath $d -File -Filter "*_auto*.zip" -ErrorAction SilentlyContinue |
+            Sort-Object Name -Descending | Select-Object -Skip $keep | Remove-Item -Force -ErrorAction SilentlyContinue
+    }
+
+    # Vor einem Eden-Update: alle Spiele sichern, deren Spielstand neuer ist als ihr letztes Backup
+    function Backup-ChangedSaves([string]$root, [string]$backupDir, [int]$keep) {
+        $count = 0
+        $map = Get-SaveTidDirs $root
+        foreach ($tid in $map.Keys) {
+            $st = Get-DirStats $map[$tid]
+            if (-not $st.Files -or $st.Newest -le (Get-LastBackupTime $backupDir $tid)) { continue }
+            if (New-SaveBackup $root $tid $map[$tid] $backupDir "auto") { $count++ }
+            Remove-OldAutoBackups $backupDir $tid $keep
+        }
+        return $count
+    }
+}
+
+$jobSaves = {
+    $a = $sync.Args
+    try {
+        if ($a.Mode -eq "scan") {
+            $map = Get-SaveTidDirs $a.Root
+            $saves = foreach ($tid in $map.Keys) {
+                $st = Get-DirStats $map[$tid]
+                @{ Tid = $tid; Dirs = @($map[$tid]); Size = $st.Size; Files = $st.Files; Newest = $st.Newest }
+            }
+            $shaders = @{}
+            if ($a.ShaderRoot -and (Test-Path -LiteralPath $a.ShaderRoot)) {
+                foreach ($d in Get-ChildItem -LiteralPath $a.ShaderRoot -Directory -ErrorAction SilentlyContinue) {
+                    if ($d.Name -notmatch '^[0-9A-Fa-f]{16}$') { continue }
+                    $st = Get-DirStats @($d.FullName)
+                    $shaders[$d.Name.ToUpperInvariant()] = @{ Size = $st.Size; Path = $d.FullName }
+                }
+            }
+            $backups = New-Object System.Collections.ArrayList
+            if ($a.BackupDir -and (Test-Path -LiteralPath $a.BackupDir)) {
+                foreach ($td in Get-ChildItem -LiteralPath $a.BackupDir -Directory -ErrorAction SilentlyContinue) {
+                    if ($td.Name -notmatch '^[0-9A-Fa-f]{16}$') { continue }
+                    foreach ($z in Get-ChildItem -LiteralPath $td.FullName -File -Filter *.zip -ErrorAction SilentlyContinue) {
+                        $time = $z.LastWriteTime; $reason = "manual"
+                        $m = [regex]::Match($z.Name, '^(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})_(manual|auto|restore)')
+                        if ($m.Success) {
+                            $time = [DateTime]::ParseExact($m.Groups[1].Value, "yyyy-MM-dd_HH-mm-ss", [Globalization.CultureInfo]::InvariantCulture)
+                            $reason = $m.Groups[2].Value
+                        }
+                        [void]$backups.Add(@{ Tid = $td.Name.ToUpperInvariant(); Path = $z.FullName; File = $z.Name; Time = $time; Reason = $reason; Size = $z.Length })
+                    }
+                }
+            }
+            $sync.Result = @{ Ok = $true; Mode = "scan"; Saves = @($saves); Shaders = $shaders; Backups = @($backups) }
+        } elseif ($a.Mode -eq "backup") {
+            $p = New-SaveBackup $a.Root $a.Tid @($a.Dirs) $a.BackupDir "manual"
+            $sync.Result = @{ Ok = $true; Mode = "backup"; Path = $p }
+        } elseif ($a.Mode -eq "restore") {
+            $cur = @($a.Dirs)
+            if ($cur.Count -and (Get-DirStats $cur).Files) { [void](New-SaveBackup $a.Root $a.Tid $cur $a.BackupDir "restore") }
+            Restore-SaveBackup $a.Root $a.Tid $a.Zip $cur
+            $sync.Result = @{ Ok = $true; Mode = "restore" }
+        } elseif ($a.Mode -eq "shader") {
+            foreach ($d in @($a.Dirs)) { if ($d -and (Test-Path -LiteralPath $d)) { Remove-Item -LiteralPath $d -Recurse -Force } }
+            $sync.Result = @{ Ok = $true; Mode = "shader" }
+        }
     } catch {
         $sync.Result = @{ Ok = $false; Mode = [string]$a.Mode; Error = $_.Exception.Message }
     } finally {
@@ -4175,6 +4856,19 @@ $jobInstall = {
         $finalMB = (Get-Item $zip).Length / 1MB
         Add-Log (TF "WDlDone" $finalMB $sw.Elapsed.TotalSeconds)
         $sync.CanCancel = $false
+
+        # Spielstaende sichern (nur Spiele mit Aenderungen seit dem letzten Backup)
+        if ($a.SaveBackup -and $a.SaveLib) {
+            try {
+                . ([scriptblock]::Create([string]$a.SaveLib))
+                $sync.Progress = -1
+                $sync.Status = (T "WSavesBackup")
+                $nSaves = Backup-ChangedSaves ([string]$a.SaveRoot) ([string]$a.SaveBackupDir) ([int]$a.SaveKeep)
+                Add-Log (TF "WSavesBacked" $nSaves)
+            } catch {
+                Add-Log ((T "ErrPrefix") + " " + (T "WSavesBackup") + " " + $_.Exception.Message)
+            }
+        }
 
         # 2) Backup der alten Version
         $sync.Progress = -1
@@ -4905,6 +5599,7 @@ $xaml = @'
           <Button x:Name="BtnNavGames" Tag="&#xE7FC;" Content="{DynamicResource L_NavGames}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavMods"  Tag="&#xEA86;" Content="{DynamicResource L_NavMods}"     Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavContent" Tag="&#xE7B8;" Content="{DynamicResource L_NavContent}" Style="{StaticResource BtnNav}"/>
+          <Button x:Name="BtnNavSaves" Tag="&#xE74E;" Content="{DynamicResource L_NavSaves}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavFw"    Tag="&#xE950;" Content="{DynamicResource L_NavFirmware}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSet"   Tag="&#xE713;" Content="{DynamicResource L_NavSettings}" Style="{StaticResource BtnNav}"/>
         </StackPanel>
@@ -5432,6 +6127,174 @@ $xaml = @'
           </Grid>
         </Grid>
 
+        <!-- Seite: Spieldaten (Spielstaende + Shader-Cache) -->
+        <Grid x:Name="PanelSaves" Visibility="Collapsed">
+          <Grid.RenderTransform>
+            <TranslateTransform/>
+          </Grid.RenderTransform>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+
+          <Grid Grid.Row="0" Margin="4,0,0,8">
+            <TextBlock x:Name="TxtSavesInfo" Style="{StaticResource Label}" VerticalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+              <Button x:Name="BtnShaderAll" Tag="&#xE74D;" Content="{DynamicResource L_SavesShaderAll}" Style="{StaticResource BtnGhost}" ToolTip="{DynamicResource L_SavesShaderHint}"/>
+              <Button x:Name="BtnSaveBackupDir" Tag="&#xE838;" Content="{DynamicResource L_SavesBackupDir}" Style="{StaticResource BtnGhost}" Margin="4,0,0,0"/>
+              <Button x:Name="BtnSavesReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" Margin="4,0,0,0"/>
+            </StackPanel>
+          </Grid>
+
+          <Border x:Name="SavesBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
+                  Background="{DynamicResource BrBadgeInstBg}">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+              <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="290"/>
+              <ColumnDefinition Width="12"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
+              <ListBox x:Name="ListSaveGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                      </Grid.ColumnDefinitions>
+                      <Grid Width="36" Height="36" VerticalAlignment="Center">
+                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
+                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
+                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <Border CornerRadius="8">
+                          <Border.Background>
+                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+                          </Border.Background>
+                        </Border>
+                      </Grid>
+                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
+                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
+                      </StackPanel>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Margin="20,16,16,14">
+                  <TextBlock x:Name="TxtSaveGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                  <TextBlock x:Name="TxtSaveGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                             FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,12"/>
+                  <!-- Spielstand -->
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock Text="{DynamicResource L_SavesSaveTitle}" Style="{StaticResource FieldTitle}"/>
+                      <TextBlock x:Name="TxtSaveState" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                      <Button x:Name="BtnSaveFolder" Tag="&#xE838;" Content="{DynamicResource L_SavesOpenFolder}" Style="{StaticResource BtnGhost}" Margin="0,0,6,0"/>
+                      <Button x:Name="BtnSaveBackup" Tag="&#xE74E;" Content="{DynamicResource L_SavesBackupNow}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
+                    </StackPanel>
+                  </Grid>
+                  <!-- Shader-Cache -->
+                  <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center" Background="Transparent" ToolTip="{DynamicResource L_SavesShaderHint}">
+                      <TextBlock Text="{DynamicResource L_SavesShaderTitle}" Style="{StaticResource FieldTitle}"/>
+                      <TextBlock x:Name="TxtShaderState" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <Button x:Name="BtnShaderDelete" Grid.Column="1" Tag="&#xE74D;" Content="{DynamicResource L_SavesShaderDelete}" Style="{StaticResource BtnGhost}"
+                            VerticalAlignment="Center" Margin="10,0,0,0" ToolTip="{DynamicResource L_SavesShaderHint}"/>
+                  </Grid>
+                </StackPanel>
+                <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}"/>
+                <Grid Grid.Row="2">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                  </Grid.RowDefinitions>
+                  <TextBlock Text="{DynamicResource L_SavesBackupsTitle}" Style="{StaticResource Label}" Margin="20,12,0,2"/>
+                  <ListBox x:Name="ListSaveBackups" Grid.Row="1" Margin="8,4,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
+                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemContainerStyle>
+                      <Style TargetType="ListBoxItem">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+                        <Setter Property="Template">
+                          <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                              <Grid Margin="0,0,0,3">
+                                <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
+                                <ContentPresenter Margin="12,8,8,8"/>
+                              </Grid>
+                              <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter TargetName="hov" Property="Opacity" Value="1"/>
+                                </Trigger>
+                              </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                          </Setter.Value>
+                        </Setter>
+                      </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                      <DataTemplate>
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Text="&#xE81C;" FontFamily="{StaticResource FontIcon}" FontSize="16" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
+                          <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14"
+                                       FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                          </StackPanel>
+                          <Button Grid.Column="2" Uid="restore" Tag="&#xE777;" Content="{DynamicResource L_SavesRestore}" Style="{StaticResource BtnGhost}"
+                                  VerticalAlignment="Center"/>
+                          <Button Grid.Column="3" Uid="delete" Tag="&#xE74D;" Content="{DynamicResource L_SavesDelete}" Style="{StaticResource BtnGhost}"
+                                  VerticalAlignment="Center" Margin="4,0,0,0"/>
+                        </Grid>
+                      </DataTemplate>
+                    </ListBox.ItemTemplate>
+                  </ListBox>
+                  <TextBlock x:Name="TxtSaveBackupsEmpty" Grid.Row="1" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
+                             HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="360" Margin="0,0,0,20" Visibility="Collapsed"/>
+                </Grid>
+              </Grid>
+            </Border>
+          </Grid>
+        </Grid>
+
         <!-- Seite: Firmware und Schluessel -->
         <Grid x:Name="PanelFirmware" Visibility="Collapsed">
           <Grid.RenderTransform>
@@ -5592,6 +6455,7 @@ $xaml = @'
                     <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpBehavior}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
                   <CheckBox x:Name="ChkBackup" Content="{DynamicResource L_ChkBackup}"/>
+                  <CheckBox x:Name="ChkSaveAuto" Content="{DynamicResource L_ChkSaveAuto}"/>
                   <CheckBox x:Name="ChkStart" Content="{DynamicResource L_ChkStart}"/>
                   <CheckBox x:Name="ChkClose" Content="{DynamicResource L_ChkClose}"/>
                   <CheckBox x:Name="ChkAuto" Content="{DynamicResource L_ChkAuto}"/>
@@ -6682,21 +7546,24 @@ function Set-Page([string]$page) {
     $ui.PanelMods.Visibility     = if ($page -eq "mods")     { "Visible" } else { "Collapsed" }
     $ui.PanelContent.Visibility  = if ($page -eq "content")  { "Visible" } else { "Collapsed" }
     $ui.PanelFirmware.Visibility = if ($page -eq "firmware") { "Visible" } else { "Collapsed" }
+    $ui.PanelSaves.Visibility    = if ($page -eq "saves")    { "Visible" } else { "Collapsed" }
     Set-NavActive $ui.BtnNavVer   ($page -eq "versions")
     Set-NavActive $ui.BtnNavNotes ($page -eq "notes")
     Set-NavActive $ui.BtnNavGames ($page -eq "games")
     Set-NavActive $ui.BtnNavMods  ($page -eq "mods")
     Set-NavActive $ui.BtnNavContent ($page -eq "content")
     Set-NavActive $ui.BtnNavFw    ($page -eq "firmware")
+    Set-NavActive $ui.BtnNavSaves ($page -eq "saves")
     Set-NavActive $ui.BtnNavSet   ($page -eq "settings")
-    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "mods" { "L_NavMods" } "content" { "L_NavContent" } "firmware" { "L_NavFirmware" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
+    $titleKey = switch ($page) { "notes" { "L_NavNotes" } "games" { "L_NavGames" } "mods" { "L_NavMods" } "content" { "L_NavContent" } "firmware" { "L_NavFirmware" } "saves" { "L_NavSaves" } "settings" { "L_NavSettings" } default { "L_NavVersions" } }
     if ($page -eq "games" -and -not $script:GamesLoaded) { Start-GameScan }
     if ($page -eq "mods" -and -not $script:Snapshot) { Open-ModsTab }
     if ($page -eq "content" -and -not $script:Snapshot) { Open-ContentTab }
     if ($page -eq "firmware") { Update-FirmwarePage }
+    if ($page -eq "saves" -and -not $script:Snapshot) { Open-SavesTab }
     $ui.TxtPageTitle.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $titleKey)
     if ($prev -ne $page) {
-        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "content" { $ui.PanelContent } "firmware" { $ui.PanelFirmware } "settings" { $ui.PanelSettings } }
+        $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "content" { $ui.PanelContent } "firmware" { $ui.PanelFirmware } "saves" { $ui.PanelSaves } "settings" { $ui.PanelSettings } }
         Start-FadeIn $el
     }
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
@@ -6742,6 +7609,11 @@ function Start-Install($rel) {
         Backup   = [bool]$s.Backup
         Excludes = (Get-Excludes)
         InstalledVersion = (Get-InstalledVersion)
+        SaveBackup    = [bool]$s.SaveBackupOnUpdate
+        SaveLib       = $saveLib.ToString()
+        SaveRoot      = $(try { Get-SaveRoot } catch { "" })
+        SaveBackupDir = $(try { Get-SaveBackupDir } catch { "" })
+        SaveKeep      = $(if ([int]$s.SaveBackupKeep -gt 0) { [int]$s.SaveBackupKeep } else { 10 })
     } "install"
 }
 
@@ -6816,6 +7688,7 @@ function Complete-GameScan {
     Update-GameList
     if ($script:ModsLoaded) { Update-ModGames }
     if ($script:ContentLoaded) { Update-ContentGames }
+    if ($script:SavesLoaded) { Update-SaveGames }
 }
 
 function Update-GameList {
@@ -7287,6 +8160,12 @@ function Update-SysBanners([bool]$force = $false) {
     $run = $script:EdenRunning
     $ui.ContentBanner.Visibility = if ($run) { "Visible" } else { "Collapsed" }
     $ui.FwBanner.Visibility      = if ($run) { "Visible" } else { "Collapsed" }
+    $ui.SavesBanner.Visibility   = if ($run) { "Visible" } else { "Collapsed" }
+    $savesFree = -not $run -and -not $script:SavesWorker
+    $ui.BtnSaveBackup.IsEnabled   = $savesFree -and $script:SaveSelHas
+    $ui.BtnShaderDelete.IsEnabled = $savesFree -and $script:ShaderSelHas
+    $ui.BtnShaderAll.IsEnabled    = $savesFree -and $script:ShaderTotal -gt 0
+    $ui.ListSaveBackups.IsEnabled = $savesFree
     $ui.ListContent.IsEnabled    = -not $run
     $ui.BtnContentAdd.IsEnabled  = [bool]($ui.ListContentGames.SelectedItem) -and -not $run -and -not $script:ContentWorker
     $fwFree = -not $run -and -not $script:FwWorker
@@ -7522,6 +8401,223 @@ function Open-ContentFolder {
     $g = $ui.ListContentGames.SelectedItem
     if (-not $g) { return }
     Open-Dir (Join-Path (Get-ManagedContentDir) $g.Tid)
+}
+
+# ------------------------------------------------------------
+#  Spieldaten: Spielstaende sichern/wiederherstellen, Shader-Cache
+# ------------------------------------------------------------
+$script:SaveData     = $null
+$script:SavesLoaded  = $false
+$script:SavesWorker  = $null
+$script:SaveGames    = @()
+$script:SaveSelHas   = $false
+$script:ShaderSelHas = $false
+$script:ShaderTotal  = 0L
+$script:SavesPendingMsg = ""
+
+function Get-SaveRoot { return (Join-Path (Get-NandDir) "user\save") }
+function Get-ShaderRoot { return (Join-Path (Get-EdenDataDir) "cache\shader") }
+function Get-SaveBackupDir { return (Join-Path (Get-EdenDataDir) "save-backups") }
+
+function Start-SavesWorker([hashtable]$jobArgs) {
+    if ($script:SavesWorker) { return }
+    $savesSync.Args = $jobArgs; $savesSync.Done = $false; $savesSync.Result = $null
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $savesSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($saveLib.ToString() + "`n" + $jobSaves.ToString())
+    $script:SavesWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+    if ($jobArgs.Mode -ne "scan") { $ui.TxtSavesInfo.Text = T "SavesWorking" }
+    Update-SysBanners $true
+}
+
+function Start-SavesScan {
+    $ui.TxtSavesInfo.Text = T "SavesScanning"
+    Start-SavesWorker @{ Mode = "scan"; Root = (Get-SaveRoot); ShaderRoot = (Get-ShaderRoot); BackupDir = (Get-SaveBackupDir) }
+}
+
+function Complete-SavesWorker {
+    $w = $script:SavesWorker
+    $script:SavesWorker = $null
+    try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+    try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+    $r = $savesSync.Result
+    if (-not $r) { Update-SysBanners $true; return }
+    if (-not $r.Ok) {
+        Add-UiLog ((T "ErrPrefix") + " " + $r.Error)
+        if ($r.Mode -ne "scan") { Show-Msg ((T "ErrPrefix") + " " + $r.Error) "Error"; Start-SavesScan }
+        else { $script:SavesLoaded = $true; Update-SaveGames }
+        return
+    }
+    if ($r.Mode -ne "scan") {
+        if ($r.Mode -eq "backup" -and -not $r.Path) { Show-Msg (T "SavesNothing") "Information" }
+        elseif ($script:SavesPendingMsg) { Add-UiLog $script:SavesPendingMsg }
+        $script:SavesPendingMsg = ""
+        Start-SavesScan
+        return
+    }
+    $script:SaveData = @{ Saves = @($r.Saves); Shaders = $r.Shaders; Backups = @($r.Backups) }
+    $script:SavesLoaded = $true
+    Update-SaveGames
+}
+
+function Get-SaveGameName([string]$tid) {
+    foreach ($g in @($script:Games)) { if ($g.Tid -eq $tid) { return $g.Name } }
+    if ($script:CacheNames.ContainsKey($tid)) { return $script:CacheNames[$tid] }
+    return (T "ModsUnknownGame")
+}
+
+function Update-SaveGames {
+    $d = $script:SaveData
+    if (-not $d) { $d = @{ Saves = @(); Shaders = @{}; Backups = @() } }
+    $tids = New-Object System.Collections.Generic.HashSet[string]
+    foreach ($g in @($script:Games)) { if ($g.Tid) { [void]$tids.Add($g.Tid) } }
+    foreach ($x in @($d.Saves)) { [void]$tids.Add($x.Tid) }
+    foreach ($k in @($d.Shaders.Keys)) { [void]$tids.Add($k) }
+    foreach ($x in @($d.Backups)) { [void]$tids.Add($x.Tid) }
+    $icons = @{}
+    foreach ($g in @($script:Games)) { if ($g.Tid -and -not $icons.ContainsKey($g.Tid)) { $icons[$g.Tid] = $g.IconImg } }
+    $list = foreach ($tid in $tids) {
+        $sv = @($d.Saves | Where-Object { $_.Tid -eq $tid -and $_.Files }) | Select-Object -First 1
+        $sh = $d.Shaders[$tid]
+        $nb = @($d.Backups | Where-Object { $_.Tid -eq $tid }).Count
+        $name = Get-SaveGameName $tid
+        $parts = @()
+        $parts += $(if ($sv) { TF "SavesGameSave" (Format-Size $sv.Size) } else { T "SavesGameNoSave" })
+        if ($sh -and $sh.Size) { $parts += (TF "SavesGameShader" (Format-Size $sh.Size)) }
+        if ($nb) { $parts += (TF "SavesGameBackups" $nb) }
+        [pscustomobject]@{
+            Tid = $tid; Name = $name; IconImg = $icons[$tid]
+            Initial = $(if ($name) { $name.Substring(0, 1).ToUpper() } else { "?" })
+            HasSave = [bool]$sv
+            Info = ($parts -join " · ")
+        }
+    }
+    $script:SaveGames = @($list | Sort-Object @{ Expression = { $_.HasSave }; Descending = $true }, Name)
+    $selTid = if ($ui.ListSaveGames.SelectedItem) { $ui.ListSaveGames.SelectedItem.Tid } else { $null }
+    $ui.ListSaveGames.ItemsSource = $script:SaveGames
+    if ($selTid) { $ui.ListSaveGames.SelectedItem = ($script:SaveGames | Where-Object { $_.Tid -eq $selTid } | Select-Object -First 1) }
+    if (-not $ui.ListSaveGames.SelectedItem -and $script:SaveGames.Count) { $ui.ListSaveGames.SelectedIndex = 0 }
+    $script:ShaderTotal = 0L
+    foreach ($k in @($d.Shaders.Keys)) { $script:ShaderTotal += [int64]$d.Shaders[$k].Size }
+    if (-not $script:SavesWorker) {
+        $ui.TxtSavesInfo.Text = TF "SavesInfo" (@($d.Saves | Where-Object { $_.Files }).Count) (@($d.Backups).Count) (Format-Size $script:ShaderTotal)
+    }
+    Update-SaveDetail
+}
+
+function Get-SelectedSaveInfo {
+    $g = $ui.ListSaveGames.SelectedItem
+    if (-not $g -or -not $script:SaveData) { return $null }
+    return @{
+        Game    = $g
+        Save    = (@($script:SaveData.Saves | Where-Object { $_.Tid -eq $g.Tid }) | Select-Object -First 1)
+        Shader  = $script:SaveData.Shaders[$g.Tid]
+        Backups = @($script:SaveData.Backups | Where-Object { $_.Tid -eq $g.Tid } | Sort-Object { $_.Time } -Descending)
+    }
+}
+
+function Update-SaveDetail {
+    $i = Get-SelectedSaveInfo
+    if (-not $i) {
+        $ui.TxtSaveGameTitle.Text = T "ModsSelectGame"; $ui.TxtSaveGameSub.Text = ""
+        $ui.TxtSaveState.Text = ""; $ui.TxtShaderState.Text = ""
+        $ui.ListSaveBackups.ItemsSource = $null
+        $ui.TxtSaveBackupsEmpty.Visibility = "Collapsed"
+        $script:SaveSelHas = $false; $script:ShaderSelHas = $false
+        $ui.BtnSaveFolder.IsEnabled = $false
+        Update-SysBanners
+        return
+    }
+    $ui.TxtSaveGameTitle.Text = $i.Game.Name
+    $ui.TxtSaveGameSub.Text = "Title-ID " + $i.Game.Tid
+    $script:SaveSelHas = [bool]($i.Save -and $i.Save.Files)
+    $ui.TxtSaveState.Text = if ($script:SaveSelHas) {
+        TF "SavesSaveInfo" (Format-Size $i.Save.Size) ($i.Save.Newest.ToLocalTime().ToString("g", $script:CI))
+    } else { T "SavesSaveNone" }
+    $ui.BtnSaveFolder.IsEnabled = [bool]($i.Save -and @($i.Save.Dirs).Count)
+    $script:ShaderSelHas = [bool]($i.Shader -and $i.Shader.Size)
+    $ui.TxtShaderState.Text = if ($script:ShaderSelHas) { Format-Size $i.Shader.Size } else { T "SavesShaderNone" }
+    $reasons = @{ manual = (T "SavesReasonManual"); auto = (T "SavesReasonAuto"); restore = (T "SavesReasonRestore") }
+    $items = foreach ($b in $i.Backups) {
+        [pscustomobject]@{
+            Name = $b.Time.ToString("g", $script:CI)
+            Info = $reasons[[string]$b.Reason] + "  ·  " + (Format-Size $b.Size)
+            Path = $b.Path; File = $b.File; Tid = $b.Tid
+        }
+    }
+    $ui.ListSaveBackups.ItemsSource = @($items)
+    $ui.TxtSaveBackupsEmpty.Text = T "SavesBackupsEmpty"
+    $ui.TxtSaveBackupsEmpty.Visibility = if (@($items).Count) { "Collapsed" } else { "Visible" }
+    Update-SysBanners
+}
+
+function Open-SavesTab {
+    if (-not $script:GamesLoaded) { Start-GameScan }
+    if (-not $script:SavesLoaded) { Start-SavesScan } else { Update-SaveGames }
+    Update-SysBanners $true
+}
+
+function Test-SavesBlocked {
+    Update-SysBanners $true
+    if ($script:SavesWorker) { return $true }
+    if ($script:EdenRunning) { Show-Msg (T "SysEdenRunning") "Warning"; return $true }
+    return $false
+}
+
+function Invoke-SaveBackup {
+    $i = Get-SelectedSaveInfo
+    if (-not $i -or (Test-SavesBlocked)) { return }
+    if (-not $i.Save -or -not $i.Save.Files) { Show-Msg (T "SavesNothing") "Information"; return }
+    $script:SavesPendingMsg = TF "SavesBackupDone" $i.Game.Name
+    Start-SavesWorker @{ Mode = "backup"; Root = (Get-SaveRoot); Tid = $i.Game.Tid; Dirs = @($i.Save.Dirs); BackupDir = (Get-SaveBackupDir) }
+}
+
+function Invoke-SaveRestore($item) {
+    $i = Get-SelectedSaveInfo
+    if (-not $i -or (Test-SavesBlocked)) { return }
+    if ((Show-Dialog (TF "SavesAskRestore" $item.Name) "YesNo" "Question") -ne "Yes") { return }
+    $dirs = if ($i.Save) { @($i.Save.Dirs) } else { @() }
+    $script:SavesPendingMsg = TF "SavesRestored" ($i.Game.Name + " (" + $item.Name + ")")
+    Start-SavesWorker @{ Mode = "restore"; Root = (Get-SaveRoot); Tid = $item.Tid; Zip = $item.Path; Dirs = $dirs; BackupDir = (Get-SaveBackupDir) }
+}
+
+function Remove-SaveBackupItem($item) {
+    if ($script:SavesWorker) { return }
+    if ((Show-Dialog (TF "SavesAskDelete" $item.Name) "YesNo" "Question") -ne "Yes") { return }
+    try {
+        Add-Type -AssemblyName Microsoft.VisualBasic
+        [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($item.Path, "OnlyErrorDialogs", "SendToRecycleBin")
+        Add-UiLog (TF "SavesDeleted" $item.Name)
+    } catch {
+        Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
+    }
+    Start-SavesScan
+}
+
+function Remove-ShaderCache([bool]$all) {
+    if (Test-SavesBlocked) { return }
+    if ($all) {
+        if ($script:ShaderTotal -le 0) { return }
+        if ((Show-Dialog (TF "SavesAskShaderAll" (Format-Size $script:ShaderTotal)) "YesNo" "Question") -ne "Yes") { return }
+        $dirs = @(foreach ($k in @($script:SaveData.Shaders.Keys)) { $script:SaveData.Shaders[$k].Path })
+        $script:SavesPendingMsg = TF "SavesShaderDeleted" (Format-Size $script:ShaderTotal)
+    } else {
+        $i = Get-SelectedSaveInfo
+        if (-not $i -or -not $i.Shader) { return }
+        if ((Show-Dialog (TF "SavesAskShader" $i.Game.Name (Format-Size $i.Shader.Size)) "YesNo" "Question") -ne "Yes") { return }
+        $dirs = @($i.Shader.Path)
+        $script:SavesPendingMsg = TF "SavesShaderDeleted" $i.Game.Name
+    }
+    Start-SavesWorker @{ Mode = "shader"; Dirs = $dirs }
+}
+
+function Open-SaveFolder {
+    $i = Get-SelectedSaveInfo
+    if ($i -and $i.Save -and @($i.Save.Dirs).Count) { Open-Dir ([string]@($i.Save.Dirs)[0]) }
 }
 
 # ------------------------------------------------------------
@@ -8035,9 +9131,9 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
-                 "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
+                 "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
     $ui[$n] = $window.FindName($n)
 }
@@ -8072,6 +9168,7 @@ function Set-SettingsControls {
     )
     $ui.CmbNotes.SelectedValue = if ([string]$s.NotesLayout -eq "side") { "side" } else { "page" }
     $ui.ChkBackup.IsChecked      = [bool]$s.Backup
+    $ui.ChkSaveAuto.IsChecked    = [bool]$s.SaveBackupOnUpdate
     $ui.ChkStart.IsChecked       = [bool]$s.StartAfter
     $ui.ChkClose.IsChecked       = [bool]$s.CloseAfterStart
     Update-ThemeLabel
@@ -8106,6 +9203,22 @@ $ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEv
 })
 $ui.BtnNavContent.Add_Click({ Set-Page "content" })
 $ui.BtnNavFw.Add_Click({ Set-Page "firmware" })
+$ui.BtnNavSaves.Add_Click({ Set-Page "saves" })
+$ui.BtnSavesReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-SavesScan })
+$ui.BtnSaveBackupDir.Add_Click({ Open-Dir (Get-SaveBackupDir) })
+$ui.BtnShaderAll.Add_Click({ Remove-ShaderCache $true })
+$ui.BtnShaderDelete.Add_Click({ Remove-ShaderCache $false })
+$ui.BtnSaveBackup.Add_Click({ Invoke-SaveBackup })
+$ui.BtnSaveFolder.Add_Click({ Open-SaveFolder })
+$ui.ListSaveGames.Add_SelectionChanged({ Update-SaveDetail })
+$ui.ListSaveBackups.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
+    param($sender, $e)
+    $src = $e.OriginalSource
+    $item = $src.DataContext
+    if (-not $item) { return }
+    if ($src.Uid -eq "restore") { Invoke-SaveRestore $item }
+    elseif ($src.Uid -eq "delete") { Remove-SaveBackupItem $item }
+})
 $ui.BtnContentReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-ContentScan })
 $ui.BtnContentAdd.Add_Click({ Add-ContentFiles })
 $ui.BtnContentFolder.Add_Click({ Open-ContentFolder })
@@ -8240,6 +9353,8 @@ $ui.BtnSave.Add_Click({
             GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
             FavoriteGames = @($old.FavoriteGames)
             FirmwareVersion = [string]$old.FirmwareVersion
+            SaveBackupOnUpdate = [bool]$ui.ChkSaveAuto.IsChecked
+            SaveBackupKeep = $old.SaveBackupKeep
             Language     = $lang
         }
         Save-Settings
@@ -8289,7 +9404,8 @@ $timer.Add_Tick({
             if ($fwSync.Done) { Complete-FwWorker }
             elseif ($fwSync.Total) { $ui.TxtFwSub.Text = TF "FwInstalling" $fwSync.Cur $fwSync.Total }
         }
-        if ($script:CurrentPage -eq "content" -or $script:CurrentPage -eq "firmware") { Update-SysBanners }
+        if ($script:SavesWorker -and $savesSync.Done) { Complete-SavesWorker }
+        if ($script:CurrentPage -eq "content" -or $script:CurrentPage -eq "firmware" -or $script:CurrentPage -eq "saves") { Update-SysBanners }
         if ($script:SelfPrompt -and -not $script:Busy -and -not $script:MsgWin -and -not $script:ThemeWin) {
             $script:SelfPrompt = $false
             Ask-SelfUpdate
@@ -8304,7 +9420,7 @@ $window.Add_Closing({
     if ($script:Busy -and ($script:BusyKind -eq "install" -or $script:BusyKind -eq "restore")) {
         $e.Cancel = $true
         Show-Msg (T "MsgBusyClose") "Information"
-    } elseif ($script:FwWorker -or ($script:ContentWorker -and $contentSync.Args.Mode -eq "add")) {
+    } elseif ($script:FwWorker -or ($script:ContentWorker -and $contentSync.Args.Mode -eq "add") -or ($script:SavesWorker -and $savesSync.Args.Mode -eq "restore")) {
         $e.Cancel = $true
         Show-Msg (T "MsgBusyClose") "Information"
     }
@@ -8373,10 +9489,25 @@ function Start-Snapshots {
         @{ Base = "0100000000020000"; Tid = "0100000000020800"; Kind = "update"; Version = 65536; Name = "Kart Turbo Deluxe"; File = "d.nsp"; Path = ""; Size = 420MB; Source = "ext"; Managed = $true }
     )
     $script:ContentLoaded = $true
+    $now = Get-Date
+    $script:SaveData = @{
+        Saves = @(
+            @{ Tid = "0100000000010000"; Dirs = @(); Size = 2.4MB; Files = 3; Newest = $now.AddHours(-2).ToUniversalTime() },
+            @{ Tid = "0100000000030000"; Dirs = @(); Size = 640KB; Files = 1; Newest = $now.AddDays(-3).ToUniversalTime() }
+        )
+        Shaders = @{ "0100000000010000" = @{ Size = 245MB; Path = "" }; "0100000000020000" = @{ Size = 88MB; Path = "" } }
+        Backups = @(
+            @{ Tid = "0100000000010000"; Path = ""; File = "a.zip"; Time = $now.AddHours(-2); Reason = "manual"; Size = 2.3MB },
+            @{ Tid = "0100000000010000"; Path = ""; File = "b.zip"; Time = $now.AddDays(-1); Reason = "auto"; Size = 2.2MB },
+            @{ Tid = "0100000000010000"; Path = ""; File = "c.zip"; Time = $now.AddDays(-6); Reason = "restore"; Size = 1.9MB }
+        )
+    }
+    $script:SavesLoaded = $true
     Update-List
     Update-GameList
     Update-ModGames
     Update-ContentGames
+    Update-SaveGames
     $ui.ListModGames.SelectedIndex = 0
     $ui.List.SelectedIndex = 1
     $ui.ListGames.SelectedIndex = 0
@@ -8388,7 +9519,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "mods", "content", "firmware", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
+        foreach ($pg in @("versions", "notes", "games", "mods", "content", "saves", "firmware", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
