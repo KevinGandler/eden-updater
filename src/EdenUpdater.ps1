@@ -32,6 +32,7 @@ $Defaults = [ordered]@{
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
     GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
+    FavoriteGames = @()       # Favoriten (Title-ID, sonst Dateipfad) - stehen oben in der Spieleliste
     CustomTheme  = $null      # eigenes Theme: @{ Bg; Panel; Text; Accent }
     Language     = "auto"
 }
@@ -316,6 +317,7 @@ ThContrast=Lesbarkeit {0} : 1
 ThContrastOk=gut
 ThContrastLow=zu gering, Text wird automatisch angepasst
 GamesClose=Updater beim Spielstart schließen
+GamesFavTip=Als Favorit markieren (oben anzeigen)
 NavMods=Mods
 ModsInfo={0} Mods für {1} Spiele
 ModsScanning=Suche nach Mods...
@@ -505,6 +507,7 @@ ThContrast=Readability {0} : 1
 ThContrastOk=good
 ThContrastLow=too low, text will be adjusted automatically
 GamesClose=Close updater when a game starts
+GamesFavTip=Mark as favorite (show at top)
 NavMods=Mods
 ModsInfo={0} mods for {1} games
 ModsScanning=Searching for mods...
@@ -694,6 +697,7 @@ ThContrast=Legibilidad {0} : 1
 ThContrastOk=buena
 ThContrastLow=demasiado baja, el texto se ajustará automáticamente
 GamesClose=Cerrar el actualizador al iniciar un juego
+GamesFavTip=Marcar como favorito (mostrar arriba)
 NavMods=Mods
 ModsInfo={0} mods para {1} juegos
 ModsScanning=Buscando mods...
@@ -883,6 +887,7 @@ ThContrast=Lisibilité {0} : 1
 ThContrastOk=bonne
 ThContrastLow=trop faible, le texte sera ajusté automatiquement
 GamesClose=Fermer l'outil au lancement du jeu
+GamesFavTip=Marquer comme favori (afficher en haut)
 NavMods=Mods
 ModsInfo={0} mods pour {1} jeux
 ModsScanning=Recherche des mods...
@@ -1072,6 +1077,7 @@ ThContrast=Leggibilità {0} : 1
 ThContrastOk=buona
 ThContrastLow=troppo bassa, il testo verrà adattato automaticamente
 GamesClose=Chiudi l'updater all'avvio del gioco
+GamesFavTip=Segna come preferito (mostra in alto)
 NavMods=Mod
 ModsInfo={0} mod per {1} giochi
 ModsScanning=Ricerca mod...
@@ -1261,6 +1267,7 @@ ThContrast=Legibilidade {0} : 1
 ThContrastOk=boa
 ThContrastLow=baixa demais, o texto será ajustado automaticamente
 GamesClose=Fechar o atualizador ao iniciar o jogo
+GamesFavTip=Marcar como favorito (mostrar no topo)
 NavMods=Mods
 ModsInfo={0} mods para {1} jogos
 ModsScanning=Procurando mods...
@@ -1450,6 +1457,7 @@ ThContrast=Leesbaarheid {0} : 1
 ThContrastOk=goed
 ThContrastLow=te laag, tekst wordt automatisch aangepast
 GamesClose=Updater sluiten bij het starten van een game
+GamesFavTip=Als favoriet markeren (bovenaan tonen)
 NavMods=Mods
 ModsInfo={0} mods voor {1} games
 ModsScanning=Zoeken naar mods...
@@ -1639,6 +1647,7 @@ ThContrast=Czytelność {0} : 1
 ThContrastOk=dobra
 ThContrastLow=za niska, tekst zostanie dopasowany automatycznie
 GamesClose=Zamknij aktualizator po uruchomieniu gry
+GamesFavTip=Oznacz jako ulubioną (pokaż na górze)
 NavMods=Mody
 ModsInfo=Mody: {0} dla gier: {1}
 ModsScanning=Wyszukiwanie modów...
@@ -1828,6 +1837,7 @@ ThContrast=Okunabilirlik {0} : 1
 ThContrastOk=iyi
 ThContrastLow=çok düşük, metin otomatik olarak ayarlanacak
 GamesClose=Oyun başlarken güncelleyiciyi kapat
+GamesFavTip=Favori olarak işaretle (en üstte göster)
 NavMods=Modlar
 ModsInfo={1} oyun için {0} mod
 ModsScanning=Modlar aranıyor...
@@ -2017,6 +2027,7 @@ ThContrast=Читаемость {0} : 1
 ThContrastOk=хорошая
 ThContrastLow=слишком низкая, текст будет настроен автоматически
 GamesClose=Закрывать программу при запуске игры
+GamesFavTip=Добавить в избранное (показывать сверху)
 NavMods=Моды
 ModsInfo=Модов: {0}, игр: {1}
 ModsScanning=Поиск модов...
@@ -2206,6 +2217,7 @@ ThContrast=読みやすさ {0} : 1
 ThContrastOk=良好
 ThContrastLow=低すぎます。テキストは自動調整されます
 GamesClose=ゲーム起動時にアップデーターを閉じる
+GamesFavTip=お気に入りに追加 (上部に表示)
 NavMods=Mod
 ModsInfo={1} 本のゲームに {0} 個のMod
 ModsScanning=Modを検索中...
@@ -2395,6 +2407,7 @@ ThContrast=可读性 {0} : 1
 ThContrastOk=良好
 ThContrastLow=过低, 文字将自动调整
 GamesClose=启动游戏时关闭更新程序
+GamesFavTip=标记为收藏 (显示在顶部)
 NavMods=模组
 ModsInfo={1} 个游戏的 {0} 个模组
 ModsScanning=正在搜索模组...
@@ -2584,6 +2597,7 @@ ThContrast=가독성 {0} : 1
 ThContrastOk=좋음
 ThContrastLow=너무 낮음, 텍스트가 자동으로 조정됩니다
 GamesClose=게임 시작 시 업데이터 닫기
+GamesFavTip=즐겨찾기로 표시 (맨 위에 표시)
 NavMods=모드
 ModsInfo=게임 {1}개에 모드 {0}개
 ModsScanning=모드 검색 중...
@@ -4127,6 +4141,7 @@ $xaml = @'
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                       </Grid.ColumnDefinitions>
                       <Grid Width="44" Height="44" VerticalAlignment="Center">
                         <Border CornerRadius="9" Background="{DynamicResource BrSelStrong}">
@@ -4144,6 +4159,30 @@ $xaml = @'
                                    TextTrimming="CharacterEllipsis"/>
                         <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
                       </StackPanel>
+                      <!-- Favorit: Stern rechts, Klick schaltet um (Handler am ListGames, erkannt ueber Tag="fav") -->
+                      <Button Grid.Column="2" Tag="fav" Focusable="False" Cursor="Hand" VerticalAlignment="Center" Margin="8,0,0,0"
+                              ToolTip="{DynamicResource L_GamesFavTip}">
+                        <Button.Template>
+                          <ControlTemplate TargetType="Button">
+                            <Border x:Name="bd" Background="Transparent" CornerRadius="8" Width="34" Height="34">
+                              <TextBlock x:Name="st" Text="&#xE734;" FontFamily="{StaticResource FontIcon}" FontSize="16"
+                                         Foreground="{DynamicResource BrMuted}" Opacity="0.45"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                              <DataTrigger Binding="{Binding IsFav}" Value="True">
+                                <Setter TargetName="st" Property="Text" Value="&#xE735;"/>
+                                <Setter TargetName="st" Property="Foreground" Value="{DynamicResource BrAccent}"/>
+                                <Setter TargetName="st" Property="Opacity" Value="1"/>
+                              </DataTrigger>
+                              <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="st" Property="Opacity" Value="1"/>
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BrSel}"/>
+                              </Trigger>
+                            </ControlTemplate.Triggers>
+                          </ControlTemplate>
+                        </Button.Template>
+                      </Button>
                     </Grid>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -5582,6 +5621,7 @@ function Complete-GameScan {
                 } catch {}
             }
             $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
+            $g | Add-Member -NotePropertyName IsFav -NotePropertyValue (Test-GameFav $g) -Force
         }
         $script:Games     = @($r.Games)
         if ($r.CacheNames) { $script:CacheNames = $r.CacheNames }
@@ -5600,6 +5640,8 @@ function Update-GameList {
     $ui.TxtGameSearchHint.Visibility = if ($ui.TxtGameSearch.Text) { "Collapsed" } else { "Visible" }
     if (-not $script:GamesLoaded) { return }
     $list = if ($q) { @($script:Games | Where-Object { $_.Name.IndexOf($q, [StringComparison]::OrdinalIgnoreCase) -ge 0 }) } else { @($script:Games) }
+    # Favoriten zuerst, danach alphabetisch
+    $list = @($list | Sort-Object -Property @{ Expression = { if ($_.IsFav) { 0 } else { 1 } } }, Name)
     $ui.ListGames.ItemsSource = $list
     $hasEden = Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")
     if (-not $hasEden -and $script:Games.Count -gt 0) {
@@ -5619,6 +5661,48 @@ function Update-GameList {
         $ui.TxtGamesEmpty.Visibility = "Collapsed"
     }
     Update-GameButton
+}
+
+# Favoriten: Schluessel ist die Title-ID (bleibt beim Verschieben/Umbenennen gleich), sonst der Dateipfad
+function Get-GameKey($g) {
+    if (-not $g) { return "" }
+    if ($g.Tid) { return ([string]$g.Tid).ToUpperInvariant() }
+    return [string]$g.Path
+}
+
+function Test-GameFav($g) {
+    $k = Get-GameKey $g
+    if (-not $k) { return $false }
+    foreach ($f in @($script:Settings.FavoriteGames)) { if ([string]$f -eq $k) { return $true } }
+    return $false
+}
+
+function Switch-GameFav($g) {
+    $k = Get-GameKey $g
+    if (-not $k) { return }
+    $on = -not [bool]$g.IsFav
+    foreach ($x in $script:Games) { if ((Get-GameKey $x) -eq $k) { $x.IsFav = $on } }
+    $favs = @(@($script:Settings.FavoriteGames) | Where-Object { $_ -and ([string]$_ -ne $k) } | ForEach-Object { [string]$_ })
+    if ($on) { $favs += $k }
+    $script:Settings.FavoriteGames = $favs
+    if (-not $script:Snapshot) { try { Save-Settings } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) } }
+    # Auswahl beibehalten, obwohl die Liste neu sortiert wird
+    $selKey = Get-GameKey $ui.ListGames.SelectedItem
+    Update-GameList
+    if ($selKey) {
+        foreach ($x in @($ui.ListGames.ItemsSource)) { if ((Get-GameKey $x) -eq $selKey) { $ui.ListGames.SelectedItem = $x; break } }
+    }
+}
+
+# Liegt das angeklickte Element im Stern-Button? (dann kein Spielstart per Doppelklick)
+function Test-InFavButton($src) {
+    $d = $src
+    while ($d -and -not ($d -is [System.Windows.Controls.ListBoxItem])) {
+        if ($d -is [System.Windows.Controls.Button] -and [string]$d.Tag -eq "fav") { return $true }
+        if ($d -is [System.Windows.Media.Visual] -or $d -is [System.Windows.Media.Media3D.Visual3D]) { $d = [System.Windows.Media.VisualTreeHelper]::GetParent($d) }
+        else { $d = [System.Windows.LogicalTreeHelper]::GetParent($d) }
+    }
+    return $false
 }
 
 function Update-GameButton {
@@ -6289,7 +6373,12 @@ $ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEv
 })
 $ui.BtnGamesReload.Add_Click({ Start-GameScan })
 $ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
-$ui.ListGames.Add_MouseDoubleClick({ if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
+$ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
+$ui.ListGames.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
+    param($s, $e)
+    $b = $e.OriginalSource
+    if ($b -is [System.Windows.Controls.Button] -and [string]$b.Tag -eq "fav") { $e.Handled = $true; Switch-GameFav $b.DataContext }
+})
 $ui.ListGames.Add_SelectionChanged({ Update-GameButton })
 $ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
@@ -6499,6 +6588,7 @@ function Start-Snapshots {
     $script:GamesDirs   = 1
     $i = 0
     foreach ($g in $script:Games) { $i++; $g | Add-Member -NotePropertyName Tid -NotePropertyValue ("0100000000{0:X2}0000" -f $i) -Force }
+    foreach ($g in $script:Games) { $g | Add-Member -NotePropertyName IsFav -NotePropertyValue ($g.Name -eq "Pixel Quest") -Force }
     $script:Mods = @(
         @{ Tid = "0100000000010000"; Name = "60 FPS"; Path = ""; Size = 48KB; Parts = "exefs" },
         @{ Tid = "0100000000010000"; Name = "HD-Texturen"; Path = ""; Size = 1.4GB; Parts = "romfs" },

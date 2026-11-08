@@ -10,7 +10,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Neueste Nightly installieren oder beliebige ältere Version wählen
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
-- Spiele-Tab: liest die Spieleordner aus Eden, Suche, Start per Doppelklick (optional im Vollbild)
+- Spiele-Tab: liest die Spieleordner aus Eden, Suche, Favoriten per Stern (stehen oben), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
 - Auswahl der Build-Variante (Standard: PGO, Windows amd64) oder eigener Regex-Filter
 - 17 Theme-Vorlagen (dunkel, AMOLED, hell) und eigenes Theme mit Farbwähler; Lesbarkeit wird automatisch sichergestellt
