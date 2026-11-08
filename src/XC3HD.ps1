@@ -846,7 +846,7 @@ Expand-EmbeddedTools
 $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="XC3 HD Texturen" Width="1060" Height="760" MinWidth="900" MinHeight="620"
+        Title="XC3 HD Texturen" Width="1280" Height="800" MinWidth="1100" MinHeight="660"
         WindowStartupLocation="CenterScreen" Background="#0E1116" Foreground="#E6EAF0"
         FontFamily="Segoe UI" FontSize="13" UseLayoutRounding="True">
   <Window.Resources>
@@ -998,9 +998,11 @@ $xaml = @'
 
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="1.05*"/>
+        <ColumnDefinition Width="1.15*"/>
         <ColumnDefinition Width="14"/>
         <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="14"/>
+        <ColumnDefinition Width="1.15*"/>
       </Grid.ColumnDefinitions>
 
       <!-- Links: Status + Inhalte -->
@@ -1027,34 +1029,16 @@ $xaml = @'
 
         <Border Grid.Row="1" Style="{StaticResource CardBorder}" Margin="0">
           <Grid>
-            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
             <TextBlock Style="{StaticResource H}" Text="Was soll hochskaliert werden?"/>
-            <ItemsControl Grid.Row="1" x:Name="CatList">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Grid Margin="0,1">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-                    <CheckBox Content="{Binding Name}" IsChecked="{Binding On, Mode=OneWay}" Tag="{Binding Id}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Info}" Foreground="#8B95A5" VerticalAlignment="Center"/>
-                  </Grid>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Grid Grid.Row="2" Margin="0,12,0,6">
-              <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-              <TextBlock Text="Karten (Welttexturen, experimentell)" FontWeight="SemiBold" VerticalAlignment="Center"/>
-              <Button Grid.Column="1" x:Name="BtnMapsAll" Style="{StaticResource Btn}" Content="Alle" Padding="10,3"/>
-              <Button Grid.Column="2" x:Name="BtnMapsNone" Style="{StaticResource Btn}" Content="Keine" Padding="10,3" Margin="0"/>
-            </Grid>
-            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
-              <ItemsControl x:Name="MapList">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+              <ItemsControl x:Name="CatList">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <Grid Margin="0,1">
-                      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,2,0,4">
                       <CheckBox Content="{Binding Name}" IsChecked="{Binding On, Mode=OneWay}" Tag="{Binding Id}"/>
-                      <TextBlock Grid.Column="1" Text="{Binding Info}" Foreground="#8B95A5" VerticalAlignment="Center" Margin="0,0,6,0"/>
-                    </Grid>
+                      <TextBlock Text="{Binding Info}" Foreground="#8B95A5" FontSize="12" Margin="22,0,0,0"/>
+                    </StackPanel>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
@@ -1063,8 +1047,35 @@ $xaml = @'
         </Border>
       </Grid>
 
+      <!-- Mitte: Karten -->
+      <Border Grid.Column="2" Style="{StaticResource CardBorder}" Margin="0">
+        <Grid>
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource H}" Text="Karten" Margin="0" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" x:Name="BtnMapsAll" Style="{StaticResource Btn}" Content="Alle" Padding="10,3"/>
+            <Button Grid.Column="2" x:Name="BtnMapsNone" Style="{StaticResource Btn}" Content="Keine" Padding="10,3" Margin="0"/>
+          </Grid>
+          <TextBlock Grid.Row="1" Text="Welttexturen wie Boden, Felsen und Gebäude (experimentell). DLC-Gebiete sind nicht im Basis-Dump enthalten." Foreground="#8B95A5" FontSize="12" Margin="0,6,0,10" TextWrapping="Wrap"/>
+          <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="MapList">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid Margin="0,1">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding On, Mode=OneWay}" Tag="{Binding Id}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Info}" Foreground="#8B95A5" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Grid>
+      </Border>
+
       <!-- Rechts: Einstellungen + Protokoll -->
-      <Grid Grid.Column="2">
+      <Grid Grid.Column="4">
         <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
         <Border Style="{StaticResource CardBorder}">
           <StackPanel>
@@ -1189,7 +1200,8 @@ function Update-Status {
         if ($ext) {
             $total = @(Get-ModelFiles $k).Count
             $done = Get-ModelDoneCount $k
-            $info = if ($done -ge $total -and $total -gt 0) { "$total Modelle - fertig" } else { "$done / $total Modelle" }
+            $unit = if ($Sources[$k].Kind -eq "wimdo") { "Modelle" } else { "Dateien" }
+            $info = if ($total -eq 0) { "nicht vorhanden" } elseif ($done -ge $total) { "$total $unit - fertig" } else { "$done / $total $unit" }
         }
         $script:CatItems.Add((New-Row $k $Categories[$k] $info (@($Cfg.Folders) -contains $k)))
     }
