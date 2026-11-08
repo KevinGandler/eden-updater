@@ -664,6 +664,10 @@ function Get-MapState([string]$id) {
 
 function Invoke-BuildMap($t, $map) {
     if (-not $t.Maptex) { Fail "xc3_maptex.exe fehlt (sollte im Programm enthalten sein)." }
+    # Karten vertragen keine 4096er-Texturen (Welt wird schwarz) - hier immer max. 2048 px
+    $c = @{}; foreach ($k in @($Cfg.Keys)) { $c[$k] = $Cfg[$k] }
+    if ([int]$c.MaxSize -gt 2048) { $c.MaxSize = 2048 }
+    $Cfg = $c
     $id = $map.Id
     $dir = Join-Path $MapsDir $id; $src = Join-Path $dir "export"; $dst = Join-Path $dir "hd"
     $tmp = Join-Path $dst "_tmp"
