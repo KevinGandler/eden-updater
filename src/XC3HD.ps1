@@ -209,7 +209,7 @@ $Sources = [ordered]@{
     bt      = @{ Name = "Kampf-Objekte";                      Dir = "chr\bt";  Kind = "wimdo" }
     mapobj  = @{ Name = "Karten-Modelle";                     Dir = "map";     Kind = "wimdo" }
     monolib = @{ Name = "Gemeinsame Texturen (monolib)";      Dir = "monolib"; Kind = "witex" }
-    menu    = @{ Name = "Menüs & Oberfläche (experimentell)"; Dir = "menu";    Kind = "wilay" }
+    menu    = @{ Name = "Menüs & UI (experimentell)"; Dir = "menu";    Kind = "wilay" }
 }
 $Categories = [ordered]@{}; foreach ($k in $Sources.Keys) { $Categories[$k] = $Sources[$k].Name }
 
