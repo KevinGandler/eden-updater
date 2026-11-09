@@ -154,6 +154,14 @@ de = @'
 Name=Deutsch
 Culture=de-DE
 AppSubtitle=Nightly-Builds aktualisieren oder ältere Versionen installieren
+SubNotes=Was sich in der gewählten Version geändert hat
+SubGames=Deine Spiele direkt mit Eden starten
+SubMods=Mods pro Spiel verwalten
+SubContent=Updates und DLCs pro Spiel verwalten
+SubSaves=Spielstände sichern und Shader-Cache aufräumen
+SubFirmware=Firmware und Schlüssel für Eden
+SubSettings=Updater und Oberfläche einstellen
+SelfWaiting=Das Updater-Update ist geladen und wird installiert, sobald die laufende Aktion fertig ist.
 NavVersions=Versionen
 NavNotes=Patchnotes
 NavSettings=Einstellungen
@@ -441,6 +449,14 @@ en = @'
 Name=English
 Culture=en-US
 AppSubtitle=Update to the latest nightly or install older versions
+SubNotes=What changed in the selected version
+SubGames=Start your games directly with Eden
+SubMods=Manage mods per game
+SubContent=Manage updates and DLCs per game
+SubSaves=Back up saves and clean up the shader cache
+SubFirmware=Firmware and keys for Eden
+SubSettings=Configure the updater and the interface
+SelfWaiting=The updater update is downloaded and will be installed as soon as the current task has finished.
 NavVersions=Versions
 NavNotes=Patch notes
 NavSettings=Settings
@@ -728,6 +744,14 @@ es = @'
 Name=Español
 Culture=es-ES
 AppSubtitle=Actualiza a la última nightly o instala versiones anteriores
+SubNotes=Qué cambió en la versión seleccionada
+SubGames=Inicia tus juegos directamente con Eden
+SubMods=Gestiona los mods de cada juego
+SubContent=Gestiona las actualizaciones y DLC de cada juego
+SubSaves=Copia tus partidas y limpia la caché de shaders
+SubFirmware=Firmware y claves para Eden
+SubSettings=Configura el actualizador y la interfaz
+SelfWaiting=La actualización del actualizador está descargada y se instalará cuando termine la tarea en curso.
 NavVersions=Versiones
 NavNotes=Notas de versión
 NavSettings=Ajustes
@@ -1015,6 +1039,14 @@ fr = @'
 Name=Français
 Culture=fr-FR
 AppSubtitle=Mettre à jour vers la dernière nightly ou installer d'anciennes versions
+SubNotes=Ce qui a changé dans la version choisie
+SubGames=Lancez vos jeux directement avec Eden
+SubMods=Gérer les mods de chaque jeu
+SubContent=Gérer les mises à jour et DLC de chaque jeu
+SubSaves=Copier les sauvegardes et vider le cache de shaders
+SubFirmware=Firmware et clés pour Eden
+SubSettings=Régler le programme de mise à jour et l'interface
+SelfWaiting=La mise à jour du programme est téléchargée et sera installée dès que la tâche en cours sera terminée.
 NavVersions=Versions
 NavNotes=Notes de version
 NavSettings=Paramètres
@@ -1302,6 +1334,14 @@ it = @'
 Name=Italiano
 Culture=it-IT
 AppSubtitle=Aggiorna all'ultima nightly o installa versioni precedenti
+SubNotes=Cosa è cambiato nella versione selezionata
+SubGames=Avvia i tuoi giochi direttamente con Eden
+SubMods=Gestisci le mod di ogni gioco
+SubContent=Gestisci aggiornamenti e DLC di ogni gioco
+SubSaves=Esegui il backup dei salvataggi e pulisci la cache shader
+SubFirmware=Firmware e chiavi per Eden
+SubSettings=Configura l'updater e l'interfaccia
+SelfWaiting=L'aggiornamento dell'updater è scaricato e verrà installato al termine dell'operazione in corso.
 NavVersions=Versioni
 NavNotes=Note di rilascio
 NavSettings=Impostazioni
@@ -1589,6 +1629,14 @@ pt = @'
 Name=Português
 Culture=pt-BR
 AppSubtitle=Atualize para a nightly mais recente ou instale versões anteriores
+SubNotes=O que mudou na versão selecionada
+SubGames=Inicie seus jogos diretamente com o Eden
+SubMods=Gerencie os mods de cada jogo
+SubContent=Gerencie atualizações e DLCs de cada jogo
+SubSaves=Faça backup dos saves e limpe o cache de shaders
+SubFirmware=Firmware e chaves para o Eden
+SubSettings=Configure o atualizador e a interface
+SelfWaiting=A atualização do atualizador foi baixada e será instalada assim que a tarefa atual terminar.
 NavVersions=Versões
 NavNotes=Notas da versão
 NavSettings=Configurações
@@ -1876,6 +1924,14 @@ nl = @'
 Name=Nederlands
 Culture=nl-NL
 AppSubtitle=Bijwerken naar de nieuwste nightly of oudere versies installeren
+SubNotes=Wat er in de gekozen versie is veranderd
+SubGames=Start je games direct met Eden
+SubMods=Mods per game beheren
+SubContent=Updates en DLC's per game beheren
+SubSaves=Saves back-uppen en de shadercache opruimen
+SubFirmware=Firmware en sleutels voor Eden
+SubSettings=Updater en interface instellen
+SelfWaiting=De update van de updater is gedownload en wordt geïnstalleerd zodra de huidige taak klaar is.
 NavVersions=Versies
 NavNotes=Patchnotes
 NavSettings=Instellingen
@@ -2163,6 +2219,14 @@ pl = @'
 Name=Polski
 Culture=pl-PL
 AppSubtitle=Aktualizuj do najnowszej wersji nightly lub instaluj starsze wersje
+SubNotes=Co zmieniło się w wybranej wersji
+SubGames=Uruchamiaj gry bezpośrednio w Edenie
+SubMods=Zarządzaj modami każdej gry
+SubContent=Zarządzaj aktualizacjami i DLC każdej gry
+SubSaves=Twórz kopie zapisów i czyść cache shaderów
+SubFirmware=Firmware i klucze dla Edena
+SubSettings=Ustawienia aktualizatora i interfejsu
+SelfWaiting=Aktualizacja aktualizatora jest pobrana i zostanie zainstalowana po zakończeniu bieżącego zadania.
 NavVersions=Wersje
 NavNotes=Lista zmian
 NavSettings=Ustawienia
@@ -2450,6 +2514,14 @@ tr = @'
 Name=Türkçe
 Culture=tr-TR
 AppSubtitle=En yeni nightly sürümüne güncelleyin veya eski sürümleri yükleyin
+SubNotes=Seçilen sürümde neler değişti
+SubGames=Oyunlarınızı doğrudan Eden ile başlatın
+SubMods=Her oyunun modlarını yönetin
+SubContent=Her oyunun güncellemelerini ve DLC'lerini yönetin
+SubSaves=Kayıtları yedekleyin ve shader önbelleğini temizleyin
+SubFirmware=Eden için firmware ve anahtarlar
+SubSettings=Güncelleyiciyi ve arayüzü ayarlayın
+SelfWaiting=Güncelleyici güncellemesi indirildi; mevcut işlem bitince yüklenecek.
 NavVersions=Sürümler
 NavNotes=Sürüm notları
 NavSettings=Ayarlar
@@ -2737,6 +2809,14 @@ ru = @'
 Name=Русский
 Culture=ru-RU
 AppSubtitle=Обновление до последней nightly-сборки или установка старых версий
+SubNotes=Что изменилось в выбранной версии
+SubGames=Запускайте игры прямо через Eden
+SubMods=Управление модами для каждой игры
+SubContent=Управление обновлениями и DLC для каждой игры
+SubSaves=Копии сохранений и очистка кэша шейдеров
+SubFirmware=Прошивка и ключи для Eden
+SubSettings=Настройки программы и интерфейса
+SelfWaiting=Обновление программы загружено и будет установлено, как только завершится текущая операция.
 NavVersions=Версии
 NavNotes=Список изменений
 NavSettings=Настройки
@@ -3024,6 +3104,14 @@ ja = @'
 Name=日本語
 Culture=ja-JP
 AppSubtitle=最新のNightlyビルドに更新、または旧バージョンをインストール
+SubNotes=選択したバージョンの変更点
+SubGames=ゲームをEdenで直接起動
+SubMods=ゲームごとにModを管理
+SubContent=ゲームごとにアップデートとDLCを管理
+SubSaves=セーブのバックアップとシェーダーキャッシュの整理
+SubFirmware=Eden用のファームウェアとキー
+SubSettings=アップデーターと画面の設定
+SelfWaiting=アップデーターの更新はダウンロード済みです。実行中の処理が終わり次第インストールされます。
 NavVersions=バージョン
 NavNotes=パッチノート
 NavSettings=設定
@@ -3311,6 +3399,14 @@ zh = @'
 Name=中文（简体）
 Culture=zh-CN
 AppSubtitle=更新到最新 Nightly 版本或安装旧版本
+SubNotes=所选版本的更改内容
+SubGames=直接用 Eden 启动你的游戏
+SubMods=按游戏管理 Mod
+SubContent=按游戏管理更新和 DLC
+SubSaves=备份存档并清理着色器缓存
+SubFirmware=Eden 的固件和密钥
+SubSettings=设置更新程序和界面
+SelfWaiting=更新程序的更新已下载，将在当前任务完成后安装。
 NavVersions=版本
 NavNotes=更新说明
 NavSettings=设置
@@ -3598,6 +3694,14 @@ ko = @'
 Name=한국어
 Culture=ko-KR
 AppSubtitle=최신 Nightly 빌드로 업데이트하거나 이전 버전을 설치합니다
+SubNotes=선택한 버전의 변경 사항
+SubGames=Eden으로 게임을 바로 실행
+SubMods=게임별 모드 관리
+SubContent=게임별 업데이트와 DLC 관리
+SubSaves=세이브 백업과 셰이더 캐시 정리
+SubFirmware=Eden용 펌웨어와 키
+SubSettings=업데이터와 화면 설정
+SelfWaiting=업데이터 업데이트가 다운로드되었으며 현재 작업이 끝나면 설치됩니다.
 NavVersions=버전
 NavNotes=패치 노트
 NavSettings=설정
@@ -4070,12 +4174,12 @@ $jobGames = {
             $files = if ($d.Deep) { Get-ChildItem -LiteralPath $d.Path -File -Recurse -ErrorAction SilentlyContinue }
                      else         { Get-ChildItem -LiteralPath $d.Path -File -ErrorAction SilentlyContinue }
             foreach ($f in $files) {
-                if ($f.Extension -notmatch '^\.(nsp|xci|nro)$') { continue }
+                if ($f.Extension -notmatch '^\.(nsp|nsz|xci|xcz|nro)$') { continue }
                 if ($seen.ContainsKey($f.FullName)) { continue }
                 $base = [IO.Path]::GetFileNameWithoutExtension($f.Name)
                 # Updates/DLCs ueberspringen (Title-ID endet nicht auf 000)
                 $tidM = [regex]::Match($base, '(?i)\b(01[0-9a-f]{14})\b')
-                $tidS = if ($tidM.Success) { $tidM.Value.ToUpperInvariant() } elseif ($f.Extension -eq ".nsp") { Get-NspTid $f.FullName } else { $null }
+                $tidS = if ($tidM.Success) { $tidM.Value.ToUpperInvariant() } elseif ($f.Extension -eq ".nsp" -or $f.Extension -eq ".nsz") { Get-NspTid $f.FullName } else { $null }
                 if ($tidS -and -not $tidS.EndsWith("000")) { continue }
                 if ($base -match '(?i)\[(upd|update|dlc)\]') { continue }
                 $name = [regex]::Replace($base, '\[[^\]]*\]', '')
@@ -4228,9 +4332,12 @@ $jobContent = {
             if ($fs.Length -lt 0xC00) { return $null }
             $raw = New-Object byte[] 0x600
             [void]$fs.Read($raw, 0, 0x600)
+            # Sektor 1 enthaelt Magic und Inhaltstyp: reicht, um alle Nicht-Meta-NCAs schnell auszusortieren
+            $s1 = New-Object byte[] 0x200
+            [Array]::Copy($raw, 0x200, $s1, 0, 0x200)
+            $p1 = Invoke-XtsDecrypt $s1 $keys["header_key"] 1
+            if ([Text.Encoding]::ASCII.GetString($p1, 0, 4) -ne "NCA3" -or $p1[5] -ne 1) { return $null }
             $h = Invoke-XtsDecrypt $raw $keys["header_key"] 0
-            if ([Text.Encoding]::ASCII.GetString($h, 0x200, 4) -ne "NCA3") { return $null }
-            if ($h[0x205] -ne 1) { return $null }
             $r = @{ Tid = [BitConverter]::ToUInt64($h, 0x210).ToString("X16"); Type = 0; Version = $null; Contents = @() }
             $gen = [Math]::Max([int]$h[0x206], [int]$h[0x220])
             $mk = [Math]::Max($gen, 1) - 1
@@ -4697,8 +4804,8 @@ $jobMods = {
             $target = Join-Path $load $a.Tid
             New-Item -ItemType Directory -Path $target -Force | Out-Null
             $tmp = Join-Path $target (".eu-tmp-" + [guid]::NewGuid().ToString("N"))
-            [IO.Compression.ZipFile]::ExtractToDirectory([string]$a.Zip, $tmp)
             try {
+                [IO.Compression.ZipFile]::ExtractToDirectory([string]$a.Zip, $tmp)
                 $top     = @(Get-ChildItem -LiteralPath $tmp -Force)
                 $topDirs = @($top | Where-Object { $_.PSIsContainer })
                 $hasKnown = { param($dir) @(Get-ChildItem -LiteralPath $dir -Directory -Force | Where-Object { $known -contains $_.Name.ToLowerInvariant() }).Count -gt 0 }
@@ -5834,7 +5941,7 @@ $xaml = @'
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
           <TextBlock x:Name="TxtPageTitle" FontFamily="{StaticResource FontHead}" FontSize="26" FontWeight="SemiBold"/>
-          <TextBlock Text="{DynamicResource L_AppSubtitle}" Foreground="{DynamicResource BrMuted}" Margin="0,3,0,0"
+          <TextBlock x:Name="TxtPageSub" Text="{DynamicResource L_AppSubtitle}" Foreground="{DynamicResource BrMuted}" Margin="0,3,0,0"
                      TextTrimming="CharacterEllipsis"/>
         </StackPanel>
         <!-- Update-Status oben rechts -->
@@ -7509,6 +7616,24 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
 
 function Get-Brush([string]$hex) { [Windows.Media.BrushConverter]::new().ConvertFromString($hex) }
 
+# Ordnerauswahl (WinForms) mit dem Updater-Fenster als Besitzer, sonst kann sie hinter dem Fenster aufgehen
+function Show-FolderDialog([string]$desc, [string]$start) {
+    $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
+    $dlg.Description = $desc
+    if ($start -and (Test-Path -LiteralPath $start)) { $dlg.SelectedPath = $start }
+    $own = New-Object System.Windows.Forms.NativeWindow
+    try {
+        $h = [IntPtr]::Zero
+        try { if ($window) { $h = [System.Windows.Interop.WindowInteropHelper]::new($window).Handle } } catch {}
+        if ($h -ne [IntPtr]::Zero) { $own.AssignHandle($h); $res = $dlg.ShowDialog($own) } else { $res = $dlg.ShowDialog() }
+        if ($res -eq [System.Windows.Forms.DialogResult]::OK) { return $dlg.SelectedPath }
+        return $null
+    } finally {
+        try { $own.ReleaseHandle() } catch {}
+        $dlg.Dispose()
+    }
+}
+
 function Show-Msg([string]$text, [string]$icon = "Warning") {
     [void](Show-Dialog $text "OK" $icon)
 }
@@ -7776,6 +7901,8 @@ function Set-Page([string]$page) {
     if ($page -eq "firmware") { Update-FirmwarePage }
     if ($page -eq "saves" -and -not $script:Snapshot) { Open-SavesTab }
     $ui.TxtPageTitle.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $titleKey)
+    $subKey = switch ($page) { "notes" { "L_SubNotes" } "games" { "L_SubGames" } "mods" { "L_SubMods" } "content" { "L_SubContent" } "firmware" { "L_SubFirmware" } "saves" { "L_SubSaves" } "settings" { "L_SubSettings" } default { "L_AppSubtitle" } }
+    $ui.TxtPageSub.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $subKey)
     if ($prev -ne $page) {
         $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "content" { $ui.PanelContent } "firmware" { $ui.PanelFirmware } "saves" { $ui.PanelSaves } "settings" { $ui.PanelSettings } }
         Start-FadeIn $el
@@ -8018,6 +8145,50 @@ function Test-EdenRunning {
     try { return [bool](Get-Process -Name "eden" -ErrorAction SilentlyContinue) } catch { return $false }
 }
 
+# Werte in Edens qt-config.ini sind im QSettings-Format: Texte mit , ; = oder Leerzeichen am Rand stehen in
+# Anfuehrungszeichen, \ und " sind mit \ maskiert. Ohne das gehen z.B. Mod-Namen mit Komma kaputt.
+function ConvertFrom-QtIniValue([string]$v) {
+    if ($null -eq $v) { return "" }
+    $v = $v.Trim()
+    if ($v.IndexOf('"') -lt 0 -and $v.IndexOf('\') -lt 0) { return $v }
+    $sb = New-Object System.Text.StringBuilder
+    for ($i = 0; $i -lt $v.Length; $i++) {
+        $c = $v[$i]
+        if ($c -eq '"') { continue }
+        if ($c -eq '\' -and $i + 1 -lt $v.Length) {
+            $i++
+            $n = [string]$v[$i]
+            if ($n -ceq 'n') { [void]$sb.Append("`n") }
+            elseif ($n -ceq 't') { [void]$sb.Append("`t") }
+            elseif ($n -ceq 'r') { [void]$sb.Append("`r") }
+            elseif ($n -ceq '0') { [void]$sb.Append([char]0) }
+            elseif ($n -ceq 'x') {
+                $hex = ""
+                while ($i + 1 -lt $v.Length -and $hex.Length -lt 4 -and [string]$v[$i + 1] -match '^[0-9a-fA-F]$') { $i++; $hex += $v[$i] }
+                if ($hex) { [void]$sb.Append([char][Convert]::ToInt32($hex, 16)) }
+            }
+            else { [void]$sb.Append($n) }
+            continue
+        }
+        [void]$sb.Append($c)
+    }
+    return $sb.ToString()
+}
+
+function ConvertTo-QtIniValue([string]$v) {
+    $sb = New-Object System.Text.StringBuilder
+    $quote = $false
+    foreach ($c in $v.ToCharArray()) {
+        if ($c -eq ';' -or $c -eq ',' -or $c -eq '=') { $quote = $true }
+        if ($c -eq '\' -or $c -eq '"') { [void]$sb.Append('\').Append($c) }
+        elseif ([int]$c -lt 0x20) { [void]$sb.Append(("\x{0:x}" -f [int]$c)) }
+        else { [void]$sb.Append($c) }
+    }
+    $r = $sb.ToString()
+    if ($quote -or $r.StartsWith(' ') -or $r.EndsWith(' ')) { $r = '"' + $r + '"' }
+    return $r
+}
+
 # [DisabledAddOns] aus Edens qt-config.ini lesen: TitleID (dezimal) -> Liste deaktivierter Namen
 function Read-DisabledAddOns([string]$cfg) {
     $map = [ordered]@{}
@@ -8030,12 +8201,13 @@ function Read-DisabledAddOns([string]$cfg) {
         if ($t -match '^(\d+)\\title_id=(\d+)$') { $tids[$Matches[1]] = $Matches[2]; continue }
         if ($t -match '^(\d+)\\disabled\\(\d+)\\d=(.*)$') {
             if (-not $lists.ContainsKey($Matches[1])) { $lists[$Matches[1]] = New-Object System.Collections.Generic.List[string] }
-            $lists[$Matches[1]].Add($Matches[3])
+            $lists[$Matches[1]].Add((ConvertFrom-QtIniValue $Matches[3]))
         }
     }
     foreach ($i in ($tids.Keys | Sort-Object { [int]$_ })) {
-        $l = New-Object System.Collections.Generic.List[string]
-        if ($lists.ContainsKey($i)) { foreach ($x in $lists[$i]) { if ($x) { $l.Add($x) } } }
+        # gleiche Title-ID mehrfach (kommt vor): Listen zusammenfuehren
+        if ($map.Contains($tids[$i])) { $l = $map[$tids[$i]] } else { $l = New-Object System.Collections.Generic.List[string] }
+        if ($lists.ContainsKey($i)) { foreach ($x in $lists[$i]) { if ($x -and -not $l.Contains($x)) { $l.Add($x) } } }
         $map[$tids[$i]] = $l
     }
     return $map
@@ -8056,7 +8228,7 @@ function Write-DisabledAddOns([string]$cfg, $map) {
         foreach ($d in $list) {
             $j++
             $sec.Add("$i\disabled\$j\d\default=false")
-            $sec.Add("$i\disabled\$j\d=$($d.Replace('\', '/'))")
+            $sec.Add("$i\disabled\$j\d=" + (ConvertTo-QtIniValue ($d.Replace('\', '/'))))
         }
         $sec.Add("$i\disabled\size=$j")
     }
@@ -8305,7 +8477,7 @@ function Read-EdenIni([string]$cfg, [string]$section, [string]$key) {
     foreach ($line in [IO.File]::ReadAllLines($cfg)) {
         $t = $line.Trim()
         if ($t.StartsWith("[")) { $in = ($t -eq "[$section]"); continue }
-        if ($in -and $t.StartsWith($key + "=")) { return $t.Substring($key.Length + 1).Trim().Trim('"') }
+        if ($in -and $t.StartsWith($key + "=")) { return (ConvertFrom-QtIniValue $t.Substring($key.Length + 1)) }
     }
     return $null
 }
@@ -8335,14 +8507,14 @@ function Register-ExternalDir([string]$cfg, [string]$dir) {
     $found = @{}
     if ($start -ge 0) {
         for ($i = $start + 1; $i -lt $end; $i++) {
-            if ($lines[$i].Trim() -match '^external_content_dirs\\(\d+)\\path=(.*)$') { $found[[int]$Matches[1]] = $Matches[2].Trim() }
+            if ($lines[$i].Trim() -match '^external_content_dirs\\(\d+)\\path=(.*)$') { $found[[int]$Matches[1]] = ConvertFrom-QtIniValue $Matches[2] }
         }
     }
     $dirs = @($found.Keys | Sort-Object | ForEach-Object { $found[$_] } | Where-Object { $_ })
     foreach ($d in $dirs) { if ((& $norm $d) -eq (& $norm $val)) { return $false } }
     $dirs += $val
     $new = New-Object System.Collections.Generic.List[string]
-    for ($k = 0; $k -lt $dirs.Count; $k++) { $new.Add(("external_content_dirs\{0}\path={1}" -f ($k + 1), $dirs[$k])) }
+    for ($k = 0; $k -lt $dirs.Count; $k++) { $new.Add(("external_content_dirs\{0}\path={1}" -f ($k + 1), (ConvertTo-QtIniValue $dirs[$k]))) }
     $new.Add("external_content_dirs\size=$($dirs.Count)")
 
     $out = New-Object System.Collections.Generic.List[string]
@@ -9004,10 +9176,8 @@ function Install-Firmware([bool]$fromZip) {
         if (-not $dlg.ShowDialog($window)) { return }
         $src = $dlg.FileName
     } else {
-        $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
-        $dlg.Description = T "FwInstallDir"
-        if ($dlg.ShowDialog() -ne "OK") { return }
-        $src = $dlg.SelectedPath
+        $src = Show-FolderDialog (T "FwInstallDir") ""
+        if (-not $src) { return }
     }
     $fw = Get-FirmwareInfo
     if ($fw.Count) {
@@ -9042,17 +9212,28 @@ function Install-Keys {
         }
         $d = Get-KeysDir
         New-Item -ItemType Directory -Path $d -Force | Out-Null
-        Copy-Item -LiteralPath $src -Destination (Join-Path $d "prod.keys") -Force
+        $same = { param($x, $y) [IO.Path]::GetFullPath($x).TrimEnd('\') -ieq [IO.Path]::GetFullPath($y).TrimEnd('\') }
+        $dst = Join-Path $d "prod.keys"
+        if (-not (& $same $src $dst)) { Copy-Item -LiteralPath $src -Destination $dst -Force }
         $srcDir = Split-Path -Parent $src
-        foreach ($n in @("title.keys", "key_retail.bin")) {
-            $f = Join-Path $srcDir $n
-            if (Test-Path -LiteralPath $f) { Copy-Item -LiteralPath $f -Destination (Join-Path $d $n) -Force }
+        if (-not (& $same $srcDir $d)) {
+            foreach ($n in @("title.keys", "key_retail.bin")) {
+                $f = Join-Path $srcDir $n
+                if (Test-Path -LiteralPath $f) { Copy-Item -LiteralPath $f -Destination (Join-Path $d $n) -Force }
+            }
         }
         Add-UiLog (T "KeysDone")
+        Reset-ContentAfterKeys
     } catch {
         Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
     }
     Update-FirmwarePage
+}
+
+# Ueber Eden installierte Updates/DLCs werden mit den Keys erkannt: nach einer Aenderung neu einlesen
+function Reset-ContentAfterKeys {
+    if ($script:ContentWorker) { return }
+    $script:ContentLoaded = $false
 }
 
 function Remove-Keys {
@@ -9064,6 +9245,7 @@ function Remove-Keys {
             if (Test-Path -LiteralPath $f) { [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile($f, "OnlyErrorDialogs", "SendToRecycleBin") }
         }
         Add-UiLog (T "KeysDeleted")
+        Reset-ContentAfterKeys
     } catch {
         Show-Msg ((T "ErrPrefix") + " " + $_.Exception.Message) "Error"
     }
@@ -9164,6 +9346,13 @@ function Complete-Self {
         }
     } else {
         if ($r.Ok) {
+            if (Test-AnyBusy) {
+                # sonst bricht das Schliessen ab und es laufen zwei Updater
+                $script:SelfPendingFile = [string]$r.File
+                Add-UiLog (T "SelfWaiting")
+                Update-SelfCard
+                return
+            }
             Install-SelfUpdate ([string]$r.File)
             return
         }
@@ -9171,6 +9360,12 @@ function Complete-Self {
         Show-Msg (TF "SelfStateError" $r.Error) "Error"
     }
     Update-SelfCard
+}
+
+$script:SelfPendingFile = $null
+function Test-AnyBusy {
+    return [bool]($script:Busy -or $script:FwWorker -or $script:SavesWorker -or $script:ModWorker -or
+                  ($script:ContentWorker -and $contentSync.Args.Mode -eq "add"))
 }
 
 function Ask-SelfUpdate {
@@ -9358,7 +9553,7 @@ try {
 }
 
 $ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
@@ -9376,6 +9571,15 @@ function Update-LangCombo {
     if (-not ($LangOrder -contains $cur)) { $cur = "auto" }
     $ui.CmbLang.ItemsSource   = $items.ToArray()
     $ui.CmbLang.SelectedValue = $cur
+}
+
+# Sichtbare Listen neu aufbauen (z.B. nach Sprachwechsel)
+function Refresh-LoadedTabs {
+    try { Update-GameList } catch {}
+    try { if ($script:ModsLoaded) { Update-ModGames } } catch {}
+    try { if ($script:ContentLoaded) { Update-ContentGames } } catch {}
+    try { if ($script:SavesLoaded) { Update-SaveGames } } catch {}
+    try { Update-FirmwarePage } catch {}
 }
 
 function Update-SettingsFileLabel {
@@ -9536,10 +9740,8 @@ $ui.BtnThemePick.Add_Click({
 })
 $ui.BtnBrowse.Add_Click({
     try {
-        $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
-        $dlg.Description = T "SetBrowseTitle"
-        if (Test-Path $ui.TxtPath.Text) { $dlg.SelectedPath = $ui.TxtPath.Text }
-        if ($dlg.ShowDialog() -eq "OK") { $ui.TxtPath.Text = $dlg.SelectedPath }
+        $sel = Show-FolderDialog (T "SetBrowseTitle") $ui.TxtPath.Text
+        if ($sel) { $ui.TxtPath.Text = $sel }
     } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
 
@@ -9593,7 +9795,16 @@ $ui.BtnSave.Add_Click({
             if (-not $script:Busy) { $ui.TxtStatus.Text = T "StReady" }
         }
         Update-SettingsFileLabel
-        if ([string]$old.EdenPath -ne $path) { $script:GamesLoaded = $false }
+        if ([string]$old.EdenPath -ne $path) {
+            # anderer Eden-Ordner: alles, was aus dem alten Ordner gelesen wurde, verwerfen
+            $script:GamesLoaded = $false; $script:Games = @(); $script:CacheNames = @{}
+            $script:ModsLoaded = $false; $script:Mods = @()
+            $script:ContentLoaded = $false; $script:Content = @()
+            $script:SavesLoaded = $false; $script:SaveData = $null
+            $script:FwPendingVersion = ""
+        } elseif ($langChanged) {
+            Refresh-LoadedTabs
+        }
         Add-UiLog (T "LogSettingsSaved")
         Set-NotesLayout
         Update-List
@@ -9638,6 +9849,10 @@ $timer.Add_Tick({
             Ask-SelfUpdate
         }
         if ($script:SelfCleanAt -and [DateTime]::Now -gt $script:SelfCleanAt) { $script:SelfCleanAt = $null; Remove-SelfOld }
+        if ($script:SelfPendingFile -and -not (Test-AnyBusy) -and -not $script:MsgWin -and -not $script:ThemeWin) {
+            $f = $script:SelfPendingFile; $script:SelfPendingFile = $null
+            Install-SelfUpdate $f
+        }
     } catch {}
 })
 
@@ -9659,10 +9874,8 @@ function Invoke-FirstRun {
     $ans = Show-Dialog (TF "FirstRunAsk" $dir) "YesNo" "Question"
     if ($ans -ne "Yes") {
         try {
-            $dlg = New-Object System.Windows.Forms.FolderBrowserDialog
-            $dlg.Description  = T "SetBrowseTitle"
-            $dlg.SelectedPath = $dir
-            if ($dlg.ShowDialog() -eq "OK") { $dir = $dlg.SelectedPath }
+            $sel = Show-FolderDialog (T "SetBrowseTitle") $dir
+            if ($sel) { $dir = $sel }
         } catch {}
     }
     $script:Settings.EdenPath = $dir
