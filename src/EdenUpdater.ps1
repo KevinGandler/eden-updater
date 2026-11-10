@@ -5325,18 +5325,21 @@ $jobNotes = {
 $xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Eden Updater" UseLayoutRounding="True" Width="1080" Height="760" MinWidth="900" MinHeight="640"
+        Title="Eden Updater" UseLayoutRounding="True" Width="1120" Height="790" MinWidth="960" MinHeight="680"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource BrBg}"
         FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13" Foreground="{DynamicResource BrText}">
   <Window.Resources>
     <FontFamily x:Key="FontHead">Bahnschrift, Segoe UI Semibold</FontFamily>
     <FontFamily x:Key="FontIcon">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+    <FontFamily x:Key="FontMono">Cascadia Mono, Consolas</FontFamily>
     <SolidColorBrush x:Key="BrPanel"  Color="#171D26"/>
     <SolidColorBrush x:Key="BrPanel2" Color="#1E2632"/>
+    <SolidColorBrush x:Key="BrCard"   Color="#E0171D26"/>
     <SolidColorBrush x:Key="BrLine"   Color="#2A3442"/>
     <SolidColorBrush x:Key="BrText"   Color="#E6EDF3"/>
     <SolidColorBrush x:Key="BrMuted"  Color="#8B98A9"/>
     <SolidColorBrush x:Key="BrAccent" Color="#22D3EE"/>
+    <SolidColorBrush x:Key="BrAccent2" Color="#2288EE"/>
     <SolidColorBrush x:Key="BrAccentText" Color="#22D3EE"/>
     <SolidColorBrush x:Key="BrBg" Color="#0F1419"/>
     <SolidColorBrush x:Key="BrAccentFg" Color="#04222A"/>
@@ -5346,12 +5349,29 @@ $xaml = @'
     <SolidColorBrush x:Key="BrBadgeNewBg" Color="#164E3F"/>
     <SolidColorBrush x:Key="BrBadgeNewFg" Color="#34D399"/>
     <SolidColorBrush x:Key="BrBadgeInstBg" Color="#0E3A47"/>
+    <!-- Verlaeufe: werden beim Start per Code ersetzt und folgen dem Theme -->
+    <LinearGradientBrush x:Key="GrAccent" StartPoint="0,0" EndPoint="1,1">
+      <GradientStop Color="#22D3EE" Offset="0"/>
+      <GradientStop Color="#2288EE" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GrHero" StartPoint="0,0" EndPoint="1,0">
+      <GradientStop Color="#3022D3EE" Offset="0"/>
+      <GradientStop Color="#0022D3EE" Offset="1"/>
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="GlowA">
+      <GradientStop Color="#3822D3EE" Offset="0"/>
+      <GradientStop Color="#0022D3EE" Offset="1"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="GlowB">
+      <GradientStop Color="#262288EE" Offset="0"/>
+      <GradientStop Color="#002288EE" Offset="1"/>
+    </RadialGradientBrush>
 
     <Style TargetType="TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
     </Style>
 
-    <!-- Kleine Ueberschrift in Grossbuchstaben (Karten, Abschnitte) -->
+    <!-- Kleine Ueberschrift (Karten, Abschnitte) -->
     <Style x:Key="Label" TargetType="TextBlock">
       <Setter Property="FontFamily" Value="{StaticResource FontHead}"/>
       <Setter Property="FontSize" Value="10.5"/>
@@ -5364,6 +5384,7 @@ $xaml = @'
       <Setter Property="FontFamily" Value="{StaticResource FontHead}"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
       <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
 
     <Style x:Key="Hint" TargetType="TextBlock">
@@ -5373,11 +5394,38 @@ $xaml = @'
     </Style>
 
     <Style x:Key="Card" TargetType="Border">
-      <Setter Property="Background" Value="{DynamicResource BrPanel}"/>
+      <Setter Property="Background" Value="{DynamicResource BrCard}"/>
       <Setter Property="BorderBrush" Value="{DynamicResource BrLine}"/>
       <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="CornerRadius" Value="14"/>
+      <Setter Property="CornerRadius" Value="16"/>
       <Setter Property="Padding" Value="20"/>
+    </Style>
+
+    <!-- Hinweisleiste (z.B. "Eden laeuft gerade") -->
+    <Style x:Key="Banner" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource BrBadgeInstBg}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BrSelStrong}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="Padding" Value="14,9"/>
+    </Style>
+
+    <!-- Rundes Icon-Feld als Abschnittskopf -->
+    <Style x:Key="IconBadge" TargetType="Border">
+      <Setter Property="Width" Value="34"/>
+      <Setter Property="Height" Value="34"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Background" Value="{DynamicResource BrSel}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BrSelStrong}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="IconBadgeGlyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="{StaticResource FontIcon}"/>
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrAccentText}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="CheckBox">
@@ -5392,7 +5440,7 @@ $xaml = @'
               <Grid Width="20" Height="20" VerticalAlignment="Center">
                 <Border x:Name="box" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}"
                         BorderThickness="1.5" CornerRadius="6"/>
-                <Border x:Name="fill" Background="{DynamicResource BrAccent}" CornerRadius="6" Opacity="0"/>
+                <Border x:Name="fill" Background="{DynamicResource GrAccent}" CornerRadius="6" Opacity="0"/>
                 <Path x:Name="tick" Data="M 5 10.5 L 8.5 14 L 15 6.5" Stroke="{DynamicResource BrAccentFg}"
                       StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                       StrokeLineJoin="Round" Opacity="0" RenderTransformOrigin="0.5,0.5">
@@ -5430,10 +5478,10 @@ $xaml = @'
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="CheckBox">
-            <Grid x:Name="root" Width="40" Height="22" Background="Transparent">
-              <Border x:Name="track" CornerRadius="11" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1.5"/>
-              <Border x:Name="fill" CornerRadius="11" Background="{DynamicResource BrAccent}" Opacity="0"/>
-              <Ellipse x:Name="knob" Width="14" Height="14" HorizontalAlignment="Left" Margin="4,0,0,0" Fill="{DynamicResource BrMuted}">
+            <Grid x:Name="root" Width="42" Height="24" Background="Transparent">
+              <Border x:Name="track" CornerRadius="12" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1.5"/>
+              <Border x:Name="fill" CornerRadius="12" Background="{DynamicResource GrAccent}" Opacity="0"/>
+              <Ellipse x:Name="knob" Width="16" Height="16" HorizontalAlignment="Left" Margin="4,0,0,0" Fill="{DynamicResource BrMuted}" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                   <TranslateTransform x:Name="kx" X="0"/>
                 </Ellipse.RenderTransform>
@@ -5443,11 +5491,11 @@ $xaml = @'
               <Trigger Property="IsChecked" Value="True">
                 <Setter TargetName="knob" Property="Fill" Value="{DynamicResource BrAccentFg}"/>
                 <Trigger.EnterActions><BeginStoryboard><Storyboard>
-                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="18" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="18" Duration="0:0:0.26"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction></DoubleAnimation>
                   <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.16"/>
                 </Storyboard></BeginStoryboard></Trigger.EnterActions>
                 <Trigger.ExitActions><BeginStoryboard><Storyboard>
-                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.16"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
                   <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16"/>
                 </Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
@@ -5463,15 +5511,76 @@ $xaml = @'
       </Setter>
     </Style>
 
+    <!-- Einstellungszeile: Text links, Schalter rechts, ganze Zeile klickbar -->
+    <Style x:Key="SwitchRow" TargetType="CheckBox">
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Margin" Value="-10,0,-10,2"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="CheckBox">
+            <Grid x:Name="root" Background="Transparent">
+              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
+              <Grid Margin="10,9,10,9">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter VerticalAlignment="Center" RecognizesAccessKey="True" Margin="0,0,14,0">
+                  <ContentPresenter.Resources>
+                    <Style TargetType="TextBlock">
+                      <Setter Property="TextWrapping" Value="Wrap"/>
+                      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+                    </Style>
+                  </ContentPresenter.Resources>
+                </ContentPresenter>
+                <Grid Grid.Column="1" Width="42" Height="24" VerticalAlignment="Center">
+                  <Border x:Name="track" CornerRadius="12" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1.5"/>
+                  <Border x:Name="fill" CornerRadius="12" Background="{DynamicResource GrAccent}" Opacity="0"/>
+                  <Ellipse x:Name="knob" Width="16" Height="16" HorizontalAlignment="Left" Margin="4,0,0,0" Fill="{DynamicResource BrMuted}">
+                    <Ellipse.RenderTransform>
+                      <TranslateTransform x:Name="kx" X="0"/>
+                    </Ellipse.RenderTransform>
+                  </Ellipse>
+                </Grid>
+              </Grid>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="knob" Property="Fill" Value="{DynamicResource BrAccentFg}"/>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="18" Duration="0:0:0.26"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.5"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.16"/>
+                </Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="kx" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+                  <DoubleAnimation Storyboard.TargetName="fill" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16"/>
+                </Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="track" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="root" Property="Opacity" Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
     <Style x:Key="ScrollThumb" TargetType="Thumb">
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Thumb">
-            <Border x:Name="th" Background="{DynamicResource BrMuted}" CornerRadius="5" Margin="2" Opacity="0.4"/>
+            <Border x:Name="th" Background="{DynamicResource BrMuted}" CornerRadius="3" Margin="3,2" Opacity="0.35"/>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="th" Storyboard.TargetProperty="Opacity" To="0.85" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
-                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="th" Storyboard.TargetProperty="Opacity" To="0.4" Duration="0:0:0.25"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="th" Storyboard.TargetProperty="Opacity" To="0.35" Duration="0:0:0.25"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
               <Trigger Property="IsDragging" Value="True">
                 <Setter TargetName="th" Property="Background" Value="{DynamicResource BrAccent}"/>
@@ -5531,7 +5640,7 @@ $xaml = @'
         <Setter.Value>
           <ControlTemplate TargetType="ContextMenu">
             <Border Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}"
-                    BorderThickness="1" CornerRadius="8" Padding="4">
+                    BorderThickness="1" CornerRadius="10" Padding="4">
               <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
             </Border>
           </ControlTemplate>
@@ -5544,7 +5653,7 @@ $xaml = @'
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="MenuItem">
-            <Border x:Name="bd" Background="Transparent" CornerRadius="6" Padding="12,7" Margin="0,1">
+            <Border x:Name="bd" Background="Transparent" CornerRadius="7" Padding="12,7" Margin="0,1">
               <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"/>
             </Border>
             <ControlTemplate.Triggers>
@@ -5576,7 +5685,7 @@ $xaml = @'
         <Setter.Value>
           <ControlTemplate TargetType="ToolTip">
             <Border Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}"
-                    BorderThickness="1" CornerRadius="6" Padding="10,6">
+                    BorderThickness="1" CornerRadius="8" Padding="10,6">
               <ContentPresenter/>
             </Border>
           </ControlTemplate>
@@ -5597,17 +5706,25 @@ $xaml = @'
       </Style.Triggers>
     </Style>
 
+    <!-- Fortschritt: Verlauf in Akzentfarbe, beim Warten laeuft ein Lichtband durch -->
     <Style TargetType="ProgressBar">
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="ProgressBar">
             <Grid x:Name="root" ClipToBounds="True">
-              <Border x:Name="PART_Track" Background="{DynamicResource BrPanel2}" CornerRadius="3"/>
-              <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource BrAccent}" CornerRadius="3"/>
-              <Border x:Name="indet" Visibility="Collapsed" HorizontalAlignment="Left" Width="140"
-                      Background="{DynamicResource BrAccent}" CornerRadius="3">
+              <Border x:Name="PART_Track" Background="{DynamicResource BrPanel2}" CornerRadius="2"/>
+              <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{DynamicResource GrAccent}" CornerRadius="2"/>
+              <Border x:Name="indet" Visibility="Collapsed" HorizontalAlignment="Left" Width="220" CornerRadius="2"
+                      Background="{DynamicResource GrAccent}">
+                <Border.OpacityMask>
+                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Color="#FF000000" Offset="0.5"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
+                  </LinearGradientBrush>
+                </Border.OpacityMask>
                 <Border.RenderTransform>
-                  <TranslateTransform x:Name="itt" X="-150"/>
+                  <TranslateTransform x:Name="itt" X="-230"/>
                 </Border.RenderTransform>
               </Border>
             </Grid>
@@ -5618,7 +5735,7 @@ $xaml = @'
                 <Trigger.EnterActions>
                   <BeginStoryboard x:Name="indetSb">
                     <Storyboard RepeatBehavior="Forever">
-                      <DoubleAnimation Storyboard.TargetName="itt" Storyboard.TargetProperty="X" From="-150" To="1900" Duration="0:0:2.2"/>
+                      <DoubleAnimation Storyboard.TargetName="itt" Storyboard.TargetProperty="X" From="-230" To="1900" Duration="0:0:2.0"/>
                     </Storyboard>
                   </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -5644,15 +5761,20 @@ $xaml = @'
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="TextBox">
-            <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
-              <ScrollViewer x:Name="PART_ContentHost" Focusable="False" Padding="{TemplateBinding Padding}"
-                            HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
-                            VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
-            </Border>
+            <Grid>
+              <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" Padding="{TemplateBinding Padding}"
+                              HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                              VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"/>
+              </Border>
+              <Border x:Name="focus" BorderBrush="{DynamicResource BrAccent}" BorderThickness="1.5" CornerRadius="10"
+                      Opacity="0" IsHitTestVisible="False"/>
+            </Grid>
             <ControlTemplate.Triggers>
               <Trigger Property="IsKeyboardFocused" Value="True">
-                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="focus" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.14"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="focus" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -5661,14 +5783,19 @@ $xaml = @'
     </Style>
 
     <ControlTemplate x:Key="CbToggle" TargetType="ToggleButton">
-      <Border x:Name="bd" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="8">
+      <Border x:Name="bd" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="10">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="34"/>
           </Grid.ColumnDefinitions>
-          <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="{StaticResource FontIcon}" FontSize="11"
-                     Foreground="{DynamicResource BrMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          <TextBlock x:Name="arrow" Grid.Column="1" Text="&#xE70D;" FontFamily="{StaticResource FontIcon}" FontSize="11"
+                     Foreground="{DynamicResource BrMuted}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                     RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+              <RotateTransform x:Name="arot" Angle="0"/>
+            </TextBlock.RenderTransform>
+          </TextBlock>
         </Grid>
       </Border>
       <ControlTemplate.Triggers>
@@ -5677,6 +5804,8 @@ $xaml = @'
         </Trigger>
         <Trigger Property="IsChecked" Value="True">
           <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
+          <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="arot" Storyboard.TargetProperty="Angle" To="180" Duration="0:0:0.2"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
+          <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="arot" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.2"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.ExitActions>
         </Trigger>
       </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -5687,7 +5816,7 @@ $xaml = @'
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="ComboBoxItem">
-            <Border x:Name="bd" Background="Transparent" Padding="10,7" CornerRadius="6" Margin="3,1">
+            <Border x:Name="bd" Background="Transparent" Padding="10,7" CornerRadius="7" Margin="4,1">
               <ContentPresenter/>
             </Border>
             <ControlTemplate.Triggers>
@@ -5722,7 +5851,7 @@ $xaml = @'
                      AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                 <Grid MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                   <Border Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"
-                          CornerRadius="8" Margin="0,4,0,0" Padding="0,3">
+                          CornerRadius="10" Margin="0,4,0,0" Padding="0,3">
                     <ScrollViewer>
                       <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
                     </ScrollViewer>
@@ -5754,7 +5883,7 @@ $xaml = @'
               <Border x:Name="bd" Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}"
-                      CornerRadius="9" Padding="{TemplateBinding Padding}">
+                      CornerRadius="10" Padding="{TemplateBinding Padding}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
                   <TextBlock x:Name="ico" Text="{TemplateBinding Tag}" FontFamily="{StaticResource FontIcon}" FontSize="14"
@@ -5762,7 +5891,7 @@ $xaml = @'
                   <ContentPresenter VerticalAlignment="Center"/>
                 </StackPanel>
               </Border>
-              <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="9" Opacity="0" IsHitTestVisible="False"/>
+              <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="10" Opacity="0" IsHitTestVisible="False"/>
             </Grid>
             <ControlTemplate.Triggers>
               <Trigger Property="Tag" Value="{x:Null}">
@@ -5774,7 +5903,7 @@ $xaml = @'
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="0.96" Duration="0:0:0.08"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="0.96" Duration="0:0:0.08"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
-                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.14"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.14"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="root" Property="Opacity" Value="0.4"/>
@@ -5785,11 +5914,57 @@ $xaml = @'
       </Setter>
     </Style>
 
-    <Style x:Key="BtnPrimary" TargetType="Button" BasedOn="{StaticResource Btn}">
-      <Setter Property="Background" Value="{DynamicResource BrAccent}"/>
+    <!-- Hauptaktion: Akzent-Verlauf mit weichem Leuchten darunter -->
+    <Style x:Key="BtnPrimary" TargetType="Button">
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
       <Setter Property="Foreground" Value="{DynamicResource BrAccentFg}"/>
-      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Background" Value="{DynamicResource GrAccent}"/>
       <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Padding" Value="16,9"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Grid x:Name="root" RenderTransformOrigin="0.5,0.5">
+              <Grid.RenderTransform>
+                <ScaleTransform x:Name="sc" ScaleX="1" ScaleY="1"/>
+              </Grid.RenderTransform>
+              <Border x:Name="glow" Background="{TemplateBinding Background}" CornerRadius="10" Margin="8,10,8,-3"
+                      Opacity="0.30" IsHitTestVisible="False">
+                <Border.Effect>
+                  <BlurEffect Radius="14" KernelType="Gaussian"/>
+                </Border.Effect>
+              </Border>
+              <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="10" Padding="{TemplateBinding Padding}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                  <TextBlock x:Name="ico" Text="{TemplateBinding Tag}" FontFamily="{StaticResource FontIcon}" FontSize="14"
+                             Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="0,0,9,0"/>
+                  <ContentPresenter VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                </StackPanel>
+              </Border>
+              <Border x:Name="hl" Background="White" CornerRadius="10" Opacity="0" IsHitTestVisible="False"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="Tag" Value="{x:Null}">
+                <Setter TargetName="ico" Property="Visibility" Value="Collapsed"/>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.14" Duration="0:0:0.15"/><DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity" To="0.75" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/><DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity" To="0.30" Duration="0:0:0.3"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="0.96" Duration="0:0:0.08"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="0.96" Duration="0:0:0.08"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.3"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="root" Property="Opacity" Value="0.4"/>
+                <Setter TargetName="glow" Property="Visibility" Value="Collapsed"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
     </Style>
 
     <Style x:Key="BtnGhost" TargetType="Button" BasedOn="{StaticResource Btn}">
@@ -5799,33 +5974,44 @@ $xaml = @'
       <Setter Property="Padding" Value="10,6"/>
     </Style>
 
-    <!-- Seitenleiste: aktiver Eintrag bekommt per Code Hintergrund, Akzentfarbe und den Balken links (BorderBrush) -->
+    <!-- Getoente Variante (z.B. "Eden starten") -->
+    <Style x:Key="BtnTonal" TargetType="Button" BasedOn="{StaticResource Btn}">
+      <Setter Property="Background" Value="{DynamicResource BrSel}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BrSelStrong}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrAccentText}"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <!-- Seitenleiste: der aktive Eintrag bekommt per Code helle Schrift und ein Akzent-Icon (BorderBrush);
+         den Hintergrund liefert die gleitende Markierung (NavPill) -->
     <Style x:Key="BtnNav" TargetType="Button">
       <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
       <Setter Property="Foreground" Value="{DynamicResource BrMuted}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BrMuted}"/>
       <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="BorderBrush" Value="Transparent"/>
-      <Setter Property="Padding" Value="14,11"/>
-      <Setter Property="Margin" Value="0,0,0,4"/>
+      <Setter Property="Height" Value="40"/>
+      <Setter Property="Margin" Value="0,0,0,2"/>
       <Setter Property="Cursor" Value="Hand"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Grid>
-              <Border Background="{TemplateBinding Background}" CornerRadius="9" Padding="{TemplateBinding Padding}">
-                <StackPanel Orientation="Horizontal">
-                  <TextBlock Text="{TemplateBinding Tag}" FontFamily="{StaticResource FontIcon}" FontSize="16"
-                             Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" Margin="0,0,13,0"/>
-                  <ContentPresenter VerticalAlignment="Center"/>
-                </StackPanel>
-              </Border>
-              <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="9" Opacity="0" IsHitTestVisible="False"/>
-              <Border Width="3" HorizontalAlignment="Left" Margin="0,10" CornerRadius="2" Background="{TemplateBinding BorderBrush}"/>
+            <Grid Background="Transparent">
+              <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="11" Opacity="0" IsHitTestVisible="False"/>
+              <StackPanel Orientation="Horizontal" Margin="16,0,10,0" VerticalAlignment="Center">
+                <TextBlock x:Name="ico" Text="{TemplateBinding Tag}" FontFamily="{StaticResource FontIcon}" FontSize="16"
+                           Foreground="{TemplateBinding BorderBrush}" VerticalAlignment="Center" Margin="0,0,13,0"
+                           RenderTransformOrigin="0.5,0.5">
+                  <TextBlock.RenderTransform>
+                    <ScaleTransform x:Name="isc" ScaleX="1" ScaleY="1"/>
+                  </TextBlock.RenderTransform>
+                </TextBlock>
+                <ContentPresenter VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
+              </StackPanel>
             </Grid>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.06" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
-                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.22"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.05" Duration="0:0:0.15"/><DoubleAnimation Storyboard.TargetName="isc" Storyboard.TargetProperty="ScaleX" To="1.14" Duration="0:0:0.2"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="isc" Storyboard.TargetProperty="ScaleY" To="1.14" Duration="0:0:0.2"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.22"/><DoubleAnimation Storyboard.TargetName="isc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.2"/><DoubleAnimation Storyboard.TargetName="isc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -5833,22 +6019,24 @@ $xaml = @'
       </Setter>
     </Style>
 
+    <!-- Listeneintrag mit Auswahl -->
     <Style x:Key="LbItem" TargetType="ListBoxItem">
       <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
       <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
       <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Padding" Value="12,9,12,9"/>
+      <Setter Property="Margin" Value="0,0,0,2"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="ListBoxItem">
-            <Grid x:Name="root" Margin="0,0,0,3">
+            <Grid x:Name="root">
               <Grid.RenderTransform>
                 <TranslateTransform x:Name="tt" Y="0"/>
               </Grid.RenderTransform>
-              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
-              <Border x:Name="selb" Background="{DynamicResource BrSel}" CornerRadius="10" Opacity="0"/>
-              <Border x:Name="bar" Width="3" HorizontalAlignment="Left" Margin="0,12" CornerRadius="2"
-                      Background="{DynamicResource BrAccent}" Opacity="0"/>
-              <ContentPresenter Margin="16,10,12,10"/>
+              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="11" Opacity="0"/>
+              <Border x:Name="selb" Background="{DynamicResource BrSel}" BorderBrush="{DynamicResource BrSelStrong}" BorderThickness="1"
+                      CornerRadius="11" Opacity="0"/>
+              <ContentPresenter Margin="{TemplateBinding Padding}"/>
             </Grid>
             <ControlTemplate.Triggers>
               <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetName="tt" Storyboard.TargetProperty="Y" From="10" To="0" Duration="0:0:0.30"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
@@ -5857,77 +6045,210 @@ $xaml = @'
                 <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
               <Trigger Property="IsSelected" Value="True">
-                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="selb" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.18"/><DoubleAnimation Storyboard.TargetName="bar" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.18"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
-                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="selb" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.18"/><DoubleAnimation Storyboard.TargetName="bar" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.18"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="selb" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.18"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="selb" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.18"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
     </Style>
+
+    <!-- Versionsliste: Eintraege liegen ohne Abstand aneinander, damit die Zeitleiste durchlaeuft -->
+    <Style x:Key="LbItemLine" TargetType="ListBoxItem" BasedOn="{StaticResource LbItem}">
+      <Setter Property="Padding" Value="8,0,12,0"/>
+      <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <!-- Zeile ohne Auswahl (Mods, Inhalte, Backups): nur Hover -->
+    <Style x:Key="LbRow" TargetType="ListBoxItem">
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+      <Setter Property="Padding" Value="14,10,8,10"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListBoxItem">
+            <Grid x:Name="root" Margin="0,0,0,2">
+              <Grid.RenderTransform>
+                <TranslateTransform x:Name="tt" Y="0"/>
+              </Grid.RenderTransform>
+              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="11" Opacity="0"/>
+              <ContentPresenter Margin="{TemplateBinding Padding}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.28"/><DoubleAnimation Storyboard.TargetName="tt" Storyboard.TargetProperty="Y" From="8" To="0" Duration="0:0:0.28"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- Spiele-Kachel: hebt sich beim Ueberfahren an, Auswahl = Akzentrahmen -->
+    <Style x:Key="GameTile" TargetType="ListBoxItem">
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Width" Value="150"/>
+      <Setter Property="Margin" Value="0,0,12,12"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListBoxItem">
+            <Grid x:Name="root" RenderTransformOrigin="0.5,0.5">
+              <Grid.RenderTransform>
+                <ScaleTransform x:Name="sc" ScaleX="1" ScaleY="1"/>
+              </Grid.RenderTransform>
+              <Border x:Name="bg" Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="16"/>
+              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="16" Opacity="0"/>
+              <Border x:Name="ring" BorderBrush="{DynamicResource BrAccent}" BorderThickness="2" CornerRadius="16" Opacity="0"/>
+              <ContentPresenter Margin="9"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Panel.ZIndex" Value="2"/>
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1.045" Duration="0:0:0.24"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1.045" Duration="0:0:0.24"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.2"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+              <Trigger Property="IsSelected" Value="True">
+                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="ring" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="ring" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- Spiel in den Seitenlisten (Mods, Updates/DLC, Spieldaten) -->
+    <DataTemplate x:Key="GameRow">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Width="38" Height="38" VerticalAlignment="Center">
+          <Border CornerRadius="10" Background="{DynamicResource BrSelStrong}">
+            <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
+                       Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <Border CornerRadius="10">
+            <Border.Background>
+              <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+            </Border.Background>
+          </Border>
+        </Grid>
+        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
+                     FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+          <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
   </Window.Resources>
 
   <Grid x:Name="RootGrid">
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="236"/>
+      <ColumnDefinition Width="238"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <!-- ============ Seitenleiste ============ -->
-    <Border Grid.Column="0" Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrLine}" BorderThickness="0,0,1,0">
-      <Grid Margin="16,22,16,18">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="*"/>
-          <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <!-- Weiches Leuchten in den Theme-Farben hinter der Oberflaeche -->
+    <Canvas Grid.ColumnSpan="2" IsHitTestVisible="False" ClipToBounds="True">
+      <Ellipse Width="760" Height="760" Canvas.Left="-300" Canvas.Top="-380" Fill="{DynamicResource GlowA}"/>
+      <Ellipse Width="900" Height="900" Canvas.Right="-360" Canvas.Bottom="-520" Fill="{DynamicResource GlowB}"/>
+    </Canvas>
 
-        <StackPanel Orientation="Horizontal" Margin="6,0,0,0">
-          <Border Width="40" Height="40" CornerRadius="10">
-            <Border.Background>
-              <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#5EEAF4" Offset="0"/>
-                <GradientStop Color="#0E7490" Offset="1"/>
-              </LinearGradientBrush>
-            </Border.Background>
+    <!-- ============ Seitenleiste ============ -->
+    <Grid x:Name="SideBar" Grid.Column="0" Margin="14,18,6,18">
+      <Grid.RenderTransform>
+        <TranslateTransform/>
+      </Grid.RenderTransform>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <StackPanel Orientation="Horizontal" Margin="10,2,0,0">
+        <Grid Width="44" Height="44">
+          <Border CornerRadius="13" Background="{DynamicResource GrAccent}" Margin="5,8,5,-2" Opacity="0.55" IsHitTestVisible="False">
+            <Border.Effect>
+              <BlurEffect Radius="14" KernelType="Gaussian"/>
+            </Border.Effect>
+          </Border>
+          <Border CornerRadius="13" Background="{DynamicResource GrAccent}">
             <Viewbox>
               <Canvas Width="64" Height="64">
-                <Path Data="M 42.61,19.36 A 16.5,16.5 0 1 1 19.36,21.39" Stroke="#F4FDFF" StrokeThickness="5"
-                      StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
-                <Path Data="M 24.5,15.26 L 14.76,17.53 L 23.96,25.25 Z" Fill="#F4FDFF"/>
-                <Path Data="M 32,23 L 32,39 M 25.5,33.5 L 32,40 L 38.5,33.5" Stroke="#F4FDFF" StrokeThickness="5"
+                <!-- Kreispfeil: dreht sich, solange etwas laeuft -->
+                <Canvas x:Name="LogoRing" Width="64" Height="64" RenderTransformOrigin="0.5,0.5">
+                  <Canvas.RenderTransform>
+                    <RotateTransform Angle="0"/>
+                  </Canvas.RenderTransform>
+                  <Path Data="M 42.61,19.36 A 16.5,16.5 0 1 1 19.36,21.39" Stroke="{DynamicResource BrAccentFg}" StrokeThickness="5"
+                        StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                  <Path Data="M 24.5,15.26 L 14.76,17.53 L 23.96,25.25 Z" Fill="{DynamicResource BrAccentFg}"/>
+                </Canvas>
+                <Path Data="M 32,23 L 32,39 M 25.5,33.5 L 32,40 L 38.5,33.5" Stroke="{DynamicResource BrAccentFg}" StrokeThickness="5"
                       StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"/>
               </Canvas>
             </Viewbox>
           </Border>
-          <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-            <TextBlock Text="EDEN" FontFamily="{StaticResource FontHead}" FontSize="17" FontWeight="Bold"/>
-            <TextBlock Text="UPDATER" FontFamily="{StaticResource FontHead}" FontSize="10.5" FontWeight="Bold"
-                       Foreground="{DynamicResource BrAccentText}" Margin="0,-1,0,0"/>
-          </StackPanel>
+        </Grid>
+        <StackPanel Margin="13,0,0,0" VerticalAlignment="Center">
+          <TextBlock Text="EDEN" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="Bold"/>
+          <TextBlock Text="UPDATER" FontFamily="{StaticResource FontHead}" FontSize="10.5" FontWeight="Bold"
+                     Foreground="{DynamicResource BrAccentText}" Margin="1,-2,0,0"/>
         </StackPanel>
+      </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="0,34,0,0">
+      <Grid x:Name="NavHost" Grid.Row="1" Margin="0,28,0,0">
+        <!-- Gleitende Markierung des aktiven Eintrags -->
+        <Border x:Name="NavPill" Height="40" VerticalAlignment="Top" CornerRadius="11" Opacity="0"
+                Background="{DynamicResource BrSel}" BorderBrush="{DynamicResource BrSelStrong}" BorderThickness="1">
+          <Border.RenderTransform>
+            <TranslateTransform Y="0"/>
+          </Border.RenderTransform>
+          <Border Width="3" Height="18" HorizontalAlignment="Left" Margin="-1,0,0,0" CornerRadius="2"
+                  Background="{DynamicResource GrAccent}"/>
+        </Border>
+        <StackPanel>
           <Button x:Name="BtnNavVer"   Tag="&#xE8FD;" Content="{DynamicResource L_NavVersions}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavNotes" Tag="&#xE8A5;" Content="{DynamicResource L_NavNotes}"    Style="{StaticResource BtnNav}"/>
+          <Border Height="1" Background="{DynamicResource BrLine}" Margin="16,9,16,10"/>
           <Button x:Name="BtnNavGames" Tag="&#xE7FC;" Content="{DynamicResource L_NavGames}"    Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavMods"  Tag="&#xEA86;" Content="{DynamicResource L_NavMods}"     Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavContent" Tag="&#xE7B8;" Content="{DynamicResource L_NavContent}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSaves" Tag="&#xE74E;" Content="{DynamicResource L_NavSaves}"    Style="{StaticResource BtnNav}"/>
+          <Border Height="1" Background="{DynamicResource BrLine}" Margin="16,9,16,10"/>
           <Button x:Name="BtnNavFw"    Tag="&#xE950;" Content="{DynamicResource L_NavFirmware}" Style="{StaticResource BtnNav}"/>
           <Button x:Name="BtnNavSet"   Tag="&#xE713;" Content="{DynamicResource L_NavSettings}" Style="{StaticResource BtnNav}"/>
         </StackPanel>
-
-        <Button x:Name="BtnLaunch" Grid.Row="3" Tag="&#xE768;" Content="{DynamicResource L_BtnLaunch}"
-                Style="{StaticResource Btn}" HorizontalContentAlignment="Center" Padding="14,11"/>
       </Grid>
-    </Border>
+
+      <!-- Installierte Version + Eden starten -->
+      <Border Grid.Row="3" Style="{StaticResource Card}" Padding="14,12,14,14" Margin="0,0,8,0">
+        <StackPanel>
+          <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardInstalled}"/>
+          <TextBlock x:Name="TxtSideVer" FontFamily="{StaticResource FontHead}" FontSize="13.5" FontWeight="SemiBold"
+                     TextTrimming="CharacterEllipsis" Margin="0,3,0,0"
+                     ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+          <Button x:Name="BtnLaunch" Tag="&#xE768;" Content="{DynamicResource L_BtnLaunch}"
+                  Style="{StaticResource BtnTonal}" HorizontalContentAlignment="Center" Padding="12,10" Margin="0,12,0,0"/>
+        </StackPanel>
+      </Border>
+    </Grid>
 
     <!-- ============ Hauptbereich ============ -->
-    <Grid Grid.Column="1" Margin="30,24,30,22">
+    <Grid x:Name="MainArea" Grid.Column="1" Margin="14,18,26,18">
+      <Grid.RenderTransform>
+        <TranslateTransform/>
+      </Grid.RenderTransform>
       <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
         <RowDefinition Height="Auto"/>
@@ -5939,56 +6260,39 @@ $xaml = @'
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-          <TextBlock x:Name="TxtPageTitle" FontFamily="{StaticResource FontHead}" FontSize="26" FontWeight="SemiBold"/>
-          <TextBlock x:Name="TxtPageSub" Text="{DynamicResource L_AppSubtitle}" Foreground="{DynamicResource BrMuted}" Margin="0,3,0,0"
+        <StackPanel x:Name="HeadText" Grid.Column="0">
+          <StackPanel.RenderTransform>
+            <TranslateTransform/>
+          </StackPanel.RenderTransform>
+          <TextBlock x:Name="TxtPageTitle" FontFamily="{StaticResource FontHead}" FontSize="30" FontWeight="SemiBold"/>
+          <TextBlock x:Name="TxtPageSub" Text="{DynamicResource L_AppSubtitle}" Foreground="{DynamicResource BrMuted}" Margin="1,2,0,0"
                      TextTrimming="CharacterEllipsis"/>
         </StackPanel>
-        <!-- Update-Status oben rechts -->
-        <Border x:Name="ChipState" Grid.Column="1" CornerRadius="16" Padding="14,7" Margin="16,2,0,0"
-                VerticalAlignment="Top" Visibility="Collapsed" BorderThickness="1"
+        <!-- Update-Status oben rechts (Klick fuehrt zu den Versionen) -->
+        <Border x:Name="ChipState" Grid.Column="1" CornerRadius="17" Padding="14,8" Margin="16,6,0,0"
+                VerticalAlignment="Top" Visibility="Collapsed" BorderThickness="1" Cursor="Hand"
                 Background="{DynamicResource BrBadgeNewBg}" BorderBrush="{DynamicResource BrLine}">
           <StackPanel Orientation="Horizontal">
-            <Ellipse x:Name="DotState" Width="8" Height="8" VerticalAlignment="Center" Fill="{DynamicResource BrBadgeNewFg}"/>
+            <Grid Width="10" Height="10" VerticalAlignment="Center">
+              <Ellipse x:Name="DotRing" Fill="{Binding Fill, ElementName=DotState}" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                  <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Ellipse.RenderTransform>
+              </Ellipse>
+              <Ellipse x:Name="DotState" Width="8" Height="8" Fill="{DynamicResource BrBadgeNewFg}"/>
+            </Grid>
             <TextBlock x:Name="TxtChip" FontFamily="{StaticResource FontHead}" FontSize="12.5" FontWeight="Bold"
                        Margin="9,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource BrBadgeNewFg}"/>
           </StackPanel>
         </Border>
       </Grid>
 
-      <!-- Statuskarte: installiert -> neueste -->
-      <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,18,0,16" Padding="22,16">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="90"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" MinWidth="90"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardInstalled}"/>
-            <TextBlock x:Name="TxtInstalled" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold"
-                       TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
-          </StackPanel>
-          <TextBlock Grid.Column="1" Text="&#xE72A;" FontFamily="{StaticResource FontIcon}" FontSize="16"
-                     Foreground="{DynamicResource BrMuted}" VerticalAlignment="Center" Margin="18,14,18,0"/>
-          <StackPanel Grid.Column="2" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardLatest}"/>
-            <TextBlock x:Name="TxtLatest" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold"
-                       Foreground="{DynamicResource BrAccentText}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
-          </StackPanel>
-          <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
-            <Button x:Name="BtnUpdate" Tag="&#xE896;" Content="{DynamicResource L_BtnUpdate}"
-                    Style="{StaticResource BtnPrimary}" Padding="18,11"/>
-          </StackPanel>
-        </Grid>
-      </Border>
-
       <!-- Inhalt -->
-      <Grid Grid.Row="2">
+      <Grid Grid.Row="1" Margin="0,18,0,0">
         <!-- Seite: Versionen -->
         <Grid x:Name="PanelVersions">
           <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -6001,7 +6305,41 @@ $xaml = @'
             <TranslateTransform/>
           </Grid.RenderTransform>
 
-          <Grid Grid.Row="0" Margin="4,0,0,8">
+          <!-- Installiert -> Neueste -->
+          <Border Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="18" BorderThickness="1" Margin="0,0,0,14"
+                  Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}">
+            <Grid>
+              <Border CornerRadius="17" Background="{DynamicResource GrHero}"/>
+              <Grid Margin="24,18,20,18">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" MinWidth="90"/>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="*" MinWidth="90"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardInstalled}"/>
+                  <TextBlock x:Name="TxtInstalled" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" FontFamily="{StaticResource FontHead}" FontSize="21" FontWeight="SemiBold"
+                             TextTrimming="CharacterEllipsis" Margin="0,5,0,0"/>
+                </StackPanel>
+                <!-- Pfeile laufen von links nach rechts, wenn ein Update wartet -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="18,16,20,0">
+                  <TextBlock x:Name="Flow1" Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="12" Opacity="0.25" Foreground="{DynamicResource BrAccentText}"/>
+                  <TextBlock x:Name="Flow2" Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="12" Opacity="0.5" Margin="-2,0,0,0" Foreground="{DynamicResource BrAccentText}"/>
+                  <TextBlock x:Name="Flow3" Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="12" Opacity="0.9" Margin="-2,0,0,0" Foreground="{DynamicResource BrAccentText}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                  <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_CardLatest}"/>
+                  <TextBlock x:Name="TxtLatest" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}" FontFamily="{StaticResource FontHead}" FontSize="21" FontWeight="SemiBold"
+                             Foreground="{DynamicResource BrAccentText}" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"/>
+                </StackPanel>
+                <Button x:Name="BtnUpdate" Grid.Column="3" Tag="&#xE896;" Content="{DynamicResource L_BtnUpdate}"
+                        Style="{StaticResource BtnPrimary}" Padding="20,12" Margin="16,0,0,0" VerticalAlignment="Center"/>
+              </Grid>
+            </Grid>
+          </Border>
+
+          <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="4,0,0,6">
             <TextBlock x:Name="TxtListInfo" Style="{StaticResource Label}" VerticalAlignment="Center"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
               <Button x:Name="BtnReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}"/>
@@ -6009,28 +6347,37 @@ $xaml = @'
             </StackPanel>
           </Grid>
 
-          <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8">
+          <Border Grid.Row="2" Style="{StaticResource Card}" Padding="8,10,6,10">
             <ListBox x:Name="List" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                     ItemContainerStyle="{StaticResource LbItem}"
+                     ItemContainerStyle="{StaticResource LbItemLine}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <Grid>
                     <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="26"/>
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="Auto"/>
                       <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <!-- Zeitleiste: neueste = gruen, installiert = Akzent -->
+                    <Rectangle Width="2" Fill="{DynamicResource BrLine}" HorizontalAlignment="Center"/>
+                    <Ellipse Width="11" Height="11" Fill="{DynamicResource BrPanel}" Stroke="{DynamicResource BrMuted}" StrokeThickness="2"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Ellipse Width="13" Height="13" Fill="{DynamicResource BrBadgeNewFg}" Visibility="{Binding NewBadge}"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Ellipse Width="13" Height="13" Fill="{DynamicResource BrAccent}" Visibility="{Binding InstBadge}"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,10,0,10">
                       <TextBlock FontFamily="{StaticResource FontHead}" Text="{Binding Tag}" Foreground="{DynamicResource BrText}" FontSize="14.5" FontWeight="SemiBold"
                                  TextTrimming="CharacterEllipsis"/>
                       <TextBlock Text="{Binding Date}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
                     </StackPanel>
-                    <Border Grid.Column="1" Visibility="{Binding NewBadge}" Background="{DynamicResource BrBadgeNewBg}"
+                    <Border Grid.Column="2" Visibility="{Binding NewBadge}" Background="{DynamicResource BrBadgeNewBg}"
                             CornerRadius="10" Padding="9,3" Margin="10,0,0,0" VerticalAlignment="Center">
                       <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_CardLatest}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource BrBadgeNewFg}"/>
                     </Border>
-                    <Border Grid.Column="2" Visibility="{Binding InstBadge}" Background="{DynamicResource BrBadgeInstBg}"
+                    <Border Grid.Column="3" Visibility="{Binding InstBadge}" Background="{DynamicResource BrBadgeInstBg}"
                             CornerRadius="10" Padding="9,3" Margin="6,0,0,0" VerticalAlignment="Center">
                       <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_CardInstalled}" FontSize="10" FontWeight="Bold" Foreground="{DynamicResource BrAccentText}"/>
                     </Border>
@@ -6040,17 +6387,17 @@ $xaml = @'
             </ListBox>
           </Border>
 
-          <Border x:Name="PanelNotesSide" Grid.Row="1" Grid.Column="1" Visibility="Collapsed" Style="{StaticResource Card}"
+          <Border x:Name="PanelNotesSide" Grid.Row="2" Grid.Column="1" Visibility="Collapsed" Style="{StaticResource Card}"
                   Padding="20,16" Margin="12,0,0,0"/>
 
-          <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,12,0,0">
+          <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,12,0,0">
             <Button x:Name="BtnInstallSel" Tag="&#xE896;" Content="{DynamicResource L_BtnInstallSel}" Style="{StaticResource Btn}"/>
             <Button x:Name="BtnRestore" Tag="&#xE81C;" Content="{DynamicResource L_BtnRestore}" Style="{StaticResource Btn}" Margin="8,0,0,0"/>
           </StackPanel>
         </Grid>
 
         <!-- Seite: Patchnotes -->
-        <Border x:Name="PanelNotes" Visibility="Collapsed" Style="{StaticResource Card}" Padding="24,18">
+        <Border x:Name="PanelNotes" Visibility="Collapsed" Style="{StaticResource Card}" Padding="24,20">
           <Border.RenderTransform>
             <TranslateTransform/>
           </Border.RenderTransform>
@@ -6060,14 +6407,18 @@ $xaml = @'
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Margin="0,0,0,14">
-              <StackPanel Margin="0,0,150,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+              </Grid.ColumnDefinitions>
+              <StackPanel Margin="0,0,12,0">
                 <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_NotesHeader}"/>
-                <TextBlock FontFamily="{StaticResource FontHead}" x:Name="TxtNotesTitle" FontSize="19" FontWeight="SemiBold"
-                           TextTrimming="CharacterEllipsis" Margin="0,3,0,0"/>
+                <TextBlock FontFamily="{StaticResource FontHead}" x:Name="TxtNotesTitle" FontSize="20" FontWeight="SemiBold"
+                           TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
                 <TextBlock x:Name="TxtNotesHint" Text="{DynamicResource L_NotesHintPage}" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
               </StackPanel>
-              <Button x:Name="BtnNotesWeb" Tag="&#xE774;" Content="{DynamicResource L_NotesWeb}" Style="{StaticResource Btn}"
-                      Padding="12,7" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+              <Button x:Name="BtnNotesWeb" Grid.Column="1" Tag="&#xE774;" Content="{DynamicResource L_NotesWeb}" Style="{StaticResource Btn}"
+                      Padding="12,7" VerticalAlignment="Top"/>
             </Grid>
             <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
             <TextBox x:Name="TxtNotes" Grid.Row="1" IsReadOnly="True" TextWrapping="Wrap" Margin="0,14,0,0"
@@ -6076,7 +6427,7 @@ $xaml = @'
           </Grid>
         </Border>
 
-        <!-- Seite: Spiele -->
+        <!-- Seite: Spiele (Kacheln) -->
         <Grid x:Name="PanelGames" Visibility="Collapsed">
           <Grid.RenderTransform>
             <TranslateTransform/>
@@ -6087,17 +6438,17 @@ $xaml = @'
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
 
-          <Grid Grid.Row="0" Margin="0,0,0,10">
+          <Grid Grid.Row="0" Margin="0,0,0,14">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid MaxWidth="360" HorizontalAlignment="Left" Width="360">
-              <TextBox x:Name="TxtGameSearch" Padding="34,7,10,7"/>
+              <TextBox x:Name="TxtGameSearch" Padding="36,8,10,8"/>
               <TextBlock Text="&#xE721;" FontFamily="{StaticResource FontIcon}" FontSize="13" Foreground="{DynamicResource BrMuted}"
-                         VerticalAlignment="Center" Margin="12,0,0,0" IsHitTestVisible="False"/>
+                         VerticalAlignment="Center" Margin="13,0,0,0" IsHitTestVisible="False"/>
               <TextBlock x:Name="TxtGameSearchHint" Text="{DynamicResource L_GamesSearch}" Foreground="{DynamicResource BrMuted}"
-                         VerticalAlignment="Center" Margin="35,0,0,0" IsHitTestVisible="False"/>
+                         VerticalAlignment="Center" Margin="37,0,0,0" IsHitTestVisible="False"/>
             </Grid>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
               <TextBlock x:Name="TxtGamesInfo" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -6105,73 +6456,78 @@ $xaml = @'
             </StackPanel>
           </Grid>
 
-          <Border Grid.Row="1" Style="{StaticResource Card}" Padding="8">
-            <Grid>
-              <ListBox x:Name="ListGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                       ItemContainerStyle="{StaticResource LbItem}"
-                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                      </Grid.ColumnDefinitions>
-                      <Grid Width="44" Height="44" VerticalAlignment="Center">
-                        <Border CornerRadius="9" Background="{DynamicResource BrSelStrong}">
-                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="Bold"
-                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <Border CornerRadius="9">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
-                          </Border.Background>
-                        </Border>
-                      </Grid>
-                      <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="14.5" FontWeight="SemiBold"
-                                   TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="12" Margin="0,2,0,0"/>
-                      </StackPanel>
-                      <!-- Favorit: Stern rechts, Klick schaltet um (Handler am ListGames, erkannt ueber Tag="fav") -->
-                      <Button Grid.Column="2" Tag="fav" Focusable="False" Cursor="Hand" VerticalAlignment="Center" Margin="8,0,0,0"
+          <Grid Grid.Row="1">
+            <ListBox x:Name="ListGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0" Padding="0"
+                     ItemContainerStyle="{StaticResource GameTile}" Margin="-2,0,-8,0"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel Margin="4,6,0,0"/>
+                </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel>
+                    <Grid Height="130">
+                      <Border CornerRadius="10" Background="{DynamicResource BrSelStrong}">
+                        <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="50" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <Border CornerRadius="10">
+                        <Border.Background>
+                          <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
+                        </Border.Background>
+                      </Border>
+                      <!-- Favorit: Stern oben rechts, Klick schaltet um (Handler am ListGames, erkannt ueber Tag="fav") -->
+                      <Button Tag="fav" Focusable="False" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,6,6,0"
                               ToolTip="{DynamicResource L_GamesFavTip}">
                         <Button.Template>
                           <ControlTemplate TargetType="Button">
-                            <Border x:Name="bd" Background="Transparent" CornerRadius="8" Width="34" Height="34">
-                              <TextBlock x:Name="st" Text="&#xE734;" FontFamily="{StaticResource FontIcon}" FontSize="16"
-                                         Foreground="{DynamicResource BrMuted}" Opacity="0.45"
-                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+                            <Grid x:Name="g" Width="30" Height="30" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                              <Grid.RenderTransform>
+                                <ScaleTransform x:Name="fsc" ScaleX="1" ScaleY="1"/>
+                              </Grid.RenderTransform>
+                              <Ellipse Fill="#B0101216"/>
+                              <TextBlock x:Name="st" Text="&#xE734;" FontFamily="{StaticResource FontIcon}" FontSize="14"
+                                         Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
                             <ControlTemplate.Triggers>
+                              <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                <Setter TargetName="g" Property="Opacity" Value="0.9"/>
+                              </DataTrigger>
                               <DataTrigger Binding="{Binding IsFav}" Value="True">
                                 <Setter TargetName="st" Property="Text" Value="&#xE735;"/>
-                                <Setter TargetName="st" Property="Foreground" Value="{DynamicResource BrAccent}"/>
-                                <Setter TargetName="st" Property="Opacity" Value="1"/>
+                                <Setter TargetName="st" Property="Foreground" Value="#FFD166"/>
+                                <Setter TargetName="g" Property="Opacity" Value="1"/>
                               </DataTrigger>
                               <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="st" Property="Opacity" Value="1"/>
-                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource BrSel}"/>
+                                <Setter TargetName="g" Property="Opacity" Value="1"/>
+                                <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="fsc" Storyboard.TargetProperty="ScaleX" To="1.18" Duration="0:0:0.18"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="fsc" Storyboard.TargetProperty="ScaleY" To="1.18" Duration="0:0:0.18"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.9"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                                <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="fsc" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.16"/><DoubleAnimation Storyboard.TargetName="fsc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.16"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
                               </Trigger>
                             </ControlTemplate.Triggers>
                           </ControlTemplate>
                         </Button.Template>
                       </Button>
                     </Grid>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
-              <TextBlock x:Name="TxtGamesEmpty" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
-                         HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed"/>
-            </Grid>
-          </Border>
+                    <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5" FontWeight="SemiBold"
+                               TextTrimming="CharacterEllipsis" Margin="2,9,2,0" ToolTip="{Binding Name}"/>
+                    <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="2,2,2,1" TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock x:Name="TxtGamesEmpty" Style="{StaticResource Hint}" FontSize="13" TextAlignment="Center"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed"/>
+          </Grid>
 
-          <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
-            <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
-            <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="16,0,0,0"/>
-            <CheckBox x:Name="ChkGamesClose" Content="{DynamicResource L_GamesClose}" VerticalAlignment="Center" Margin="20,0,0,0"/>
-          </StackPanel>
+          <Border Grid.Row="2" Style="{StaticResource Card}" Padding="12,10,18,10" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+              <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
+              <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="18,0,0,0"/>
+              <CheckBox x:Name="ChkGamesClose" Content="{DynamicResource L_GamesClose}" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            </StackPanel>
+          </Border>
         </Grid>
 
         <!-- Seite: Mods -->
@@ -6190,8 +6546,7 @@ $xaml = @'
             <Button x:Name="BtnModsReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" HorizontalAlignment="Right"/>
           </Grid>
 
-          <Border x:Name="ModsBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
-                  Background="{DynamicResource BrBadgeInstBg}">
+          <Border x:Name="ModsBanner" Grid.Row="1" Visibility="Collapsed" Style="{StaticResource Banner}" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
               <TextBlock Text="{DynamicResource L_ModsEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -6207,34 +6562,8 @@ $xaml = @'
 
             <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
               <ListBox x:Name="ListModGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                      </Grid.ColumnDefinitions>
-                      <Grid Width="36" Height="36" VerticalAlignment="Center">
-                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
-                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
-                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <Border CornerRadius="8">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
-                          </Border.Background>
-                        </Border>
-                      </Grid>
-                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
-                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
-                      </StackPanel>
-                    </Grid>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
+                       ItemContainerStyle="{StaticResource LbItem}" ItemTemplate="{StaticResource GameRow}"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
@@ -6243,10 +6572,11 @@ $xaml = @'
                   <RowDefinition Height="Auto"/>
                   <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Margin="20,16,16,12">
-                  <TextBlock x:Name="TxtModGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                <Border CornerRadius="15,15,0,0" Background="{DynamicResource GrHero}"/>
+                <StackPanel Margin="20,16,16,14">
+                  <TextBlock x:Name="TxtModGameTitle" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                   <TextBlock x:Name="TxtModGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                             FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,10"/>
+                             FontFamily="{StaticResource FontMono}" Margin="0,2,0,12"/>
                   <StackPanel Orientation="Horizontal">
                     <Button x:Name="BtnModAdd" Tag="&#xE710;" Content="{DynamicResource L_ModsAdd}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
                     <Button x:Name="BtnModFolder" Tag="&#xE838;" Content="{DynamicResource L_ModsFolder}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
@@ -6254,28 +6584,7 @@ $xaml = @'
                 </StackPanel>
                 <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
                 <ListBox x:Name="ListMods" Grid.Row="1" Margin="8,8,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                  <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
-                      <Setter Property="Template">
-                        <Setter.Value>
-                          <ControlTemplate TargetType="ListBoxItem">
-                            <Grid Margin="0,0,0,3">
-                              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
-                              <ContentPresenter Margin="14,10,8,10"/>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                              <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="hov" Property="Opacity" Value="1"/>
-                              </Trigger>
-                            </ControlTemplate.Triggers>
-                          </ControlTemplate>
-                        </Setter.Value>
-                      </Setter>
-                    </Style>
-                  </ListBox.ItemContainerStyle>
+                         ItemContainerStyle="{StaticResource LbRow}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <Grid>
@@ -6319,8 +6628,7 @@ $xaml = @'
             <Button x:Name="BtnContentReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" HorizontalAlignment="Right"/>
           </Grid>
 
-          <Border x:Name="ContentBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
-                  Background="{DynamicResource BrBadgeInstBg}">
+          <Border x:Name="ContentBanner" Grid.Row="1" Visibility="Collapsed" Style="{StaticResource Banner}" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
               <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -6336,34 +6644,8 @@ $xaml = @'
 
             <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
               <ListBox x:Name="ListContentGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                      </Grid.ColumnDefinitions>
-                      <Grid Width="36" Height="36" VerticalAlignment="Center">
-                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
-                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
-                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <Border CornerRadius="8">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
-                          </Border.Background>
-                        </Border>
-                      </Grid>
-                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
-                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
-                      </StackPanel>
-                    </Grid>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
+                       ItemContainerStyle="{StaticResource LbItem}" ItemTemplate="{StaticResource GameRow}"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
@@ -6372,10 +6654,11 @@ $xaml = @'
                   <RowDefinition Height="Auto"/>
                   <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Margin="20,16,16,12">
-                  <TextBlock x:Name="TxtContentGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                <Border CornerRadius="15,15,0,0" Background="{DynamicResource GrHero}"/>
+                <StackPanel Margin="20,16,16,14">
+                  <TextBlock x:Name="TxtContentGameTitle" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                   <TextBlock x:Name="TxtContentGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                             FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,10"/>
+                             FontFamily="{StaticResource FontMono}" Margin="0,2,0,12"/>
                   <StackPanel Orientation="Horizontal">
                     <Button x:Name="BtnContentAdd" Tag="&#xE710;" Content="{DynamicResource L_ContentAdd}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
                     <Button x:Name="BtnContentFolder" Tag="&#xE838;" Content="{DynamicResource L_ContentFolder}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
@@ -6383,28 +6666,7 @@ $xaml = @'
                 </StackPanel>
                 <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
                 <ListBox x:Name="ListContent" Grid.Row="1" Margin="8,8,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                  <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                      <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
-                      <Setter Property="Template">
-                        <Setter.Value>
-                          <ControlTemplate TargetType="ListBoxItem">
-                            <Grid Margin="0,0,0,3">
-                              <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
-                              <ContentPresenter Margin="14,10,8,10"/>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                              <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="hov" Property="Opacity" Value="1"/>
-                              </Trigger>
-                            </ControlTemplate.Triggers>
-                          </ControlTemplate>
-                        </Setter.Value>
-                      </Setter>
-                    </Style>
-                  </ListBox.ItemContainerStyle>
+                         ItemContainerStyle="{StaticResource LbRow}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <Grid>
@@ -6454,16 +6716,19 @@ $xaml = @'
           </Grid.RowDefinitions>
 
           <Grid Grid.Row="0" Margin="4,0,0,8">
-            <TextBlock x:Name="TxtSavesInfo" Style="{StaticResource Label}" VerticalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TxtSavesInfo" Style="{StaticResource Label}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
               <Button x:Name="BtnShaderAll" Tag="&#xE74D;" Content="{DynamicResource L_SavesShaderAll}" Style="{StaticResource BtnGhost}" ToolTip="{DynamicResource L_SavesShaderHint}"/>
               <Button x:Name="BtnSaveBackupDir" Tag="&#xE838;" Content="{DynamicResource L_SavesBackupDir}" Style="{StaticResource BtnGhost}" Margin="4,0,0,0"/>
               <Button x:Name="BtnSavesReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}" Margin="4,0,0,0"/>
             </StackPanel>
           </Grid>
 
-          <Border x:Name="SavesBanner" Grid.Row="1" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
-                  Background="{DynamicResource BrBadgeInstBg}">
+          <Border x:Name="SavesBanner" Grid.Row="1" Visibility="Collapsed" Style="{StaticResource Banner}" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
               <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -6479,34 +6744,8 @@ $xaml = @'
 
             <Border Grid.Column="0" Style="{StaticResource Card}" Padding="8">
               <ListBox x:Name="ListSaveGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
-                       ItemContainerStyle="{StaticResource LbItem}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                      </Grid.ColumnDefinitions>
-                      <Grid Width="36" Height="36" VerticalAlignment="Center">
-                        <Border CornerRadius="8" Background="{DynamicResource BrSelStrong}">
-                          <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
-                                     Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <Border CornerRadius="8">
-                          <Border.Background>
-                            <ImageBrush ImageSource="{Binding IconImg}" Stretch="UniformToFill"/>
-                          </Border.Background>
-                        </Border>
-                      </Grid>
-                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
-                                   FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0"/>
-                      </StackPanel>
-                    </Grid>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
+                       ItemContainerStyle="{StaticResource LbItem}" ItemTemplate="{StaticResource GameRow}"
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource Card}" Padding="0">
@@ -6516,22 +6755,23 @@ $xaml = @'
                   <RowDefinition Height="Auto"/>
                   <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Margin="20,14,14,10">
+                <Border CornerRadius="15,15,0,0" Background="{DynamicResource GrHero}"/>
+                <StackPanel Margin="20,16,14,10">
                   <Grid>
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Center">
-                      <TextBlock x:Name="TxtSaveGameTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                      <TextBlock x:Name="TxtSaveGameTitle" FontFamily="{StaticResource FontHead}" FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                       <TextBlock x:Name="TxtSaveGameSub" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
-                                 FontFamily="Cascadia Mono, Consolas" Margin="0,2,0,0"/>
+                                 FontFamily="{StaticResource FontMono}" Margin="0,2,0,0"/>
                     </StackPanel>
                     <Button x:Name="BtnSaveBackup" Grid.Column="1" Tag="&#xE74E;" Content="{DynamicResource L_SavesBackupNow}" Style="{StaticResource BtnPrimary}"
                             Padding="14,8" VerticalAlignment="Center" Margin="10,0,0,0"/>
                   </Grid>
                   <!-- Spielstand -->
-                  <Grid Margin="0,10,0,0">
+                  <Grid Margin="0,12,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="Auto"/>
                       <ColumnDefinition Width="*"/>
@@ -6565,24 +6805,8 @@ $xaml = @'
                   <ListBox x:Name="ListSaveBackups" Grid.Row="1" Margin="8,4,8,8" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0"
                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListBox.ItemContainerStyle>
-                      <Style TargetType="ListBoxItem">
-                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource BrText}"/>
-                        <Setter Property="Template">
-                          <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                              <Grid Margin="0,0,0,3">
-                                <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="10" Opacity="0"/>
-                                <ContentPresenter Margin="12,8,8,8"/>
-                              </Grid>
-                              <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                  <Setter TargetName="hov" Property="Opacity" Value="1"/>
-                                </Trigger>
-                              </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                          </Setter.Value>
-                        </Setter>
+                      <Style TargetType="ListBoxItem" BasedOn="{StaticResource LbRow}">
+                        <Setter Property="Padding" Value="12,8,8,8"/>
                       </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
@@ -6626,8 +6850,7 @@ $xaml = @'
             <RowDefinition Height="*"/>
           </Grid.RowDefinitions>
 
-          <Border x:Name="FwBanner" Grid.Row="0" Visibility="Collapsed" CornerRadius="10" Padding="14,9" Margin="0,0,0,10"
-                  Background="{DynamicResource BrBadgeInstBg}">
+          <Border x:Name="FwBanner" Grid.Row="0" Visibility="Collapsed" Style="{StaticResource Banner}" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
               <TextBlock Text="{DynamicResource L_SysEdenRunning}" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -6639,17 +6862,24 @@ $xaml = @'
               <!-- Firmware -->
               <Border Style="{StaticResource Card}">
                 <StackPanel>
-                  <Grid Margin="0,0,0,12">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                      <TextBlock Text="&#xE950;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_FwTitle}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                  <Grid Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource IconBadge}" Width="44" Height="44" CornerRadius="13">
+                      <TextBlock Text="&#xE950;" Style="{StaticResource IconBadgeGlyph}" FontSize="20"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_FwTitle}"/>
+                      <TextBlock x:Name="TxtFwState" Style="{StaticResource FieldTitle}" FontSize="18" Margin="0,2,0,0"/>
                     </StackPanel>
-                    <Button x:Name="BtnFwFolder" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
-                            HorizontalAlignment="Right" Margin="0,-6,-6,-6"/>
+                    <Button x:Name="BtnFwFolder" Grid.Column="2" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
+                            VerticalAlignment="Top"/>
                   </Grid>
-                  <TextBlock x:Name="TxtFwState" Style="{StaticResource FieldTitle}" FontSize="17"/>
-                  <TextBlock x:Name="TxtFwSub" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
-                  <Border x:Name="FwWarn" Visibility="Collapsed" CornerRadius="10" Padding="12,8" Margin="0,12,0,0" Background="{DynamicResource BrBadgeInstBg}">
+                  <TextBlock x:Name="TxtFwSub" Style="{StaticResource Hint}"/>
+                  <Border x:Name="FwWarn" Visibility="Collapsed" Style="{StaticResource Banner}" Padding="12,8" Margin="0,12,0,0">
                     <StackPanel Orientation="Horizontal">
                       <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FontIcon}" FontSize="14" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
                       <TextBlock x:Name="TxtFwWarn" Foreground="{DynamicResource BrText}" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap"/>
@@ -6660,35 +6890,42 @@ $xaml = @'
                     <Button x:Name="BtnFwDir" Tag="&#xE8B7;" Content="{DynamicResource L_FwInstallDir}" Style="{StaticResource Btn}" Padding="14,8" Margin="8,0,0,0"/>
                     <Button x:Name="BtnFwDelete" Tag="&#xE74D;" Content="{DynamicResource L_FwDelete}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
                   </StackPanel>
-                  <TextBlock Text="{DynamicResource L_FwHint}" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+                  <TextBlock Text="{DynamicResource L_FwHint}" Style="{StaticResource Hint}" Margin="0,14,0,0"/>
                 </StackPanel>
               </Border>
 
               <!-- Schluessel -->
               <Border Style="{StaticResource Card}" Margin="0,14,0,6">
                 <StackPanel>
-                  <Grid Margin="0,0,0,12">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                      <TextBlock Text="&#xE8D7;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_KeysTitle}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                  <Grid Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource IconBadge}" Width="44" Height="44" CornerRadius="13">
+                      <TextBlock Text="&#xE8D7;" Style="{StaticResource IconBadgeGlyph}" FontSize="20"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="14,0,10,0" VerticalAlignment="Center">
+                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_KeysTitle}"/>
+                      <TextBlock x:Name="TxtKeysState" Style="{StaticResource FieldTitle}" FontSize="18" Margin="0,2,0,0"/>
                     </StackPanel>
-                    <Button x:Name="BtnKeysFolder" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
-                            HorizontalAlignment="Right" Margin="0,-6,-6,-6"/>
+                    <Button x:Name="BtnKeysFolder" Grid.Column="2" Tag="&#xE838;" Content="{DynamicResource L_FwFolder}" Style="{StaticResource BtnGhost}"
+                            VerticalAlignment="Top"/>
                   </Grid>
-                  <TextBlock x:Name="TxtKeysState" Style="{StaticResource FieldTitle}" FontSize="17"/>
-                  <TextBlock x:Name="TxtKeysSub" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+                  <TextBlock x:Name="TxtKeysSub" Style="{StaticResource Hint}"/>
                   <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                     <Button x:Name="BtnKeysInstall" Tag="&#xE896;" Content="{DynamicResource L_KeysInstall}" Style="{StaticResource BtnPrimary}" Padding="14,8"/>
                     <Button x:Name="BtnKeysDelete" Tag="&#xE74D;" Content="{DynamicResource L_KeysDelete}" Style="{StaticResource BtnGhost}" Margin="8,0,0,0"/>
                   </StackPanel>
-                  <TextBlock Text="{DynamicResource L_KeysHint}" Style="{StaticResource Hint}" Margin="0,12,0,0"/>
+                  <TextBlock Text="{DynamicResource L_KeysHint}" Style="{StaticResource Hint}" Margin="0,14,0,0"/>
                 </StackPanel>
               </Border>
             </StackPanel>
           </ScrollViewer>
         </Grid>
 
-        <!-- Seite: Einstellungen -->
+        <!-- Seite: Einstellungen (zwei Spalten) -->
         <Grid x:Name="PanelSettings" Visibility="Collapsed">
           <Grid.RenderTransform>
             <TranslateTransform/>
@@ -6698,148 +6935,186 @@ $xaml = @'
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
           <ScrollViewer x:Name="SettingsScroll" VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="0,0,8,0">
+            <Grid Margin="0,0,8,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
 
-              <!-- Installation -->
-              <Border Style="{StaticResource Card}" Margin="0,0,0,14">
-                <StackPanel>
-                  <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                    <TextBlock Text="&#xE8B7;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                    <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpInstall}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                  </StackPanel>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPath}"/>
-                  <Grid Margin="0,7,0,4">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="TxtPath" Grid.Column="0"/>
-                    <Button x:Name="BtnBrowse" Grid.Column="1" Tag="&#xE838;" Content="{DynamicResource L_SetBrowse}" Style="{StaticResource Btn}"
-                            Padding="14,7" Margin="8,0,0,0"/>
-                  </Grid>
-                  <TextBlock x:Name="TxtSettingsFile" Style="{StaticResource Hint}" Margin="0,0,0,18"/>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetVariant}"/>
-                  <ComboBox x:Name="CmbVariant" SelectedValuePath="Tag" Margin="0,7,0,4"/>
-                  <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetVariantHint}" Margin="0,0,0,18"/>
-
-                  <StackPanel x:Name="PanelPattern" Visibility="Collapsed">
-                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPattern}"/>
-                    <TextBox x:Name="TxtPattern" Margin="0,7,0,18" FontFamily="Cascadia Mono, Consolas"/>
-                  </StackPanel>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPages}"/>
-                  <TextBox x:Name="TxtPages" Width="90" HorizontalAlignment="Left" Margin="0,7,0,0"/>
-                </StackPanel>
-              </Border>
-
-              <!-- Darstellung -->
-              <Border Style="{StaticResource Card}" Margin="0,0,0,14">
-                <StackPanel>
-                  <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                    <TextBlock Text="&#xE790;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                    <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpLook}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                  </StackPanel>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetTheme}"/>
-                  <Grid Margin="0,7,0,18">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Border Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"
-                            CornerRadius="8" Padding="12,8">
-                      <StackPanel Orientation="Horizontal">
-                        <Border Width="14" Height="14" CornerRadius="7" Background="{DynamicResource BrAccent}" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="TxtThemeName" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                      </StackPanel>
-                    </Border>
-                    <Button x:Name="BtnThemePick" Grid.Column="1" Tag="&#xE771;" Content="{DynamicResource L_SetThemePick}" Style="{StaticResource Btn}"
-                            Padding="14,7" Margin="8,0,0,0"/>
-                  </Grid>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetLanguage}"/>
-                  <ComboBox x:Name="CmbLang" SelectedValuePath="Tag" Margin="0,7,0,4" MaxDropDownHeight="380"/>
-                  <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetLanguageHint}" Margin="0,0,0,18"/>
-
-                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetNotes}"/>
-                  <ComboBox x:Name="CmbNotes" SelectedValuePath="Tag" Margin="0,7,0,0"/>
-                </StackPanel>
-              </Border>
-
-              <!-- Verhalten -->
-              <Border Style="{StaticResource Card}" Margin="0,0,0,0">
-                <StackPanel>
-                  <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <TextBlock Text="&#xE9F5;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                    <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpBehavior}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                  </StackPanel>
-                  <CheckBox x:Name="ChkBackup" Content="{DynamicResource L_ChkBackup}"/>
-                  <CheckBox x:Name="ChkSaveAuto" Content="{DynamicResource L_ChkSaveAuto}"/>
-                  <CheckBox x:Name="ChkStart" Content="{DynamicResource L_ChkStart}"/>
-                  <CheckBox x:Name="ChkClose" Content="{DynamicResource L_ChkClose}"/>
-                  <CheckBox x:Name="ChkAuto" Content="{DynamicResource L_ChkAuto}"/>
-                  <CheckBox x:Name="ChkAutoInstall" Content="{DynamicResource L_ChkAutoInstall}"/>
-                </StackPanel>
-              </Border>
-
-              <!-- Updater selbst -->
-              <Border Style="{StaticResource Card}" Margin="0,14,0,6">
-                <StackPanel>
-                  <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
-                    <TextBlock Text="&#xE895;" FontFamily="{StaticResource FontIcon}" FontSize="15" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center"/>
-                    <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpUpdater}" FontSize="11.5" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                  </StackPanel>
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
-                      <TextBlock x:Name="TxtSelfVersion" Style="{StaticResource FieldTitle}"/>
-                      <TextBlock x:Name="TxtSelfState" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+              <StackPanel Grid.Column="0">
+                <!-- Installation -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                      <Border Style="{StaticResource IconBadge}">
+                        <TextBlock Text="&#xE8B7;" Style="{StaticResource IconBadgeGlyph}"/>
+                      </Border>
+                      <TextBlock Text="{DynamicResource L_GrpInstall}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                      <Button x:Name="BtnSelfNotes" Tag="&#xE774;" Content="{DynamicResource L_SelfBtnNotes}" Style="{StaticResource BtnGhost}"
-                              Visibility="Collapsed" Margin="0,0,6,0"/>
-                      <Button x:Name="BtnSelfCheck" Tag="&#xE72C;" Content="{DynamicResource L_SelfBtnCheck}" Style="{StaticResource Btn}" Padding="14,8"/>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPath}"/>
+                    <Grid Margin="0,7,0,4">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                      </Grid.ColumnDefinitions>
+                      <TextBox x:Name="TxtPath" Grid.Column="0"/>
+                      <Button x:Name="BtnBrowse" Grid.Column="1" Tag="&#xE838;" Content="{DynamicResource L_SetBrowse}" Style="{StaticResource Btn}"
+                              Padding="14,7" Margin="8,0,0,0"/>
+                    </Grid>
+                    <TextBlock x:Name="TxtSettingsFile" Style="{StaticResource Hint}" Margin="0,0,0,18"/>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetVariant}"/>
+                    <ComboBox x:Name="CmbVariant" SelectedValuePath="Tag" Margin="0,7,0,4"/>
+                    <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetVariantHint}" Margin="0,0,0,18"/>
+
+                    <StackPanel x:Name="PanelPattern" Visibility="Collapsed">
+                      <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPattern}"/>
+                      <TextBox x:Name="TxtPattern" Margin="0,7,0,18" FontFamily="{StaticResource FontMono}"/>
+                    </StackPanel>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPages}"/>
+                    <TextBox x:Name="TxtPages" Width="90" HorizontalAlignment="Left" Margin="0,7,0,0"/>
+                  </StackPanel>
+                </Border>
+
+                <!-- Updater selbst -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,6">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                      <Border Style="{StaticResource IconBadge}">
+                        <TextBlock Text="&#xE895;" Style="{StaticResource IconBadgeGlyph}"/>
+                      </Border>
+                      <TextBlock Text="{DynamicResource L_GrpUpdater}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock x:Name="TxtSelfVersion" Style="{StaticResource FieldTitle}"/>
+                    <TextBlock x:Name="TxtSelfState" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
+                    <WrapPanel Margin="0,12,0,0">
+                      <Button x:Name="BtnSelfCheck" Tag="&#xE72C;" Content="{DynamicResource L_SelfBtnCheck}" Style="{StaticResource Btn}" Padding="14,8" Margin="0,0,8,6"/>
                       <Button x:Name="BtnSelfInstall" Tag="&#xE896;" Content="{DynamicResource L_SelfBtnInstall}" Style="{StaticResource BtnPrimary}"
-                              Padding="14,8" Margin="8,0,0,0" Visibility="Collapsed"/>
+                              Padding="14,8" Margin="0,0,8,6" Visibility="Collapsed"/>
+                      <Button x:Name="BtnSelfNotes" Tag="&#xE774;" Content="{DynamicResource L_SelfBtnNotes}" Style="{StaticResource BtnGhost}"
+                              Visibility="Collapsed" Margin="0,0,0,6"/>
+                    </WrapPanel>
+                    <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Style="{StaticResource SwitchRow}" Margin="-10,6,-10,-6"/>
+                  </StackPanel>
+                </Border>
+              </StackPanel>
+
+              <StackPanel Grid.Column="2">
+                <!-- Darstellung -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                      <Border Style="{StaticResource IconBadge}">
+                        <TextBlock Text="&#xE790;" Style="{StaticResource IconBadgeGlyph}"/>
+                      </Border>
+                      <TextBlock Text="{DynamicResource L_GrpLook}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
-                  </Grid>
-                  <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Margin="0,14,0,0"/>
-                </StackPanel>
-              </Border>
-            </StackPanel>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetTheme}"/>
+                    <!-- Aktuelles Theme als Farbstreifen; Klick oeffnet die Auswahl -->
+                    <Button x:Name="BtnThemePick" Cursor="Hand" Margin="0,7,0,18" FocusVisualStyle="{x:Null}">
+                      <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                          <Grid>
+                            <Border x:Name="bd" Background="{DynamicResource BrPanel2}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="12" Padding="10">
+                              <Grid>
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="Auto"/>
+                                  <ColumnDefinition Width="*"/>
+                                  <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Width="58" Height="38" CornerRadius="9" Background="{DynamicResource BrBg}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1">
+                                  <Grid>
+                                    <Border Width="26" Height="8" CornerRadius="4" Background="{DynamicResource GrAccent}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0"/>
+                                    <Border Width="38" Height="4" CornerRadius="2" Background="{DynamicResource BrText}" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,22,0,0"/>
+                                  </Grid>
+                                </Border>
+                                <ContentPresenter Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,4,0">
+                                  <TextBlock Text="{DynamicResource L_SetThemePick}" Foreground="{DynamicResource BrAccentText}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                  <TextBlock Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="11" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center" Margin="8,1,0,0"/>
+                                </StackPanel>
+                              </Grid>
+                            </Border>
+                            <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="12" Opacity="0" IsHitTestVisible="False"/>
+                          </Grid>
+                          <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                              <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
+                              <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.05" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                              <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.22"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                            </Trigger>
+                          </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                      </Button.Template>
+                      <TextBlock x:Name="TxtThemeName" FontFamily="{StaticResource FontHead}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                    </Button>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetLanguage}"/>
+                    <ComboBox x:Name="CmbLang" SelectedValuePath="Tag" Margin="0,7,0,4" MaxDropDownHeight="380"/>
+                    <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetLanguageHint}" Margin="0,0,0,18"/>
+
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetNotes}"/>
+                    <ComboBox x:Name="CmbNotes" SelectedValuePath="Tag" Margin="0,7,0,0"/>
+                  </StackPanel>
+                </Border>
+
+                <!-- Verhalten -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,6" Padding="20,20,20,12">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                      <Border Style="{StaticResource IconBadge}">
+                        <TextBlock Text="&#xE9F5;" Style="{StaticResource IconBadgeGlyph}"/>
+                      </Border>
+                      <TextBlock Text="{DynamicResource L_GrpBehavior}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <CheckBox x:Name="ChkBackup" Content="{DynamicResource L_ChkBackup}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkSaveAuto" Content="{DynamicResource L_ChkSaveAuto}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkStart" Content="{DynamicResource L_ChkStart}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkClose" Content="{DynamicResource L_ChkClose}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkAuto" Content="{DynamicResource L_ChkAuto}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkAutoInstall" Content="{DynamicResource L_ChkAutoInstall}" Style="{StaticResource SwitchRow}"/>
+                  </StackPanel>
+                </Border>
+              </StackPanel>
+            </Grid>
           </ScrollViewer>
           <Button x:Name="BtnSave" Grid.Row="1" Tag="&#xE74E;" Content="{DynamicResource L_Save}" Style="{StaticResource BtnPrimary}"
-                  HorizontalAlignment="Left" Padding="20,10" Margin="0,12,0,0"/>
+                  HorizontalAlignment="Left" Padding="22,10" Margin="0,12,0,0"/>
         </Grid>
       </Grid>
 
-      <!-- Aktivitaet: Status, Fortschritt, einklappbares Log -->
-      <Border Grid.Row="3" Style="{StaticResource Card}" Padding="18,12" Margin="0,16,0,0">
-        <StackPanel>
-          <Grid>
+      <!-- Aktivitaet: Status, Fortschritt, aufklappbares Log -->
+      <Border Grid.Row="2" Style="{StaticResource Card}" Padding="0" CornerRadius="14" Margin="0,14,0,0">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid Margin="16,7,8,7">
             <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="TxtStatus" Text="{DynamicResource L_StReady}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-            <Button x:Name="BtnCancel" Grid.Column="1" Tag="&#xE711;" Content="{DynamicResource L_Cancel}" Style="{StaticResource Btn}"
+            <Ellipse x:Name="DotBusy" Width="8" Height="8" Fill="{DynamicResource BrMuted}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TxtStatus" Grid.Column="1" Text="{DynamicResource L_StReady}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="11,0,0,0"/>
+            <Button x:Name="BtnCancel" Grid.Column="2" Tag="&#xE711;" Content="{DynamicResource L_Cancel}" Style="{StaticResource Btn}"
                     Padding="12,5" Margin="8,0,0,0" Visibility="Collapsed"/>
-            <Button x:Name="BtnLogToggle" Grid.Column="2" Tag="&#xE70D;" Content="{DynamicResource L_LogTitle}" Style="{StaticResource BtnGhost}"
+            <Button x:Name="BtnLogToggle" Grid.Column="3" Tag="&#xE70D;" Content="{DynamicResource L_LogTitle}" Style="{StaticResource BtnGhost}"
                     Margin="8,0,0,0"/>
           </Grid>
-          <ProgressBar x:Name="Pb" Height="6" Minimum="0" Maximum="100" Value="0" Margin="0,10,0,0"
-                       Foreground="{DynamicResource BrAccentText}" Background="{DynamicResource BrPanel2}"
+          <ProgressBar x:Name="Pb" Grid.Row="1" Height="4" Minimum="0" Maximum="100" Value="0" Margin="16,0,16,10"
                        BorderThickness="0"/>
-          <TextBox x:Name="TxtLog" Height="130" Margin="0,12,0,2" IsReadOnly="True" Visibility="Collapsed"
-                   FontFamily="Cascadia Mono, Consolas" FontSize="12" Background="{DynamicResource BrLog}"
+          <TextBox x:Name="TxtLog" Grid.Row="2" Height="130" Margin="12,0,12,12" IsReadOnly="True" Visibility="Collapsed"
+                   FontFamily="{StaticResource FontMono}" FontSize="12" Background="{DynamicResource BrLog}"
                    VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
-        </StackPanel>
+        </Grid>
       </Border>
     </Grid>
   </Grid>
@@ -6965,7 +7240,12 @@ public static class DwmTheme {
 }
 
 $script:ThemeColors = $null
-$script:ThemeKeys = @("BrBg","BrPanel","BrPanel2","BrLine","BrText","BrMuted","BrAccent","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg","BrAccentText")
+# Einfarbige Pinsel und Verlaeufe, die dem Theme folgen (werden auch an Dialoge weitergegeben)
+$script:ThemeSolid = @("BrBg","BrPanel","BrPanel2","BrCard","BrLine","BrText","BrMuted","BrAccent","BrAccent2","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg","BrAccentText")
+$script:ThemeKeys  = $script:ThemeSolid + @("GrAccent","GrHero","GlowA","GlowB")
+$script:ThemeAnimate = $false   # ab dem ersten Bild blenden Themes weich ueber
+$script:ThemeInstant = $false   # ohne Ueberblenden (z.B. beim Ziehen im Farbwaehler)
+$script:Grad = $null
 
 function ConvertTo-ColorRef($c) { return ([int]$c.R -bor ([int]$c.G -shl 8) -bor ([int]$c.B -shl 16)) }
 
@@ -7004,16 +7284,67 @@ function New-AppIcon {
     return $bmp
 }
 
+function Get-AlphaColor($c, [int]$alpha) {
+    return [System.Windows.Media.Color]::FromArgb([byte]$alpha, $c.R, $c.G, $c.B)
+}
+
+# Zweite Akzentfarbe fuer Verlaeufe: gleicher Ton, im Farbkreis ein Stueck weiter
+# (warme Farben wandern Richtung Rot, kalte Richtung Blau/Violett)
+function Get-Accent2($c) {
+    $h = ConvertTo-Hsv $c
+    if ($h.S -lt 0.08) { return (Merge-Color $c ([System.Windows.Media.Colors]::Gray) 0.35) }
+    $shift = if ($h.H -lt 75 -or $h.H -ge 345) { -28 } else { 32 }
+    return (ConvertFrom-Hsv ($h.H + $shift) $h.S $h.V)
+}
+
+# Farbe setzen; nach dem Start wird weich vom alten zum neuen Wert geblendet
+function Set-AnimColor($obj, $prop, $color) {
+    $from = $obj.GetValue($prop)
+    $obj.BeginAnimation($prop, $null)
+    $obj.SetValue($prop, $color)
+    if ($script:ThemeAnimate -and -not $script:ThemeInstant -and -not $script:Snapshot -and -not $from.Equals($color)) {
+        $a = [System.Windows.Media.Animation.ColorAnimation]::new($from, $color, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(340)))
+        $a.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
+        $obj.BeginAnimation($prop, $a)
+    }
+}
+
+# Pinsel einmalig anlegen. Sie bleiben veraenderbar (nicht eingefroren), damit ein Theme-Wechsel
+# nur ihre Farbe aendert - alle Stellen, die sie per DynamicResource nutzen, blenden mit.
+function Initialize-ThemeBrushes {
+    $M = [System.Windows.Media.Colors]::Black
+    foreach ($k in $script:ThemeSolid) { $window.Resources[$k] = [System.Windows.Media.SolidColorBrush]::new($M) }
+    $P  = [System.Windows.Point]
+    $GS = [System.Windows.Media.GradientStop]
+    $g  = @{}
+    foreach ($n in @("A0","H0","G0","B0")) { $g[$n] = $GS::new($M, 0) }
+    foreach ($n in @("A1","H2","G1","B1")) { $g[$n] = $GS::new($M, 1) }
+    $g["H1"] = $GS::new($M, 0.55)
+    $grA = [System.Windows.Media.LinearGradientBrush]::new(); $grA.StartPoint = $P::new(0, 0); $grA.EndPoint = $P::new(1, 1)
+    $grA.GradientStops.Add($g.A0); $grA.GradientStops.Add($g.A1)
+    $grH = [System.Windows.Media.LinearGradientBrush]::new(); $grH.StartPoint = $P::new(0, 0); $grH.EndPoint = $P::new(1, 0)
+    $grH.GradientStops.Add($g.H0); $grH.GradientStops.Add($g.H1); $grH.GradientStops.Add($g.H2)
+    $glA = [System.Windows.Media.RadialGradientBrush]::new(); $glA.GradientStops.Add($g.G0); $glA.GradientStops.Add($g.G1)
+    $glB = [System.Windows.Media.RadialGradientBrush]::new(); $glB.GradientStops.Add($g.B0); $glB.GradientStops.Add($g.B1)
+    $window.Resources["GrAccent"] = $grA
+    $window.Resources["GrHero"]   = $grH
+    $window.Resources["GlowA"]    = $glA
+    $window.Resources["GlowB"]    = $glB
+    $script:Grad = $g
+}
+
 function Set-ThemeBrush([string]$key, $color) {
-    $b = [System.Windows.Media.SolidColorBrush]::new($color)
-    $b.Freeze()
-    $window.Resources[$key] = $b
-    if ($script:ThemeWin) { $script:ThemeWin.Resources[$key] = $b }
+    Set-AnimColor $window.Resources[$key] ([System.Windows.Media.SolidColorBrush]::ColorProperty) $color
+}
+
+function Set-GradStop([string]$name, $color) {
+    Set-AnimColor $script:Grad[$name] ([System.Windows.Media.GradientStop]::ColorProperty) $color
 }
 
 # Aus 4 Grundfarben werden alle weiteren Farben abgeleitet.
 # Lesbarkeit wird erzwungen: Text >= 4.5:1, gedaempfter Text und Akzent-Text >= 3:1.
 function Set-Theme($t) {
+    if (-not $script:Grad) { Initialize-ThemeBrushes }
     $bg     = ConvertTo-WpfColor $t.Bg     "#0F1419"
     $panel  = ConvertTo-WpfColor $t.Panel  "#171D26"
     $text   = ConvertTo-WpfColor $t.Text   "#E6EDF3"
@@ -7021,17 +7352,22 @@ function Set-Theme($t) {
     $black  = [System.Windows.Media.Colors]::Black
     $white  = [System.Windows.Media.Colors]::White
     $light  = ((Get-RelLum $panel) -gt 0.18)
+    $amoled = ((Get-RelLum $bg) -lt 0.002)
 
     $text       = Get-Readable (Get-Readable $text $panel 4.5) $bg 4.5
     $panel2     = Merge-Color $panel $text 0.045
     $line       = Merge-Color $panel $text $(if ($light) { 0.16 } else { 0.14 })
     $muted      = Get-Readable (Merge-Color $text $panel 0.42) $panel 3.0
     $accentText = Get-Readable $accent $panel 3.0
+    $accent2    = Get-Accent2 $accent
     $sel        = Merge-Color $panel $accent 0.18
     $selStrong  = Merge-Color $panel2 $accent 0.32
     $log        = if ($light) { Merge-Color $panel $text 0.03 } else { Merge-Color $bg $black 0.35 }
+    # Schrift auf dem Akzent-Verlauf muss auf beiden Enden lesbar sein
     $darkFg     = Merge-Color $accent $black 0.88
-    $accentFg   = if ((Get-Contrast $white $accent) -ge (Get-Contrast $darkFg $accent)) { $white } else { $darkFg }
+    $cWhite     = [Math]::Min((Get-Contrast $white $accent), (Get-Contrast $white $accent2))
+    $cDark      = [Math]::Min((Get-Contrast $darkFg $accent), (Get-Contrast $darkFg $accent2))
+    $accentFg   = if ($cWhite -ge $cDark) { $white } else { $darkFg }
     $green      = ConvertTo-WpfColor "#34D399" "#34D399"
     $greenBg    = Merge-Color $panel $green 0.20
     $greenFg    = Get-Readable $green $greenBg 3.0
@@ -7039,10 +7375,12 @@ function Set-Theme($t) {
     Set-ThemeBrush "BrBg"          $bg
     Set-ThemeBrush "BrPanel"       $panel
     Set-ThemeBrush "BrPanel2"      $panel2
+    Set-ThemeBrush "BrCard"        (Get-AlphaColor $panel $(if ($light) { 0xEB } else { 0xD9 }))
     Set-ThemeBrush "BrLine"        $line
     Set-ThemeBrush "BrText"        $text
     Set-ThemeBrush "BrMuted"       $muted
     Set-ThemeBrush "BrAccent"      $accent
+    Set-ThemeBrush "BrAccent2"     $accent2
     Set-ThemeBrush "BrAccentText"  $accentText
     Set-ThemeBrush "BrAccentFg"    $accentFg
     Set-ThemeBrush "BrSel"         $sel
@@ -7051,6 +7389,20 @@ function Set-Theme($t) {
     Set-ThemeBrush "BrBadgeNewBg"  $greenBg
     Set-ThemeBrush "BrBadgeNewFg"  $greenFg
     Set-ThemeBrush "BrBadgeInstBg" (Merge-Color $panel $accent 0.20)
+
+    # Verlaeufe: Akzent -> zweite Akzentfarbe, dazu das Leuchten im Hintergrund (auf reinem Schwarz dezenter)
+    $aGlowA = if ($amoled) { 0x24 } elseif ($light) { 0x30 } else { 0x36 }
+    $aGlowB = if ($amoled) { 0x18 } elseif ($light) { 0x22 } else { 0x26 }
+    $aHero  = if ($light) { 0x24 } else { 0x2C }
+    Set-GradStop "A0" $accent
+    Set-GradStop "A1" $accent2
+    Set-GradStop "H0" (Get-AlphaColor $accent $aHero)
+    Set-GradStop "H1" (Get-AlphaColor $accent2 ([int]($aHero * 0.3)))
+    Set-GradStop "H2" (Get-AlphaColor $accent2 0)
+    Set-GradStop "G0" (Get-AlphaColor $accent $aGlowA)
+    Set-GradStop "G1" (Get-AlphaColor $accent 0)
+    Set-GradStop "B0" (Get-AlphaColor $accent2 $aGlowB)
+    Set-GradStop "B1" (Get-AlphaColor $accent2 0)
 
     $script:ThemeColors = @{ Bg = $bg; Text = $text; Line = $line; Dark = (-not $light) }
     Set-TitleBar $window
@@ -7103,6 +7455,11 @@ $themeDlgXaml = @'
         Background="{DynamicResource BrBg}" Foreground="{DynamicResource BrText}"
         FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
   __RES__
+  <Grid>
+  <Canvas IsHitTestVisible="False" ClipToBounds="True">
+    <Ellipse Width="620" Height="620" Canvas.Left="-260" Canvas.Top="-340" Fill="{DynamicResource GlowA}"/>
+    <Ellipse Width="700" Height="700" Canvas.Right="-300" Canvas.Bottom="-420" Fill="{DynamicResource GlowB}"/>
+  </Canvas>
   <Grid Margin="26,22,26,22">
     <Grid.Resources>
       <!-- Farbfeld-Auswahl links (Hintergrund, Flaechen, Text, Akzent) -->
@@ -7117,11 +7474,11 @@ $themeDlgXaml = @'
           <Setter.Value>
             <ControlTemplate TargetType="Button">
               <Grid>
-                <Border Background="{DynamicResource BrPanel}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2"
-                        CornerRadius="11" Padding="12,10">
+                <Border Background="{DynamicResource BrCard}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2"
+                        CornerRadius="13" Padding="12,10">
                   <ContentPresenter/>
                 </Border>
-                <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="11" Opacity="0" IsHitTestVisible="False"/>
+                <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="13" Opacity="0" IsHitTestVisible="False"/>
               </Grid>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -7142,12 +7499,12 @@ $themeDlgXaml = @'
 
     <StackPanel Grid.Row="0">
       <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_ThemeTag}"/>
-      <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_ThemeTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,2,0,2"/>
+      <TextBlock FontFamily="{StaticResource FontHead}" Text="{DynamicResource L_ThemeTitle}" FontSize="26" FontWeight="SemiBold" Margin="0,2,0,3"/>
       <TextBlock x:Name="TxtDlgHint" Style="{StaticResource Hint}"/>
     </StackPanel>
 
-    <Border Grid.Row="1" Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"
-            CornerRadius="11" Padding="4" HorizontalAlignment="Left" Margin="0,16,0,16">
+    <Border Grid.Row="1" Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1"
+            CornerRadius="14" Padding="4" HorizontalAlignment="Left" Margin="0,16,0,16">
       <StackPanel Orientation="Horizontal">
         <Button x:Name="TabPresets" Tag="&#xE8FD;" Content="{DynamicResource L_ThTabPresets}" Style="{StaticResource BtnGhost}" Padding="14,7"/>
         <Button x:Name="TabCustom" Tag="&#xE790;" Content="{DynamicResource L_ThTabCustom}" Style="{StaticResource BtnGhost}" Padding="14,7" Margin="4,0,0,0"/>
@@ -7214,7 +7571,7 @@ $themeDlgXaml = @'
             </StackPanel>
           </Grid>
         </Button>
-        <Border Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="11"
+        <Border Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="13"
                 Padding="12,10" Margin="0,6,0,0">
           <StackPanel Orientation="Horizontal">
             <Ellipse x:Name="DotContrast" Width="9" Height="9" VerticalAlignment="Center" Fill="{DynamicResource BrBadgeNewFg}"/>
@@ -7288,43 +7645,59 @@ $themeDlgXaml = @'
       <Button x:Name="BtnThemeOk" Tag="&#xE73E;" Content="{DynamicResource L_Apply}" Style="{StaticResource BtnPrimary}" Margin="8,0,0,0"/>
     </StackPanel>
   </Grid>
+  </Grid>
 </Window>
 '@
 
 $themeCardXaml = @'
 <Button xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Tag="@@KEY@@" Width="132" Height="92" Margin="0,0,12,12" Padding="0" Cursor="Hand"
+        Tag="@@KEY@@" Width="166" Height="120" Margin="0,0,12,12" Padding="0" Cursor="Hand" FocusVisualStyle="{x:Null}"
         BorderThickness="2" BorderBrush="Transparent" Background="Transparent">
   <Button.Template>
     <ControlTemplate TargetType="Button">
-      <Border Background="@@BG@@" CornerRadius="10" RenderTransformOrigin="0.5,0.5"
-              BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-        <Border.RenderTransform>
+      <Grid RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
           <ScaleTransform x:Name="sc" ScaleX="1" ScaleY="1"/>
-        </Border.RenderTransform>
-        <Grid Margin="8">
+        </Grid.RenderTransform>
+        <Border Background="@@BG@@" CornerRadius="14" BorderBrush="#38808080" BorderThickness="1"/>
+        <Grid Margin="10,10,10,8">
           <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
-          <Border Background="@@PANEL@@" CornerRadius="6" Padding="8,7">
-            <StackPanel>
-              <Border Background="@@ACCENT@@" Height="8" Width="40" CornerRadius="4" HorizontalAlignment="Left"/>
-              <Border Background="@@TEXT@@" Height="4" Width="76" CornerRadius="2" HorizontalAlignment="Left" Margin="0,8,0,0" Opacity="0.85"/>
-              <Border Background="@@TEXT@@" Height="4" Width="52" CornerRadius="2" HorizontalAlignment="Left" Margin="0,5,0,0" Opacity="0.5"/>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="28"/>
+              <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="1,3,0,0">
+              <Border Width="15" Height="15" CornerRadius="5" Background="@@ACCENT@@" HorizontalAlignment="Left"/>
+              <Border Width="17" Height="3" CornerRadius="1.5" Background="@@ACCENT@@" Margin="0,9,0,0" HorizontalAlignment="Left"/>
+              <Border Width="17" Height="3" CornerRadius="1.5" Background="@@TEXT@@" Opacity="0.3" Margin="0,6,0,0" HorizontalAlignment="Left"/>
+              <Border Width="17" Height="3" CornerRadius="1.5" Background="@@TEXT@@" Opacity="0.3" Margin="0,6,0,0" HorizontalAlignment="Left"/>
             </StackPanel>
-          </Border>
-          <TextBlock FontFamily="{DynamicResource FontHead}" Grid.Row="1" Text="@@LABEL@@" Foreground="@@TEXT@@" FontSize="11" FontWeight="SemiBold"
-                     Margin="2,6,0,0" TextTrimming="CharacterEllipsis"/>
+            <Border Grid.Column="1" Background="@@PANEL@@" CornerRadius="8" Padding="9,8,8,7" BorderBrush="#20808080" BorderThickness="1">
+              <StackPanel>
+                <Border Background="@@TEXT@@" Height="5" Width="52" CornerRadius="2.5" HorizontalAlignment="Left" Opacity="0.9"/>
+                <Border Background="@@TEXT@@" Height="3" Width="80" CornerRadius="1.5" HorizontalAlignment="Left" Margin="0,7,0,0" Opacity="0.4"/>
+                <Border Background="@@TEXT@@" Height="3" Width="60" CornerRadius="1.5" HorizontalAlignment="Left" Margin="0,5,0,0" Opacity="0.4"/>
+                <Border Background="@@ACCENT@@" Height="11" Width="46" CornerRadius="5.5" HorizontalAlignment="Left" Margin="0,9,0,0"/>
+              </StackPanel>
+            </Border>
+          </Grid>
+          <TextBlock FontFamily="{DynamicResource FontHead}" Grid.Row="1" Text="@@LABEL@@" Foreground="@@TEXT@@" FontSize="11.5" FontWeight="SemiBold"
+                     Margin="2,7,0,0" TextTrimming="CharacterEllipsis"/>
         </Grid>
-      </Border>
+        <Border CornerRadius="14" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+      </Grid>
       <ControlTemplate.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Panel.ZIndex" Value="2"/>
           <Trigger.EnterActions>
             <BeginStoryboard><Storyboard>
-              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1.05" Duration="0:0:0.12"/>
-              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1.05" Duration="0:0:0.12"/>
+              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1.05" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></DoubleAnimation.EasingFunction></DoubleAnimation>
+              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1.05" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.8"/></DoubleAnimation.EasingFunction></DoubleAnimation>
             </Storyboard></BeginStoryboard>
           </Trigger.EnterActions>
           <Trigger.ExitActions>
@@ -7333,6 +7706,14 @@ $themeCardXaml = @'
               <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.16"/>
             </Storyboard></BeginStoryboard>
           </Trigger.ExitActions>
+        </Trigger>
+        <Trigger Property="IsPressed" Value="True">
+          <Trigger.EnterActions>
+            <BeginStoryboard><Storyboard>
+              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="0.97" Duration="0:0:0.08"/>
+              <DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="0.97" Duration="0:0:0.08"/>
+            </Storyboard></BeginStoryboard>
+          </Trigger.EnterActions>
         </Trigger>
       </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -7427,7 +7808,8 @@ function Commit-Picker([bool]$force) {
     $script:Draft[$script:Slot] = ConvertTo-Hex (ConvertFrom-Hsv $script:Pick.H $script:Pick.S $script:Pick.V)
     Update-Slots
     if ($force -or $script:PickWatch.ElapsedMilliseconds -gt 60) {
-        Set-Theme $script:Draft
+        $script:ThemeInstant = $true
+        try { Set-Theme $script:Draft } finally { $script:ThemeInstant = $false }
         $script:PickWatch.Restart()
     }
 }
@@ -7552,24 +7934,31 @@ function Show-ThemeDialog {
 $msgDlgXaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Eden Updater" Width="460" SizeToContent="Height" ResizeMode="NoResize"
+        Title="Eden Updater" Width="480" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
         Background="{DynamicResource BrBg}" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13" Foreground="{DynamicResource BrText}">
   __RES__
-  <Border Background="{DynamicResource BrPanel}" CornerRadius="10" Margin="16" Padding="20,18">
-    <Grid>
+  <Grid>
+    <Canvas IsHitTestVisible="False" ClipToBounds="True">
+      <Ellipse Width="460" Height="460" Canvas.Left="-230" Canvas.Top="-300" Fill="{DynamicResource GlowA}"/>
+    </Canvas>
+    <Grid Margin="24,24,22,20">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
-      <Border x:Name="MsgBar" Width="4" CornerRadius="2" Margin="0,2,16,2" Background="{DynamicResource BrAccent}"/>
+      <Border x:Name="MsgBar" Width="44" Height="44" CornerRadius="14" VerticalAlignment="Top" Margin="0,0,16,0"
+              Background="{DynamicResource BrSel}">
+        <TextBlock x:Name="MsgGlyph" Text="&#xE897;" FontFamily="{StaticResource FontIcon}" FontSize="20"
+                   Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </Border>
       <StackPanel Grid.Column="1">
-        <TextBlock x:Name="MsgTitle" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <TextBlock x:Name="MsgTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" Margin="0,1,0,8"/>
         <TextBlock x:Name="MsgText" TextWrapping="Wrap" Foreground="{DynamicResource BrText}"/>
-        <StackPanel x:Name="MsgButtons" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+        <StackPanel x:Name="MsgButtons" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0"/>
       </StackPanel>
     </Grid>
-  </Border>
+  </Grid>
 </Window>
 '@
 
@@ -7590,9 +7979,17 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
     $d.Title = $titles[$icon]
     $d.FindName("MsgTitle").Text = $titles[$icon]
     $d.FindName("MsgText").Text  = $text
-    $bar = $d.FindName("MsgBar")
-    if ($icon -eq "Warning") { $bar.Background = [System.Windows.Media.SolidColorBrush]::new((ConvertTo-WpfColor "#F59E0B" "#F59E0B")) }
-    elseif ($icon -eq "Error") { $bar.Background = [System.Windows.Media.SolidColorBrush]::new((ConvertTo-WpfColor "#EF4444" "#EF4444")) }
+    # Icon-Feld: Akzentfarbe, bei Warnung gelb, bei Fehler rot
+    $bar   = $d.FindName("MsgBar")
+    $glyph = $d.FindName("MsgGlyph")
+    $glyphs = @{ Warning = 0xE7BA; Error = 0xE783; Question = 0xE897; Information = 0xE946 }
+    if ($glyph -and $glyphs.ContainsKey($icon)) { $glyph.Text = [string][char]$glyphs[$icon] }
+    $tone = if ($icon -eq "Warning") { "#F59E0B" } elseif ($icon -eq "Error") { "#EF4444" } else { $null }
+    if ($tone) {
+        $tc = ConvertTo-WpfColor $tone $tone
+        $bar.Background = [System.Windows.Media.SolidColorBrush]::new((Get-AlphaColor $tc 0x38))
+        if ($glyph) { $glyph.Foreground = [System.Windows.Media.SolidColorBrush]::new($tc) }
+    }
 
     $panelBtns = $d.FindName("MsgButtons")
     $defs = if ($buttons -eq "YesNo") { @(@((T "No"), "No", $false), @((T "Yes"), "Yes", $true)) } else { @(, @((T "OK"), "OK", $true)) }
@@ -7638,10 +8035,35 @@ function Show-Msg([string]$text, [string]$icon = "Warning") {
     [void](Show-Dialog $text "OK" $icon)
 }
 
+$script:LogOpen = $false
 function Set-LogVisible([bool]$show) {
-    $ui.TxtLog.Visibility = if ($show) { "Visible" } else { "Collapsed" }
-    $ui.BtnLogToggle.Tag  = [string][char]$(if ($show) { 0xE70E } else { 0xE70D })
-    if ($show) { $ui.TxtLog.ScrollToEnd() }
+    $hp   = [System.Windows.FrameworkElement]::HeightProperty
+    $full = 130.0
+    if ($show -and $script:LogOpen -and $ui.TxtLog.Visibility -eq "Visible") { return }
+    $script:LogOpen = $show
+    $ui.BtnLogToggle.Tag = [string][char]$(if ($show) { 0xE70E } else { 0xE70D })
+    if ($script:Snapshot -or -not $script:Initialized) {
+        $ui.TxtLog.BeginAnimation($hp, $null)
+        $ui.TxtLog.Height = $full
+        $ui.TxtLog.Visibility = if ($show) { "Visible" } else { "Collapsed" }
+        if ($show) { $ui.TxtLog.ScrollToEnd() }
+        return
+    }
+    $ease = [System.Windows.Media.Animation.CubicEase]::new()
+    $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
+    if ($show) {
+        $from = if ($ui.TxtLog.Visibility -eq "Visible") { $ui.TxtLog.ActualHeight } else { 0.0 }
+        $ui.TxtLog.Visibility = "Visible"
+        $a = [System.Windows.Media.Animation.DoubleAnimation]::new($from, $full, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(260)))
+        $a.EasingFunction = $ease
+        $ui.TxtLog.BeginAnimation($hp, $a)
+        $ui.TxtLog.ScrollToEnd()
+    } else {
+        $a = [System.Windows.Media.Animation.DoubleAnimation]::new($ui.TxtLog.ActualHeight, 0.0, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(220)))
+        $a.EasingFunction = $ease
+        $a.Add_Completed({ if (-not $script:LogOpen) { $ui.TxtLog.Visibility = "Collapsed" } })
+        $ui.TxtLog.BeginAnimation($hp, $a)
+    }
 }
 
 function Add-UiLog([string]$m) {
@@ -7744,14 +8166,79 @@ function Update-List {
 # Punkt im Status-Chip pulsiert, solange gesucht wird oder ein Update wartet
 function Set-DotPulse([bool]$on) {
     $prop = [System.Windows.UIElement]::OpacityProperty
-    if ($on) {
-        $a = [System.Windows.Media.Animation.DoubleAnimation]::new(1.0, 0.25, [TimeSpan]::FromMilliseconds(850))
-        $a.AutoReverse    = $true
-        $a.RepeatBehavior = [System.Windows.Media.Animation.RepeatBehavior]::Forever
+    $sc   = $ui.DotRing.RenderTransform
+    $sx   = [System.Windows.Media.ScaleTransform]::ScaleXProperty
+    $sy   = [System.Windows.Media.ScaleTransform]::ScaleYProperty
+    if ($on -and -not $script:Snapshot) {
+        $forever = [System.Windows.Media.Animation.RepeatBehavior]::Forever
+        $a = [System.Windows.Media.Animation.DoubleAnimation]::new(1.0, 0.45, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(800)))
+        $a.AutoReverse = $true; $a.RepeatBehavior = $forever
         $ui.DotState.BeginAnimation($prop, $a)
+        $dur = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(1600))
+        $grow = [System.Windows.Media.Animation.DoubleAnimation]::new(1.0, 3.0, $dur); $grow.RepeatBehavior = $forever
+        $fade = [System.Windows.Media.Animation.DoubleAnimation]::new(0.55, 0.0, $dur); $fade.RepeatBehavior = $forever
+        $sc.BeginAnimation($sx, $grow); $sc.BeginAnimation($sy, $grow)
+        $ui.DotRing.BeginAnimation($prop, $fade)
     } else {
         $ui.DotState.BeginAnimation($prop, $null)
         $ui.DotState.Opacity = 1
+        $sc.BeginAnimation($sx, $null); $sc.BeginAnimation($sy, $null)
+        $ui.DotRing.BeginAnimation($prop, $null)
+    }
+}
+
+# Solange etwas laeuft: Logo-Pfeil dreht sich, Statuspunkt unten pulsiert in Akzentfarbe
+$script:BusyShown = $null
+function Set-BusyVisual([bool]$busy) {
+    if ($null -ne $script:BusyShown -and $script:BusyShown -eq $busy) { return }
+    $script:BusyShown = $busy
+    $rot  = $ui.LogoRing.RenderTransform
+    $ap   = [System.Windows.Media.RotateTransform]::AngleProperty
+    $op   = [System.Windows.UIElement]::OpacityProperty
+    $fill = [System.Windows.Shapes.Shape]::FillProperty
+    if ($busy) {
+        $ui.DotBusy.SetResourceReference($fill, "BrAccent")
+        if ($script:Snapshot) { return }
+        $forever = [System.Windows.Media.Animation.RepeatBehavior]::Forever
+        $spin = [System.Windows.Media.Animation.DoubleAnimation]::new(0.0, 360.0, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(1100)))
+        $spin.RepeatBehavior = $forever
+        $rot.BeginAnimation($ap, $spin)
+        $pulse = [System.Windows.Media.Animation.DoubleAnimation]::new(1.0, 0.3, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(600)))
+        $pulse.AutoReverse = $true; $pulse.RepeatBehavior = $forever
+        $ui.DotBusy.BeginAnimation($op, $pulse)
+    } else {
+        $ui.DotBusy.SetResourceReference($fill, "BrMuted")
+        $ui.DotBusy.BeginAnimation($op, $null)
+        if ($script:Snapshot) { return }
+        # Drehung sauber bis zur vollen Runde auslaufen lassen
+        $cur = [double]$rot.Angle % 360
+        $end = [System.Windows.Media.Animation.DoubleAnimation]::new($cur, 360.0, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(520)))
+        $ease = [System.Windows.Media.Animation.CubicEase]::new()
+        $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
+        $end.EasingFunction = $ease
+        $end.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
+        $rot.BeginAnimation($ap, $end)
+    }
+}
+
+# Pfeile zwischen "installiert" und "neueste" laufen, solange ein Update wartet
+$script:FlowOn = $null
+function Set-FlowAnim([bool]$on) {
+    if ($null -ne $script:FlowOn -and $script:FlowOn -eq $on) { return }
+    $script:FlowOn = $on
+    $op = [System.Windows.UIElement]::OpacityProperty
+    $i = 0
+    foreach ($f in @($ui.Flow1, $ui.Flow2, $ui.Flow3)) {
+        if ($on -and -not $script:Snapshot) {
+            $a = [System.Windows.Media.Animation.DoubleAnimation]::new(0.15, 1.0, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(520)))
+            $a.AutoReverse = $true
+            $a.RepeatBehavior = [System.Windows.Media.Animation.RepeatBehavior]::Forever
+            $a.BeginTime = [TimeSpan]::FromMilliseconds(180 * $i)
+            $f.BeginAnimation($op, $a)
+        } else {
+            $f.BeginAnimation($op, $null)
+        }
+        $i++
     }
 }
 
@@ -7801,6 +8288,8 @@ function Update-Ui {
     $ui.BtnLaunch.IsEnabled = (-not $busy) -and (Test-Path (Join-Path $script:Settings.EdenPath "eden.exe"))
     $ui.BtnCancel.Visibility = if ($busy -and $script:BusyKind -eq "install") { [System.Windows.Visibility]::Visible } else { [System.Windows.Visibility]::Collapsed }
     $ui.BtnCancel.IsEnabled  = [bool]$sync.CanCancel
+    $ui.TxtSideVer.Text = $ui.TxtInstalled.Text
+    try { Set-BusyVisual ([bool]$busy); Set-FlowAnim ([bool]$script:UpdateAvailable) } catch {}
 }
 
 function Test-NotesVisible {
@@ -7829,24 +8318,32 @@ function Set-NotesLayout {
         $ui.BtnNavNotes.Visibility = "Visible"
         $ui.TxtNotesHint.Text = T "NotesHintPage"
     }
+    try { Move-NavPill $false } catch {}
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
 }
 
 # ------------------------------------------------------------
 #  Animationen
 # ------------------------------------------------------------
-function Start-FadeIn($el, [double]$slide = 10) {
+function Start-FadeIn($el, [double]$slide = 10, [double]$slideX = 0, [int]$ms = 300) {
     if (-not $el -or $script:Snapshot) { return }
     $ease = [System.Windows.Media.Animation.CubicEase]::new()
     $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
-    $fade = [System.Windows.Media.Animation.DoubleAnimation]::new(0.0, 1.0, [TimeSpan]::FromMilliseconds(260))
+    $fade = [System.Windows.Media.Animation.DoubleAnimation]::new(0.0, 1.0, [TimeSpan]::FromMilliseconds([Math]::Max(120, $ms - 40)))
     $fade.EasingFunction = $ease
     $el.BeginAnimation([System.Windows.UIElement]::OpacityProperty, $fade)
     $tt = $el.RenderTransform
-    if ($slide -ne 0 -and $tt -is [System.Windows.Media.TranslateTransform]) {
-        $mv = [System.Windows.Media.Animation.DoubleAnimation]::new($slide, 0.0, [TimeSpan]::FromMilliseconds(300))
-        $mv.EasingFunction = $ease
-        $tt.BeginAnimation([System.Windows.Media.TranslateTransform]::YProperty, $mv)
+    if ($tt -is [System.Windows.Media.TranslateTransform]) {
+        if ($slide -ne 0) {
+            $mv = [System.Windows.Media.Animation.DoubleAnimation]::new($slide, 0.0, [TimeSpan]::FromMilliseconds($ms))
+            $mv.EasingFunction = $ease
+            $tt.BeginAnimation([System.Windows.Media.TranslateTransform]::YProperty, $mv)
+        }
+        if ($slideX -ne 0) {
+            $mx = [System.Windows.Media.Animation.DoubleAnimation]::new($slideX, 0.0, [TimeSpan]::FromMilliseconds($ms))
+            $mx.EasingFunction = $ease
+            $tt.BeginAnimation([System.Windows.Media.TranslateTransform]::XProperty, $mx)
+        }
     }
 }
 
@@ -7862,18 +8359,51 @@ function Set-ProgressValue([double]$v, [bool]$snap = $false) {
     $ui.Pb.BeginAnimation($prop, $a)
 }
 
+$script:NavActiveBtn = $null
 function Set-NavActive($btn, [bool]$active) {
     $c = [System.Windows.Controls.Control]
     if ($active) {
-        $btn.SetResourceReference($c::BackgroundProperty,  "BrPanel2")
-        $btn.SetResourceReference($c::ForegroundProperty,  "BrAccentText")
-        $btn.SetResourceReference($c::BorderBrushProperty, "BrAccent")
+        $btn.SetResourceReference($c::ForegroundProperty,  "BrText")
+        $btn.SetResourceReference($c::BorderBrushProperty, "BrAccentText")
+        $btn.FontWeight = [System.Windows.FontWeights]::SemiBold
+        $script:NavActiveBtn = $btn
     } else {
-        $btn.ClearValue($c::BackgroundProperty)
         $btn.ClearValue($c::ForegroundProperty)
         $btn.ClearValue($c::BorderBrushProperty)
+        $btn.ClearValue($c::FontWeightProperty)
     }
 }
+
+# Markierung in der Seitenleiste gleitet zum aktiven Eintrag (mit leichtem Nachfedern)
+function Move-NavPill([bool]$animate) {
+    $btn = $script:NavActiveBtn
+    if (-not $btn) { return }
+    $ui.NavHost.UpdateLayout()
+    if (-not $btn.IsVisible) { return }
+    $y  = $btn.TranslatePoint([System.Windows.Point]::new(0, 0), $ui.NavHost).Y
+    $tt = $ui.NavPill.RenderTransform
+    $yp = [System.Windows.Media.TranslateTransform]::YProperty
+    $ui.NavPill.Height = $btn.ActualHeight
+    if ($animate -and -not $script:Snapshot -and $ui.NavPill.Opacity -gt 0) {
+        $from = [double]$tt.Y
+        $tt.BeginAnimation($yp, $null)
+        $tt.Y = $y
+        $a = [System.Windows.Media.Animation.DoubleAnimation]::new($from, $y, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(380)))
+        $ease = [System.Windows.Media.Animation.BackEase]::new()
+        $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
+        $ease.Amplitude  = 0.45
+        $a.EasingFunction = $ease
+        $a.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
+        $tt.BeginAnimation($yp, $a)
+    } else {
+        $tt.BeginAnimation($yp, $null)
+        $tt.Y = $y
+    }
+    $ui.NavPill.Opacity = 1
+}
+
+# Reihenfolge der Seiten in der Seitenleiste (bestimmt die Richtung der Seitenwechsel-Animation)
+$script:PageOrder = @("versions", "notes", "games", "mods", "content", "saves", "firmware", "settings")
 
 function Set-Page([string]$page) {
     $prev = $script:CurrentPage
@@ -7905,8 +8435,12 @@ function Set-Page([string]$page) {
     $ui.TxtPageSub.SetResourceReference([System.Windows.Controls.TextBlock]::TextProperty, $subKey)
     if ($prev -ne $page) {
         $el = switch ($page) { "versions" { $ui.PanelVersions } "notes" { $ui.PanelNotes } "games" { $ui.PanelGames } "mods" { $ui.PanelMods } "content" { $ui.PanelContent } "firmware" { $ui.PanelFirmware } "saves" { $ui.PanelSaves } "settings" { $ui.PanelSettings } }
-        Start-FadeIn $el
+        # weiter unten in der Leiste = Seite kommt von unten, sonst von oben
+        $dir = if ([array]::IndexOf($script:PageOrder, $page) -ge [array]::IndexOf($script:PageOrder, $prev)) { 1 } else { -1 }
+        Start-FadeIn $el (16 * $dir)
+        Start-FadeIn $ui.HeadText (7 * $dir) 0 240
     }
+    try { Move-NavPill ($prev -ne $page) } catch {}
     if (Test-NotesVisible) { try { Show-Notes } catch {} }
 }
 
@@ -8008,7 +8542,7 @@ function Complete-GameScan {
                     $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
                     $bi.BeginInit()
                     $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
-                    $bi.DecodePixelWidth = 96
+                    $bi.DecodePixelWidth = 192
                     $bi.UriSource        = [Uri]::new([string]$g.Icon)
                     $bi.EndInit()
                     $bi.Freeze()
@@ -9556,7 +10090,8 @@ $ui = @{}
 foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
-                 "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes")) {
+                 "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
+                 "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
     $ui[$n] = $window.FindName($n)
 }
 
@@ -9723,7 +10258,9 @@ $ui.BtnMore.Add_Click({
 $ui.BtnSelfCheck.Add_Click({ Start-SelfCheck $false })
 $ui.BtnSelfInstall.Add_Click({ Start-SelfDownload })
 $ui.BtnSelfNotes.Add_Click({ try { if ($script:SelfInfo.Page) { Start-Process $script:SelfInfo.Page } } catch {} })
-$ui.BtnLogToggle.Add_Click({ Set-LogVisible ($ui.TxtLog.Visibility -ne "Visible") })
+$ui.BtnLogToggle.Add_Click({ Set-LogVisible (-not $script:LogOpen) })
+# Klick auf den Update-Status oben rechts fuehrt zur Versionsliste
+$ui.ChipState.Add_MouseLeftButtonUp({ try { Set-Page "versions" } catch {} })
 $ui.BtnCancel.Add_Click({ $sync.Cancel = $true; Add-UiLog (T "LogCancelReq") })
 $ui.List.Add_SelectionChanged({ Update-Ui; try { Show-Notes } catch {} })
 $ui.BtnNotesWeb.Add_Click({
@@ -10045,7 +10582,10 @@ $window.Add_ContentRendered({
     Update-Ui
     $timer.Start()
     if ($script:Snapshot) { Start-Snapshots; return }
-    Start-FadeIn $ui.RootGrid 0
+    # Auftritt: Seitenleiste gleitet von links herein, der Inhalt steigt von unten auf
+    $script:ThemeAnimate = $true
+    Start-FadeIn $ui.SideBar 0 -22 420
+    Start-FadeIn $ui.MainArea 18 0 520
     if ($script:FirstRun) { Invoke-FirstRun }
     if ($script:SelfExe) {
         $dir = Split-Path -Parent $script:SelfExe
