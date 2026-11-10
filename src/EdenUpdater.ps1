@@ -316,6 +316,9 @@ ThColGold=Gold
 ThColGreen=Grün
 ThColGrey=Grau
 ThColSand=Sand
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Eigenes Theme
 ThTabPresets=Vorlagen
 ThTabCustom=Eigenes
@@ -611,6 +614,9 @@ ThColGold=Gold
 ThColGreen=Green
 ThColGrey=Grey
 ThColSand=Sand
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Custom theme
 ThTabPresets=Presets
 ThTabCustom=Custom
@@ -906,6 +912,9 @@ ThColGold=Oro
 ThColGreen=Verde
 ThColGrey=Gris
 ThColSand=Arena
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Tema propio
 ThTabPresets=Plantillas
 ThTabCustom=Propio
@@ -1201,6 +1210,9 @@ ThColGold=Or
 ThColGreen=Vert
 ThColGrey=Gris
 ThColSand=Sable
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Thème personnalisé
 ThTabPresets=Modèles
 ThTabCustom=Personnalisé
@@ -1496,6 +1508,9 @@ ThColGold=Oro
 ThColGreen=Verde
 ThColGrey=Grigio
 ThColSand=Sabbia
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Tema personalizzato
 ThTabPresets=Modelli
 ThTabCustom=Personalizzato
@@ -1791,6 +1806,9 @@ ThColGold=Dourado
 ThColGreen=Verde
 ThColGrey=Cinza
 ThColSand=Areia
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Tema próprio
 ThTabPresets=Modelos
 ThTabCustom=Próprio
@@ -2086,6 +2104,9 @@ ThColGold=Goud
 ThColGreen=Groen
 ThColGrey=Grijs
 ThColSand=Zand
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Eigen thema
 ThTabPresets=Sjablonen
 ThTabCustom=Eigen
@@ -2381,6 +2402,9 @@ ThColGold=Złoty
 ThColGreen=Zielony
 ThColGrey=Szary
 ThColSand=Piaskowy
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Własny motyw
 ThTabPresets=Szablony
 ThTabCustom=Własny
@@ -2676,6 +2700,9 @@ ThColGold=Altın
 ThColGreen=Yeşil
 ThColGrey=Gri
 ThColSand=Kum
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Özel tema
 ThTabPresets=Şablonlar
 ThTabCustom=Özel
@@ -2971,6 +2998,9 @@ ThColGold=Золотой
 ThColGreen=Зелёный
 ThColGrey=Серый
 ThColSand=Песочный
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=Своя тема
 ThTabPresets=Шаблоны
 ThTabCustom=Своя
@@ -3266,6 +3296,9 @@ ThColGold=ゴールド
 ThColGreen=グリーン
 ThColGrey=グレー
 ThColSand=サンド
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=カスタムテーマ
 ThTabPresets=テンプレート
 ThTabCustom=カスタム
@@ -3561,6 +3594,9 @@ ThColGold=金色
 ThColGreen=绿色
 ThColGrey=灰色
 ThColSand=沙色
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=自定义主题
 ThTabPresets=模板
 ThTabCustom=自定义
@@ -3856,6 +3892,9 @@ ThColGold=골드
 ThColGreen=그린
 ThColGrey=그레이
 ThColSand=샌드
+ThColAurora=Aurora
+ThColSunset=Sunset
+ThColSynth=Synthwave
 ThCustom=사용자 테마
 ThTabPresets=템플릿
 ThTabCustom=사용자 지정
@@ -5576,7 +5615,7 @@ $xaml = @'
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Thumb">
-            <Border x:Name="th" Background="{DynamicResource BrMuted}" CornerRadius="3" Margin="3,2" Opacity="0.35"/>
+            <Border x:Name="th" Background="{DynamicResource BrMuted}" CornerRadius="3" Margin="2" Opacity="0.35"/>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="th" Storyboard.TargetProperty="Opacity" To="0.85" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
@@ -5695,12 +5734,15 @@ $xaml = @'
 
     <Style TargetType="ScrollBar">
       <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="Width" Value="12"/>
+      <Setter Property="Width" Value="10"/>
+      <Setter Property="MinWidth" Value="10"/>
       <Setter Property="Template" Value="{StaticResource VBar}"/>
       <Style.Triggers>
         <Trigger Property="Orientation" Value="Horizontal">
           <Setter Property="Width" Value="Auto"/>
-          <Setter Property="Height" Value="12"/>
+          <Setter Property="MinWidth" Value="0"/>
+          <Setter Property="Height" Value="10"/>
+          <Setter Property="MinHeight" Value="10"/>
           <Setter Property="Template" Value="{StaticResource HBar}"/>
         </Trigger>
       </Style.Triggers>
@@ -6925,7 +6967,7 @@ $xaml = @'
           </ScrollViewer>
         </Grid>
 
-        <!-- Seite: Einstellungen (zwei Spalten) -->
+        <!-- Seite: Einstellungen -->
         <Grid x:Name="PanelSettings" Visibility="Collapsed">
           <Grid.RenderTransform>
             <TranslateTransform/>
@@ -6935,76 +6977,63 @@ $xaml = @'
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
           <ScrollViewer x:Name="SettingsScroll" VerticalScrollBarVisibility="Auto">
-            <Grid Margin="0,0,8,0">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="14"/>
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
+            <StackPanel Margin="0,0,10,0">
 
-              <StackPanel Grid.Column="0">
-                <!-- Installation -->
-                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
-                  <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
-                      <Border Style="{StaticResource IconBadge}">
-                        <TextBlock Text="&#xE8B7;" Style="{StaticResource IconBadgeGlyph}"/>
-                      </Border>
-                      <TextBlock Text="{DynamicResource L_GrpInstall}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-
-                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPath}"/>
-                    <Grid Margin="0,7,0,4">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                      </Grid.ColumnDefinitions>
-                      <TextBox x:Name="TxtPath" Grid.Column="0"/>
-                      <Button x:Name="BtnBrowse" Grid.Column="1" Tag="&#xE838;" Content="{DynamicResource L_SetBrowse}" Style="{StaticResource Btn}"
-                              Padding="14,7" Margin="8,0,0,0"/>
-                    </Grid>
-                    <TextBlock x:Name="TxtSettingsFile" Style="{StaticResource Hint}" Margin="0,0,0,18"/>
-
-                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetVariant}"/>
-                    <ComboBox x:Name="CmbVariant" SelectedValuePath="Tag" Margin="0,7,0,4"/>
-                    <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetVariantHint}" Margin="0,0,0,18"/>
-
-                    <StackPanel x:Name="PanelPattern" Visibility="Collapsed">
-                      <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPattern}"/>
-                      <TextBox x:Name="TxtPattern" Margin="0,7,0,18" FontFamily="{StaticResource FontMono}"/>
-                    </StackPanel>
-
-                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPages}"/>
-                    <TextBox x:Name="TxtPages" Width="90" HorizontalAlignment="Left" Margin="0,7,0,0"/>
+              <!-- Installation -->
+              <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                <StackPanel>
+                  <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
+                    <Border Style="{StaticResource IconBadge}">
+                      <TextBlock Text="&#xE8B7;" Style="{StaticResource IconBadgeGlyph}"/>
+                    </Border>
+                    <TextBlock Text="{DynamicResource L_GrpInstall}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
                   </StackPanel>
-                </Border>
 
-                <!-- Updater selbst -->
-                <Border Style="{StaticResource Card}" Margin="0,0,0,6">
-                  <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                      <Border Style="{StaticResource IconBadge}">
-                        <TextBlock Text="&#xE895;" Style="{StaticResource IconBadgeGlyph}"/>
-                      </Border>
-                      <TextBlock Text="{DynamicResource L_GrpUpdater}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                  <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPath}"/>
+                  <Grid Margin="0,7,0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TxtPath" Grid.Column="0"/>
+                    <Button x:Name="BtnBrowse" Grid.Column="1" Tag="&#xE838;" Content="{DynamicResource L_SetBrowse}" Style="{StaticResource Btn}"
+                            Padding="14,7" Margin="8,0,0,0"/>
+                  </Grid>
+                  <TextBlock x:Name="TxtSettingsFile" Style="{StaticResource Hint}" Margin="0,0,0,18"/>
+
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="3*"/>
+                      <ColumnDefinition Width="18"/>
+                      <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                      <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetVariant}"/>
+                      <ComboBox x:Name="CmbVariant" SelectedValuePath="Tag" Margin="0,7,0,4"/>
+                      <TextBlock Style="{StaticResource Hint}" Text="{DynamicResource L_SetVariantHint}"/>
                     </StackPanel>
-                    <TextBlock x:Name="TxtSelfVersion" Style="{StaticResource FieldTitle}"/>
-                    <TextBlock x:Name="TxtSelfState" Style="{StaticResource Hint}" Margin="0,3,0,0"/>
-                    <WrapPanel Margin="0,12,0,0">
-                      <Button x:Name="BtnSelfCheck" Tag="&#xE72C;" Content="{DynamicResource L_SelfBtnCheck}" Style="{StaticResource Btn}" Padding="14,8" Margin="0,0,8,6"/>
-                      <Button x:Name="BtnSelfInstall" Tag="&#xE896;" Content="{DynamicResource L_SelfBtnInstall}" Style="{StaticResource BtnPrimary}"
-                              Padding="14,8" Margin="0,0,8,6" Visibility="Collapsed"/>
-                      <Button x:Name="BtnSelfNotes" Tag="&#xE774;" Content="{DynamicResource L_SelfBtnNotes}" Style="{StaticResource BtnGhost}"
-                              Visibility="Collapsed" Margin="0,0,0,6"/>
-                    </WrapPanel>
-                    <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Style="{StaticResource SwitchRow}" Margin="-10,6,-10,-6"/>
-                  </StackPanel>
-                </Border>
-              </StackPanel>
+                    <StackPanel Grid.Column="2">
+                      <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPages}"/>
+                      <TextBox x:Name="TxtPages" Width="90" HorizontalAlignment="Left" Margin="0,7,0,0"/>
+                    </StackPanel>
+                  </Grid>
 
-              <StackPanel Grid.Column="2">
+                  <StackPanel x:Name="PanelPattern" Visibility="Collapsed" Margin="0,18,0,0">
+                    <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetPattern}"/>
+                    <TextBox x:Name="TxtPattern" Margin="0,7,0,0" FontFamily="{StaticResource FontMono}"/>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+
+              <Grid Margin="0,0,0,14">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="14"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
                 <!-- Darstellung -->
-                <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                <Border Grid.Column="0" Style="{StaticResource Card}">
                   <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,18">
                       <Border Style="{StaticResource IconBadge}">
@@ -7014,8 +7043,8 @@ $xaml = @'
                     </StackPanel>
 
                     <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetTheme}"/>
-                    <!-- Aktuelles Theme als Farbstreifen; Klick oeffnet die Auswahl -->
-                    <Button x:Name="BtnThemePick" Cursor="Hand" Margin="0,7,0,18" FocusVisualStyle="{x:Null}">
+                    <!-- Aktuelles Theme als kleine Vorschau; Klick oeffnet die Auswahl -->
+                    <Button x:Name="BtnThemePick" Cursor="Hand" Margin="0,7,0,18" FocusVisualStyle="{x:Null}" HorizontalContentAlignment="Stretch">
                       <Button.Template>
                         <ControlTemplate TargetType="Button">
                           <Grid>
@@ -7026,17 +7055,19 @@ $xaml = @'
                                   <ColumnDefinition Width="*"/>
                                   <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Width="58" Height="38" CornerRadius="9" Background="{DynamicResource BrBg}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1">
+                                <Border Width="62" Height="42" CornerRadius="9" Background="{DynamicResource BrBg}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1">
                                   <Grid>
-                                    <Border Width="26" Height="8" CornerRadius="4" Background="{DynamicResource GrAccent}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,8,0,0"/>
-                                    <Border Width="38" Height="4" CornerRadius="2" Background="{DynamicResource BrText}" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,22,0,0"/>
+                                    <Border Width="28" Height="9" CornerRadius="4.5" Background="{DynamicResource GrAccent}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,9,0,0"/>
+                                    <Border Width="40" Height="4" CornerRadius="2" Background="{DynamicResource BrText}" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="9,25,0,0"/>
                                   </Grid>
                                 </Border>
-                                <ContentPresenter Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center"/>
-                                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,4,0">
-                                  <TextBlock Text="{DynamicResource L_SetThemePick}" Foreground="{DynamicResource BrAccentText}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                  <TextBlock Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="11" Foreground="{DynamicResource BrAccentText}" VerticalAlignment="Center" Margin="8,1,0,0"/>
-                                </StackPanel>
+                                <ContentPresenter Grid.Column="1" Margin="13,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="chev" Grid.Column="2" Text="&#xE76C;" FontFamily="{StaticResource FontIcon}" FontSize="12"
+                                           Foreground="{DynamicResource BrMuted}" VerticalAlignment="Center" Margin="0,0,6,0">
+                                  <TextBlock.RenderTransform>
+                                    <TranslateTransform x:Name="cx" X="0"/>
+                                  </TextBlock.RenderTransform>
+                                </TextBlock>
                               </Grid>
                             </Border>
                             <Border x:Name="hl" Background="{DynamicResource BrText}" CornerRadius="12" Opacity="0" IsHitTestVisible="False"/>
@@ -7044,13 +7075,17 @@ $xaml = @'
                           <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                               <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource BrAccent}"/>
-                              <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.05" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
-                              <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.22"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                              <Setter TargetName="chev" Property="Foreground" Value="{DynamicResource BrAccentText}"/>
+                              <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0.04" Duration="0:0:0.15"/><DoubleAnimation Storyboard.TargetName="cx" Storyboard.TargetProperty="X" To="4" Duration="0:0:0.2"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                              <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hl" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.22"/><DoubleAnimation Storyboard.TargetName="cx" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
                             </Trigger>
                           </ControlTemplate.Triggers>
                         </ControlTemplate>
                       </Button.Template>
-                      <TextBlock x:Name="TxtThemeName" FontFamily="{StaticResource FontHead}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                      <StackPanel>
+                        <TextBlock x:Name="TxtThemeName" FontFamily="{StaticResource FontHead}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{DynamicResource L_SetThemePick}" Foreground="{DynamicResource BrAccentText}" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
+                      </StackPanel>
                     </Button>
 
                     <TextBlock Style="{StaticResource FieldTitle}" Text="{DynamicResource L_SetLanguage}"/>
@@ -7063,7 +7098,7 @@ $xaml = @'
                 </Border>
 
                 <!-- Verhalten -->
-                <Border Style="{StaticResource Card}" Margin="0,0,0,6" Padding="20,20,20,12">
+                <Border Grid.Column="2" Style="{StaticResource Card}" Padding="20,20,20,12">
                   <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                       <Border Style="{StaticResource IconBadge}">
@@ -7079,8 +7114,37 @@ $xaml = @'
                     <CheckBox x:Name="ChkAutoInstall" Content="{DynamicResource L_ChkAutoInstall}" Style="{StaticResource SwitchRow}"/>
                   </StackPanel>
                 </Border>
-              </StackPanel>
-            </Grid>
+              </Grid>
+
+              <!-- Updater selbst -->
+              <Border Style="{StaticResource Card}" Margin="0,0,0,6" Padding="20,20,20,12">
+                <StackPanel>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource IconBadge}">
+                      <TextBlock Text="&#xE895;" Style="{StaticResource IconBadgeGlyph}"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0,12,0">
+                      <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GrpUpdater}"/>
+                      <TextBlock x:Name="TxtSelfVersion" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"/>
+                      <TextBlock x:Name="TxtSelfState" Style="{StaticResource Hint}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                      <Button x:Name="BtnSelfNotes" Tag="&#xE774;" Content="{DynamicResource L_SelfBtnNotes}" Style="{StaticResource BtnGhost}"
+                              Visibility="Collapsed" Margin="0,0,6,0"/>
+                      <Button x:Name="BtnSelfCheck" Tag="&#xE72C;" Content="{DynamicResource L_SelfBtnCheck}" Style="{StaticResource Btn}" Padding="14,8"/>
+                      <Button x:Name="BtnSelfInstall" Tag="&#xE896;" Content="{DynamicResource L_SelfBtnInstall}" Style="{StaticResource BtnPrimary}"
+                              Padding="14,8" Margin="8,0,0,0" Visibility="Collapsed"/>
+                    </StackPanel>
+                  </Grid>
+                  <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Style="{StaticResource SwitchRow}" Margin="-10,12,-10,0"/>
+                </StackPanel>
+              </Border>
+            </StackPanel>
           </ScrollViewer>
           <Button x:Name="BtnSave" Grid.Row="1" Tag="&#xE74E;" Content="{DynamicResource L_Save}" Style="{StaticResource BtnPrimary}"
                   HorizontalAlignment="Left" Padding="22,10" Margin="0,12,0,0"/>
@@ -7142,6 +7206,10 @@ $ThemePresets = [ordered]@{
     "dark-gold"     = @{ Base = "ThBaseDark";  Color = "ThColGold";   Bg = "#14120C"; Panel = "#1E1B13"; Text = "#F2EEE2"; Accent = "#FBBF24" }
     "dark-green"    = @{ Base = "ThBaseDark";  Color = "ThColGreen";  Bg = "#0E1512"; Panel = "#15201B"; Text = "#E4F0EA"; Accent = "#34D399" }
     "dark-grey"     = @{ Base = "ThBaseDark";  Color = "ThColGrey";   Bg = "#121212"; Panel = "#1C1C1E"; Text = "#EDEDED"; Accent = "#D4D4D8" }
+    # Vorlagen mit eigenem Verlauf (Accent -> Accent2); ohne Accent2 wird die zweite Farbe berechnet
+    "dark-aurora"   = @{ Base = "ThBaseDark";  Color = "ThColAurora"; Bg = "#0A1017"; Panel = "#111A24"; Text = "#E6EEF5"; Accent = "#2DD4BF"; Accent2 = "#8B5CF6" }
+    "dark-sunset"   = @{ Base = "ThBaseDark";  Color = "ThColSunset"; Bg = "#140E12"; Panel = "#1F161B"; Text = "#F5EAEC"; Accent = "#FB923C"; Accent2 = "#EC4899" }
+    "dark-synth"    = @{ Base = "ThBaseDark";  Color = "ThColSynth";  Bg = "#0F0B1A"; Panel = "#181228"; Text = "#EDE9F7"; Accent = "#F472B6"; Accent2 = "#22D3EE" }
     "amoled"        = @{ Base = "ThBaseBlack"; Color = "ThColCyan";   Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#22D3EE" }
     "amoled-red"    = @{ Base = "ThBaseBlack"; Color = "ThColRed";    Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#F87171" }
     "amoled-violet" = @{ Base = "ThBaseBlack"; Color = "ThColViolet"; Bg = "#000000"; Panel = "#0D0D0D"; Text = "#EDEDED"; Accent = "#A78BFA" }
@@ -7398,7 +7466,7 @@ function Set-Theme($t) {
     $line       = Merge-Color $panel $text $(if ($light) { 0.16 } else { 0.14 })
     $muted      = Get-Readable (Merge-Color $text $panel 0.42) $panel 3.0
     $accentText = Get-Readable $accent $panel 3.0
-    $accent2    = Get-Accent2 $accent
+    $accent2    = if ($t.Accent2) { ConvertTo-WpfColor $t.Accent2 "#22D3EE" } else { Get-Accent2 $accent }
     $sel        = Merge-Color $panel $accent 0.18
     $selStrong  = Merge-Color $panel2 $accent 0.32
     $log        = if ($light) { Merge-Color $panel $text 0.03 } else { Merge-Color $bg $black 0.35 }
@@ -7461,7 +7529,9 @@ function Get-ThemeColors([string]$id) {
     }
     if (-not $ThemePresets.Contains($id)) { $id = "dark-cyan" }
     $p = $ThemePresets[$id]
-    return @{ Bg = $p.Bg; Panel = $p.Panel; Text = $p.Text; Accent = $p.Accent }
+    $c = @{ Bg = $p.Bg; Panel = $p.Panel; Text = $p.Text; Accent = $p.Accent }
+    if ($p.Accent2) { $c.Accent2 = $p.Accent2 }
+    return $c
 }
 
 $script:CurrentThemeId = "dark-cyan"
@@ -7688,7 +7758,7 @@ $themeDlgXaml = @'
 $themeCardXaml = @'
 <Button xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Tag="@@KEY@@" Width="166" Height="120" Margin="0,0,12,12" Padding="0" Cursor="Hand" FocusVisualStyle="{x:Null}"
+        Tag="@@KEY@@" Width="164" Height="120" Margin="0,0,12,12" Padding="0" Cursor="Hand" FocusVisualStyle="{x:Null}"
         BorderThickness="2" BorderBrush="Transparent" Background="Transparent">
   <Button.Template>
     <ControlTemplate TargetType="Button">
@@ -7793,6 +7863,7 @@ function Set-ThemeTab([string]$tab) {
     if ($tab -eq "custom" -and $script:ThemePick -ne "custom") {
         # Eigenes Theme startet mit den Farben der zuletzt gewaehlten Vorlage
         $script:Draft = Get-ThemeColors $script:ThemePick
+        $script:Draft.Remove("Accent2")
         $script:ThemePick = "custom"
         Set-Theme $script:Draft
         Update-ThemeCards
@@ -7944,7 +8015,7 @@ function New-ThemeDialog([string]$tab = "presets") {
     Set-Theme $script:Draft
     Update-ThemeCards
     Update-Slots
-    if ($tab -eq "custom" -and $script:ThemePick -ne "custom") { $script:ThemePick = "custom"; Update-ThemeCards }
+    if ($tab -eq "custom" -and $script:ThemePick -ne "custom") { $script:Draft.Remove("Accent2"); $script:ThemePick = "custom"; Update-ThemeCards }
     Set-ThemeTab $tab
     return $dlg
 }
@@ -10538,6 +10609,11 @@ function Start-Snapshots {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
+    # Optional: Animationen wirklich ablaufen lassen (Theme-Welle, Seitenwechsel, Aktivitaet) und
+    # mittendrin fotografieren - so fallen Fehler in diesen Pfaden im automatischen Test auf.
+    if ($env:EDEN_UPDATER_SNAPSHOT_FX) {
+        foreach ($pg in @("fx-theme", "fx-nav", "fx-busy")) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = $pg }) }
+    }
     $script:SnapTimer = [System.Windows.Threading.DispatcherTimer]::new()
     $script:SnapTimer.Interval = [TimeSpan]::FromMilliseconds(700)
     $script:SnapPending = $null
@@ -10568,6 +10644,9 @@ function Start-Snapshots {
                 "dialog"       { Set-Page "versions"; $st.Win = New-SnapDialog }
                 "themes"        { Set-Page "versions"; $st.Win = New-SnapThemeDialog "presets" }
                 "themes-custom" { Set-Page "versions"; $st.Win = New-SnapThemeDialog "custom" }
+                "fx-theme"     { Set-Page "versions"; Invoke-SnapFx { Set-ThemeById "dark-sunset" } "fx-theme-mid" 300 }
+                "fx-nav"       { Set-Page "versions"; Invoke-SnapFx { Set-Page "settings"; Set-LogVisible $false } "fx-nav-mid" 130 }
+                "fx-busy"      { Invoke-SnapFx { Set-Page "versions"; Set-BusyVisual $true; Set-FlowAnim $true; Set-DotPulse $true; Set-LogVisible $true } "fx-busy-mid" 200 }
                 default        { Set-Page $st.Page }
             }
             $script:SnapPending = $st
@@ -10576,6 +10655,23 @@ function Start-Snapshots {
         }
     })
     $script:SnapTimer.Start()
+}
+
+# Fuehrt $action mit eingeschalteten Animationen aus und fotografiert nach $ms Millisekunden
+function Invoke-SnapFx([scriptblock]$action, [string]$name, [int]$ms) {
+    $dir = $script:Snapshot
+    $script:Snapshot = ""
+    $script:ThemeAnimate = $true
+    try { & $action } finally { $script:Snapshot = $dir; $script:ThemeAnimate = $false }
+    $script:FxName  = $name
+    $script:FxTimer = [System.Windows.Threading.DispatcherTimer]::new()
+    $script:FxTimer.Interval = [TimeSpan]::FromMilliseconds($ms)
+    $script:FxTimer.Add_Tick({
+        $script:FxTimer.Stop()
+        try { Save-Snapshot ([System.Windows.Media.VisualTreeHelper]::GetChild($window, 0)) $window.Background $script:FxName }
+        catch { try { Add-Content -Path (Join-Path $script:Snapshot "errors.txt") -Value ("FX " + $_.Exception.Message) } catch {} }
+    })
+    $script:FxTimer.Start()
 }
 
 # Theme fuer Screenshots setzen (Hook, damit es auch fuer spaetere Theme-Systeme passt)
