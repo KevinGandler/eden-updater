@@ -8720,8 +8720,10 @@ function Get-GameAbbr([string]$name) {
 # Farbverlauf, der sich aus dem Namen ergibt: gleiches Spiel = immer gleiche Farbe
 $script:TileBrushes = @{}
 function Get-GameTileBrush([string]$name) {
-    $h = 0
-    foreach ($ch in ([string]$name).ToLowerInvariant().ToCharArray()) { $h = ($h * 31 + [int]$ch) % 360 }
+    # Pruefsumme breit streuen, damit sich auch "... 2" und "... 3" deutlich unterscheiden
+    $x = 7
+    foreach ($ch in ([string]$name).ToLowerInvariant().ToCharArray()) { $x = ($x * 31 + [int]$ch) % 1000003 }
+    $h = ($x * 137) % 360
     if (-not $script:TileBrushes.ContainsKey($h)) {
         $b = [System.Windows.Media.LinearGradientBrush]::new()
         $b.StartPoint = [System.Windows.Point]::new(0, 0)
