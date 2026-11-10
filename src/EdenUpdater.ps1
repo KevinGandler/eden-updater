@@ -6173,9 +6173,10 @@ $xaml = @'
           <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Width="38" Height="38" VerticalAlignment="Center">
-          <Border CornerRadius="10" Background="{DynamicResource BrSelStrong}">
+          <Border CornerRadius="10" Background="{DynamicResource BrSelStrong}"/>
+          <Border CornerRadius="10" Background="{Binding TileBrush}">
             <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="16" FontWeight="Bold"
-                       Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                       Foreground="#F5FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
           <Border CornerRadius="10">
             <Border.Background>
@@ -6185,7 +6186,7 @@ $xaml = @'
         </Grid>
         <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
           <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5"
-                     FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                     FontWeight="SemiBold" TextWrapping="Wrap" LineHeight="17"/>
           <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
       </Grid>
@@ -6511,9 +6512,12 @@ $xaml = @'
                 <DataTemplate>
                   <StackPanel>
                     <Grid Height="130">
-                      <Border CornerRadius="10" Background="{DynamicResource BrSelStrong}">
-                        <TextBlock Text="{Binding Initial}" FontFamily="{StaticResource FontHead}" FontSize="50" FontWeight="Bold"
-                                   Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      <!-- Ohne Cover: Kuerzel aus dem Namen auf einer Farbe, die fuer jedes Spiel anders ist -->
+                      <Border CornerRadius="10" Background="{Binding TileBrush}">
+                        <Viewbox StretchDirection="DownOnly" Margin="12,0">
+                          <TextBlock Text="{Binding Abbr}" FontFamily="{StaticResource FontHead}" FontSize="48" FontWeight="Bold"
+                                     Foreground="#F5FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Viewbox>
                       </Border>
                       <Border CornerRadius="10">
                         <Border.Background>
@@ -6553,7 +6557,7 @@ $xaml = @'
                       </Button>
                     </Grid>
                     <TextBlock Text="{Binding Name}" Foreground="{DynamicResource BrText}" FontFamily="{StaticResource FontHead}" FontSize="13.5" FontWeight="SemiBold"
-                               TextTrimming="CharacterEllipsis" Margin="2,9,2,0" ToolTip="{Binding Name}"/>
+                               TextWrapping="Wrap" LineHeight="17" Margin="2,9,2,0"/>
                     <TextBlock Text="{Binding Info}" Foreground="{DynamicResource BrMuted}" FontSize="11.5" Margin="2,2,2,1" TextTrimming="CharacterEllipsis"/>
                   </StackPanel>
                 </DataTemplate>
@@ -8682,6 +8686,7 @@ function Complete-GameScan {
             }
             $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
             $g | Add-Member -NotePropertyName IsFav -NotePropertyValue (Test-GameFav $g) -Force
+            Add-GameTileProps $g
         }
         $script:Games     = @($r.Games)
         if ($r.CacheNames) { $script:CacheNames = $r.CacheNames }
@@ -8695,6 +8700,53 @@ function Complete-GameScan {
     if ($script:ModsLoaded) { Update-ModGames }
     if ($script:ContentLoaded) { Update-ContentGames }
     if ($script:SavesLoaded) { Update-SaveGames }
+}
+
+# Kuerzel fuer Spiele ohne Cover: Anfangsbuchstaben der Woerter, Zahlen bleiben erhalten
+# ("Xenoblade Chronicles 3" -> "XC3", "Mario and Luigi Brothership" -> "MLB")
+function Get-GameAbbr([string]$name) {
+    $out = ""
+    foreach ($m in [regex]::Matches([string]$name, '[\p{L}\p{N}]+')) {
+        $w = $m.Value
+        if ($w -match '^\d+$') { $out += $w.Substring(0, [Math]::Min(2, $w.Length)) }
+        elseif ($w -cmatch '^(and|the|of|for|und|der|die|das|no|de|la|le)$') { continue }
+        else { $out += $w.Substring(0, 1).ToUpper() }
+        if ($out.Length -ge 4) { break }
+    }
+    if (-not $out) { return "?" }
+    return $out.Substring(0, [Math]::Min(4, $out.Length))
+}
+
+# Farbverlauf, der sich aus dem Namen ergibt: gleiches Spiel = immer gleiche Farbe
+$script:TileBrushes = @{}
+function Get-GameTileBrush([string]$name) {
+    $h = 0
+    foreach ($ch in ([string]$name).ToLowerInvariant().ToCharArray()) { $h = ($h * 31 + [int]$ch) % 360 }
+    if (-not $script:TileBrushes.ContainsKey($h)) {
+        $b = [System.Windows.Media.LinearGradientBrush]::new()
+        $b.StartPoint = [System.Windows.Point]::new(0, 0)
+        $b.EndPoint   = [System.Windows.Point]::new(1, 1)
+        $b.GradientStops.Add([System.Windows.Media.GradientStop]::new((ConvertFrom-Hsv $h 0.60 0.66), 0))
+        $b.GradientStops.Add([System.Windows.Media.GradientStop]::new((ConvertFrom-Hsv ($h + 38) 0.72 0.36), 1))
+        $b.Freeze()
+        $script:TileBrushes[$h] = $b
+    }
+    return $script:TileBrushes[$h]
+}
+
+function Add-GameTileProps($g) {
+    $g | Add-Member -NotePropertyName Abbr      -NotePropertyValue (Get-GameAbbr $g.Name) -Force
+    $g | Add-Member -NotePropertyName TileBrush -NotePropertyValue (Get-GameTileBrush $g.Name) -Force
+}
+
+# Liegt das angeklickte Element in einem Listeneintrag (und nicht im leeren Bereich der Liste)?
+function Test-InListItem($src) {
+    $d = $src
+    while ($d) {
+        if ($d -is [System.Windows.Controls.ListBoxItem]) { return $true }
+        $d = if ($d -is [System.Windows.Media.Visual]) { [System.Windows.Media.VisualTreeHelper]::GetParent($d) } else { $null }
+    }
+    return $false
 }
 
 function Update-GameList {
@@ -8993,7 +9045,7 @@ function Update-ModGames {
         $off = if ($disabled.Contains($dec)) { @($disabled[$dec]) } else { @() }
         $on = @($ms | Where-Object { $off -notcontains $_.Name }).Count
         [pscustomobject]@{
-            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg
+            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg; TileBrush = (Get-GameTileBrush $e.Name)
             Initial = $(if ($e.Name) { $e.Name.Substring(0, 1).ToUpper() } else { "?" })
             Count = $ms.Count
             Info = $(if ($ms.Count) { TF "ModsGameInfo" $ms.Count $on } else { T "ModsNoMods" })
@@ -9309,7 +9361,7 @@ function Update-ContentGames {
         $cs = @($script:Content | Where-Object { $_.Base -eq $e.Tid })
         $nd = @($cs | Where-Object { $_.Kind -eq "dlc" }).Count
         [pscustomobject]@{
-            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg
+            Tid = $e.Tid; Name = $e.Name; IconImg = $e.IconImg; TileBrush = (Get-GameTileBrush $e.Name)
             Initial = $(if ($e.Name) { $e.Name.Substring(0, 1).ToUpper() } else { "?" })
             Count = $cs.Count
             Info = $(if ($cs.Count) { TF "ContentGameInfo" ($cs.Count - $nd) $nd } else { T "ContentNone" })
@@ -9553,7 +9605,7 @@ function Update-SaveGames {
         if ($sh -and $sh.Size) { $parts += (TF "SavesGameShader" (Format-Size $sh.Size)) }
         if ($nb) { $parts += (TF "SavesGameBackups" $nb) }
         [pscustomobject]@{
-            Tid = $tid; Name = $name; IconImg = $icons[$tid]
+            Tid = $tid; Name = $name; IconImg = $icons[$tid]; TileBrush = (Get-GameTileBrush $name)
             Initial = $(if ($name) { $name.Substring(0, 1).ToUpper() } else { "?" })
             HasSave = [bool]$sv
             Info = ($parts -join " · ")
@@ -10337,7 +10389,7 @@ $ui.BtnKeysDelete.Add_Click({ Remove-Keys })
 $ui.BtnKeysFolder.Add_Click({ Open-Dir (Get-KeysDir) })
 $ui.BtnGamesReload.Add_Click({ Start-GameScan })
 $ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
-$ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
+$ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource) -or -not (Test-InListItem $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.ListGames.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
     param($s, $e)
     $b = $e.OriginalSource
@@ -10575,8 +10627,10 @@ function Start-Snapshots {
     $script:Releases = @(for ($i = 0; $i -lt 9; $i++) {
         [pscustomobject]@{ Tag = ("v17937{0}5818.0{1}677aa50{0}" -f (9 - $i), $i); Url = ""; Date = [DateTime]::Now.AddDays(-$i * 2).ToString("g") }
     })
-    $script:Games = @("Abenteuer im Nebelwald", "Kart Turbo Deluxe", "Pixel Quest", "Sternenhafen 2", "Zeitreise-Labor") | ForEach-Object {
-        [pscustomobject]@{ Name = $_; Path = ""; Info = "NSP  ·  4,2 GB"; Initial = $_.Substring(0, 1); Icon = ""; IconImg = $null }
+    $script:Games = @("Abenteuer im Nebelwald", "Kart Turbo Deluxe", "Pixel Quest", "Sternenhafen Chroniken 2", "Sternenhafen Chroniken 3", "Sternenhafen Chroniken: Definitive Edition", "Zeitreise-Labor") | ForEach-Object {
+        $g = [pscustomobject]@{ Name = $_; Path = ""; Info = "NSP  ·  4,2 GB"; Initial = $_.Substring(0, 1); Icon = ""; IconImg = $null }
+        Add-GameTileProps $g
+        $g
     }
     $script:GamesLoaded = $true
     $script:GamesDirs   = 1
