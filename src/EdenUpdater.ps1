@@ -6150,7 +6150,7 @@ $xaml = @'
     </DataTemplate>
   </Window.Resources>
 
-  <Grid x:Name="RootGrid">
+  <Grid x:Name="RootGrid" Background="{DynamicResource BrBg}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="238"/>
       <ColumnDefinition Width="*"/>
@@ -7117,6 +7117,9 @@ $xaml = @'
         </Grid>
       </Border>
     </Grid>
+
+    <!-- Foto des alten Themes waehrend eines Theme-Wechsels (siehe New-ThemeReveal) -->
+    <Image x:Name="ThemeFx" Grid.ColumnSpan="2" Visibility="Collapsed" IsHitTestVisible="False" Stretch="Fill"/>
   </Grid>
 </Window>
 '@
@@ -7243,9 +7246,10 @@ $script:ThemeColors = $null
 # Einfarbige Pinsel und Verlaeufe, die dem Theme folgen (werden auch an Dialoge weitergegeben)
 $script:ThemeSolid = @("BrBg","BrPanel","BrPanel2","BrCard","BrLine","BrText","BrMuted","BrAccent","BrAccent2","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg","BrAccentText")
 $script:ThemeKeys  = $script:ThemeSolid + @("GrAccent","GrHero","GlowA","GlowB")
-$script:ThemeAnimate = $false   # ab dem ersten Bild blenden Themes weich ueber
-$script:ThemeInstant = $false   # ohne Ueberblenden (z.B. beim Ziehen im Farbwaehler)
-$script:Grad = $null
+$script:ThemeAnimate = $false   # ab dem ersten Bild wird ein Theme-Wechsel animiert
+$script:ThemeInstant = $false   # ohne Animation (z.B. beim Ziehen im Farbwaehler)
+$script:ThemeFxOrigin = $null   # Punkt im Theme-Fenster, von dem aus sich das neue Theme ausbreitet
+$script:ThemeFxGen = 0
 
 function ConvertTo-ColorRef($c) { return ([int]$c.R -bor ([int]$c.G -shl 8) -bor ([int]$c.B -shl 16)) }
 
@@ -7297,54 +7301,89 @@ function Get-Accent2($c) {
     return (ConvertFrom-Hsv ($h.H + $shift) $h.S $h.V)
 }
 
-# Farbe setzen; nach dem Start wird weich vom alten zum neuen Wert geblendet
-function Set-AnimColor($obj, $prop, $color) {
-    $from = $obj.GetValue($prop)
-    $obj.BeginAnimation($prop, $null)
-    $obj.SetValue($prop, $color)
-    if ($script:ThemeAnimate -and -not $script:ThemeInstant -and -not $script:Snapshot -and -not $from.Equals($color)) {
-        $a = [System.Windows.Media.Animation.ColorAnimation]::new($from, $color, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(340)))
-        $a.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
-        $obj.BeginAnimation($prop, $a)
-    }
-}
-
-# Pinsel einmalig anlegen. Sie bleiben veraenderbar (nicht eingefroren), damit ein Theme-Wechsel
-# nur ihre Farbe aendert - alle Stellen, die sie per DynamicResource nutzen, blenden mit.
-function Initialize-ThemeBrushes {
-    $M = [System.Windows.Media.Colors]::Black
-    foreach ($k in $script:ThemeSolid) { $window.Resources[$k] = [System.Windows.Media.SolidColorBrush]::new($M) }
-    $P  = [System.Windows.Point]
-    $GS = [System.Windows.Media.GradientStop]
-    $g  = @{}
-    foreach ($n in @("A0","H0","G0","B0")) { $g[$n] = $GS::new($M, 0) }
-    foreach ($n in @("A1","H2","G1","B1")) { $g[$n] = $GS::new($M, 1) }
-    $g["H1"] = $GS::new($M, 0.55)
-    $grA = [System.Windows.Media.LinearGradientBrush]::new(); $grA.StartPoint = $P::new(0, 0); $grA.EndPoint = $P::new(1, 1)
-    $grA.GradientStops.Add($g.A0); $grA.GradientStops.Add($g.A1)
-    $grH = [System.Windows.Media.LinearGradientBrush]::new(); $grH.StartPoint = $P::new(0, 0); $grH.EndPoint = $P::new(1, 0)
-    $grH.GradientStops.Add($g.H0); $grH.GradientStops.Add($g.H1); $grH.GradientStops.Add($g.H2)
-    $glA = [System.Windows.Media.RadialGradientBrush]::new(); $glA.GradientStops.Add($g.G0); $glA.GradientStops.Add($g.G1)
-    $glB = [System.Windows.Media.RadialGradientBrush]::new(); $glB.GradientStops.Add($g.B0); $glB.GradientStops.Add($g.B1)
-    $window.Resources["GrAccent"] = $grA
-    $window.Resources["GrHero"]   = $grH
-    $window.Resources["GlowA"]    = $glA
-    $window.Resources["GlowB"]    = $glB
-    $script:Grad = $g
+# Pinsel werden bei jedem Theme-Wechsel neu angelegt und eingefroren
+# (WPF friert Pinsel ein, sobald eine Vorlage sie nutzt - sie lassen sich danach nicht mehr aendern).
+function Set-ThemeResource([string]$key, $value) {
+    $window.Resources[$key] = $value
+    if ($script:ThemeWin) { $script:ThemeWin.Resources[$key] = $value }
 }
 
 function Set-ThemeBrush([string]$key, $color) {
-    Set-AnimColor $window.Resources[$key] ([System.Windows.Media.SolidColorBrush]::ColorProperty) $color
+    $b = [System.Windows.Media.SolidColorBrush]::new($color)
+    $b.Freeze()
+    Set-ThemeResource $key $b
 }
 
-function Set-GradStop([string]$name, $color) {
-    Set-AnimColor $script:Grad[$name] ([System.Windows.Media.GradientStop]::ColorProperty) $color
+# Verlauf aus (Farbe, Position)-Paaren; $radial = kreisfoermig, sonst von links oben nach ($ex,$ey)
+function Set-ThemeGradient([string]$key, [bool]$radial, [double]$ex, [double]$ey, $stops) {
+    if ($radial) { $b = [System.Windows.Media.RadialGradientBrush]::new() }
+    else {
+        $b = [System.Windows.Media.LinearGradientBrush]::new()
+        $b.StartPoint = [System.Windows.Point]::new(0, 0)
+        $b.EndPoint   = [System.Windows.Point]::new($ex, $ey)
+    }
+    foreach ($st in $stops) { $b.GradientStops.Add([System.Windows.Media.GradientStop]::new($st[0], [double]$st[1])) }
+    $b.Freeze()
+    Set-ThemeResource $key $b
+}
+
+# Theme-Wechsel als "Welle": das Fenster wird mit dem alten Theme fotografiert, das Foto liegt kurz
+# ueber der Oberflaeche und bekommt ein wachsendes Loch - darunter erscheint das neue Theme.
+function New-ThemeReveal($win, $origin) {
+    try {
+        if (-not $win -or -not $win.IsVisible) { return $null }
+        $root = $win.Content
+        $img  = $win.FindName("ThemeFx")
+        if (-not $img -or -not $root) { return $null }
+        $w = [double]$root.ActualWidth; $h = [double]$root.ActualHeight
+        if ($w -lt 2 -or $h -lt 2) { return $null }
+        $scale = 1.0
+        try {
+            $src = [System.Windows.PresentationSource]::FromVisual($win)
+            if ($src) { $scale = [double]$src.CompositionTarget.TransformToDevice.M11 }
+        } catch {}
+        $rtb = [System.Windows.Media.Imaging.RenderTargetBitmap]::new([int][Math]::Ceiling($w * $scale), [int][Math]::Ceiling($h * $scale), 96 * $scale, 96 * $scale, [System.Windows.Media.PixelFormats]::Pbgra32)
+        $rtb.Render($root)
+        $rtb.Freeze()
+        if (-not $origin) { $origin = [System.Windows.Point]::new($w / 2, $h / 2) }
+        $hole = [System.Windows.Media.EllipseGeometry]::new($origin, 0, 0)
+        $full = [System.Windows.Media.RectangleGeometry]::new([System.Windows.Rect]::new(0, 0, $w, $h))
+        $img.Clip   = [System.Windows.Media.CombinedGeometry]::new([System.Windows.Media.GeometryCombineMode]::Exclude, $full, $hole)
+        $img.Source = $rtb
+        $img.Visibility = "Visible"
+        $dx = [Math]::Max($origin.X, $w - $origin.X); $dy = [Math]::Max($origin.Y, $h - $origin.Y)
+        return @{ Img = $img; Hole = $hole; Radius = [Math]::Sqrt($dx * $dx + $dy * $dy) + 4 }
+    } catch { return $null }
+}
+
+function Start-ThemeReveal($fx) {
+    if (-not $fx) { return }
+    $script:ThemeFxGen++
+    $img = $fx.Img
+    $gen = $script:ThemeFxGen
+    $img.Tag = $gen
+    $a = [System.Windows.Media.Animation.DoubleAnimation]::new(0.0, [double]$fx.Radius, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(560)))
+    $ease = [System.Windows.Media.Animation.CubicEase]::new()
+    $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseInOut
+    $a.EasingFunction = $ease
+    # Aufraeumen nur, wenn inzwischen kein neuerer Wechsel gestartet wurde
+    $a.Add_Completed({
+        if ($img.Tag -eq $gen) { $img.Visibility = "Collapsed"; $img.Source = $null; $img.Clip = $null }
+    }.GetNewClosure())
+    $fx.Hole.BeginAnimation([System.Windows.Media.EllipseGeometry]::RadiusXProperty, $a)
+    $fx.Hole.BeginAnimation([System.Windows.Media.EllipseGeometry]::RadiusYProperty, $a)
 }
 
 # Aus 4 Grundfarben werden alle weiteren Farben abgeleitet.
 # Lesbarkeit wird erzwungen: Text >= 4.5:1, gedaempfter Text und Akzent-Text >= 3:1.
 function Set-Theme($t) {
-    if (-not $script:Grad) { Initialize-ThemeBrushes }
+    # altes Aussehen festhalten (nur wenn animiert werden soll)
+    $fx = @()
+    if ($script:ThemeAnimate -and -not $script:ThemeInstant -and -not $script:Snapshot) {
+        $fx += New-ThemeReveal $window $null
+        if ($script:ThemeWin) { $fx += New-ThemeReveal $script:ThemeWin $script:ThemeFxOrigin }
+    }
+    $script:ThemeFxOrigin = $null
     $bg     = ConvertTo-WpfColor $t.Bg     "#0F1419"
     $panel  = ConvertTo-WpfColor $t.Panel  "#171D26"
     $text   = ConvertTo-WpfColor $t.Text   "#E6EDF3"
@@ -7394,20 +7433,16 @@ function Set-Theme($t) {
     $aGlowA = if ($amoled) { 0x24 } elseif ($light) { 0x30 } else { 0x36 }
     $aGlowB = if ($amoled) { 0x18 } elseif ($light) { 0x22 } else { 0x26 }
     $aHero  = if ($light) { 0x24 } else { 0x2C }
-    Set-GradStop "A0" $accent
-    Set-GradStop "A1" $accent2
-    Set-GradStop "H0" (Get-AlphaColor $accent $aHero)
-    Set-GradStop "H1" (Get-AlphaColor $accent2 ([int]($aHero * 0.3)))
-    Set-GradStop "H2" (Get-AlphaColor $accent2 0)
-    Set-GradStop "G0" (Get-AlphaColor $accent $aGlowA)
-    Set-GradStop "G1" (Get-AlphaColor $accent 0)
-    Set-GradStop "B0" (Get-AlphaColor $accent2 $aGlowB)
-    Set-GradStop "B1" (Get-AlphaColor $accent2 0)
+    Set-ThemeGradient "GrAccent" $false 1 1 @(@($accent, 0), @($accent2, 1))
+    Set-ThemeGradient "GrHero"   $false 1 0 @(@((Get-AlphaColor $accent $aHero), 0), @((Get-AlphaColor $accent2 ([int]($aHero * 0.3))), 0.55), @((Get-AlphaColor $accent2 0), 1))
+    Set-ThemeGradient "GlowA"    $true  0 0 @(@((Get-AlphaColor $accent $aGlowA), 0), @((Get-AlphaColor $accent 0), 1))
+    Set-ThemeGradient "GlowB"    $true  0 0 @(@((Get-AlphaColor $accent2 $aGlowB), 0), @((Get-AlphaColor $accent2 0), 1))
 
     $script:ThemeColors = @{ Bg = $bg; Text = $text; Line = $line; Dark = (-not $light) }
     Set-TitleBar $window
     if ($script:ThemeWin) { Set-TitleBar $script:ThemeWin }
     if (-not $window.Icon) { try { $window.Icon = New-AppIcon } catch {} }
+    foreach ($f in $fx) { Start-ThemeReveal $f }
 }
 
 function Get-ThemeKey {
@@ -7455,7 +7490,7 @@ $themeDlgXaml = @'
         Background="{DynamicResource BrBg}" Foreground="{DynamicResource BrText}"
         FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
   __RES__
-  <Grid>
+  <Grid Background="{DynamicResource BrBg}">
   <Canvas IsHitTestVisible="False" ClipToBounds="True">
     <Ellipse Width="620" Height="620" Canvas.Left="-260" Canvas.Top="-340" Fill="{DynamicResource GlowA}"/>
     <Ellipse Width="700" Height="700" Canvas.Right="-300" Canvas.Bottom="-420" Fill="{DynamicResource GlowB}"/>
@@ -7645,6 +7680,7 @@ $themeDlgXaml = @'
       <Button x:Name="BtnThemeOk" Tag="&#xE73E;" Content="{DynamicResource L_Apply}" Style="{StaticResource BtnPrimary}" Margin="8,0,0,0"/>
     </StackPanel>
   </Grid>
+  <Image x:Name="ThemeFx" Visibility="Collapsed" IsHitTestVisible="False" Stretch="Fill"/>
   </Grid>
 </Window>
 '@
@@ -7872,6 +7908,7 @@ function New-ThemeDialog([string]$tab = "presets") {
             try {
                 $script:ThemePick = [string]$sender.Tag
                 $script:Draft = Get-ThemeColors $script:ThemePick
+                try { $script:ThemeFxOrigin = $sender.TranslatePoint([System.Windows.Point]::new($sender.ActualWidth / 2, $sender.ActualHeight / 2), $script:ThemeWin.Content) } catch {}
                 Set-ThemeById $script:ThemePick
                 Update-ThemeCards
             } catch {}
