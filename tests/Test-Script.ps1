@@ -84,7 +84,7 @@ if (-not $isWin) {
         "Hauptfenster"  = $xaml
         "Theme-Dialog"  = (Get-AssignedString 'themeDlgXaml').Replace('__RES__', $res)
         "Meldung"       = (Get-AssignedString 'msgDlgXaml').Replace('__RES__', $res)
-        "Theme-Karte"   = (Get-AssignedString 'themeCardXaml').Replace('@@KEY@@', 'dark-cyan').Replace('@@BG@@', '#0F1419').Replace('@@PANEL@@', '#171D26').Replace('@@TEXT@@', '#E6EDF3').Replace('@@ACCENT@@', '#22D3EE').Replace('@@LABEL@@', 'Test')
+        "Theme-Karte"   = (Get-AssignedString 'themeCardXaml').Replace('@@KEY@@', 'dark-cyan').Replace('@@BG@@', '#0F1419').Replace('@@PANEL@@', '#171D26').Replace('@@TEXT@@', '#E6EDF3').Replace('@@ACCENT@@', '#22D3EE').Replace('@@ACCENT2@@', '#8B5CF6').Replace('@@LABEL@@', 'Test')
     }
     foreach ($name in $tests.Keys) {
         try { [void][Windows.Markup.XamlReader]::Parse($tests[$name]); Ok $name }

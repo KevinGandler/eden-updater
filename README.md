@@ -10,14 +10,14 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Neueste Nightly installieren oder beliebige ältere Version wählen
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
-- Spiele-Tab: liest die Spieleordner aus Eden, Suche, Favoriten per Stern (stehen oben), Start per Doppelklick (optional im Vollbild)
+- Spiele-Tab: liest die Spieleordner aus Eden und zeigt sie als Kacheln mit Icon, Suche, Favoriten per Stern (stehen oben), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
 - Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen; über Eden in den NAND installierte Updates/DLCs werden mit den prod.keys erkannt und angezeigt – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)
 - Spieldaten: Spielstände pro Spiel sichern und wiederherstellen (ZIP-Backups in `user\save-backups`, vor dem Wiederherstellen wird der aktuelle Stand gesichert), automatisches Backup vor jedem Eden-Update (nur Spiele mit Änderungen, die letzten 10 automatischen pro Spiel bleiben), Shader-Cache pro Spiel oder komplett löschen
 - Firmware: aus ZIP oder Ordner installieren/aktualisieren (alte Firmware bleibt bei Fehlern erhalten), löschen, Version anzeigen
 - Schlüssel: `prod.keys` (+ `title.keys`) installieren und löschen, Warnung wenn die Keys zu alt für die Firmware sind
 - Auswahl der Build-Variante (Standard: PGO, Windows amd64) oder eigener Regex-Filter
-- 17 Theme-Vorlagen (dunkel, AMOLED, hell) und eigenes Theme mit Farbwähler; Lesbarkeit wird automatisch sichergestellt
+- 20 Theme-Vorlagen (dunkel, AMOLED, hell – darunter Aurora, Sunset und Synthwave mit eigenem Farbverlauf) und eigenes Theme mit Farbwähler; Lesbarkeit wird automatisch sichergestellt. Akzent-Verlauf, Hintergrund-Leuchten und Logo folgen dem Theme, der Wechsel breitet sich als Welle aus
 - 13 Sprachen (automatische Erkennung, sonst Deutsch)
 - Update-Status oben rechts, optional automatische Suche und Installation beim Start
 - Einstellungen liegen im Eden-Installationsordner (`eden-updater-settings.json`)

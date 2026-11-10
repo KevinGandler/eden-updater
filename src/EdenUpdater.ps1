@@ -7444,7 +7444,15 @@ function Start-ThemeReveal($fx) {
 
 # Aus 4 Grundfarben werden alle weiteren Farben abgeleitet.
 # Lesbarkeit wird erzwungen: Text >= 4.5:1, gedaempfter Text und Akzent-Text >= 3:1.
+$script:ThemeSig = $null
 function Set-Theme($t) {
+    $sig = "{0}|{1}|{2}|{3}|{4}" -f $t.Bg, $t.Panel, $t.Text, $t.Accent, $t.Accent2
+    if ($sig -eq $script:ThemeSig) {
+        $script:ThemeFxOrigin = $null
+        if ($script:ThemeWin) { Set-TitleBar $script:ThemeWin }
+        return
+    }
+    $script:ThemeSig = $sig
     # altes Aussehen festhalten (nur wenn animiert werden soll)
     $fx = @()
     if ($script:ThemeAnimate -and -not $script:ThemeInstant -and -not $script:Snapshot) {
@@ -7778,7 +7786,14 @@ $themeCardXaml = @'
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="1,3,0,0">
-              <Border Width="15" Height="15" CornerRadius="5" Background="@@ACCENT@@" HorizontalAlignment="Left"/>
+              <Border Width="15" Height="15" CornerRadius="5" HorizontalAlignment="Left">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="@@ACCENT@@" Offset="0"/>
+                    <GradientStop Color="@@ACCENT2@@" Offset="1"/>
+                  </LinearGradientBrush>
+                </Border.Background>
+              </Border>
               <Border Width="17" Height="3" CornerRadius="1.5" Background="@@ACCENT@@" Margin="0,9,0,0" HorizontalAlignment="Left"/>
               <Border Width="17" Height="3" CornerRadius="1.5" Background="@@TEXT@@" Opacity="0.3" Margin="0,6,0,0" HorizontalAlignment="Left"/>
               <Border Width="17" Height="3" CornerRadius="1.5" Background="@@TEXT@@" Opacity="0.3" Margin="0,6,0,0" HorizontalAlignment="Left"/>
@@ -7788,7 +7803,14 @@ $themeCardXaml = @'
                 <Border Background="@@TEXT@@" Height="5" Width="52" CornerRadius="2.5" HorizontalAlignment="Left" Opacity="0.9"/>
                 <Border Background="@@TEXT@@" Height="3" Width="80" CornerRadius="1.5" HorizontalAlignment="Left" Margin="0,7,0,0" Opacity="0.4"/>
                 <Border Background="@@TEXT@@" Height="3" Width="60" CornerRadius="1.5" HorizontalAlignment="Left" Margin="0,5,0,0" Opacity="0.4"/>
-                <Border Background="@@ACCENT@@" Height="11" Width="46" CornerRadius="5.5" HorizontalAlignment="Left" Margin="0,9,0,0"/>
+                <Border Height="11" Width="46" CornerRadius="5.5" HorizontalAlignment="Left" Margin="0,9,0,0">
+                  <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                      <GradientStop Color="@@ACCENT@@" Offset="0"/>
+                      <GradientStop Color="@@ACCENT2@@" Offset="1"/>
+                    </LinearGradientBrush>
+                  </Border.Background>
+                </Border>
               </StackPanel>
             </Border>
           </Grid>
@@ -7972,7 +7994,7 @@ function New-ThemeDialog([string]$tab = "presets") {
 
     foreach ($k in $ThemePresets.Keys) {
         $p  = $ThemePresets[$k]
-        $cx = $themeCardXaml.Replace('@@KEY@@', $k).Replace('@@BG@@', $p.Bg).Replace('@@PANEL@@', $p.Panel).Replace('@@TEXT@@', $p.Text).Replace('@@ACCENT@@', $p.Accent).Replace('@@LABEL@@', [System.Security.SecurityElement]::Escape((T $p.Color)))
+        $cx = $themeCardXaml.Replace('@@KEY@@', $k).Replace('@@BG@@', $p.Bg).Replace('@@PANEL@@', $p.Panel).Replace('@@TEXT@@', $p.Text).Replace('@@ACCENT@@', $p.Accent).Replace('@@ACCENT2@@', $(if ($p.Accent2) { $p.Accent2 } else { $p.Accent })).Replace('@@LABEL@@', [System.Security.SecurityElement]::Escape((T $p.Color)))
         $btn = [Windows.Markup.XamlReader]::Parse($cx)
         $btn.Add_Click({
             param($sender, $e)
@@ -8499,7 +8521,8 @@ function Move-NavPill([bool]$animate) {
         $a = [System.Windows.Media.Animation.DoubleAnimation]::new($from, $y, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(380)))
         $ease = [System.Windows.Media.Animation.BackEase]::new()
         $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
-        $ease.Amplitude  = 0.45
+        $dist = [Math]::Max(1.0, [Math]::Abs($y - $from))
+        $ease.Amplitude  = [Math]::Min(0.5, 28.0 / $dist)      # ergibt rund 5 px ueber das Ziel hinaus
         $a.EasingFunction = $ease
         $a.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
         $tt.BeginAnimation($yp, $a)
