@@ -11,6 +11,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
 - Eigene Titelleiste im Design der Oberfläche; Fenstergröße und -position werden gemerkt
+- Cover und saubere Spielnamen: werden einmal pro Spiel anhand der Title-ID von [api.nlib.cc](https://api.nlib.cc) geladen und unter `%LOCALAPPDATA%\EdenUpdater\covers` gemerkt. Übertragen wird nur die Title-ID. In den Einstellungen abschaltbar
 - Spiele-Tab: liest die Spieleordner aus Eden und zeigt sie als Kacheln mit Icon, Suche, Favoriten per Stern (stehen oben), Sortierung nach Name oder „zuletzt gespielt“, Karte „Weiterspielen“ für das zuletzt gestartete Spiel (aus Edens `launched.json`), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
 - Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen; über Eden in den NAND installierte Updates/DLCs werden mit den prod.keys erkannt und angezeigt – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)

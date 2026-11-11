@@ -23,6 +23,247 @@ function Start-GameScan {
     $script:GameWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
 }
 
+# Bild aus Datei laden (ganz in den Speicher, damit die Datei nicht gesperrt bleibt)
+function New-GameIcon([string]$path) {
+    try {
+        $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
+        $bi.BeginInit()
+        $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+        $bi.DecodePixelWidth = 192
+        $bi.UriSource        = [Uri]::new($path)
+        $bi.EndInit()
+        $bi.Freeze()
+        return $bi
+    } catch { return $null }
+}
+
+# ============================================================
+#  Cover und Spielnamen aus dem Internet
+#  Aktuelle Eden-Versionen legen beides nicht mehr im Cache ab. Deshalb wird pro Title-ID
+#  einmal bei api.nlib.cc nachgefragt (Name in der eingestellten Sprache + Icon) und das
+#  Ergebnis unter %LOCALAPPDATA%\EdenUpdater\covers gemerkt. Abschaltbar in den Einstellungen.
+#  Uebertragen wird nur die Title-ID.
+# ============================================================
+$script:MetaWorker = $null
+$script:MetaCache  = @{}      # Title-ID -> @{ Name; Lang; Miss (unbekannte ID); NoIcon (kein Bild vorhanden); At (Datum) }
+$script:MetaPending = $false
+$script:MetaDirty  = $false
+$script:MetaRefreshAt = [DateTime]::MinValue
+$metaSync = [hashtable]::Synchronized(@{ Args = $null; Done = $false; Stop = $false; Queue = [System.Collections.Queue]::Synchronized((New-Object System.Collections.Queue)) })
+
+function Get-MetaDir { return (Join-Path (Split-Path -Parent $PointerFile) "covers") }
+function Get-MetaIconPath([string]$tid) { return (Join-Path (Get-MetaDir) ($tid.ToUpperInvariant() + ".jpg")) }
+
+# Sprache fuer die Abfrage: was die Datenbank nicht kennt, kommt auf Englisch
+function Get-MetaLang {
+    $l = [string]$script:LangCode
+    if (@("en", "ja", "es", "de", "fr", "nl", "pt", "it", "zh", "ko", "ru") -contains $l) { return $l }
+    return "en"
+}
+
+function Read-MetaCache {
+    $c = @{}
+    try {
+        $f = Join-Path (Get-MetaDir) "titles.json"
+        if (Test-Path -LiteralPath $f) {
+            $j = [IO.File]::ReadAllText($f, [Text.Encoding]::UTF8) | ConvertFrom-Json
+            foreach ($pr in $j.PSObject.Properties) {
+                $c[$pr.Name.ToUpperInvariant()] = @{ Name = [string]$pr.Value.Name; Lang = [string]$pr.Value.Lang; Miss = [bool]$pr.Value.Miss; NoIcon = [bool]$pr.Value.NoIcon; At = [string]$pr.Value.At }
+            }
+        }
+    } catch {}
+    $script:MetaCache = $c
+    $script:MetaDirty = $false
+}
+
+function Save-MetaCache {
+    if (-not $script:MetaDirty) { return }
+    try {
+        $d = Get-MetaDir
+        if (-not (Test-Path -LiteralPath $d)) { New-Item -ItemType Directory -Path $d -Force | Out-Null }
+        [IO.File]::WriteAllText((Join-Path $d "titles.json"), ($script:MetaCache | ConvertTo-Json -Depth 4), (New-Object Text.UTF8Encoding($false)))
+        $script:MetaDirty = $false
+    } catch {}
+}
+
+# Name und Cover an ein Spiel haengen (Markenzeichen wie (TM) fliegen aus dem Namen)
+function Set-GameMeta($g, [string]$name, [string]$iconPath) {
+    if ($name) {
+        $clean = [regex]::Replace($name, '[\u2122\u00AE\u00A9]', '')
+        $clean = [regex]::Replace($clean, '\s{2,}', ' ').Trim()
+        if ($clean) {
+            $g.Name    = $clean
+            $g.Initial = $clean.Substring(0, 1).ToUpper()
+            Add-GameTileProps $g
+            if ($g.Tid) { $script:CacheNames[([string]$g.Tid).ToUpperInvariant()] = $clean }
+        }
+    }
+    if ($iconPath -and (Test-Path -LiteralPath $iconPath)) {
+        $img = New-GameIcon $iconPath
+        if ($img) { $g.IconImg = $img }
+    }
+}
+
+# Nach dem Einlesen der Spiele: Gemerktes sofort anwenden, Fehlendes im Hintergrund holen
+function Update-GameMeta {
+    if (-not $script:Settings.OnlineMeta -or $script:Snapshot) { return }
+    Read-MetaCache
+    $lang = Get-MetaLang
+    $need = New-Object System.Collections.ArrayList
+    $seen = @{}
+    foreach ($g in @($script:Games)) {
+        if (-not $g.Tid) { continue }
+        $tid = ([string]$g.Tid).ToUpperInvariant()
+        $e = $script:MetaCache[$tid]
+        $icon = Get-MetaIconPath $tid
+        $hasIcon = Test-Path -LiteralPath $icon
+        if ($e -and -not $e.Miss) { Set-GameMeta $g $(if ($e.Lang -eq $lang) { $e.Name } else { "" }) $icon }
+        if ($seen.ContainsKey($tid)) { continue }
+        $seen[$tid] = $true
+        if (-not $e) {
+            [void]$need.Add(@{ Tid = $tid; Name = $true; Icon = (-not $hasIcon) })
+        } elseif ($e.Miss) {
+            # unbekannte Title-ID: fruehestens nach 7 Tagen wieder fragen
+            $at = [DateTime]::MinValue
+            [void][DateTime]::TryParse($e.At, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::None, [ref]$at)
+            if (([DateTime]::Now - $at).TotalDays -ge 7) { [void]$need.Add(@{ Tid = $tid; Name = $true; Icon = (-not $hasIcon) }) }
+        } else {
+            $needName = ($e.Lang -ne $lang)                       # Sprache gewechselt
+            $needIcon = (-not $hasIcon) -and (-not $e.NoIcon)     # Bild fehlt (und die Datenbank hat eins)
+            if ($needName -or $needIcon) { [void]$need.Add(@{ Tid = $tid; Name = [bool]$needName; Icon = [bool]$needIcon }) }
+        }
+    }
+    if ($need.Count) { Start-MetaFetch @($need) $lang }
+}
+
+$jobMeta = {
+    # Laeuft im Hintergrund; meldet jedes Ergebnis einzeln ueber $sync.Queue
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+        $a = $sync.Args
+        if (-not (Test-Path -LiteralPath $a.Dir)) { New-Item -ItemType Directory -Path $a.Dir -Force | Out-Null }
+        function Get-Bytes([string]$url) {
+            # liefert @{ Code; Data }; Code 0 = Netzwerkfehler
+            $rs = $null
+            try {
+                $rq = [Net.HttpWebRequest][Net.WebRequest]::Create($url)
+                $rq.Timeout = 15000; $rq.ReadWriteTimeout = 15000
+                $rq.UserAgent = $a.Agent
+                $rs = $rq.GetResponse()
+                $ms = New-Object IO.MemoryStream
+                $rs.GetResponseStream().CopyTo($ms)
+                return @{ Code = [int]$rs.StatusCode; Data = $ms.ToArray() }
+            } catch [Net.WebException] {
+                $code = 0
+                if ($_.Exception.Response) { try { $code = [int]$_.Exception.Response.StatusCode } catch {} }
+                return @{ Code = $code; Data = $null }
+            } catch { return @{ Code = 0; Data = $null } }
+            finally { if ($rs) { $rs.Close() } }
+        }
+        $fails = 0
+        foreach ($t in @($a.Items)) {
+            if ($sync.Stop -or $fails -ge 3) { break }     # 3 Netzwerkfehler in Folge: offline, aufhoeren
+            # Net = Name wegen Netzwerkfehler nicht geholt; IconTried = Bild wurde angefragt und die Antwort kam an
+            $res = @{ Tid = $t.Tid; Name = $null; Miss = $false; Icon = $false; IconTried = $false; Net = $false }
+            if ($t.Name) {
+                $r = Get-Bytes ("https://api.nlib.cc/nx/" + $t.Tid + "?fields=name&lang=" + $a.Lang)
+                if ($r.Code -eq 200 -and $r.Data) {
+                    $fails = 0
+                    try { $res.Name = [string]([Text.Encoding]::UTF8.GetString($r.Data) | ConvertFrom-Json).name } catch {}
+                } elseif ($r.Code -eq 404) { $fails = 0; $res.Miss = $true }
+                else { $fails++; $res.Net = $true }
+            }
+            if ($t.Icon -and -not $res.Miss -and -not $res.Net) {
+                $r = Get-Bytes ("https://api.nlib.cc/nx/" + $t.Tid + "/icon/260")
+                # nur echte JPEGs uebernehmen (beginnen mit FF D8)
+                if ($r.Code -eq 200 -and $r.Data -and $r.Data.Length -gt 1000 -and $r.Data[0] -eq 0xFF -and $r.Data[1] -eq 0xD8) {
+                    $fails = 0
+                    $tmp = Join-Path $a.Dir ($t.Tid + ".tmp")
+                    $dst = Join-Path $a.Dir ($t.Tid + ".jpg")
+                    [IO.File]::WriteAllBytes($tmp, $r.Data)
+                    if (Test-Path -LiteralPath $dst) { Remove-Item -LiteralPath $dst -Force }
+                    Move-Item -LiteralPath $tmp -Destination $dst -Force
+                    $res.Icon = $true; $res.IconTried = $true
+                } elseif ($r.Code -eq 0) { $fails++ }
+                else { $fails = 0; $res.IconTried = $true }
+            }
+            $sync.Queue.Enqueue($res)
+        }
+    } catch {} finally { $sync.Done = $true }
+}
+
+function Start-MetaFetch($items, [string]$lang) {
+    if ($script:MetaWorker -or -not $items -or -not @($items).Count) { return }
+    $metaSync.Args = @{ Items = @($items); Lang = $lang; Dir = (Get-MetaDir); Agent = ("EdenUpdater/" + [string]$script:SelfVersion) }
+    $metaSync.Done = $false
+    $metaSync.Stop = $false
+    $metaSync.Queue.Clear()
+    $rs = [runspacefactory]::CreateRunspace()
+    $rs.ApartmentState = "MTA"
+    $rs.Open()
+    $rs.SessionStateProxy.SetVariable("sync", $metaSync)
+    $ps = [powershell]::Create()
+    $ps.Runspace = $rs
+    [void]$ps.AddScript($jobMeta.ToString())
+    $script:MetaLang   = $lang
+    $script:MetaGot    = 0
+    $script:MetaWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
+}
+
+# Vom UI-Timer aufgerufen: fertige Ergebnisse uebernehmen; die Listen werden hoechstens alle 2 s neu aufgebaut
+function Receive-GameMeta {
+    $changed = $false
+    while ($metaSync.Queue.Count -gt 0) {
+        $r = $metaSync.Queue.Dequeue()
+        if (-not $r -or $r.Net) { continue }
+        $tid = [string]$r.Tid
+        $today = [DateTime]::Now.ToString("yyyy-MM-dd", [Globalization.CultureInfo]::InvariantCulture)
+        if ($r.Miss) {
+            $script:MetaCache[$tid] = @{ Name = ""; Lang = $script:MetaLang; Miss = $true; NoIcon = $false; At = $today }
+            $script:MetaDirty = $true
+            continue
+        }
+        $e = $script:MetaCache[$tid]
+        if (-not $e -or $e.Miss) {
+            if (-not $r.Name) { continue }      # weder gemerkt noch jetzt ein Name: nichts festhalten
+            $e = @{ Name = ""; Lang = $script:MetaLang; Miss = $false; NoIcon = $false; At = $today }
+        }
+        if ($r.Name) { $e.Name = [string]$r.Name; $e.Lang = $script:MetaLang; $e.At = $today }
+        if ($r.IconTried) { $e.NoIcon = (-not $r.Icon) }
+        $script:MetaCache[$tid] = $e
+        $script:MetaDirty = $true
+        foreach ($g in @($script:Games)) {
+            if ($g.Tid -and ([string]$g.Tid).ToUpperInvariant() -eq $tid) {
+                Set-GameMeta $g ([string]$r.Name) $(if ($r.Icon) { Get-MetaIconPath $tid } else { "" })
+                $changed = $true
+            }
+        }
+        if ($r.Name -or $r.Icon) { $script:MetaGot++ }
+    }
+    if ($changed) { $script:MetaPending = $true }
+    $done = [bool]$metaSync.Done -and ($metaSync.Queue.Count -eq 0)
+    if ($script:MetaPending -and ($done -or [DateTime]::Now -ge $script:MetaRefreshAt)) {
+        $script:MetaPending   = $false
+        $script:MetaRefreshAt = [DateTime]::Now.AddSeconds(2)
+        Set-GameLaunchProps
+        $selKey = Get-GameKey $ui.ListGames.SelectedItem
+        Update-GameList
+        if ($selKey) {
+            foreach ($x in @($ui.ListGames.ItemsSource)) { if ((Get-GameKey $x) -eq $selKey) { $ui.ListGames.SelectedItem = $x; break } }
+        }
+        try { if ($script:ModsLoaded) { Update-ModGames } } catch {}
+        try { if ($script:ContentLoaded) { Update-ContentGames } } catch {}
+        try { if ($script:SavesLoaded) { Update-SaveGames } } catch {}
+    }
+    if ($done) {
+        $w = $script:MetaWorker
+        $script:MetaWorker = $null
+        try { [void]$w.PS.EndInvoke($w.Handle) } catch {}
+        try { $w.PS.Dispose(); $w.RS.Close(); $w.RS.Dispose() } catch {}
+        Save-MetaCache
+    }
+}
+
 function Complete-GameScan {
     $w = $script:GameWorker
     $script:GameWorker = $null
@@ -32,19 +273,7 @@ function Complete-GameScan {
     $script:GamesLoaded = $true
     if ($r -and $r.Ok) {
         foreach ($g in @($r.Games)) {
-            $img = $null
-            if ($g.Icon) {
-                try {
-                    $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
-                    $bi.BeginInit()
-                    $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
-                    $bi.DecodePixelWidth = 192
-                    $bi.UriSource        = [Uri]::new([string]$g.Icon)
-                    $bi.EndInit()
-                    $bi.Freeze()
-                    $img = $bi
-                } catch {}
-            }
+            $img = if ($g.Icon) { New-GameIcon ([string]$g.Icon) } else { $null }
             $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
             $g | Add-Member -NotePropertyName IsFav -NotePropertyValue (Test-GameFav $g) -Force
             Add-GameTileProps $g
@@ -54,6 +283,7 @@ function Complete-GameScan {
         Set-GameLaunchProps
         if ($r.CacheNames) { $script:CacheNames = $r.CacheNames }
         $script:GamesDirs = [int]$r.Dirs
+        try { Update-GameMeta } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
     } else {
         $script:Games = @()
         $script:GamesDirs = 0

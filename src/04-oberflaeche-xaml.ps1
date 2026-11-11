@@ -1835,6 +1835,7 @@ $xaml = @'
                     <CheckBox x:Name="ChkClose" Content="{DynamicResource L_ChkClose}" Style="{StaticResource SwitchRow}"/>
                     <CheckBox x:Name="ChkAuto" Content="{DynamicResource L_ChkAuto}" Style="{StaticResource SwitchRow}"/>
                     <CheckBox x:Name="ChkAutoInstall" Content="{DynamicResource L_ChkAutoInstall}" Style="{StaticResource SwitchRow}"/>
+                    <CheckBox x:Name="ChkOnlineMeta" Content="{DynamicResource L_ChkOnlineMeta}" Style="{StaticResource SwitchRow}"/>
                   </StackPanel>
                 </Border>
               </Grid>

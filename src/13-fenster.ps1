@@ -13,7 +13,7 @@ try {
 $ui = @{}
 foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
-                 "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
+                 "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","ChkOnlineMeta","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
                  "BtnWinMin","BtnWinMax","BtnWinClose","GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
                  "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
@@ -66,6 +66,7 @@ function Set-SettingsControls {
     Update-LangCombo
     $ui.ChkAuto.IsChecked        = [bool]$s.AutoCheck
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
+    $ui.ChkOnlineMeta.IsChecked  = [bool]$s.OnlineMeta
     $ui.ChkSelfUpdate.IsChecked  = [bool]$s.SelfUpdateCheck
     $ui.ChkGamesFull.IsChecked   = [bool]$s.GamesFullscreen
     $ui.ChkGamesClose.IsChecked  = [bool]$s.GamesCloseOnStart
@@ -265,6 +266,7 @@ $ui.BtnSave.Add_Click({
             CustomTheme  = $old.CustomTheme
             AutoCheck    = [bool]$ui.ChkAuto.IsChecked
             AutoInstall  = [bool]$ui.ChkAutoInstall.IsChecked
+            OnlineMeta   = [bool]$ui.ChkOnlineMeta.IsChecked
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
             GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
             GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
@@ -298,6 +300,9 @@ $ui.BtnSave.Add_Click({
             $script:FwPendingVersion = ""
         } elseif ($langChanged) {
             Refresh-LoadedTabs
+            if ($script:GamesLoaded -and $script:Settings.OnlineMeta) { Start-GameScan }   # Namen in der neuen Sprache
+        } elseif ([bool]$old.OnlineMeta -ne [bool]$script:Settings.OnlineMeta) {
+            if ($script:GamesLoaded) { Start-GameScan }
         }
         Add-UiLog (T "LogSettingsSaved")
         Set-NotesLayout
@@ -324,6 +329,7 @@ $timer.Add_Tick({
         if ($script:NotesWorker -and $notesSync.Done) { Complete-Notes }
         if ($script:SelfWorker -and $selfSync.Done) { Complete-Self }
         if ($script:GameWorker -and $gameSync.Done) { Complete-GameScan }
+        if ($script:MetaWorker) { Receive-GameMeta }
         if ($script:ModWorker -and $modSync.Done) { Complete-ModWorker }
         if ($script:CurrentPage -eq "mods") { Update-ModsBanner }
         if ($script:ContentWorker) {

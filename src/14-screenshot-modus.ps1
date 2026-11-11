@@ -91,6 +91,9 @@ function Start-Snapshots {
     # mittendrin fotografieren - so fallen Fehler in diesen Pfaden im automatischen Test auf.
     if ($env:EDEN_UPDATER_SNAPSHOT_FX) {
         foreach ($pg in @("fx-theme", "fx-nav", "fx-busy")) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = $pg }) }
+        # Cover/Namen wirklich aus dem Internet holen (2 bekannte Title-IDs + 1 unbekannte). Das Ergebnis landet nur
+        # als Text in meta-probe.txt; ein Ausfall des fremden Servers laesst den Test nicht scheitern.
+        for ($n = 0; $n -le 8; $n++) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-meta"; N = $n }) }
     }
     $script:SnapTimer = [System.Windows.Threading.DispatcherTimer]::new()
     $script:SnapTimer.Interval = [TimeSpan]::FromMilliseconds(700)
@@ -125,6 +128,7 @@ function Start-Snapshots {
                 "fx-theme"     { Set-Page "versions"; Invoke-SnapFx { Set-ThemeById "dark-sunset" } "fx-theme-mid" 300 }
                 "fx-nav"       { Set-Page "versions"; Invoke-SnapFx { Set-Page "settings"; Set-LogVisible $false } "fx-nav-mid" 130 }
                 "fx-busy"      { Invoke-SnapFx { Set-Page "versions"; Set-BusyVisual $true; Set-FlowAnim $true; Set-DotPulse $true; Set-LogVisible $true } "fx-busy-mid" 200 }
+                "fx-meta"      { Set-Page "versions"; Invoke-SnapMetaProbe ([int]$st.N) }
                 default        { Set-Page $st.Page }
             }
             $script:SnapPending = $st
@@ -133,6 +137,31 @@ function Start-Snapshots {
         }
     })
     $script:SnapTimer.Start()
+}
+
+# Schritt 0 startet die Abfrage, die folgenden uebernehmen Ergebnisse, der letzte schreibt das Protokoll
+function Invoke-SnapMetaProbe([int]$n) {
+    if ($n -eq 0) {
+        $ids = @("01007BB017812000", "0100ABD01785C000", "0100000000001234")
+        for ($i = 0; $i -lt 3; $i++) { $script:Games[$i].Tid = $ids[$i] }
+        $script:MetaCache = @{}
+        Remove-Item -LiteralPath (Get-MetaDir) -Recurse -Force -ErrorAction SilentlyContinue
+        Start-MetaFetch @($ids | ForEach-Object { @{ Tid = $_; Name = $true; Icon = $true } }) "de"
+        return
+    }
+    if ($script:MetaWorker) { Receive-GameMeta }
+    if ($n -lt 8) { return }
+    $lines = @("Worker fertig: " + [bool](-not $script:MetaWorker))
+    for ($i = 0; $i -lt 3; $i++) {
+        $g = $script:Games[$i]
+        $f = Get-MetaIconPath $g.Tid
+        $lines += ("{0}  Name='{1}'  Kuerzel={2}  Bild geladen={3}  Datei={4} Bytes" -f $g.Tid, $g.Name, $g.Abbr, [bool]$g.IconImg, $(if (Test-Path -LiteralPath $f) { (Get-Item -LiteralPath $f).Length } else { 0 }))
+        $g.IconImg = $null
+    }
+    $lines += "Merkliste: " + ($script:MetaCache | ConvertTo-Json -Depth 4 -Compress)
+    $tj = Join-Path (Get-MetaDir) "titles.json"
+    $lines += "titles.json vorhanden: " + (Test-Path -LiteralPath $tj)
+    Set-Content -LiteralPath (Join-Path $script:Snapshot "meta-probe.txt") -Value $lines -Encoding UTF8
 }
 
 # Fuehrt $action mit eingeschalteten Animationen aus und fotografiert nach $ms Millisekunden
