@@ -50,15 +50,27 @@ jobs:
       - name: Screenshots erstellen
         shell: powershell
         run: |
-          $env:EDEN_UPDATER_SNAPSHOT = Join-Path $pwd "snapshots"
-          $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan,light,light-sand,dark-aurora,dark-synth,amoled-red"
-          $env:EDEN_UPDATER_SNAPSHOT_FX = "1"
-          .\build\merge.ps1 | Out-Null
-          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','dist\EdenUpdater.ps1' -PassThru
-          if (-not $p.WaitForExit(300000)) { $p.Kill(); Write-Host "Timeout" }
-          Get-ChildItem snapshots | Format-Table Name, Length
-          if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
-          if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
+          New-Item -ItemType Directory snapshots | Out-Null
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $out = Join-Path $pwd "snapshots\probe.txt"
+          $ids = "010074F013262000","01006A800016E000","01006D0017F7A000","01006FE013472000","01007BB017812000","0100965017338000","010099C022B96000","0100ABD01785C000","0100E95004038000","0100FD8022DAA000","010015100B514000","0100453019AA8000","0100000000001234"
+          foreach ($id in $ids) {
+            foreach ($q in @("?fields=name,icon,publisher&lang=de")) {
+              $sw = [Diagnostics.Stopwatch]::StartNew()
+              try {
+                $r = Invoke-WebRequest -UseBasicParsing -Uri ("https://api.nlib.cc/nx/" + $id + $q) -TimeoutSec 20 -UserAgent "EdenUpdater-probe"
+                Add-Content $out ("{0} {1} {2}ms {3} :: {4}" -f $id, $r.StatusCode, $sw.ElapsedMilliseconds, $r.Headers["Content-Type"], $r.Content)
+              } catch { Add-Content $out ("{0} ERR {1}ms {2}" -f $id, $sw.ElapsedMilliseconds, $_.Exception.Message); try { $sr = New-Object IO.StreamReader($_.Exception.Response.GetResponseStream()); Add-Content $out ("   body: " + $sr.ReadToEnd()) } catch {} }
+            }
+          }
+          foreach ($u in @("https://api.nlib.cc/nx/010074F013262000?lang=en","https://api.nlib.cc/nx/010074F013262000?fields=name&lang=pl","https://api.nlib.cc/nx/stats")) {
+            try { $r = Invoke-WebRequest -UseBasicParsing -Uri $u -TimeoutSec 20; Add-Content $out ("{0} -> {1} :: {2}" -f $u, $r.StatusCode, $r.Content.Substring(0, [Math]::Min(1500, $r.Content.Length))); Add-Content $out ("   headers: " + (($r.Headers.Keys | % { $_ + "=" + $r.Headers[$_] }) -join "; ")) } catch { Add-Content $out ("{0} -> ERR {1}" -f $u, $_.Exception.Message) }
+          }
+          foreach ($u in @("https://api.nlib.cc/nx/010074F013262000/icon/260","https://api.nlib.cc/nx/0100000000001234/icon/260","https://api.nlib.cc/nx/01006A800016E000/icon/260")) {
+            $f = Join-Path $pwd ("snapshots\icon-" + ($u -split "/")[4] + ".jpg")
+            try { $r = Invoke-WebRequest -UseBasicParsing -Uri $u -TimeoutSec 30 -OutFile $f -PassThru; Add-Content $out ("{0} -> {1} {2} {3} bytes" -f $u, $r.StatusCode, $r.Headers["Content-Type"], (Get-Item $f).Length) } catch { Add-Content $out ("{0} -> ERR {1}" -f $u, $_.Exception.Message) }
+          }
+          Get-Content $out
 
       - name: Screenshots ablegen
         if: always()
