@@ -83,7 +83,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "mods", "content", "saves", "firmware", "settings", "settings-end", "dialog", "themes", "themes-custom")) {
+        foreach ($pg in @("versions", "notes", "games", "mods", "content", "saves", "firmware", "settings", "settings-end", "dialog", "dialog-online", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
@@ -123,6 +123,7 @@ function Start-Snapshots {
                 "settings-end" { Set-Page "settings"; $ui.SettingsScroll.ScrollToEnd() }
                 "settings"     { Set-Page "settings"; $ui.SettingsScroll.ScrollToTop() }
                 "dialog"       { Set-Page "versions"; $st.Win = New-SnapDialog }
+                "dialog-online" { Set-Page "versions"; $st.Win = New-SnapDialog $true }
                 "themes"        { Set-Page "versions"; $st.Win = New-SnapThemeDialog "presets" }
                 "themes-custom" { Set-Page "versions"; $st.Win = New-SnapThemeDialog "custom" }
                 "fx-theme"     { Set-Page "versions"; Invoke-SnapFx { Set-ThemeById "dark-sunset" } "fx-theme-mid" 300 }
@@ -186,7 +187,7 @@ function Set-SnapTheme([string]$key) {
     if (Get-Command Set-ThemeById -ErrorAction SilentlyContinue) { Set-ThemeById $key } else { Set-ThemeByKey $key }
 }
 
-function New-SnapDialog {
+function New-SnapDialog([bool]$online = $false) {
     $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
     foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
@@ -194,8 +195,15 @@ function New-SnapDialog {
     $d.Owner = $window
     $d.FindName("MsgTitle").Text = T "DlgQuestion"
     $d.FindName("MsgText").Text  = TF "AskInstallBackup" "v1793745818.07677aa500"
+    if ($online) {
+        # die Frage zu Covern aus dem Internet, wie Invoke-OnlineMetaAsk sie zeigt
+        $d.Width = 640
+        $d.FindName("MsgTitle").Text = T "OnlineAskTitle"
+        $d.FindName("MsgTitle").TextWrapping = [System.Windows.TextWrapping]::Wrap
+        $d.FindName("MsgText").Text  = T "OnlineAskText"
+    }
     $bh = $d.FindName("MsgButtons")
-    foreach ($def in @(@((T "No"), "Btn"), @((T "Yes"), "BtnPrimary"))) {
+    foreach ($def in @(@((T "No"), "Btn"), @((T "Yes"), $(if ($online) { "Btn" } else { "BtnPrimary" })))) {
         $b = [System.Windows.Controls.Button]::new()
         $b.Content = $def[0]
         $b.Style = $window.FindResource($def[1])
@@ -227,6 +235,7 @@ $window.Add_ContentRendered({
     Start-FadeIn $ui.SideBar 0 -22 420
     Start-FadeIn $ui.MainArea 18 0 520
     if ($script:FirstRun) { Invoke-FirstRun }
+    try { Invoke-OnlineMetaAsk } catch {}
     if ($script:SelfExe) {
         $dir = Split-Path -Parent $script:SelfExe
         if (@(Get-ChildItem -LiteralPath $dir -Filter "EdenUpdater*.old" -Force -ErrorAction SilentlyContinue).Count) {

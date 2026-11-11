@@ -104,6 +104,17 @@ function Set-GameMeta($g, [string]$name, [string]$iconPath) {
     }
 }
 
+# Einmalige Frage, ob Cover und Namen aus dem Internet geladen werden sollen - mit Vor- und Nachteilen.
+# Solange nicht geantwortet wurde (OnlineMeta = $null), wird nichts geladen. Fenster schliessen zaehlt als Nein.
+function Invoke-OnlineMetaAsk {
+    if ($null -ne $script:Settings.OnlineMeta) { return }
+    $ans = Show-Dialog (T "OnlineAskText") "YesNo" "Question" (T "OnlineAskTitle") 640 $true
+    $script:Settings.OnlineMeta = ($ans -eq "Yes")
+    try { Save-Settings } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
+    $ui.ChkOnlineMeta.IsChecked = [bool]$script:Settings.OnlineMeta
+    if ($script:Settings.OnlineMeta -and $script:GamesLoaded) { Start-GameScan }
+}
+
 # Nach dem Einlesen der Spiele: Gemerktes sofort anwenden, Fehlendes im Hintergrund holen
 function Update-GameMeta {
     if (-not $script:Settings.OnlineMeta -or $script:Snapshot) { return }

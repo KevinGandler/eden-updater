@@ -894,7 +894,10 @@ $msgDlgXaml = @'
       </Border>
       <StackPanel Grid.Column="1">
         <TextBlock x:Name="MsgTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" Margin="0,1,0,8"/>
-        <TextBlock x:Name="MsgText" TextWrapping="Wrap" Foreground="{DynamicResource BrText}"/>
+        <!-- lange Texte (z.B. die Frage zu Covern aus dem Internet) bleiben auf kleinen Bildschirmen bedienbar -->
+        <ScrollViewer MaxHeight="470" VerticalScrollBarVisibility="Auto" Focusable="False">
+          <TextBlock x:Name="MsgText" TextWrapping="Wrap" Foreground="{DynamicResource BrText}" Margin="0,0,6,0"/>
+        </ScrollViewer>
         <StackPanel x:Name="MsgButtons" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0"/>
       </StackPanel>
     </Grid>
@@ -906,7 +909,7 @@ $script:MsgWin = $null
 $script:MsgResult = "Cancel"
 
 # Ersatz fuer die weisse Windows-MessageBox: buttons = "OK" oder "YesNo", Rueckgabe "OK"/"Yes"/"No"
-function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "Information") {
+function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "Information", [string]$title = "", [double]$width = 0, [bool]$neutral = $false) {
     $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
     foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
@@ -917,8 +920,10 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
 
     $titles = @{ Warning = (T "DlgWarning"); Error = (T "DlgError"); Question = (T "DlgQuestion"); Information = (T "DlgInfo") }
     $d.Title = $titles[$icon]
-    $d.FindName("MsgTitle").Text = $titles[$icon]
+    $d.FindName("MsgTitle").Text = $(if ($title) { $title } else { $titles[$icon] })
+    $d.FindName("MsgTitle").TextWrapping = [System.Windows.TextWrapping]::Wrap
     $d.FindName("MsgText").Text  = $text
+    if ($width -gt 0) { $d.Width = $width }
     # Icon-Feld: Akzentfarbe, bei Warnung gelb, bei Fehler rot
     $bar   = $d.FindName("MsgBar")
     $glyph = $d.FindName("MsgGlyph")
@@ -938,9 +943,10 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
         $b.Content = $def[0]
         $b.CommandParameter = $def[1]
         $b.MinWidth = 84
-        $b.Style   = $d.FindResource($(if ($def[2]) { "BtnPrimary" } else { "Btn" }))
+        # neutral: beide Knoepfe gleich, Enter waehlt nichts aus (fuer Fragen, bei denen keine Antwort nahegelegt werden soll)
+        $b.Style   = $d.FindResource($(if ($def[2] -and -not $neutral) { "BtnPrimary" } else { "Btn" }))
         $b.Margin  = [System.Windows.Thickness]::new(8, 0, 0, 0)
-        if ($def[2]) { $b.IsDefault = $true } else { $b.IsCancel = $true }
+        if ($def[2]) { if (-not $neutral) { $b.IsDefault = $true } } else { $b.IsCancel = $true }
         $b.Add_Click({ param($sender, $e) $script:MsgResult = [string]$sender.CommandParameter; $script:MsgWin.Close() })
         [void]$panelBtns.Children.Add($b)
     }

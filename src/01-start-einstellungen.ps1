@@ -32,7 +32,7 @@ $Defaults = [ordered]@{
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
     GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
-    OnlineMeta   = $true      # Cover und Spielnamen per Title-ID aus dem Internet laden (api.nlib.cc) und lokal merken
+    OnlineMeta   = $null      # Cover und Spielnamen per Title-ID aus dem Internet laden (api.nlib.cc): $true/$false; $null = noch nicht gefragt
     GamesSort    = "name"     # Reihenfolge im Spiele-Tab: "name" oder "recent" (zuletzt gespielt zuerst)
     WinLeft      = 0          # Fenster: Position und Groesse beim letzten Schliessen (WinWidth 0 = noch nichts gemerkt)
     WinTop       = 0
