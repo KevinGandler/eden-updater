@@ -10609,7 +10609,9 @@ $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
 $ui.BtnGameContinue.Add_Click({ if ($script:ContinueGame) { Start-Game $script:ContinueGame } })
 $ui.CmbGameSort.Add_SelectionChanged({
     if ($script:SortFilling) { return }
-    $v = if ([string]$ui.CmbGameSort.SelectedValue -eq "recent") { "recent" } else { "name" }
+    $sel = $ui.CmbGameSort.SelectedItem
+    if (-not $sel) { return }
+    $v = if ([string]$sel.Tag -eq "recent") { "recent" } else { "name" }
     if ([string]$script:Settings.GamesSort -eq $v) { return }
     $script:Settings.GamesSort = $v
     try { Save-Settings } catch {}
@@ -10868,7 +10870,8 @@ function Start-Snapshots {
     }
     Set-GameLaunchProps
     $script:Settings.GamesSort = "recent"
-    $ui.CmbGameSort.SelectedValue = "recent"
+    $script:SortFilling = $true
+    try { $ui.CmbGameSort.SelectedValue = "recent" } finally { $script:SortFilling = $false }
     $script:Mods = @(
         @{ Tid = "0100000000010000"; Name = "60 FPS"; Path = ""; Size = 48KB; Parts = "exefs" },
         @{ Tid = "0100000000010000"; Name = "HD-Texturen"; Path = ""; Size = 1.4GB; Parts = "romfs" },
