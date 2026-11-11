@@ -10,6 +10,7 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Neueste Nightly installieren oder beliebige ältere Version wählen
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
+- Eigene Titelleiste im Design der Oberfläche; Fenstergröße und -position werden gemerkt
 - Spiele-Tab: liest die Spieleordner aus Eden und zeigt sie als Kacheln mit Icon, Suche, Favoriten per Stern (stehen oben), Sortierung nach Name oder „zuletzt gespielt“, Karte „Weiterspielen“ für das zuletzt gestartete Spiel (aus Edens `launched.json`), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen
 - Updates & DLC: pro Spiel Updates/DLCs (NSP, NSZ, XCI, XCZ) hinzufügen, ein-/ausschalten und löschen; über Eden in den NAND installierte Updates/DLCs werden mit den prod.keys erkannt und angezeigt – ohne NAND-Installation, über Edens externe Inhaltsordner (`user\external_content`, wird automatisch in Eden eingetragen)
@@ -37,7 +38,8 @@ Weil die EXE nicht signiert ist, kann Windows SmartScreen beim ersten Start warn
 
 | Pfad | Inhalt |
 |---|---|
-| `src/EdenUpdater.ps1` | Das eigentliche Programm (PowerShell + WPF) |
+| `src/*.ps1` | Das eigentliche Programm (PowerShell + WPF), aufgeteilt in nummerierte Teile: Einstellungen, Sprachen, Hintergrund-Jobs, Oberfläche (XAML), Themes/Dialoge, Navigation, die einzelnen Tabs, Selbst-Update, Fenster, Screenshot-Modus |
+| `build/merge.ps1` | Setzt die Teile in Namensreihenfolge zu `dist/EdenUpdater.ps1` zusammen – dieses eine Skript wird getestet, gestartet und in die EXE eingebettet |
 | `launcher/` | Kleiner C#-Starter, der das Skript in die EXE einbettet |
 | `assets/` | Icon |
 | `build/build.ps1` | Baut `dist/EdenUpdater.exe` unter Windows |

@@ -28,11 +28,14 @@ $csc = Join-Path $env:WINDIR "Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 if (-not (Test-Path $csc)) { $csc = Join-Path $env:WINDIR "Microsoft.NET\Framework\v4.0.30319\csc.exe" }
 if (-not (Test-Path $csc)) { throw "csc.exe nicht gefunden (.NET Framework 4.x fehlt?)." }
 
+# Teile aus src\ zu einem Skript zusammensetzen (dist\EdenUpdater.ps1)
+$merged = & (Join-Path $PSScriptRoot "merge.ps1")
+
 $exe = Join-Path $dist "EdenUpdater.exe"
 & $csc /nologo /target:winexe /platform:anycpu /optimize+ `
     "/win32icon:$(Join-Path $root 'assets\EdenUpdater.ico')" `
     "/win32manifest:$(Join-Path $root 'launcher\app.manifest')" `
-    "/resource:$(Join-Path $root 'src\EdenUpdater.ps1'),EdenUpdater.ps1" `
+    "/resource:$merged,EdenUpdater.ps1" `
     "/out:$exe" $csFile
 if ($LASTEXITCODE -ne 0) { throw "Kompilieren fehlgeschlagen (csc Exit $LASTEXITCODE)." }
 
