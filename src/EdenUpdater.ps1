@@ -32,6 +32,7 @@ $Defaults = [ordered]@{
     SelfUpdateCheck = $true   # beim Start nach neuer Updater-Version suchen
     GamesFullscreen = $false  # Spiele im Vollbild starten (eden.exe -f)
     GamesCloseOnStart = $false # beim Spielstart schliessen statt in die Taskleiste minimieren
+    GamesSort    = "name"     # Reihenfolge im Spiele-Tab: "name" oder "recent" (zuletzt gespielt zuerst)
     FavoriteGames = @()       # Favoriten (Title-ID, sonst Dateipfad) - stehen oben in der Spieleliste
     FirmwareVersion = ""      # zuletzt ueber den Updater installierte Firmware (aus dem Datei-/Ordnernamen)
     SaveBackupOnUpdate = $true # Spielstaende vor jedem Eden-Update sichern (nur Spiele mit Aenderungen)
@@ -296,6 +297,11 @@ SelfUpdated=Updater auf Version {0} aktualisiert.
 NavGames=Spiele
 GamesSearch=Spiele durchsuchen...
 GamesStart=Spiel starten
+GamesContinue=Weiterspielen
+GamesLastPlayed=Zuletzt gespielt: {0}
+GamesLaunches={0}× gestartet
+GamesSortName=Nach Name
+GamesSortRecent=Zuletzt gespielt
 GamesFull=Im Vollbild starten
 GamesInfo={0} Spiele aus {1} Ordnern
 GamesEmpty=Keine Spiele gefunden. Füge in Eden unter Datei → Spieleordner hinzufügen einen Ordner hinzu und klicke dann hier auf Neu laden.
@@ -594,6 +600,11 @@ SelfUpdated=Updater updated to version {0}.
 NavGames=Games
 GamesSearch=Search games...
 GamesStart=Start game
+GamesContinue=Continue playing
+GamesLastPlayed=Last played: {0}
+GamesLaunches=launched {0}×
+GamesSortName=By name
+GamesSortRecent=Recently played
 GamesFull=Start in fullscreen
 GamesInfo={0} games from {1} folders
 GamesEmpty=No games found. In Eden, add a game folder (File → Add New Game Directory), then click Reload here.
@@ -892,6 +903,11 @@ SelfUpdated=Actualizador actualizado a la versión {0}.
 NavGames=Juegos
 GamesSearch=Buscar juegos...
 GamesStart=Iniciar juego
+GamesContinue=Seguir jugando
+GamesLastPlayed=Última partida: {0}
+GamesLaunches=iniciado {0}×
+GamesSortName=Por nombre
+GamesSortRecent=Jugados recientemente
 GamesFull=Iniciar en pantalla completa
 GamesInfo={0} juegos de {1} carpetas
 GamesEmpty=No se encontraron juegos. Añade una carpeta de juegos en Eden (Archivo → Añadir carpeta de juegos) y pulsa Recargar aquí.
@@ -1190,6 +1206,11 @@ SelfUpdated=Outil mis à jour vers la version {0}.
 NavGames=Jeux
 GamesSearch=Rechercher des jeux...
 GamesStart=Lancer le jeu
+GamesContinue=Continuer à jouer
+GamesLastPlayed=Dernière partie : {0}
+GamesLaunches=lancé {0}×
+GamesSortName=Par nom
+GamesSortRecent=Joués récemment
 GamesFull=Lancer en plein écran
 GamesInfo={0} jeux dans {1} dossiers
 GamesEmpty=Aucun jeu trouvé. Ajoutez un dossier de jeux dans Eden (Fichier → Ajouter un dossier de jeux), puis cliquez ici sur Actualiser.
@@ -1488,6 +1509,11 @@ SelfUpdated=Updater aggiornato alla versione {0}.
 NavGames=Giochi
 GamesSearch=Cerca giochi...
 GamesStart=Avvia gioco
+GamesContinue=Continua a giocare
+GamesLastPlayed=Ultima partita: {0}
+GamesLaunches=avviato {0}×
+GamesSortName=Per nome
+GamesSortRecent=Giocati di recente
 GamesFull=Avvia a schermo intero
 GamesInfo={0} giochi da {1} cartelle
 GamesEmpty=Nessun gioco trovato. Aggiungi una cartella di giochi in Eden (File → Aggiungi cartella giochi), poi clicca qui su Ricarica.
@@ -1786,6 +1812,11 @@ SelfUpdated=Atualizador atualizado para a versão {0}.
 NavGames=Jogos
 GamesSearch=Pesquisar jogos...
 GamesStart=Iniciar jogo
+GamesContinue=Continuar a jogar
+GamesLastPlayed=Jogado pela última vez: {0}
+GamesLaunches=iniciado {0}×
+GamesSortName=Por nome
+GamesSortRecent=Jogados recentemente
 GamesFull=Iniciar em tela cheia
 GamesInfo={0} jogos de {1} pastas
 GamesEmpty=Nenhum jogo encontrado. Adicione uma pasta de jogos no Eden (Arquivo → Adicionar pasta de jogos) e clique em Recarregar aqui.
@@ -2084,6 +2115,11 @@ SelfUpdated=Updater bijgewerkt naar versie {0}.
 NavGames=Games
 GamesSearch=Games zoeken...
 GamesStart=Game starten
+GamesContinue=Verder spelen
+GamesLastPlayed=Laatst gespeeld: {0}
+GamesLaunches={0}× gestart
+GamesSortName=Op naam
+GamesSortRecent=Recent gespeeld
 GamesFull=Op volledig scherm starten
 GamesInfo={0} games uit {1} mappen
 GamesEmpty=Geen games gevonden. Voeg in Eden een gamemap toe (Bestand → Gamemap toevoegen) en klik hier op Opnieuw laden.
@@ -2382,6 +2418,11 @@ SelfUpdated=Zaktualizowano aktualizator do wersji {0}.
 NavGames=Gry
 GamesSearch=Szukaj gier...
 GamesStart=Uruchom grę
+GamesContinue=Graj dalej
+GamesLastPlayed=Ostatnio grane: {0}
+GamesLaunches=uruchomiono {0}×
+GamesSortName=Według nazwy
+GamesSortRecent=Ostatnio grane
 GamesFull=Uruchom na pełnym ekranie
 GamesInfo=Gry: {0} z folderów: {1}
 GamesEmpty=Nie znaleziono gier. Dodaj folder z grami w Eden (Plik → Dodaj folder gier), a potem kliknij tutaj Odśwież.
@@ -2680,6 +2721,11 @@ SelfUpdated=Güncelleyici {0} sürümüne güncellendi.
 NavGames=Oyunlar
 GamesSearch=Oyun ara...
 GamesStart=Oyunu başlat
+GamesContinue=Oynamaya devam et
+GamesLastPlayed=Son oynama: {0}
+GamesLaunches={0} kez başlatıldı
+GamesSortName=Ada göre
+GamesSortRecent=Son oynananlar
 GamesFull=Tam ekranda başlat
 GamesInfo={1} klasörde {0} oyun
 GamesEmpty=Oyun bulunamadı. Eden'de bir oyun klasörü ekleyin (Dosya → Oyun klasörü ekle), ardından burada Yenile'ye tıklayın.
@@ -2978,6 +3024,11 @@ SelfUpdated=Программа обновления обновлена до ве
 NavGames=Игры
 GamesSearch=Поиск игр...
 GamesStart=Запустить игру
+GamesContinue=Продолжить игру
+GamesLastPlayed=Последний запуск: {0}
+GamesLaunches=запусков: {0}
+GamesSortName=По названию
+GamesSortRecent=Недавно запущенные
 GamesFull=Запускать в полноэкранном режиме
 GamesInfo=Игр: {0}, папок: {1}
 GamesEmpty=Игры не найдены. Добавьте папку с играми в Eden (Файл → Добавить папку с играми), затем нажмите здесь «Обновить список».
@@ -3276,6 +3327,11 @@ SelfUpdated=アップデーターをバージョン {0} に更新しました。
 NavGames=ゲーム
 GamesSearch=ゲームを検索...
 GamesStart=ゲームを起動
+GamesContinue=続きをプレイ
+GamesLastPlayed=最終プレイ: {0}
+GamesLaunches=起動 {0} 回
+GamesSortName=名前順
+GamesSortRecent=最近プレイした順
 GamesFull=フルスクリーンで起動
 GamesInfo={1} フォルダーから {0} 本のゲーム
 GamesEmpty=ゲームが見つかりません。Edenでゲームフォルダーを追加し (ファイル → ゲームフォルダーを追加)、ここで「再読み込み」をクリックしてください。
@@ -3574,6 +3630,11 @@ SelfUpdated=更新程序已更新到版本 {0}。
 NavGames=游戏
 GamesSearch=搜索游戏...
 GamesStart=启动游戏
+GamesContinue=继续游戏
+GamesLastPlayed=上次游玩：{0}
+GamesLaunches=启动 {0} 次
+GamesSortName=按名称
+GamesSortRecent=最近游玩
 GamesFull=以全屏启动
 GamesInfo=来自 {1} 个文件夹的 {0} 个游戏
 GamesEmpty=未找到游戏。请在 Eden 中添加游戏文件夹 (文件 → 添加游戏目录), 然后在此点击「重新加载」。
@@ -3872,6 +3933,11 @@ SelfUpdated=업데이터를 버전 {0}(으)로 업데이트했습니다.
 NavGames=게임
 GamesSearch=게임 검색...
 GamesStart=게임 시작
+GamesContinue=이어서 플레이
+GamesLastPlayed=마지막 플레이: {0}
+GamesLaunches={0}회 실행
+GamesSortName=이름순
+GamesSortRecent=최근 플레이순
 GamesFull=전체 화면으로 시작
 GamesInfo=폴더 {1}개에서 게임 {0}개
 GamesEmpty=게임을 찾지 못했습니다. Eden에서 게임 폴더를 추가한 뒤 (파일 → 게임 폴더 추가) 여기서 '새로 고침'을 클릭하세요.
@@ -6477,29 +6543,65 @@ $xaml = @'
           </Grid.RenderTransform>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
 
           <Grid Grid.Row="0" Margin="0,0,0,14">
             <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="3*" MaxWidth="300"/>
+              <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Grid MaxWidth="360" HorizontalAlignment="Left" Width="360">
+            <Grid>
               <TextBox x:Name="TxtGameSearch" Padding="36,8,10,8"/>
               <TextBlock Text="&#xE721;" FontFamily="{StaticResource FontIcon}" FontSize="13" Foreground="{DynamicResource BrMuted}"
                          VerticalAlignment="Center" Margin="13,0,0,0" IsHitTestVisible="False"/>
               <TextBlock x:Name="TxtGameSearchHint" Text="{DynamicResource L_GamesSearch}" Foreground="{DynamicResource BrMuted}"
                          VerticalAlignment="Center" Margin="37,0,0,0" IsHitTestVisible="False"/>
             </Grid>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-              <TextBlock x:Name="TxtGamesInfo" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <!-- Reihenfolge: nach Name oder zuletzt gespielt -->
+            <ComboBox x:Name="CmbGameSort" Grid.Column="1" SelectedValuePath="Tag" MinWidth="170" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+              <TextBlock x:Name="TxtGamesInfo" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="12,0,8,0"/>
               <Button x:Name="BtnGamesReload" Tag="&#xE72C;" Content="{DynamicResource L_BtnReload}" Style="{StaticResource BtnGhost}"/>
             </StackPanel>
           </Grid>
 
-          <Grid Grid.Row="1">
+          <!-- Weiterspielen: das zuletzt gestartete Spiel (aus Edens launched.json) -->
+          <Border x:Name="GameContinue" Grid.Row="1" Visibility="Collapsed" CornerRadius="16" BorderThickness="1" Margin="0,0,0,14"
+                  Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}">
+            <Grid>
+              <Border CornerRadius="15" Background="{DynamicResource GrHero}"/>
+              <Grid Margin="12,12,16,12">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Width="58" Height="58">
+                  <Border x:Name="ContTile" CornerRadius="12">
+                    <Viewbox StretchDirection="DownOnly" Margin="7,0">
+                      <TextBlock x:Name="ContAbbr" FontFamily="{StaticResource FontHead}" FontSize="24" FontWeight="Bold" Foreground="#F5FFFFFF"/>
+                    </Viewbox>
+                  </Border>
+                  <Border x:Name="ContImg" CornerRadius="12"/>
+                </Grid>
+                <StackPanel Grid.Column="1" Margin="14,0,12,0" VerticalAlignment="Center">
+                  <TextBlock Style="{StaticResource Label}" Text="{DynamicResource L_GamesSortRecent}"/>
+                  <TextBlock x:Name="TxtContName" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,3,0,0"
+                             ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+                  <TextBlock x:Name="TxtContInfo" Style="{StaticResource Hint}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Margin="0,2,0,0"/>
+                </StackPanel>
+                <Button x:Name="BtnGameContinue" Grid.Column="2" Tag="&#xE768;" Content="{DynamicResource L_GamesContinue}"
+                        Style="{StaticResource BtnPrimary}" Padding="18,11" VerticalAlignment="Center"/>
+              </Grid>
+            </Grid>
+          </Border>
+
+          <Grid Grid.Row="2">
             <ListBox x:Name="ListGames" Foreground="{DynamicResource BrText}" Background="Transparent" BorderThickness="0" Padding="0"
                      ItemContainerStyle="{StaticResource GameTile}" Margin="-2,0,-8,0"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
@@ -6510,7 +6612,7 @@ $xaml = @'
               </ListBox.ItemsPanel>
               <ListBox.ItemTemplate>
                 <DataTemplate>
-                  <StackPanel>
+                  <StackPanel ToolTip="{Binding PlayedTip}" Background="Transparent">
                     <Grid Height="130">
                       <!-- Ohne Cover: Kuerzel aus dem Namen auf einer Farbe, die fuer jedes Spiel anders ist -->
                       <Border CornerRadius="10" Background="{Binding TileBrush}">
@@ -6567,7 +6669,7 @@ $xaml = @'
                        HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed"/>
           </Grid>
 
-          <Border Grid.Row="2" Style="{StaticResource Card}" Padding="12,10,18,10" Margin="0,10,0,0">
+          <Border Grid.Row="3" Style="{StaticResource Card}" Padding="12,10,18,10" Margin="0,10,0,0">
             <StackPanel Orientation="Horizontal">
               <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
               <CheckBox x:Name="ChkGamesFull" Content="{DynamicResource L_GamesFull}" VerticalAlignment="Center" Margin="18,0,0,0"/>
@@ -8689,6 +8791,8 @@ function Complete-GameScan {
             Add-GameTileProps $g
         }
         $script:Games     = @($r.Games)
+        Read-LaunchData
+        Set-GameLaunchProps
         if ($r.CacheNames) { $script:CacheNames = $r.CacheNames }
         $script:GamesDirs = [int]$r.Dirs
     } else {
@@ -8751,15 +8855,107 @@ function Test-InListItem($src) {
     return $false
 }
 
+# ---- Zuletzt gespielt: Eden fuehrt in <Daten>\cache\launched.json pro Title-ID Startzahl und Zeitpunkt ----
+$script:LaunchData  = @{}
+$script:LaunchStamp = $null
+function Get-LaunchFile { return (Join-Path (Get-EdenDataDir) "cache\launched.json") }
+
+function Read-LaunchData {
+    $d = @{}
+    $stamp = $null
+    try {
+        $p = Get-LaunchFile
+        if (Test-Path -LiteralPath $p) {
+            $stamp = (Get-Item -LiteralPath $p).LastWriteTimeUtc
+            $j = [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) | ConvertFrom-Json
+            foreach ($pr in $j.PSObject.Properties) {
+                $ts = 0L
+                try { $ts = [long]$pr.Value.timestamp } catch {}
+                $n = 0
+                try { $n = [int]$pr.Value.launch_count } catch {}
+                $d[$pr.Name.ToUpperInvariant()] = @{ Count = $n; Time = $(if ($ts -gt 0) { [DateTimeOffset]::FromUnixTimeSeconds($ts).LocalDateTime } else { $null }) }
+            }
+        }
+    } catch {}
+    $script:LaunchData  = $d
+    $script:LaunchStamp = $stamp
+}
+
+# "08.11.2026  ·  202× gestartet" (Datum in der Schreibweise der gewaehlten Sprache)
+function Get-PlayedText($g) {
+    $parts = @()
+    if ($g.LastPlayed) {
+        $cul = $null
+        try { $cul = [Globalization.CultureInfo]::GetCultureInfo([string]$script:LangCulture) } catch {}
+        $parts += $(if ($cul) { $g.LastPlayed.ToString("d", $cul) } else { $g.LastPlayed.ToString("d") })
+    }
+    if ([int]$g.LaunchCount -gt 0) { $parts += (TF "GamesLaunches" ([int]$g.LaunchCount)) }
+    return ($parts -join "  ·  ")
+}
+
+# Startdaten an die Spiele haengen (Zuordnung ueber die Title-ID)
+function Set-GameLaunchProps {
+    foreach ($g in @($script:Games)) {
+        $e = $null
+        if ($g.Tid) { $e = $script:LaunchData[([string]$g.Tid).ToUpperInvariant()] }
+        $g | Add-Member -NotePropertyName LastPlayed  -NotePropertyValue $(if ($e) { $e.Time } else { $null }) -Force
+        $g | Add-Member -NotePropertyName LaunchCount -NotePropertyValue $(if ($e) { [int]$e.Count } else { 0 }) -Force
+        $txt = Get-PlayedText $g
+        $g | Add-Member -NotePropertyName PlayedTip -NotePropertyValue $(if ($g.LastPlayed) { TF "GamesLastPlayed" $txt } elseif ($txt) { $txt } else { $null }) -Force
+    }
+}
+
+# Hat Eden seit dem letzten Lesen etwas gestartet? Dann Liste und "Weiterspielen" auffrischen
+function Update-LaunchDataIfChanged {
+    if (-not $script:GamesLoaded -or $script:Snapshot) { return }
+    $stamp = $null
+    try { $p = Get-LaunchFile; if (Test-Path -LiteralPath $p) { $stamp = (Get-Item -LiteralPath $p).LastWriteTimeUtc } } catch {}
+    if ($stamp -eq $script:LaunchStamp) { return }
+    Read-LaunchData
+    Set-GameLaunchProps
+    $selKey = Get-GameKey $ui.ListGames.SelectedItem
+    Update-GameList
+    if ($selKey) {
+        foreach ($x in @($ui.ListGames.ItemsSource)) { if ((Get-GameKey $x) -eq $selKey) { $ui.ListGames.SelectedItem = $x; break } }
+    }
+}
+
+# Karte "Weiterspielen": das zuletzt gestartete Spiel, nur ohne Suchtext und wenn Eden vorhanden ist
+$script:ContinueGame = $null
+function Update-GameContinue([bool]$show) {
+    $g = $null
+    if ($show) {
+        foreach ($x in @($script:Games)) { if ($x.LastPlayed -and (-not $g -or $x.LastPlayed -gt $g.LastPlayed)) { $g = $x } }
+    }
+    $script:ContinueGame = $g
+    if (-not $g) { $ui.GameContinue.Visibility = "Collapsed"; return }
+    $ui.ContTile.Background = $g.TileBrush
+    $ui.ContAbbr.Text       = [string]$g.Abbr
+    if ($g.IconImg) {
+        $ib = [System.Windows.Media.ImageBrush]::new($g.IconImg)
+        $ib.Stretch = [System.Windows.Media.Stretch]::UniformToFill
+        $ui.ContImg.Background = $ib
+    } else { $ui.ContImg.Background = $null }
+    $ui.TxtContName.Text = [string]$g.Name
+    $ui.TxtContInfo.Text = Get-PlayedText $g
+    $ui.GameContinue.Visibility = "Visible"
+}
+
 function Update-GameList {
     $q = $ui.TxtGameSearch.Text.Trim()
     $ui.TxtGameSearchHint.Visibility = if ($ui.TxtGameSearch.Text) { "Collapsed" } else { "Visible" }
     if (-not $script:GamesLoaded) { return }
     $list = if ($q) { @($script:Games | Where-Object { $_.Name.IndexOf($q, [StringComparison]::OrdinalIgnoreCase) -ge 0 }) } else { @($script:Games) }
-    # Favoriten zuerst, danach alphabetisch
-    $list = @($list | Sort-Object -Property @{ Expression = { if ($_.IsFav) { 0 } else { 1 } } }, Name)
+    # Favoriten zuerst; danach alphabetisch oder - je nach Auswahl - zuletzt gespielt zuerst (nie gespielte am Ende)
+    if ([string]$script:Settings.GamesSort -eq "recent") {
+        $list = @($list | Sort-Object -Property @{ Expression = { if ($_.IsFav) { 0 } else { 1 } } },
+                                                @{ Expression = { if ($_.LastPlayed) { [long]::MaxValue - $_.LastPlayed.Ticks } else { [long]::MaxValue } } }, Name)
+    } else {
+        $list = @($list | Sort-Object -Property @{ Expression = { if ($_.IsFav) { 0 } else { 1 } } }, Name)
+    }
     $ui.ListGames.ItemsSource = $list
     $hasEden = Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")
+    Update-GameContinue ([bool](($hasEden -or $script:Snapshot) -and -not $q))
     if (-not $hasEden -and $script:Games.Count -gt 0) {
         # Spiele gefunden, aber Eden fehlt: Hinweis in der Info-Zeile statt ueber der Liste
         $ui.TxtGamesInfo.Text = T "GamesNoEden"
@@ -10276,6 +10472,7 @@ foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesS
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
+                 "GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
                  "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
     $ui[$n] = $window.FindName($n)
 }
@@ -10329,6 +10526,15 @@ function Set-SettingsControls {
     $ui.ChkSelfUpdate.IsChecked  = [bool]$s.SelfUpdateCheck
     $ui.ChkGamesFull.IsChecked   = [bool]$s.GamesFullscreen
     $ui.ChkGamesClose.IsChecked  = [bool]$s.GamesCloseOnStart
+    $script:SortFilling = $true
+    try {
+        $ui.CmbGameSort.ItemsSource = @(
+            (New-CbItem ((T "GamesSortName")) ("name")),
+            (New-CbItem ((T "GamesSortRecent")) ("recent"))
+        )
+        $ui.CmbGameSort.SelectedValue = if ([string]$s.GamesSort -eq "recent") { "recent" } else { "name" }
+    } finally { $script:SortFilling = $false }
+    try { if ($script:GamesLoaded) { Set-GameLaunchProps } } catch {}
     try { Update-GameList } catch {}
     Update-SelfCard
 }
@@ -10400,6 +10606,21 @@ $ui.ListGames.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickE
 $ui.ListGames.Add_SelectionChanged({ Update-GameButton })
 $ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
+$ui.BtnGameContinue.Add_Click({ if ($script:ContinueGame) { Start-Game $script:ContinueGame } })
+$ui.CmbGameSort.Add_SelectionChanged({
+    if ($script:SortFilling) { return }
+    $v = if ([string]$ui.CmbGameSort.SelectedValue -eq "recent") { "recent" } else { "name" }
+    if ([string]$script:Settings.GamesSort -eq $v) { return }
+    $script:Settings.GamesSort = $v
+    try { Save-Settings } catch {}
+    $selKey = Get-GameKey $ui.ListGames.SelectedItem
+    Update-GameList
+    if ($selKey) {
+        foreach ($x in @($ui.ListGames.ItemsSource)) { if ((Get-GameKey $x) -eq $selKey) { $ui.ListGames.SelectedItem = $x; break } }
+    }
+})
+# Zurueck im Fenster (z.B. nach dem Spielen): Startdaten neu einlesen, falls Eden sie geaendert hat
+$window.Add_Activated({ try { Update-LaunchDataIfChanged } catch {} })
 $ui.ChkGamesClose.Add_Click({
     $script:Settings.GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
     try { Save-Settings } catch {}
@@ -10502,6 +10723,7 @@ $ui.BtnSave.Add_Click({
             SelfUpdateCheck = [bool]$ui.ChkSelfUpdate.IsChecked
             GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
             GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
+            GamesSort    = $(if ([string]$old.GamesSort -eq "recent") { "recent" } else { "name" })
             FavoriteGames = @($old.FavoriteGames)
             FirmwareVersion = [string]$old.FirmwareVersion
             SaveBackupOnUpdate = [bool]$ui.ChkSaveAuto.IsChecked
@@ -10639,6 +10861,14 @@ function Start-Snapshots {
     $i = 0
     foreach ($g in $script:Games) { $i++; $g | Add-Member -NotePropertyName Tid -NotePropertyValue ("0100000000{0:X2}0000" -f $i) -Force }
     foreach ($g in $script:Games) { $g | Add-Member -NotePropertyName IsFav -NotePropertyValue ($g.Name -eq "Pixel Quest") -Force }
+    $script:LaunchData = @{
+        "0100000000050000" = @{ Count = 202; Time = [DateTime]::Now.AddDays(-2) }
+        "0100000000020000" = @{ Count = 9;   Time = [DateTime]::Now.AddDays(-20) }
+        "0100000000030000" = @{ Count = 45;  Time = [DateTime]::Now.AddDays(-70) }
+    }
+    Set-GameLaunchProps
+    $script:Settings.GamesSort = "recent"
+    $ui.CmbGameSort.SelectedValue = "recent"
     $script:Mods = @(
         @{ Tid = "0100000000010000"; Name = "60 FPS"; Path = ""; Size = 48KB; Parts = "exefs" },
         @{ Tid = "0100000000010000"; Name = "HD-Texturen"; Path = ""; Size = 1.4GB; Parts = "romfs" },
