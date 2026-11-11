@@ -9,8 +9,11 @@ ver="${ver#v}"
 mkdir -p "$root/dist" "$root/obj"
 sed -E "s/Assembly(File)?Version\(\"[0-9.]+\"\)/Assembly\1Version(\"$ver.0\")/" \
     "$root/launcher/EdenUpdaterHost.cs" > "$root/obj/EdenUpdaterHost.cs"
+# Teile aus src/ in Namensreihenfolge zu einem Skript zusammensetzen (wie build/merge.ps1; BOM nur am Anfang)
+printf '\xEF\xBB\xBF' > "$root/dist/EdenUpdater.ps1"
+for f in "$root"/src/*.ps1; do sed '1s/^\xEF\xBB\xBF//' "$f" >> "$root/dist/EdenUpdater.ps1"; done
 mcs -target:winexe -platform:anycpu -optimize+ \
     -win32icon:"$root/assets/EdenUpdater.ico" \
-    -resource:"$root/src/EdenUpdater.ps1",EdenUpdater.ps1 \
+    -resource:"$root/dist/EdenUpdater.ps1",EdenUpdater.ps1 \
     -out:"$root/dist/EdenUpdater.exe" "$root/obj/EdenUpdaterHost.cs"
 echo "Fertig: $root/dist/EdenUpdater.exe (Version $ver)"

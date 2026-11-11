@@ -53,7 +53,8 @@ jobs:
           $env:EDEN_UPDATER_SNAPSHOT = Join-Path $pwd "snapshots"
           $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan,light,light-sand,dark-aurora,dark-synth,amoled-red"
           $env:EDEN_UPDATER_SNAPSHOT_FX = "1"
-          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','src\EdenUpdater.ps1' -PassThru
+          .\build\merge.ps1 | Out-Null
+          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','dist\EdenUpdater.ps1' -PassThru
           if (-not $p.WaitForExit(300000)) { $p.Kill(); Write-Host "Timeout" }
           Get-ChildItem snapshots | Format-Table Name, Length
           if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }

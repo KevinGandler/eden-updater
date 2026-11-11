@@ -9,14 +9,20 @@
 # ============================================================
 $ErrorActionPreference = 'Stop'
 $root   = Split-Path -Parent $PSScriptRoot
-$script = Join-Path $root "src\EdenUpdater.ps1"
-if (-not (Test-Path $script)) { $script = Join-Path $root "src/EdenUpdater.ps1" }
+# Das Programm liegt in Teilen unter src\; geprueft wird das zusammengesetzte Skript (dist\EdenUpdater.ps1)
+$script = & (Join-Path (Join-Path $root "build") "merge.ps1")
 $fail = 0
 function Bad([string]$m) { Write-Host "  FEHLER: $m" -ForegroundColor Red; $script:fail++ }
 function Ok([string]$m)  { Write-Host "  ok: $m" -ForegroundColor Green }
 
 # ---------- 1) Syntax ----------
 Write-Host "Syntax"
+# erst jeden Teil einzeln (so stimmen Datei und Zeilennummer in der Fehlermeldung), dann das Ganze
+foreach ($part in (Get-ChildItem -LiteralPath (Join-Path $root "src") -Filter "*.ps1" -File | Sort-Object Name)) {
+    $pe = $null
+    [void][System.Management.Automation.Language.Parser]::ParseFile($part.FullName, [ref]$null, [ref]$pe)
+    foreach ($e in $pe) { Bad ("{0} Zeile {1}: {2}" -f $part.Name, $e.Extent.StartLineNumber, $e.Message) }
+}
 $tokens = $null; $errs = $null
 $ast = [System.Management.Automation.Language.Parser]::ParseFile($script, [ref]$tokens, [ref]$errs)
 if ($errs.Count) { foreach ($e in $errs) { Bad ("Zeile {0}: {1}" -f $e.Extent.StartLineNumber, $e.Message) } }
