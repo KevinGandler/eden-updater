@@ -41,11 +41,12 @@ function Start-Snapshots {
     }
     # Selbst-Update: so tun, als gaebe es eine neue Version mit Patchnotes
     $snapNotes = @(
-        [string][char]0x2022 + " Detailansicht pro Spiel: Klick auf eine Kachel zeigt Update, DLC, Mods und Spielzeit",
-        [string][char]0x2022 + " Spielzeit aus Eden wird angezeigt",
-        [string][char]0x2022 + " Patchnotes des Updaters direkt in den Einstellungen und in der Update-Frage",
-        [string][char]0x2022 + " Auswahl- und Meldungsfenster mit eigener Titelleiste"
-    ) -join "`r`n"
+        "Detailansicht pro Spiel: Klick auf eine Kachel zeigt Update, DLC, Mods und Spielzeit",
+        "Spielzeit aus Eden wird angezeigt",
+        "Patchnotes des Updaters direkt in den Einstellungen und in der Update-Frage",
+        "Auswahl- und Meldungsfenster mit eigener Titelleiste"
+    ) | ForEach-Object { [string][char]0x2022 + " " + $_ }
+    $snapNotes = $snapNotes -join "`r`n"
     $script:SelfExe      = Join-Path $env:TEMP "EdenUpdater-Snapshot.exe"
     $script:SelfVersion  = [version]"1.8.0"
     $script:SelfInfo     = @{ Tag = "v1.9.0"; Version = [version]"1.9.0"; Url = "x"; Size = 0; Page = "x" }

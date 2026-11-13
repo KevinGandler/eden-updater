@@ -672,8 +672,10 @@ function Hide-GameDetail {
 # Auswahl hat sich geaendert: offene Detailansicht mitziehen (oder schliessen, wenn nichts mehr gewaehlt ist)
 function Sync-GameDetail {
     if ($ui.GameDetail.Visibility -ne "Visible") { return }
+    # Ohne Auswahl bleibt die Ansicht stehen: beim Neuaufbau der Liste (Sortierung, neue Cover) ist die
+    # Auswahl kurz leer und wird gleich danach wieder gesetzt
     $sel = $ui.ListGames.SelectedItem
-    if ($sel) { Show-GameDetail $sel $false } else { Hide-GameDetail }
+    if ($sel) { Show-GameDetail $sel $false }
 }
 
 # Aus der Detailansicht in einen anderen Tab springen und dort dasselbe Spiel auswaehlen
