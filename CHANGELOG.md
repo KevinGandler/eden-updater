@@ -3,6 +3,16 @@
 Der Abschnitt der jeweiligen Version wird beim Release als Patchnotes übernommen und im Updater angezeigt
 (in den Einstellungen und in der Update-Frage). Deutsch für die deutsche Oberfläche, English für alle anderen Sprachen.
 
+## 1.9.1
+
+### Deutsch
+- Behoben: Der Updater stürzte ab, wenn man in den Einstellungen die Sprache wechselte und speicherte.
+- Fehler in der Oberfläche beenden das Programm nicht mehr, sondern erscheinen im Aktivitäts-Log.
+
+### English
+- Fixed: the updater crashed when changing the language in the settings and saving.
+- Errors in the interface no longer close the program; they are shown in the activity log instead.
+
 ## 1.9.0
 
 ### Deutsch

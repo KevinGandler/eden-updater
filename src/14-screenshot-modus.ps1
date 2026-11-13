@@ -112,6 +112,8 @@ function Start-Snapshots {
         # Cover/Namen wirklich aus dem Internet holen (2 bekannte Title-IDs + 1 unbekannte). Das Ergebnis landet nur
         # als Text in meta-probe.txt; ein Ausfall des fremden Servers laesst den Test nicht scheitern.
         for ($n = 0; $n -le 8; $n++) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-meta"; N = $n }) }
+        # Sprache in den Einstellungen umstellen und speichern - ueber den echten Speichern-Knopf
+        foreach ($lc in @("en", "ja", "de")) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-lang"; Lang = $lc }) }
     }
     $script:SnapTimer = [System.Windows.Threading.DispatcherTimer]::new()
     $script:SnapTimer.Interval = [TimeSpan]::FromMilliseconds(700)
@@ -155,6 +157,7 @@ function Start-Snapshots {
                 "fx-nav"       { Set-Page "versions"; Invoke-SnapFx { Set-Page "settings"; Set-LogVisible $false } "fx-nav-mid" 130 }
                 "fx-busy"      { Invoke-SnapFx { Set-Page "versions"; Set-BusyVisual $true; Set-FlowAnim $true; Set-DotPulse $true; Set-LogVisible $true } "fx-busy-mid" 200 }
                 "fx-meta"      { Set-Page "versions"; Invoke-SnapMetaProbe ([int]$st.N) }
+                "fx-lang"      { Invoke-SnapLangProbe ([string]$st.Lang) }
                 default        { Set-Page $st.Page }
             }
             $script:SnapPending = $st
@@ -163,6 +166,28 @@ function Start-Snapshots {
         }
     })
     $script:SnapTimer.Start()
+}
+
+# Stellt die Sprache wie ein Nutzer um: Seite Einstellungen, Sprache waehlen, auf "Speichern" klicken.
+# Jeder Schritt hinterlaesst eine Zeile in lang-probe.txt - bricht das Programm dabei ab, fehlt die "fertig"-Zeile.
+function Invoke-SnapLangProbe([string]$lang) {
+    $log = Join-Path $script:Snapshot "lang-probe.txt"
+    Add-Content -LiteralPath $log -Value ("Start " + $lang) -Encoding UTF8
+    $dir = $script:Snapshot
+    $script:SnapNoDialog = $log
+    $script:Snapshot = ""
+    try {
+        Set-Page "settings"
+        $ui.CmbLang.SelectedValue = $lang
+        $ui.BtnSave.RaiseEvent([System.Windows.RoutedEventArgs]::new([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent))
+        Add-Content -LiteralPath $log -Value ("fertig " + $lang + ": Sprache=" + $script:LangCode + ", Seite=" + $script:CurrentPage + ", Titel=" + $ui.TxtPageTitle.Text) -Encoding UTF8
+    } catch {
+        Add-Content -LiteralPath $log -Value ("FEHLER " + $lang + ": " + $_.Exception.Message + " @ " + $_.ScriptStackTrace) -Encoding UTF8
+        throw
+    } finally {
+        $script:Snapshot = $dir
+        $script:SnapNoDialog = $null
+    }
 }
 
 # Schritt 0 startet die Abfrage, die folgenden uebernehmen Ergebnisse, der letzte schreibt das Protokoll
@@ -262,6 +287,29 @@ function New-SnapThemeDialog([string]$tab) {
     $d.Show()
     return $d
 }
+
+# Fehler, die ausserhalb eines Klick-Handlers auftreten (z.B. beim Zeichnen oder in einer Animation), wuerden
+# sonst das ganze Programm beenden. Stattdessen: abfangen, ins Aktivitaets-Log schreiben, weiterlaufen.
+# Im automatischen Test landen sie mit Herkunft in errors.txt und lassen den Lauf scheitern.
+$script:UnhandledCount = 0
+$window.Dispatcher.Add_UnhandledException({
+    param($s, $e)
+    $x = $e.Exception
+    $e.Handled = $true
+    $script:UnhandledCount++
+    if ($script:Snapshot -or $script:SnapNoDialog) {
+        try {
+            $dir = if ($script:Snapshot) { $script:Snapshot } else { Split-Path -Parent $script:SnapNoDialog }
+            $msg = "UNHANDLED: " + $x.GetType().FullName + ": " + $x.Message
+            if ($x.InnerException) { $msg += "`r`n  inner: " + $x.InnerException.GetType().FullName + ": " + $x.InnerException.Message }
+            $msg += "`r`n" + $x.StackTrace
+            Add-Content -LiteralPath (Join-Path $dir "errors.txt") -Value $msg -Encoding UTF8
+        } catch {}
+        return
+    }
+    # hoechstens ein paar Meldungen, damit ein wiederkehrender Fehler das Log nicht flutet
+    if ($script:UnhandledCount -le 5) { try { Add-UiLog ((T "ErrPrefix") + " " + $x.Message) } catch {} }
+})
 
 $window.Add_ContentRendered({
     if ($script:Initialized) { return }

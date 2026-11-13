@@ -920,6 +920,11 @@ $script:MsgResult = "Cancel"
 
 # Ersatz fuer die weisse Windows-MessageBox: buttons = "OK" oder "YesNo", Rueckgabe "OK"/"Yes"/"No"
 function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "Information", [string]$title = "", [double]$width = 0, [bool]$neutral = $false) {
+    # Automatischer Test: kein Fenster oeffnen (es wuerde den Lauf anhalten), stattdessen den Text festhalten
+    if ($script:SnapNoDialog) {
+        try { Add-Content -LiteralPath $script:SnapNoDialog -Value ("DIALOG [" + $icon + "]: " + $text) -Encoding UTF8 } catch {}
+        return $(if ($buttons -eq "YesNo") { "No" } else { "OK" })
+    }
     $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
     foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }

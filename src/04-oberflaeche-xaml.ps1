@@ -758,13 +758,17 @@ $xaml = @'
               <Grid.RenderTransform>
                 <TranslateTransform x:Name="tt" Y="0"/>
               </Grid.RenderTransform>
+              <!-- Auftritt: am Element selbst ausgeloest. Als Trigger der Vorlage kann "Loaded" kommen, bevor die Vorlage
+                   angewendet ist - dann findet WPF die benannten Teile nicht und das Programm bricht ab (z.B. beim Sprachwechsel). -->
+              <Grid.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="10" To="0" Duration="0:0:0.30"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
+              </Grid.Triggers>
               <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="11" Opacity="0"/>
               <Border x:Name="selb" Background="{DynamicResource BrSel}" BorderBrush="{DynamicResource BrSelStrong}" BorderThickness="1"
                       CornerRadius="11" Opacity="0"/>
               <ContentPresenter Margin="{TemplateBinding Padding}"/>
             </Grid>
             <ControlTemplate.Triggers>
-              <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetName="tt" Storyboard.TargetProperty="Y" From="10" To="0" Duration="0:0:0.30"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
               <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
                 <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
@@ -797,11 +801,15 @@ $xaml = @'
               <Grid.RenderTransform>
                 <TranslateTransform x:Name="tt" Y="0"/>
               </Grid.RenderTransform>
+              <!-- Auftritt: am Element selbst ausgeloest. Als Trigger der Vorlage kann "Loaded" kommen, bevor die Vorlage
+                   angewendet ist - dann findet WPF die benannten Teile nicht und das Programm bricht ab (z.B. beim Sprachwechsel). -->
+              <Grid.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.28"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="8" To="0" Duration="0:0:0.28"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
+              </Grid.Triggers>
               <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="11" Opacity="0"/>
               <ContentPresenter Margin="{TemplateBinding Padding}"/>
             </Grid>
             <ControlTemplate.Triggers>
-              <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.28"/><DoubleAnimation Storyboard.TargetName="tt" Storyboard.TargetProperty="Y" From="8" To="0" Duration="0:0:0.28"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
               <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
                 <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
@@ -826,13 +834,17 @@ $xaml = @'
               <Grid.RenderTransform>
                 <ScaleTransform x:Name="sc" ScaleX="1" ScaleY="1"/>
               </Grid.RenderTransform>
+              <!-- Auftritt: am Element selbst ausgeloest. Als Trigger der Vorlage kann "Loaded" kommen, bevor die Vorlage
+                   angewendet ist - dann findet WPF die benannten Teile nicht und das Programm bricht ab (z.B. beim Sprachwechsel). -->
+              <Grid.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
+              </Grid.Triggers>
               <Border x:Name="bg" Background="{DynamicResource BrCard}" BorderBrush="{DynamicResource BrLine}" BorderThickness="1" CornerRadius="16"/>
               <Border x:Name="hov" Background="{DynamicResource BrPanel2}" CornerRadius="16" Opacity="0"/>
               <Border x:Name="ring" BorderBrush="{DynamicResource BrAccent}" BorderThickness="2" CornerRadius="16" Opacity="0"/>
               <ContentPresenter Margin="9"/>
             </Grid>
             <ControlTemplate.Triggers>
-              <EventTrigger RoutedEvent="FrameworkElement.Loaded"><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="root" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.30"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" From="0.94" To="1" Duration="0:0:0.32"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></EventTrigger>
               <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Panel.ZIndex" Value="2"/>
                 <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hov" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.12"/><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleX" To="1.045" Duration="0:0:0.24"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7"/></DoubleAnimation.EasingFunction></DoubleAnimation><DoubleAnimation Storyboard.TargetName="sc" Storyboard.TargetProperty="ScaleY" To="1.045" Duration="0:0:0.24"><DoubleAnimation.EasingFunction><BackEase EasingMode="EaseOut" Amplitude="0.7"/></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></Trigger.EnterActions>
