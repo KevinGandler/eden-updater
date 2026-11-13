@@ -288,21 +288,27 @@ function New-SnapThemeDialog([string]$tab) {
     return $d
 }
 
-# Fehler, die ausserhalb eines Klick-Handlers auftreten (z.B. beim Zeichnen oder in einer Animation), beenden
-# sonst das ganze Programm. Im automatischen Test landen sie mit Herkunft in errors.txt.
+# Fehler, die ausserhalb eines Klick-Handlers auftreten (z.B. beim Zeichnen oder in einer Animation), wuerden
+# sonst das ganze Programm beenden. Stattdessen: abfangen, ins Aktivitaets-Log schreiben, weiterlaufen.
+# Im automatischen Test landen sie mit Herkunft in errors.txt und lassen den Lauf scheitern.
+$script:UnhandledCount = 0
 $window.Dispatcher.Add_UnhandledException({
     param($s, $e)
+    $x = $e.Exception
+    $e.Handled = $true
+    $script:UnhandledCount++
     if ($script:Snapshot -or $script:SnapNoDialog) {
         try {
             $dir = if ($script:Snapshot) { $script:Snapshot } else { Split-Path -Parent $script:SnapNoDialog }
-            $x = $e.Exception
             $msg = "UNHANDLED: " + $x.GetType().FullName + ": " + $x.Message
             if ($x.InnerException) { $msg += "`r`n  inner: " + $x.InnerException.GetType().FullName + ": " + $x.InnerException.Message }
-            if ($x.ErrorRecord) { $msg += "`r`n  ps: " + $x.ErrorRecord.ScriptStackTrace }
             $msg += "`r`n" + $x.StackTrace
             Add-Content -LiteralPath (Join-Path $dir "errors.txt") -Value $msg -Encoding UTF8
         } catch {}
+        return
     }
+    # hoechstens ein paar Meldungen, damit ein wiederkehrender Fehler das Log nicht flutet
+    if ($script:UnhandledCount -le 5) { try { Add-UiLog ((T "ErrPrefix") + " " + $x.Message) } catch {} }
 })
 
 $window.Add_ContentRendered({
