@@ -34,7 +34,25 @@ function Start-Snapshots {
         "0100000000020000" = @{ Count = 9;   Time = [DateTime]::Now.AddDays(-20) }
         "0100000000030000" = @{ Count = 45;  Time = [DateTime]::Now.AddDays(-70) }
     }
+    $script:PlayTime = @{ "0100000000050000" = 76825; "0100000000020000" = 3538; "0100000000030000" = 26076 }
     Set-GameLaunchProps
+    foreach ($g in $script:Games) {
+        if ($g.Tid -eq "0100000000050000") { $g | Add-Member -NotePropertyName SnapPatch -NotePropertyValue @{ Found = $true; Update = "2.2.0"; UpdateOff = $false; Dlc = 4; ModsOn = 3; ModsOff = 1 } -Force }
+    }
+    # Selbst-Update: so tun, als gaebe es eine neue Version mit Patchnotes
+    $snapNotes = @(
+        "Detailansicht pro Spiel: Klick auf eine Kachel zeigt Update, DLC, Mods und Spielzeit",
+        "Spielzeit aus Eden wird angezeigt",
+        "Patchnotes des Updaters direkt in den Einstellungen und in der Update-Frage",
+        "Auswahl- und Meldungsfenster mit eigener Titelleiste"
+    ) | ForEach-Object { [string][char]0x2022 + " " + $_ }
+    $snapNotes = $snapNotes -join "`r`n"
+    $script:SelfExe      = Join-Path $env:TEMP "EdenUpdater-Snapshot.exe"
+    $script:SelfVersion  = [version]"1.8.0"
+    $script:SelfInfo     = @{ Tag = "v1.9.0"; Version = [version]"1.9.0"; Url = "x"; Size = 0; Page = "x" }
+    $script:SelfState    = "found"
+    $script:SelfReleases = @(@{ Tag = "v1.9.0"; Version = [version]"1.9.0"; Notes = $snapNotes })
+    Update-SelfCard
     $script:Settings.GamesSort = "recent"
     $script:SortFilling = $true
     try { $ui.CmbGameSort.SelectedValue = "recent" } finally { $script:SortFilling = $false }
@@ -83,7 +101,7 @@ function Start-Snapshots {
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
-        foreach ($pg in @("versions", "notes", "games", "mods", "content", "saves", "firmware", "settings", "settings-end", "dialog", "dialog-online", "themes", "themes-custom")) {
+        foreach ($pg in @("versions", "notes", "games", "games-detail", "mods", "content", "saves", "firmware", "settings", "settings-end", "dialog", "dialog-online", "dialog-update", "themes", "themes-custom")) {
             $script:SnapSteps.Enqueue(@{ Theme = $t; Page = $pg })
         }
     }
@@ -123,7 +141,14 @@ function Start-Snapshots {
                 "settings-end" { Set-Page "settings"; $ui.SettingsScroll.ScrollToEnd() }
                 "settings"     { Set-Page "settings"; $ui.SettingsScroll.ScrollToTop() }
                 "dialog"       { Set-Page "versions"; $st.Win = New-SnapDialog }
-                "dialog-online" { Set-Page "versions"; $st.Win = New-SnapDialog $true }
+                "dialog-online" { Set-Page "versions"; $st.Win = New-SnapDialog "online" }
+                "dialog-update" { Set-Page "versions"; $st.Win = New-SnapDialog "update" }
+                "games"        { Hide-GameDetail; Set-Page "games" }
+                "games-detail" {
+                    Set-Page "games"
+                    $pick = @($ui.ListGames.ItemsSource | Where-Object { $_.Tid -eq "0100000000050000" }) | Select-Object -First 1
+                    if ($pick) { $ui.ListGames.SelectedItem = $pick; Show-GameDetail $pick $false }
+                }
                 "themes"        { Set-Page "versions"; $st.Win = New-SnapThemeDialog "presets" }
                 "themes-custom" { Set-Page "versions"; $st.Win = New-SnapThemeDialog "custom" }
                 "fx-theme"     { Set-Page "versions"; Invoke-SnapFx { Set-ThemeById "dark-sunset" } "fx-theme-mid" 300 }
@@ -148,6 +173,9 @@ function Invoke-SnapMetaProbe([int]$n) {
         $script:MetaCache = @{}
         Remove-Item -LiteralPath (Get-MetaDir) -Recurse -Force -ErrorAction SilentlyContinue
         Start-MetaFetch @($ids | ForEach-Object { @{ Tid = $_; Name = $true; Icon = $true } }) "de"
+        # Selbst-Update-Abfrage wirklich gegen GitHub laufen lassen (als waere 1.0.0 installiert)
+        $script:SelfVersion = [version]"1.0.0"; $script:SelfInfo = $null; $script:SelfReleases = @(); $script:SelfState = "idle"
+        Start-SelfCheck $false
         return
     }
     if ($script:MetaWorker) { Receive-GameMeta }
@@ -162,6 +190,13 @@ function Invoke-SnapMetaProbe([int]$n) {
     $lines += "Merkliste: " + ($script:MetaCache | ConvertTo-Json -Depth 4 -Compress)
     $tj = Join-Path (Get-MetaDir) "titles.json"
     $lines += "titles.json vorhanden: " + (Test-Path -LiteralPath $tj)
+    $lines += ""
+    $lines += ("Selbst-Update: Zustand={0}  Fehler='{1}'  Releases={2}  neueste={3}" -f $script:SelfState, $script:SelfError, @($script:SelfReleases).Count, $(if ($script:SelfInfo) { $script:SelfInfo.Tag } else { "-" }))
+    $ni = Get-SelfNotesInfo
+    if ($ni) { $lines += ("Titel: " + $ni.Title); $lines += ([string]$ni.Text).Substring(0, [Math]::Min(1200, ([string]$ni.Text).Length)) }
+    $pi = Read-GamePatchInfo "0100000000001234"
+    $lines += ("pv.txt fuer unbekannte ID gefunden: " + $pi.Found)
+    $lines += ("Spielzeit-Format: " + (Format-PlayTime 76825) + " | " + (Format-PlayTime 2700) + " | " + (Format-PlayTime 20))
     Set-Content -LiteralPath (Join-Path $script:Snapshot "meta-probe.txt") -Value $lines -Encoding UTF8
 }
 
@@ -187,7 +222,8 @@ function Set-SnapTheme([string]$key) {
     if (Get-Command Set-ThemeById -ErrorAction SilentlyContinue) { Set-ThemeById $key } else { Set-ThemeByKey $key }
 }
 
-function New-SnapDialog([bool]$online = $false) {
+function New-SnapDialog([string]$kind = "") {
+    $online = ($kind -eq "online")
     $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
     foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
@@ -201,6 +237,12 @@ function New-SnapDialog([bool]$online = $false) {
         $d.FindName("MsgTitle").Text = T "OnlineAskTitle"
         $d.FindName("MsgTitle").TextWrapping = [System.Windows.TextWrapping]::Wrap
         $d.FindName("MsgText").Text  = T "OnlineAskText"
+    }
+    if ($kind -eq "update") {
+        # die Update-Frage mit Patchnotes, wie Ask-SelfUpdate sie zeigt
+        $n = Get-SelfNotesInfo
+        $d.Width = 600
+        $d.FindName("MsgText").Text = (TF "SelfAsk" "1.8.0" "1.9.0") + "`n`n" + $n.Title + "`n" + $n.Text
     }
     $bh = $d.FindName("MsgButtons")
     foreach ($def in @(@((T "No"), "Btn"), @((T "Yes"), $(if ($online) { "Btn" } else { "BtnPrimary" })))) {

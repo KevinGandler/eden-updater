@@ -220,6 +220,7 @@ function Update-ModGames {
     $withMods = @($script:ModGames | Where-Object { $_.Count -gt 0 }).Count
     $ui.TxtModsInfo.Text = TF "ModsInfo" $script:Mods.Count $withMods
     Update-ModList
+    try { Select-WantedGame "mods" $ui.ListModGames $script:ModGames } catch {}
 }
 
 # Rechte Liste: Mods des gewaehlten Spiels

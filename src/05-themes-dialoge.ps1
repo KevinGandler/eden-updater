@@ -377,6 +377,10 @@ $themeDlgXaml = @'
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
         Background="{DynamicResource BrBg}" Foreground="{DynamicResource BrText}"
         FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13">
+  <!-- eigene Titelleiste wie im Hauptfenster: oben Ziehbereich, rechts ein Schliessen-Knopf -->
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="34" ResizeBorderThickness="0" GlassFrameThickness="0,0,0,1" CornerRadius="0" UseAeroCaptionButtons="False"/>
+  </WindowChrome.WindowChrome>
   __RES__
   <Grid Background="{DynamicResource BrBg}">
   <Canvas IsHitTestVisible="False" ClipToBounds="True">
@@ -568,6 +572,7 @@ $themeDlgXaml = @'
       <Button x:Name="BtnThemeOk" Tag="&#xE73E;" Content="{DynamicResource L_Apply}" Style="{StaticResource BtnPrimary}" Margin="8,0,0,0"/>
     </StackPanel>
   </Grid>
+  <Button x:Name="BtnDlgClose" Uid="close" Tag="&#xE8BB;" Style="{StaticResource BtnCaption}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
   <Image x:Name="ThemeFx" Visibility="Collapsed" IsHitTestVisible="False" Stretch="Fill"/>
   </Grid>
 </Window>
@@ -842,6 +847,7 @@ function New-ThemeDialog([string]$tab = "presets") {
     $d.TxtHex.Add_LostKeyboardFocus({ Set-HexFromBox })
     $d.BtnThemeOk.Add_Click({ $script:ThemeWin.Tag = "ok"; $script:ThemeWin.Close() })
     $d.BtnThemeCancel.Add_Click({ $script:ThemeWin.Close() })
+    $dlg.FindName("BtnDlgClose").Add_Click({ $script:ThemeWin.Close() })
     $dlg.Add_SourceInitialized({ Set-TitleBar $script:ThemeWin })
 
     Set-Theme $script:Draft
@@ -877,12 +883,16 @@ $msgDlgXaml = @'
         Title="Eden Updater" Width="480" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" UseLayoutRounding="True"
         Background="{DynamicResource BrBg}" FontFamily="Segoe UI Variable Text, Segoe UI" FontSize="13" Foreground="{DynamicResource BrText}">
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="30" ResizeBorderThickness="0" GlassFrameThickness="0,0,0,1" CornerRadius="0" UseAeroCaptionButtons="False"/>
+  </WindowChrome.WindowChrome>
   __RES__
-  <Grid>
+  <Grid Background="{DynamicResource BrBg}">
     <Canvas IsHitTestVisible="False" ClipToBounds="True">
       <Ellipse Width="460" Height="460" Canvas.Left="-230" Canvas.Top="-300" Fill="{DynamicResource GlowA}"/>
     </Canvas>
-    <Grid Margin="24,24,22,20">
+    <Button x:Name="BtnDlgClose" Uid="close" Tag="&#xE8BB;" Style="{StaticResource BtnCaption}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+    <Grid Margin="24,26,22,20">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
@@ -893,7 +903,7 @@ $msgDlgXaml = @'
                    Foreground="{DynamicResource BrAccentText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Border>
       <StackPanel Grid.Column="1">
-        <TextBlock x:Name="MsgTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" Margin="0,1,0,8"/>
+        <TextBlock x:Name="MsgTitle" FontFamily="{StaticResource FontHead}" FontSize="18" FontWeight="SemiBold" Margin="0,1,28,8"/>
         <!-- lange Texte (z.B. die Frage zu Covern aus dem Internet) bleiben auf kleinen Bildschirmen bedienbar -->
         <ScrollViewer MaxHeight="470" VerticalScrollBarVisibility="Auto" Focusable="False">
           <TextBlock x:Name="MsgText" TextWrapping="Wrap" Foreground="{DynamicResource BrText}" Margin="0,0,6,0"/>
@@ -950,7 +960,10 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
         $b.Add_Click({ param($sender, $e) $script:MsgResult = [string]$sender.CommandParameter; $script:MsgWin.Close() })
         [void]$panelBtns.Children.Add($b)
     }
-    $d.Add_SourceInitialized({ Set-TitleBar $script:MsgWin })
+    $d.FindName("BtnDlgClose").Add_Click({ $script:MsgWin.Close() })      # wie das X: zaehlt als Nein bzw. OK
+    # Fenster ohne Windows-Titelleiste, dessen Hoehe sich nach dem Inhalt richtet: einmal neu messen lassen,
+    # sonst rechnet WPF die fehlende Titelleiste noch mit ein
+    $d.Add_SourceInitialized({ Set-TitleBar $script:MsgWin; try { $script:MsgWin.InvalidateMeasure() } catch {} })
     $d.Add_ContentRendered({ try { Start-FadeIn $script:MsgWin.Content 0 } catch {} })
     [void]$d.ShowDialog()
     $script:MsgWin = $null

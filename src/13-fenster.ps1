@@ -15,7 +15,8 @@ foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesS
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","ChkOnlineMeta","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
-                 "BtnWinMin","BtnWinMax","BtnWinClose","GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
+                 "GameDetail","DetTile","DetAbbr","DetImg","TxtDetName","TxtDetInfo","BtnDetClose","DetRows","TxtDetHint","BtnDetStart","BtnDetMods","BtnDetContent","BtnDetSaves","BtnDetShow",
+                 "SelfNotesBox","TxtSelfNotesTitle","TxtSelfNotes","BtnWinMin","BtnWinMax","BtnWinClose","GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
                  "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
     $ui[$n] = $window.FindName($n)
 }
@@ -147,7 +148,26 @@ $ui.ListGames.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickE
     $b = $e.OriginalSource
     if ($b -is [System.Windows.Controls.Button] -and [string]$b.Tag -eq "fav") { $e.Handled = $true; Switch-GameFav $b.DataContext }
 })
-$ui.ListGames.Add_SelectionChanged({ Update-GameButton })
+$ui.ListGames.Add_SelectionChanged({ Update-GameButton; try { Sync-GameDetail } catch {} })
+# Klick auf eine Kachel oeffnet die Detailansicht (nicht beim Stern)
+$ui.ListGames.Add_PreviewMouseLeftButtonUp({
+    param($s, $e)
+    try {
+        if ((Test-InFavButton $e.OriginalSource) -or -not (Test-InListItem $e.OriginalSource)) { return }
+        if ($ui.ListGames.SelectedItem) { Show-GameDetail $ui.ListGames.SelectedItem }
+    } catch {}
+})
+$ui.BtnDetClose.Add_Click({ Hide-GameDetail })
+$ui.BtnDetStart.Add_Click({ if ($script:DetailGame) { Start-Game $script:DetailGame } })
+$ui.BtnDetMods.Add_Click({ Show-GameIn "mods" $script:DetailGame })
+$ui.BtnDetContent.Add_Click({ Show-GameIn "content" $script:DetailGame })
+$ui.BtnDetSaves.Add_Click({ Show-GameIn "saves" $script:DetailGame })
+$ui.BtnDetShow.Add_Click({ Show-GameInExplorer $script:DetailGame })
+# Esc schliesst die Detailansicht
+$window.Add_PreviewKeyDown({
+    param($s, $e)
+    if ($e.Key -eq "Escape" -and $script:CurrentPage -eq "games" -and $ui.GameDetail.Visibility -eq "Visible") { Hide-GameDetail; $e.Handled = $true }
+})
 $ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
 $ui.BtnGameContinue.Add_Click({ if ($script:ContinueGame) { Start-Game $script:ContinueGame } })
