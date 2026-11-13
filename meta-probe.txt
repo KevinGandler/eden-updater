@@ -1,0 +1,35 @@
+﻿Worker fertig: True
+01007BB017812000  Name='Portal'  Kuerzel=P  Bild geladen=True  Datei=13740 Bytes
+0100ABD01785C000  Name='Portal 2'  Kuerzel=P2  Bild geladen=True  Datei=21604 Bytes
+0100000000001234  Name='Pixel Quest'  Kuerzel=PQ  Bild geladen=False  Datei=0 Bytes
+Merkliste: {"0100ABD01785C000":{"Lang":"de","At":"2026-11-13","Miss":false,"Name":"Portal 2","NoIcon":false},"0100000000001234":{"Lang":"de","Miss":true,"Name":"","NoIcon":false,"At":"2026-11-13"},"01007BB017812000":{"Lang":"de","At":"2026-11-13","Miss":false,"Name":"Portal","NoIcon":false}}
+titles.json vorhanden: True
+
+Selbst-Update: Zustand=found  Fehler=''  Releases=14  neueste=v1.9.1
+Titel: Neu in Version 1.9.1
+1.9.1
+• Behoben: Der Updater stürzte ab, wenn man in den Einstellungen die Sprache wechselte und speicherte.
+• Fehler in der Oberfläche beenden das Programm nicht mehr, sondern erscheinen im Aktivitäts-Log.
+
+1.9.0
+• Detailansicht pro Spiel: Ein Klick auf eine Kachel öffnet rechts eine Leiste mit Cover, zuletzt gespielt, Spielzeit, installiertem Update, DLC, Mods, Title-ID und Datei. Von dort geht es direkt zu Mods, Updates & DLC und Spieldaten dieses Spiels.
+• Spielzeit: Die von Eden gezählte Spielzeit steht in der Detailansicht, im Tooltip der Kachel und unter „Weiterspielen“.
+• Patchnotes des Updaters: Die Einstellungen zeigen, was eine neue Version bringt bzw. was die installierte gebracht hat. Auch die Update-Frage beim Start nennt die Änderungen.
+• Themeauswahl und Meldungsfenster haben jetzt dieselbe eigene Titelleiste wie das Hauptfenster.
+
+1.8.0
+• 1.8.0: Cover & Namen, Weiterspielen, Fenster merken, eigene Titelleiste, Code aufgeteilt
+
+1.7.1
+• Spiele-Kacheln: voller Name, Kürzel und eigene Farbe; Doppelklick-Fix
+
+1.7.0
+• Neues Design: Layout, Themes mit Verläufen, Animationen
+
+1.6.2
+• Code-Review: Bugfixes in Logik und Oberfläche
+
+1.6.1
+• Updates & DL
+pv.txt fuer unbekannte ID gefunden: False
+Spielzeit-Format: 21 h 20 min | 45 min | < 1 min

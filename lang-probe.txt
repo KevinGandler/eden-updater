@@ -1,0 +1,6 @@
+﻿Start en
+fertig en: Sprache=en, Seite=versions, Titel=Versions
+Start ja
+fertig ja: Sprache=ja, Seite=versions, Titel=バージョン
+Start de
+fertig de: Sprache=de, Seite=versions, Titel=Versionen
