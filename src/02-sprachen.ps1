@@ -4981,7 +4981,9 @@ $jobSelf = {
                 $code = & curl.exe -s -L --max-time 20 -A $UA -H "Accept: application/vnd.github+json" -o $tmp -w "%{http_code}" $url 2>$null
                 if ("$code" -eq "404") { $sync.Result = @{ Ok = $true; Mode = "check"; Tag = ""; Releases = @() }; return }
                 if ("$code" -ne "200") { throw ("GitHub HTTP " + $code) }
-                $all = @([IO.File]::ReadAllText($tmp, [Text.Encoding]::UTF8) | ConvertFrom-Json)
+                # Windows PowerShell gibt eine JSON-Liste als EIN Objekt weiter - erst die zweite Pipeline zaehlt sie auf
+                $parsed = [IO.File]::ReadAllText($tmp, [Text.Encoding]::UTF8) | ConvertFrom-Json
+                $all = @($parsed | ForEach-Object { $_ })
             } finally {
                 Remove-Item $tmp -Force -ErrorAction SilentlyContinue
             }
