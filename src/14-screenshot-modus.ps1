@@ -288,6 +288,23 @@ function New-SnapThemeDialog([string]$tab) {
     return $d
 }
 
+# Fehler, die ausserhalb eines Klick-Handlers auftreten (z.B. beim Zeichnen oder in einer Animation), beenden
+# sonst das ganze Programm. Im automatischen Test landen sie mit Herkunft in errors.txt.
+$window.Dispatcher.Add_UnhandledException({
+    param($s, $e)
+    if ($script:Snapshot -or $script:SnapNoDialog) {
+        try {
+            $dir = if ($script:Snapshot) { $script:Snapshot } else { Split-Path -Parent $script:SnapNoDialog }
+            $x = $e.Exception
+            $msg = "UNHANDLED: " + $x.GetType().FullName + ": " + $x.Message
+            if ($x.InnerException) { $msg += "`r`n  inner: " + $x.InnerException.GetType().FullName + ": " + $x.InnerException.Message }
+            if ($x.ErrorRecord) { $msg += "`r`n  ps: " + $x.ErrorRecord.ScriptStackTrace }
+            $msg += "`r`n" + $x.StackTrace
+            Add-Content -LiteralPath (Join-Path $dir "errors.txt") -Value $msg -Encoding UTF8
+        } catch {}
+    }
+})
+
 $window.Add_ContentRendered({
     if ($script:Initialized) { return }
     $script:Initialized = $true

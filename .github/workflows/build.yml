@@ -79,9 +79,16 @@ jobs:
           $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan,light,light-sand,dark-aurora,dark-synth,amoled-red"
           $env:EDEN_UPDATER_SNAPSHOT_FX = "1"
           .\build\merge.ps1 | Out-Null
-          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','dist\EdenUpdater.ps1' -PassThru
+          New-Item -ItemType Directory snapshots -Force | Out-Null
+          $p = Start-Process powershell -ArgumentList '-NoProfile','-STA','-ExecutionPolicy','Bypass','-File','dist\EdenUpdater.ps1' -PassThru -RedirectStandardError snapshots\stderr.txt -RedirectStandardOutput snapshots\stdout.txt
           if (-not $p.WaitForExit(300000)) { $p.Kill(); Write-Host "Timeout" }
           Get-ChildItem snapshots | Format-Table Name, Length
+          # Ausgaben des Programms: leer = nichts Unerwartetes; sonst anzeigen und den Lauf scheitern lassen
+          foreach ($f in 'stderr.txt','stdout.txt') {
+            $pf = Join-Path snapshots $f
+            if ((Test-Path $pf) -and (Get-Item $pf).Length -eq 0) { Remove-Item $pf }
+          }
+          if (Test-Path snapshots\stderr.txt) { Get-Content snapshots\stderr.txt; exit 1 }
           if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
           if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
 
