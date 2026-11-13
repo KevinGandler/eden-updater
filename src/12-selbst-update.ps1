@@ -19,6 +19,26 @@ $script:SelfAuto    = $false
 $script:SelfPrompt  = $false
 $script:SelfWorker  = $null
 $script:SelfCleanAt = $null
+$script:SelfReleases = @()       # @{ Tag; Version; Notes } der letzten Releases, neueste zuerst
+
+# Patchnotes fuer die Anzeige: bei einem verfuegbaren Update alle Versionen, die neuer sind als die
+# installierte (neueste zuerst), sonst die der installierten Version. Liefert @{ Title; Text } oder $null.
+function Get-SelfNotesInfo {
+    $rels = @($script:SelfReleases)
+    if (-not $rels.Count -or -not $script:SelfVersion) { return $null }
+    $found = ($script:SelfState -eq "found" -or $script:SelfState -eq "downloading") -and $script:SelfInfo
+    if ($found) {
+        $new = @($rels | Where-Object { $_.Version -and $_.Version -gt $script:SelfVersion -and $_.Notes })
+        if (-not $new.Count) { return $null }
+        $parts = foreach ($r in $new) {
+            if ($new.Count -gt 1) { ("{0}`r`n{1}" -f (Format-Ver $r.Version), $r.Notes) } else { $r.Notes }
+        }
+        return @{ Title = (TF "SelfNotesNew" (Format-Ver $script:SelfInfo.Version)); Text = ($parts -join "`r`n`r`n") }
+    }
+    $cur = @($rels | Where-Object { $_.Version -and $_.Version -eq $script:SelfVersion -and $_.Notes }) | Select-Object -First 1
+    if (-not $cur) { return $null }
+    return @{ Title = (TF "SelfNotesThis" (Format-Ver $script:SelfVersion)); Text = [string]$cur.Notes }
+}
 
 function Format-Ver($v) { if ($v) { return ("{0}.{1}.{2}" -f $v.Major, $v.Minor, [Math]::Max(0, $v.Build)) } else { return "-" } }
 
@@ -48,7 +68,7 @@ function Start-SelfWorker([hashtable]$jobArgs) {
     $rs.SessionStateProxy.SetVariable("sync", $selfSync)
     $ps = [powershell]::Create()
     $ps.Runspace = $rs
-    [void]$ps.AddScript($jobSelf.ToString())
+    [void]$ps.AddScript($workerLib.ToString() + "`n" + $jobSelf.ToString())   # workerLib liefert Format-Notes
     $script:SelfWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
 }
 
@@ -57,7 +77,7 @@ function Start-SelfCheck([bool]$auto) {
     $script:SelfAuto  = $auto
     $script:SelfState = "checking"
     Update-SelfCard
-    Start-SelfWorker @{ Mode = "check"; Repo = $SelfRepo }
+    Start-SelfWorker @{ Mode = "check"; Repo = $SelfRepo; Lang = [string]$script:LangCode }
 }
 
 function Start-SelfDownload {
@@ -81,6 +101,7 @@ function Complete-Self {
             $script:SelfState = "error"; $script:SelfError = [string]$r.Error
             Add-UiLog (TF "SelfStateError" $r.Error)   # ohne Fehler-Praefix: klappt das Log nicht auf
         } else {
+            $script:SelfReleases = @(foreach ($x in @($r.Releases)) { if ($x -and $x.Tag) { @{ Tag = [string]$x.Tag; Version = (ConvertTo-Ver ([string]$x.Tag)); Notes = [string]$x.Notes } } })
             $nv = if ($r.Tag) { ConvertTo-Ver $r.Tag } else { $null }
             if ($nv -and $r.Url -and $script:SelfVersion -and $nv -gt $script:SelfVersion) {
                 $script:SelfInfo  = @{ Tag = [string]$r.Tag; Version = $nv; Url = [string]$r.Url; Size = [long]$r.Size; Page = [string]$r.Page }
@@ -117,7 +138,16 @@ function Test-AnyBusy {
 function Ask-SelfUpdate {
     if ($script:SelfState -ne "found" -or -not $script:SelfInfo) { return }
     $q = TF "SelfAsk" (Format-Ver $script:SelfVersion) (Format-Ver $script:SelfInfo.Version)
-    if ((Show-Dialog $q "YesNo" "Question") -eq "Yes") { Start-SelfDownload }
+    # Patchnotes gleich mit anzeigen (lange Texte scrollen im Dialog)
+    $n = Get-SelfNotesInfo
+    $w = 0
+    if ($n -and $n.Text) {
+        $txt = [string]$n.Text
+        if ($txt.Length -gt 4000) { $txt = $txt.Substring(0, 4000) + "`r`n..." }
+        $q = $q + "`n`n" + $n.Title + "`n" + $txt
+        $w = 600
+    }
+    if ((Show-Dialog $q "YesNo" "Question" "" $w) -eq "Yes") { Start-SelfDownload }
 }
 
 # Laufende EXE umbenennen (das erlaubt Windows), neue EXE an ihre Stelle, neu starten
@@ -150,6 +180,7 @@ function Update-SelfCard {
         $ui.BtnSelfInstall.Visibility = $vis::Collapsed
         $ui.BtnSelfNotes.Visibility   = $vis::Collapsed
         $ui.ChkSelfUpdate.IsEnabled = $false
+        $ui.SelfNotesBox.Visibility = $vis::Collapsed
         return
     }
     $ui.TxtSelfVersion.Text = TF "SelfVersion" (Format-Ver $script:SelfVersion)
@@ -168,6 +199,15 @@ function Update-SelfCard {
     $ui.BtnSelfInstall.Visibility = if ($found) { $vis::Visible } else { $vis::Collapsed }
     $ui.BtnSelfInstall.IsEnabled  = $found -and -not $script:Busy
     $ui.BtnSelfNotes.Visibility   = if (($found -or $script:SelfState -eq "downloading") -and $script:SelfInfo -and $script:SelfInfo.Page) { $vis::Visible } else { $vis::Collapsed }
+    # Patchnotes direkt in der Karte: was das Update bringt bzw. was die installierte Version gebracht hat
+    $n = Get-SelfNotesInfo
+    if ($n -and $n.Text) {
+        $ui.TxtSelfNotesTitle.Text = [string]$n.Title
+        if ($ui.TxtSelfNotes.Text -ne [string]$n.Text) { $ui.TxtSelfNotes.Text = [string]$n.Text }
+        $ui.SelfNotesBox.Visibility = $vis::Visible
+    } else {
+        $ui.SelfNotesBox.Visibility = $vis::Collapsed
+    }
 }
 
 function Start-NotesWorker([string]$tag) {

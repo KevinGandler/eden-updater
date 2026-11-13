@@ -1286,6 +1286,60 @@ $xaml = @'
                        HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420" Visibility="Collapsed"/>
           </Grid>
 
+          <!-- Detailansicht: gleitet von rechts ueber die Kacheln, sobald ein Spiel angeklickt wird -->
+          <Border x:Name="GameDetail" Grid.Row="1" Grid.RowSpan="2" Visibility="Collapsed" Width="330" HorizontalAlignment="Right"
+                  CornerRadius="16" BorderThickness="1" Background="{DynamicResource BrPanel}" BorderBrush="{DynamicResource BrSelStrong}">
+            <Border.RenderTransform>
+              <TranslateTransform/>
+            </Border.RenderTransform>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <Border CornerRadius="15,15,0,0" Background="{DynamicResource GrHero}"/>
+              <Grid Margin="16,16,8,14">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Width="84" Height="84" VerticalAlignment="Top">
+                  <Border x:Name="DetTile" CornerRadius="13">
+                    <Viewbox StretchDirection="DownOnly" Margin="9,0">
+                      <TextBlock x:Name="DetAbbr" FontFamily="{StaticResource FontHead}" FontSize="32" FontWeight="Bold" Foreground="#F5FFFFFF"/>
+                    </Viewbox>
+                  </Border>
+                  <Border x:Name="DetImg" CornerRadius="13"/>
+                </Grid>
+                <StackPanel Grid.Column="1" Margin="14,0,4,0" VerticalAlignment="Center">
+                  <TextBlock x:Name="TxtDetName" FontFamily="{StaticResource FontHead}" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" LineHeight="21"/>
+                  <TextBlock x:Name="TxtDetInfo" Style="{StaticResource Hint}" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button x:Name="BtnDetClose" Grid.Column="2" Tag="&#xE711;" Style="{StaticResource BtnGhost}" Padding="8,7" VerticalAlignment="Top"/>
+              </Grid>
+              <Border Grid.Row="1" Height="1" Background="{DynamicResource BrLine}" VerticalAlignment="Top"/>
+              <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,1,0,0">
+                <StackPanel Margin="16,12,14,8">
+                  <!-- Zeilen (Bezeichnung links, Wert rechts) werden per Code gefuellt -->
+                  <StackPanel x:Name="DetRows"/>
+                  <TextBlock x:Name="TxtDetHint" Text="{DynamicResource L_DetHint}" Style="{StaticResource Hint}" FontSize="11" Margin="0,10,0,0" Visibility="Collapsed"/>
+                </StackPanel>
+              </ScrollViewer>
+              <StackPanel Grid.Row="2" Margin="12,6,12,12">
+                <Button x:Name="BtnDetStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}"
+                        HorizontalContentAlignment="Center" Padding="14,11"/>
+                <WrapPanel Margin="0,8,0,0">
+                  <Button x:Name="BtnDetMods" Tag="&#xEA86;" Content="{DynamicResource L_NavMods}" Style="{StaticResource BtnGhost}"/>
+                  <Button x:Name="BtnDetContent" Tag="&#xE7B8;" Content="{DynamicResource L_NavContent}" Style="{StaticResource BtnGhost}"/>
+                  <Button x:Name="BtnDetSaves" Tag="&#xE74E;" Content="{DynamicResource L_NavSaves}" Style="{StaticResource BtnGhost}"/>
+                  <Button x:Name="BtnDetShow" Tag="&#xE838;" Content="{DynamicResource L_DetShow}" Style="{StaticResource BtnGhost}"/>
+                </WrapPanel>
+              </StackPanel>
+            </Grid>
+          </Border>
+
           <Border Grid.Row="3" Style="{StaticResource Card}" Padding="12,10,18,10" Margin="0,10,0,0">
             <StackPanel Orientation="Horizontal">
               <Button x:Name="BtnGameStart" Tag="&#xE768;" Content="{DynamicResource L_GamesStart}" Style="{StaticResource BtnPrimary}" IsEnabled="False"/>
@@ -1865,6 +1919,12 @@ $xaml = @'
                               Padding="14,8" Margin="8,0,0,0" Visibility="Collapsed"/>
                     </StackPanel>
                   </Grid>
+                  <!-- Patchnotes des Updaters: des verfuegbaren Updates oder der installierten Version -->
+                  <StackPanel x:Name="SelfNotesBox" Visibility="Collapsed" Margin="0,16,0,0">
+                    <TextBlock x:Name="TxtSelfNotesTitle" Style="{StaticResource Label}"/>
+                    <TextBox x:Name="TxtSelfNotes" IsReadOnly="True" TextWrapping="Wrap" MaxHeight="200" Margin="0,7,0,0"
+                             VerticalScrollBarVisibility="Auto" Background="{DynamicResource BrLog}" Padding="12,10"/>
+                  </StackPanel>
                   <CheckBox x:Name="ChkSelfUpdate" Content="{DynamicResource L_SelfChkStart}" Style="{StaticResource SwitchRow}" Margin="-10,12,-10,0"/>
                 </StackPanel>
               </Border>

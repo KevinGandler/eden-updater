@@ -201,6 +201,7 @@ function Update-ContentGames {
     $allD = @($script:Content | Where-Object { $_.Kind -eq "dlc" }).Count
     if (-not $script:ContentWorker) { $ui.TxtContentInfo.Text = TF "ContentInfo" (@($script:Content).Count - $allD) $allD }
     Update-ContentList
+    try { Select-WantedGame "content" $ui.ListContentGames $script:ContentGames } catch {}
 }
 
 # Rechte Liste: Updates/DLCs des gewaehlten Spiels

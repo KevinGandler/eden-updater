@@ -360,7 +360,56 @@ $script:LaunchData  = @{}
 $script:LaunchStamp = $null
 function Get-LaunchFile { return (Join-Path (Get-EdenDataDir) "cache\launched.json") }
 
+# Spielzeit: Eden schreibt <Daten>\play_time\*.bin - Saetze zu je 16 Byte: Title-ID (8 Byte) + Sekunden (8 Byte), Little Endian
+$script:PlayTime = @{}
+function Get-PlayTimeDir { return (Join-Path (Get-EdenDataDir) "play_time") }
+
+function Read-PlayTime {
+    $d = @{}
+    try {
+        $dir = Get-PlayTimeDir
+        if (Test-Path -LiteralPath $dir) {
+            foreach ($f in @(Get-ChildItem -LiteralPath $dir -Filter "*.bin" -File -ErrorAction SilentlyContinue)) {
+                $b = [IO.File]::ReadAllBytes($f.FullName)
+                for ($i = 0; $i + 16 -le $b.Length; $i += 16) {
+                    $tid = [BitConverter]::ToUInt64($b, $i).ToString("X16")
+                    $sec = [BitConverter]::ToUInt64($b, $i + 8)
+                    if ($sec -gt 0 -and $sec -lt 3153600000) {      # unter 100 Jahren, sonst ist der Satz kaputt
+                        $d[$tid] = [double]$(if ($d.ContainsKey($tid)) { $d[$tid] } else { 0 }) + [double]$sec    # mehrere Profile: zusammenzaehlen
+                    }
+                }
+            }
+        }
+    } catch {}
+    $script:PlayTime = $d
+}
+
+# "21 h 20 min" / "45 min"; leer, wenn nichts gezaehlt wurde
+function Format-PlayTime($sec) {
+    $s = [double]$sec
+    if ($s -le 0) { return "" }
+    if ($s -lt 60) { return "< 1 min" }
+    $h = [Math]::Floor($s / 3600); $m = [Math]::Floor(($s % 3600) / 60)
+    if ($h -ge 1) { return ("{0} h {1} min" -f $h, $m) }
+    return ("{0} min" -f $m)
+}
+
+# Zeitstempel der Dateien, aus denen Start- und Spielzeitdaten kommen (zum Erkennen von Aenderungen)
+function Get-LaunchStamp {
+    $t = [DateTime]::MinValue
+    try {
+        $files = @()
+        $p = Get-LaunchFile
+        if (Test-Path -LiteralPath $p) { $files += (Get-Item -LiteralPath $p) }
+        $pd = Get-PlayTimeDir
+        if (Test-Path -LiteralPath $pd) { $files += @(Get-ChildItem -LiteralPath $pd -Filter "*.bin" -File -ErrorAction SilentlyContinue) }
+        foreach ($f in $files) { if ($f.LastWriteTimeUtc -gt $t) { $t = $f.LastWriteTimeUtc } }
+    } catch {}
+    return $t
+}
+
 function Read-LaunchData {
+    Read-PlayTime
     $d = @{}
     $stamp = $null
     try {
@@ -378,7 +427,7 @@ function Read-LaunchData {
         }
     } catch {}
     $script:LaunchData  = $d
-    $script:LaunchStamp = $stamp
+    $script:LaunchStamp = Get-LaunchStamp
 }
 
 # "08.11.2026  ·  202× gestartet" (Datum in der Schreibweise der gewaehlten Sprache)
@@ -390,6 +439,8 @@ function Get-PlayedText($g) {
         $parts += $(if ($cul) { $g.LastPlayed.ToString("d", $cul) } else { $g.LastPlayed.ToString("d") })
     }
     if ([int]$g.LaunchCount -gt 0) { $parts += (TF "GamesLaunches" ([int]$g.LaunchCount)) }
+    $pt = Format-PlayTime $g.PlaySeconds
+    if ($pt) { $parts += $pt }
     return ($parts -join "  ·  ")
 }
 
@@ -400,6 +451,9 @@ function Set-GameLaunchProps {
         if ($g.Tid) { $e = $script:LaunchData[([string]$g.Tid).ToUpperInvariant()] }
         $g | Add-Member -NotePropertyName LastPlayed  -NotePropertyValue $(if ($e) { $e.Time } else { $null }) -Force
         $g | Add-Member -NotePropertyName LaunchCount -NotePropertyValue $(if ($e) { [int]$e.Count } else { 0 }) -Force
+        $ps = 0
+        if ($g.Tid -and $script:PlayTime.ContainsKey(([string]$g.Tid).ToUpperInvariant())) { $ps = $script:PlayTime[([string]$g.Tid).ToUpperInvariant()] }
+        $g | Add-Member -NotePropertyName PlaySeconds -NotePropertyValue $ps -Force
         $txt = Get-PlayedText $g
         $g | Add-Member -NotePropertyName PlayedTip -NotePropertyValue $(if ($g.LastPlayed) { TF "GamesLastPlayed" $txt } elseif ($txt) { $txt } else { $null }) -Force
     }
@@ -408,9 +462,7 @@ function Set-GameLaunchProps {
 # Hat Eden seit dem letzten Lesen etwas gestartet? Dann Liste und "Weiterspielen" auffrischen
 function Update-LaunchDataIfChanged {
     if (-not $script:GamesLoaded -or $script:Snapshot) { return }
-    $stamp = $null
-    try { $p = Get-LaunchFile; if (Test-Path -LiteralPath $p) { $stamp = (Get-Item -LiteralPath $p).LastWriteTimeUtc } } catch {}
-    if ($stamp -eq $script:LaunchStamp) { return }
+    if ((Get-LaunchStamp) -eq $script:LaunchStamp) { return }
     Read-LaunchData
     Set-GameLaunchProps
     $selKey = Get-GameKey $ui.ListGames.SelectedItem
@@ -515,6 +567,139 @@ function Test-InFavButton($src) {
         else { $d = [System.Windows.LogicalTreeHelper]::GetParent($d) }
     }
     return $false
+}
+
+# ============================================================
+#  Detailansicht eines Spiels
+# ============================================================
+# Was Eden zuletzt fuer ein Spiel erkannt hat, steht in <Daten>\cache\game_list\<Title-ID>.pv.txt, eine Zeile je Eintrag:
+#   "Update (NAND) (2.2.0)"  /  "DLC (1, 2, 3)"  /  "Modname (IPSwitch)"  -  ein vorangestelltes "[D] " heisst deaktiviert
+function Read-GamePatchInfo([string]$tid) {
+    $r = @{ Found = $false; Update = ""; UpdateOff = $false; Dlc = 0; ModsOn = 0; ModsOff = 0 }
+    try {
+        if (-not $tid) { return $r }
+        $f = Join-Path (Get-EdenDataDir) ("cache\game_list\" + $tid.ToUpperInvariant() + ".pv.txt")
+        if (-not (Test-Path -LiteralPath $f)) { return $r }
+        $r.Found = $true
+        foreach ($raw in [IO.File]::ReadAllLines($f, [Text.Encoding]::UTF8)) {
+            $l = $raw.Trim()
+            if (-not $l) { continue }
+            $off = $false
+            if ($l.StartsWith("[D]")) { $off = $true; $l = $l.Substring(3).Trim() }
+            if ($l -match '^Update\b.*\(([^()]+)\)\s*$') { if (-not $r.Update -or -not $off) { $r.Update = $Matches[1].Trim(); $r.UpdateOff = $off } }
+            elseif ($l -match '^Update\b') { if (-not $r.Update) { $r.Update = "?"; $r.UpdateOff = $off } }
+            elseif ($l -match '^DLC\b\s*\(([^()]*)\)') { $r.Dlc = @($Matches[1] -split ',' | Where-Object { $_.Trim() }).Count }
+            elseif ($l -match '^DLC\b') { $r.Dlc = [Math]::Max(1, $r.Dlc) }
+            elseif ($off) { $r.ModsOff++ } else { $r.ModsOn++ }
+        }
+    } catch {}
+    return $r
+}
+
+function Add-DetailRow([string]$label, [string]$value, [bool]$mono = $false) {
+    $g = [System.Windows.Controls.Grid]::new()
+    $g.Margin = [System.Windows.Thickness]::new(0, 0, 0, 9)
+    $c0 = [System.Windows.Controls.ColumnDefinition]::new(); $c0.Width = [System.Windows.GridLength]::Auto
+    $c1 = [System.Windows.Controls.ColumnDefinition]::new(); $c1.Width = [System.Windows.GridLength]::new(1, [System.Windows.GridUnitType]::Star)
+    [void]$g.ColumnDefinitions.Add($c0); [void]$g.ColumnDefinitions.Add($c1)
+    $a = [System.Windows.Controls.TextBlock]::new()
+    $a.Text = $label
+    $a.MaxWidth = 130
+    $a.TextWrapping = [System.Windows.TextWrapping]::Wrap
+    $a.SetResourceReference([System.Windows.Controls.TextBlock]::ForegroundProperty, "BrMuted")
+    $b = [System.Windows.Controls.TextBlock]::new()
+    $b.Text = $value
+    $b.TextWrapping = [System.Windows.TextWrapping]::Wrap
+    $b.TextAlignment = [System.Windows.TextAlignment]::Right
+    $b.Margin = [System.Windows.Thickness]::new(14, 0, 0, 0)
+    $b.FontWeight = [System.Windows.FontWeights]::SemiBold
+    if ($mono) { $b.FontFamily = $window.FindResource("FontMono"); $b.FontWeight = [System.Windows.FontWeights]::Normal; $b.FontSize = 12 }
+    [System.Windows.Controls.Grid]::SetColumn($b, 1)
+    [void]$g.Children.Add($a); [void]$g.Children.Add($b)
+    [void]$ui.DetRows.Children.Add($g)
+}
+
+$script:DetailGame = $null
+function Show-GameDetail($g, [bool]$animate = $true) {
+    if (-not $g) { Hide-GameDetail; return }
+    $script:DetailGame = $g
+    $dash = [string][char]0x2013
+    $ui.DetTile.Background = $g.TileBrush
+    $ui.DetAbbr.Text       = [string]$g.Abbr
+    if ($g.IconImg) {
+        $ib = [System.Windows.Media.ImageBrush]::new($g.IconImg)
+        $ib.Stretch = [System.Windows.Media.Stretch]::UniformToFill
+        $ui.DetImg.Background = $ib
+    } else { $ui.DetImg.Background = $null }
+    $ui.TxtDetName.Text = [string]$g.Name
+    $ui.TxtDetInfo.Text = [string]$g.Info
+
+    $ui.DetRows.Children.Clear()
+    $last = ""
+    if ($g.LastPlayed) {
+        $last = $g.LastPlayed.ToString("d", $script:CI)
+        if ([int]$g.LaunchCount -gt 0) { $last += "  ·  " + (TF "GamesLaunches" ([int]$g.LaunchCount)) }
+    }
+    Add-DetailRow (T "GamesSortRecent") $(if ($last) { $last } else { $dash })
+    $pt = Format-PlayTime $g.PlaySeconds
+    Add-DetailRow (T "DetPlayTime") $(if ($pt) { $pt } else { $dash })
+    $pi = if ($script:Snapshot -and $g.SnapPatch) { $g.SnapPatch } else { Read-GamePatchInfo ([string]$g.Tid) }
+    if ($pi.Found) {
+        Add-DetailRow (T "DetUpdate") $(if ($pi.Update) { $pi.Update } else { $dash })
+        Add-DetailRow "DLC" $(if ($pi.Dlc) { [string]$pi.Dlc } else { $dash })
+        Add-DetailRow (T "NavMods") $(if ($pi.ModsOn + $pi.ModsOff) { TF "DetModsVal" $pi.ModsOn $pi.ModsOff } else { $dash })
+    }
+    $ui.TxtDetHint.Visibility = if ($pi.Found) { "Visible" } else { "Collapsed" }
+    if ($g.Tid) { Add-DetailRow "Title-ID" ([string]$g.Tid) $true }
+    if ($g.Path) { Add-DetailRow (T "DetFile") ([IO.Path]::GetFileName([string]$g.Path)) }
+
+    $hasEden = Test-Path (Join-Path $script:Settings.EdenPath "eden.exe")
+    $ui.BtnDetStart.IsEnabled = [bool]$hasEden
+    $vis = if ($g.Tid) { "Visible" } else { "Collapsed" }     # ohne Title-ID gibt es keine Zuordnung zu Mods/Inhalten/Spieldaten
+    $ui.BtnDetMods.Visibility = $vis; $ui.BtnDetContent.Visibility = $vis; $ui.BtnDetSaves.Visibility = $vis
+    $ui.BtnDetShow.Visibility = if ($g.Path) { "Visible" } else { "Collapsed" }
+
+    $wasOpen = ($ui.GameDetail.Visibility -eq "Visible")
+    $ui.GameDetail.Visibility = "Visible"
+    if (-not $wasOpen -and $animate) { Start-FadeIn $ui.GameDetail 0 36 280 }
+}
+
+function Hide-GameDetail {
+    $script:DetailGame = $null
+    $ui.GameDetail.Visibility = "Collapsed"
+}
+
+# Auswahl hat sich geaendert: offene Detailansicht mitziehen (oder schliessen, wenn nichts mehr gewaehlt ist)
+function Sync-GameDetail {
+    if ($ui.GameDetail.Visibility -ne "Visible") { return }
+    $sel = $ui.ListGames.SelectedItem
+    if ($sel) { Show-GameDetail $sel $false } else { Hide-GameDetail }
+}
+
+# Aus der Detailansicht in einen anderen Tab springen und dort dasselbe Spiel auswaehlen
+$script:WantTid = @{}
+function Show-GameIn([string]$page, $g) {
+    if (-not $g -or -not $g.Tid) { return }
+    $script:WantTid[$page] = [string]$g.Tid
+    Set-Page $page
+}
+
+# In einer der Spielelisten (Mods, Updates/DLC, Spieldaten) das gewuenschte Spiel auswaehlen, sobald es da ist
+function Select-WantedGame([string]$page, $listBox, $items) {
+    $want = $script:WantTid[$page]
+    if (-not $want) { return }
+    $hit = @($items | Where-Object { $_.Tid -eq $want }) | Select-Object -First 1
+    if ($hit) {
+        $listBox.SelectedItem = $hit
+        try { $listBox.ScrollIntoView($hit) } catch {}
+        $script:WantTid.Remove($page)
+    }
+}
+
+function Show-GameInExplorer($g) {
+    try {
+        if ($g -and $g.Path -and (Test-Path -LiteralPath $g.Path)) { Start-Process explorer.exe -ArgumentList ('/select,"' + [string]$g.Path + '"') }
+    } catch {}
 }
 
 function Update-GameButton {

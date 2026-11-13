@@ -10,7 +10,9 @@ Aktualisiert auf die neueste Version, installiert ältere Builds und zeigt die P
 - Neueste Nightly installieren oder beliebige ältere Version wählen
 - Backup vor dem Update und Wiederherstellen per Klick
 - Patchnotes als eigene Seite oder neben der Versionsliste
-- Eigene Titelleiste im Design der Oberfläche; Fenstergröße und -position werden gemerkt
+- Eigene Titelleiste im Design der Oberfläche (auch in Themeauswahl und Meldungen); Fenstergröße und -position werden gemerkt
+- Detailansicht pro Spiel (Klick auf eine Kachel): zuletzt gespielt, Spielzeit, installiertes Update, DLC und Mods laut Eden, Title-ID, Datei – mit Sprung zu Mods, Updates & DLC und Spieldaten
+- Patchnotes des Updaters in den Einstellungen und in der Update-Frage; sie kommen aus `CHANGELOG.md` (Abschnitt der Version, Deutsch/English)
 - Cover und saubere Spielnamen: werden einmal pro Spiel anhand der Title-ID von [api.nlib.cc](https://api.nlib.cc) geladen und unter `%LOCALAPPDATA%\EdenUpdater\covers` gemerkt. Übertragen wird nur die Title-ID. Der Updater fragt beim ersten Start, ob das gewünscht ist, und nennt dabei Vor- und Nachteile; ohne Zustimmung wird nichts geladen. Später in den Einstellungen änderbar
 - Spiele-Tab: liest die Spieleordner aus Eden und zeigt sie als Kacheln mit Icon, Suche, Favoriten per Stern (stehen oben), Sortierung nach Name oder „zuletzt gespielt“, Karte „Weiterspielen“ für das zuletzt gestartete Spiel (aus Edens `launched.json`), Start per Doppelklick (optional im Vollbild)
 - Mods-Tab: Mods pro Spiel ein-/ausschalten (direkt in Edens Einstellungen), löschen (Papierkorb) und aus ZIP hinzufügen

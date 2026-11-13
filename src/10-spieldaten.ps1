@@ -102,6 +102,7 @@ function Update-SaveGames {
         $ui.TxtSavesInfo.Text = TF "SavesInfo" (@($d.Saves | Where-Object { $_.Files }).Count) (@($d.Backups).Count) (Format-Size $script:ShaderTotal)
     }
     Update-SaveDetail
+    try { Select-WantedGame "saves" $ui.ListSaveGames $script:SaveGames } catch {}
 }
 
 function Get-SelectedSaveInfo {

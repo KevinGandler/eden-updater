@@ -34,8 +34,33 @@ jobs:
           name: EdenUpdater
           path: dist/EdenUpdater.exe
 
-      - name: Release veroeffentlichen
+      # Patchnotes: Abschnitt "## <Version>" aus CHANGELOG.md. Der Updater zeigt genau diesen Text an.
+      # Fehlt der Abschnitt, erzeugt GitHub die Notizen wie bisher selbst.
+      - name: Patchnotes aus CHANGELOG.md
+        id: notes
         if: startsWith(github.ref, 'refs/tags/v')
+        shell: powershell
+        run: |
+          $ver = "${{ github.ref_name }}".TrimStart("v")
+          $text = [IO.File]::ReadAllText("CHANGELOG.md", [Text.Encoding]::UTF8)
+          $m = [regex]::Match($text, '(?ms)^##\s*' + [regex]::Escape($ver) + '\s*\r?\n(.*?)(?=^##\s|\z)')
+          $body = if ($m.Success) { $m.Groups[1].Value.Trim() } else { "" }
+          if ($body) {
+            [IO.File]::WriteAllText("release-notes.md", $body, (New-Object Text.UTF8Encoding($false)))
+            "found=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          } else {
+            "found=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+
+      - name: Release veroeffentlichen (Patchnotes aus CHANGELOG.md)
+        if: startsWith(github.ref, 'refs/tags/v') && steps.notes.outputs.found == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/EdenUpdater.exe
+          body_path: release-notes.md
+
+      - name: Release veroeffentlichen (Notizen von GitHub)
+        if: startsWith(github.ref, 'refs/tags/v') && steps.notes.outputs.found != 'true'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/EdenUpdater.exe

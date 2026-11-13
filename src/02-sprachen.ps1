@@ -160,6 +160,14 @@ GamesLastPlayed=Zuletzt gespielt: {0}
 GamesLaunches={0}× gestartet
 GamesSortName=Nach Name
 GamesSortRecent=Zuletzt gespielt
+DetPlayTime=Spielzeit
+DetUpdate=Installiertes Update
+DetModsVal={0} aktiv, {1} aus
+DetFile=Datei
+DetShow=Im Explorer anzeigen
+DetHint=Update, DLC und Mods: Stand der letzten Spieleliste von Eden
+SelfNotesNew=Neu in Version {0}
+SelfNotesThis=Neu in dieser Version ({0})
 GamesFull=Im Vollbild starten
 GamesInfo={0} Spiele aus {1} Ordnern
 GamesEmpty=Keine Spiele gefunden. Füge in Eden unter Datei → Spieleordner hinzufügen einen Ordner hinzu und klicke dann hier auf Neu laden.
@@ -466,6 +474,14 @@ GamesLastPlayed=Last played: {0}
 GamesLaunches=launched {0}×
 GamesSortName=By name
 GamesSortRecent=Recently played
+DetPlayTime=Play time
+DetUpdate=Installed update
+DetModsVal={0} on, {1} off
+DetFile=File
+DetShow=Show in Explorer
+DetHint=Update, DLC and mods: as of Eden’s last game list
+SelfNotesNew=New in version {0}
+SelfNotesThis=New in this version ({0})
 GamesFull=Start in fullscreen
 GamesInfo={0} games from {1} folders
 GamesEmpty=No games found. In Eden, add a game folder (File → Add New Game Directory), then click Reload here.
@@ -772,6 +788,14 @@ GamesLastPlayed=Última partida: {0}
 GamesLaunches=iniciado {0}×
 GamesSortName=Por nombre
 GamesSortRecent=Jugados recientemente
+DetPlayTime=Tiempo de juego
+DetUpdate=Actualización instalada
+DetModsVal={0} activos, {1} desactivados
+DetFile=Archivo
+DetShow=Mostrar en el Explorador
+DetHint=Actualización, DLC y mods: según la última lista de juegos de Eden
+SelfNotesNew=Novedades de la versión {0}
+SelfNotesThis=Novedades de esta versión ({0})
 GamesFull=Iniciar en pantalla completa
 GamesInfo={0} juegos de {1} carpetas
 GamesEmpty=No se encontraron juegos. Añade una carpeta de juegos en Eden (Archivo → Añadir carpeta de juegos) y pulsa Recargar aquí.
@@ -1078,6 +1102,14 @@ GamesLastPlayed=Dernière partie : {0}
 GamesLaunches=lancé {0}×
 GamesSortName=Par nom
 GamesSortRecent=Joués récemment
+DetPlayTime=Temps de jeu
+DetUpdate=Mise à jour installée
+DetModsVal={0} actifs, {1} désactivés
+DetFile=Fichier
+DetShow=Afficher dans l’Explorateur
+DetHint=Mise à jour, DLC et mods : d’après la dernière liste de jeux d’Eden
+SelfNotesNew=Nouveautés de la version {0}
+SelfNotesThis=Nouveautés de cette version ({0})
 GamesFull=Lancer en plein écran
 GamesInfo={0} jeux dans {1} dossiers
 GamesEmpty=Aucun jeu trouvé. Ajoutez un dossier de jeux dans Eden (Fichier → Ajouter un dossier de jeux), puis cliquez ici sur Actualiser.
@@ -1384,6 +1416,14 @@ GamesLastPlayed=Ultima partita: {0}
 GamesLaunches=avviato {0}×
 GamesSortName=Per nome
 GamesSortRecent=Giocati di recente
+DetPlayTime=Tempo di gioco
+DetUpdate=Aggiornamento installato
+DetModsVal={0} attive, {1} disattivate
+DetFile=File
+DetShow=Mostra in Esplora file
+DetHint=Aggiornamento, DLC e mod: in base all’ultimo elenco giochi di Eden
+SelfNotesNew=Novità della versione {0}
+SelfNotesThis=Novità di questa versione ({0})
 GamesFull=Avvia a schermo intero
 GamesInfo={0} giochi da {1} cartelle
 GamesEmpty=Nessun gioco trovato. Aggiungi una cartella di giochi in Eden (File → Aggiungi cartella giochi), poi clicca qui su Ricarica.
@@ -1690,6 +1730,14 @@ GamesLastPlayed=Jogado pela última vez: {0}
 GamesLaunches=iniciado {0}×
 GamesSortName=Por nome
 GamesSortRecent=Jogados recentemente
+DetPlayTime=Tempo de jogo
+DetUpdate=Atualização instalada
+DetModsVal={0} ativos, {1} desativados
+DetFile=Ficheiro
+DetShow=Mostrar no Explorador
+DetHint=Atualização, DLC e mods: segundo a última lista de jogos do Eden
+SelfNotesNew=Novidades da versão {0}
+SelfNotesThis=Novidades desta versão ({0})
 GamesFull=Iniciar em tela cheia
 GamesInfo={0} jogos de {1} pastas
 GamesEmpty=Nenhum jogo encontrado. Adicione uma pasta de jogos no Eden (Arquivo → Adicionar pasta de jogos) e clique em Recarregar aqui.
@@ -1996,6 +2044,14 @@ GamesLastPlayed=Laatst gespeeld: {0}
 GamesLaunches={0}× gestart
 GamesSortName=Op naam
 GamesSortRecent=Recent gespeeld
+DetPlayTime=Speeltijd
+DetUpdate=Geïnstalleerde update
+DetModsVal={0} aan, {1} uit
+DetFile=Bestand
+DetShow=In Verkenner tonen
+DetHint=Update, DLC en mods: volgens de laatste gamelijst van Eden
+SelfNotesNew=Nieuw in versie {0}
+SelfNotesThis=Nieuw in deze versie ({0})
 GamesFull=Op volledig scherm starten
 GamesInfo={0} games uit {1} mappen
 GamesEmpty=Geen games gevonden. Voeg in Eden een gamemap toe (Bestand → Gamemap toevoegen) en klik hier op Opnieuw laden.
@@ -2302,6 +2358,14 @@ GamesLastPlayed=Ostatnio grane: {0}
 GamesLaunches=uruchomiono {0}×
 GamesSortName=Według nazwy
 GamesSortRecent=Ostatnio grane
+DetPlayTime=Czas gry
+DetUpdate=Zainstalowana aktualizacja
+DetModsVal={0} wł., {1} wył.
+DetFile=Plik
+DetShow=Pokaż w Eksploratorze
+DetHint=Aktualizacja, DLC i mody: według ostatniej listy gier Eden
+SelfNotesNew=Nowości w wersji {0}
+SelfNotesThis=Nowości w tej wersji ({0})
 GamesFull=Uruchom na pełnym ekranie
 GamesInfo=Gry: {0} z folderów: {1}
 GamesEmpty=Nie znaleziono gier. Dodaj folder z grami w Eden (Plik → Dodaj folder gier), a potem kliknij tutaj Odśwież.
@@ -2608,6 +2672,14 @@ GamesLastPlayed=Son oynama: {0}
 GamesLaunches={0} kez başlatıldı
 GamesSortName=Ada göre
 GamesSortRecent=Son oynananlar
+DetPlayTime=Oynama süresi
+DetUpdate=Yüklü güncelleme
+DetModsVal={0} açık, {1} kapalı
+DetFile=Dosya
+DetShow=Explorer’da göster
+DetHint=Güncelleme, DLC ve modlar: Eden’in son oyun listesine göre
+SelfNotesNew={0} sürümündeki yenilikler
+SelfNotesThis=Bu sürümdeki yenilikler ({0})
 GamesFull=Tam ekranda başlat
 GamesInfo={1} klasörde {0} oyun
 GamesEmpty=Oyun bulunamadı. Eden'de bir oyun klasörü ekleyin (Dosya → Oyun klasörü ekle), ardından burada Yenile'ye tıklayın.
@@ -2914,6 +2986,14 @@ GamesLastPlayed=Последний запуск: {0}
 GamesLaunches=запусков: {0}
 GamesSortName=По названию
 GamesSortRecent=Недавно запущенные
+DetPlayTime=Время в игре
+DetUpdate=Установленное обновление
+DetModsVal={0} вкл., {1} выкл.
+DetFile=Файл
+DetShow=Показать в Проводнике
+DetHint=Обновление, DLC и моды: по последнему списку игр Eden
+SelfNotesNew=Новое в версии {0}
+SelfNotesThis=Новое в этой версии ({0})
 GamesFull=Запускать в полноэкранном режиме
 GamesInfo=Игр: {0}, папок: {1}
 GamesEmpty=Игры не найдены. Добавьте папку с играми в Eden (Файл → Добавить папку с играми), затем нажмите здесь «Обновить список».
@@ -3220,6 +3300,14 @@ GamesLastPlayed=最終プレイ: {0}
 GamesLaunches=起動 {0} 回
 GamesSortName=名前順
 GamesSortRecent=最近プレイした順
+DetPlayTime=プレイ時間
+DetUpdate=インストール済みアップデート
+DetModsVal=有効 {0}、無効 {1}
+DetFile=ファイル
+DetShow=エクスプローラーで表示
+DetHint=アップデート、DLC、MOD：Eden の最新のゲームリストに基づく
+SelfNotesNew=バージョン {0} の新機能
+SelfNotesThis=このバージョンの新機能 ({0})
 GamesFull=フルスクリーンで起動
 GamesInfo={1} フォルダーから {0} 本のゲーム
 GamesEmpty=ゲームが見つかりません。Edenでゲームフォルダーを追加し (ファイル → ゲームフォルダーを追加)、ここで「再読み込み」をクリックしてください。
@@ -3526,6 +3614,14 @@ GamesLastPlayed=上次游玩：{0}
 GamesLaunches=启动 {0} 次
 GamesSortName=按名称
 GamesSortRecent=最近游玩
+DetPlayTime=游戏时长
+DetUpdate=已安装的更新
+DetModsVal=已启用 {0}，已停用 {1}
+DetFile=文件
+DetShow=在资源管理器中显示
+DetHint=更新、DLC 和模组：以 Eden 最近一次的游戏列表为准
+SelfNotesNew=版本 {0} 的新内容
+SelfNotesThis=此版本的新内容 ({0})
 GamesFull=以全屏启动
 GamesInfo=来自 {1} 个文件夹的 {0} 个游戏
 GamesEmpty=未找到游戏。请在 Eden 中添加游戏文件夹 (文件 → 添加游戏目录), 然后在此点击「重新加载」。
@@ -3832,6 +3928,14 @@ GamesLastPlayed=마지막 플레이: {0}
 GamesLaunches={0}회 실행
 GamesSortName=이름순
 GamesSortRecent=최근 플레이순
+DetPlayTime=플레이 시간
+DetUpdate=설치된 업데이트
+DetModsVal=켜짐 {0}, 꺼짐 {1}
+DetFile=파일
+DetShow=탐색기에서 보기
+DetHint=업데이트, DLC, 모드: Eden의 마지막 게임 목록 기준
+SelfNotesNew=버전 {0}의 새로운 기능
+SelfNotesThis=이 버전의 새로운 기능 ({0})
 GamesFull=전체 화면으로 시작
 GamesInfo=폴더 {1}개에서 게임 {0}개
 GamesEmpty=게임을 찾지 못했습니다. Eden에서 게임 폴더를 추가한 뒤 (파일 → 게임 폴더 추가) 여기서 '새로 고침'을 클릭하세요.
@@ -4872,14 +4976,41 @@ $jobSelf = {
         if ($a.Mode -eq "check") {
             $tmp = [IO.Path]::GetTempFileName()
             try {
-                $url  = "https://api.github.com/repos/" + $a.Repo + "/releases/latest"
+                # die letzten Releases (neueste zuerst) - so lassen sich die Patchnotes aller uebersprungenen Versionen zeigen
+                $url  = "https://api.github.com/repos/" + $a.Repo + "/releases?per_page=15"
                 $code = & curl.exe -s -L --max-time 20 -A $UA -H "Accept: application/vnd.github+json" -o $tmp -w "%{http_code}" $url 2>$null
-                if ("$code" -eq "404") { $sync.Result = @{ Ok = $true; Mode = "check"; Tag = "" }; return }
+                if ("$code" -eq "404") { $sync.Result = @{ Ok = $true; Mode = "check"; Tag = ""; Releases = @() }; return }
                 if ("$code" -ne "200") { throw ("GitHub HTTP " + $code) }
-                $j = [IO.File]::ReadAllText($tmp, [Text.Encoding]::UTF8) | ConvertFrom-Json
+                $all = @([IO.File]::ReadAllText($tmp, [Text.Encoding]::UTF8) | ConvertFrom-Json)
             } finally {
                 Remove-Item $tmp -Force -ErrorAction SilentlyContinue
             }
+            $rels = @($all | Where-Object { $_ -and $_.tag_name -and -not $_.draft -and -not $_.prerelease })
+            if (-not $rels.Count) { $sync.Result = @{ Ok = $true; Mode = "check"; Tag = ""; Releases = @() }; return }
+
+            # Patchnotes aufbereiten: passende Sprache waehlen (Abschnitte "### Deutsch" / "### English"),
+            # automatisch erzeugte GitHub-Zeilen entfernen, Markdown in lesbaren Text wandeln
+            function Get-SelfNotes([string]$body, [string]$lang) {
+                if (-not $body) { return "" }
+                $heads = [regex]::Matches($body, '(?m)^\s{0,3}#{2,4}\s*(Deutsch|English)\s*$')
+                if ($heads.Count -gt 0) {
+                    $want = if ($lang -eq "de") { "Deutsch" } else { "English" }
+                    $pick = $null
+                    foreach ($h in $heads) { if ($h.Groups[1].Value -eq $want) { $pick = $h; break } }
+                    if (-not $pick) { $pick = $heads[0] }
+                    $from = $pick.Index + $pick.Length
+                    $to = $body.Length
+                    foreach ($h in $heads) { if ($h.Index -gt $pick.Index -and $h.Index -lt $to) { $to = $h.Index } }
+                    $body = $body.Substring($from, $to - $from)
+                }
+                $keep = foreach ($line in ($body -split "\r?\n")) {
+                    if ($line -match '^\s*\*\*Full Changelog\*\*' -or $line -match "^\s*#+\s*What's Changed\s*$" -or $line -match '^\s*#+\s*New Contributors\s*$') { continue }
+                    [regex]::Replace($line, '\s+by @\S+ in https?://\S+\s*$', '')
+                }
+                return (Format-Notes ($keep -join "`n"))
+            }
+            $list = foreach ($r in $rels) { @{ Tag = [string]$r.tag_name; Notes = (Get-SelfNotes ([string]$r.body) ([string]$a.Lang)) } }
+            $j = $rels[0]
             $asset = @($j.assets) | Where-Object { $_.name -eq "EdenUpdater.exe" } | Select-Object -First 1
             $sync.Result = @{
                 Ok   = $true; Mode = "check"
@@ -4887,6 +5018,7 @@ $jobSelf = {
                 Page = [string]$j.html_url
                 Url  = $(if ($asset) { [string]$asset.browser_download_url } else { "" })
                 Size = $(if ($asset) { [long]$asset.size } else { [long]0 })
+                Releases = @($list)
             }
         } else {
             $out = [string]$a.Target
