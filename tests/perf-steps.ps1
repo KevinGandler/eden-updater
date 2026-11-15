@@ -129,8 +129,6 @@ if (Get-Command Read-CoverSet -ErrorAction SilentlyContinue) {
         for ($i = 0; $i -lt 40; $i++) { $script:Games[$i].IconImg = New-GameIcon $script:PerfFiles[$i] }
         Update-GameList
     }
-    Start-Sleep -Milliseconds 400; Wait-PerfIdle
-    Save-Snapshot ([System.Windows.Media.VisualTreeHelper]::GetChild($window, 0)) $window.Background "perf-covers"
 }
 
 # ---- Ausgabe

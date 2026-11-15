@@ -43,11 +43,12 @@ Weil die EXE nicht signiert ist, kann Windows SmartScreen beim ersten Start warn
 |---|---|
 | `src/*.ps1` | Das eigentliche Programm (PowerShell + WPF), aufgeteilt in nummerierte Teile: Einstellungen, Sprachen, Hintergrund-Jobs, Oberfläche (XAML), Themes/Dialoge, Navigation, die einzelnen Tabs, Selbst-Update, Fenster, Screenshot-Modus |
 | `build/merge.ps1` | Setzt die Teile in Namensreihenfolge zu `dist/EdenUpdater.ps1` zusammen – dieses eine Skript wird getestet, gestartet und in die EXE eingebettet |
-| `launcher/` | Kleiner C#-Starter, der das Skript in die EXE einbettet |
+| `launcher/` | Kleiner C#-Starter, der das Skript in die EXE einbettet; enthält auch ein paar fertig übersetzte Hilfsfunktionen, die den Start beschleunigen |
 | `assets/` | Icon |
 | `build/build.ps1` | Baut `dist/EdenUpdater.exe` unter Windows |
 | `build/build.sh` | Dasselbe unter Linux mit Mono |
 | `tests/Test-Script.ps1` | Prüft Syntax, Übersetzungen und XAML |
+| `tests/perf-steps.ps1` | Zeitmessung für den automatischen Test (Start, Seitenwechsel, Listen); das Ergebnis liegt als `timing.txt` bei den Screenshots |
 | `VERSION` | Aktuelle Versionsnummer |
 
 ## Bauen
