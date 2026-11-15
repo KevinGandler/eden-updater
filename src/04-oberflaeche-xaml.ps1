@@ -16,40 +16,7 @@ $xaml = @'
     <FontFamily x:Key="FontHead">Bahnschrift, Segoe UI Semibold</FontFamily>
     <FontFamily x:Key="FontIcon">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
     <FontFamily x:Key="FontMono">Cascadia Mono, Consolas</FontFamily>
-    <SolidColorBrush x:Key="BrPanel"  Color="#171D26"/>
-    <SolidColorBrush x:Key="BrPanel2" Color="#1E2632"/>
-    <SolidColorBrush x:Key="BrCard"   Color="#E0171D26"/>
-    <SolidColorBrush x:Key="BrLine"   Color="#2A3442"/>
-    <SolidColorBrush x:Key="BrText"   Color="#E6EDF3"/>
-    <SolidColorBrush x:Key="BrMuted"  Color="#8B98A9"/>
-    <SolidColorBrush x:Key="BrAccent" Color="#22D3EE"/>
-    <SolidColorBrush x:Key="BrAccent2" Color="#2288EE"/>
-    <SolidColorBrush x:Key="BrAccentText" Color="#22D3EE"/>
-    <SolidColorBrush x:Key="BrBg" Color="#0F1419"/>
-    <SolidColorBrush x:Key="BrAccentFg" Color="#04222A"/>
-    <SolidColorBrush x:Key="BrSel" Color="#12313A"/>
-    <SolidColorBrush x:Key="BrSelStrong" Color="#164E5C"/>
-    <SolidColorBrush x:Key="BrLog" Color="#0B0F14"/>
-    <SolidColorBrush x:Key="BrBadgeNewBg" Color="#164E3F"/>
-    <SolidColorBrush x:Key="BrBadgeNewFg" Color="#34D399"/>
-    <SolidColorBrush x:Key="BrBadgeInstBg" Color="#0E3A47"/>
-    <!-- Verlaeufe: werden beim Start per Code ersetzt und folgen dem Theme -->
-    <LinearGradientBrush x:Key="GrAccent" StartPoint="0,0" EndPoint="1,1">
-      <GradientStop Color="#22D3EE" Offset="0"/>
-      <GradientStop Color="#2288EE" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="GrHero" StartPoint="0,0" EndPoint="1,0">
-      <GradientStop Color="#3022D3EE" Offset="0"/>
-      <GradientStop Color="#0022D3EE" Offset="1"/>
-    </LinearGradientBrush>
-    <RadialGradientBrush x:Key="GlowA">
-      <GradientStop Color="#3822D3EE" Offset="0"/>
-      <GradientStop Color="#0022D3EE" Offset="1"/>
-    </RadialGradientBrush>
-    <RadialGradientBrush x:Key="GlowB">
-      <GradientStop Color="#262288EE" Offset="0"/>
-      <GradientStop Color="#002288EE" Offset="1"/>
-    </RadialGradientBrush>
+    <!-- Farben und Verlaeufe (BrBg, BrText, GrAccent ...) haengt Set-Theme als eigenes Woerterbuch ein -->
 
     <Style TargetType="TextBlock">
       <Setter Property="Foreground" Value="{DynamicResource BrText}"/>

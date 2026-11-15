@@ -197,9 +197,12 @@ function Start-PerfRun {
     $window.Dispatcher.Invoke([Action]{}, [System.Windows.Threading.DispatcherPriority]::ContextIdle)
     Measure-PerfStep "Liste Versionen aufbauen" { Update-List }
     Measure-PerfStep "Liste Spiele aufbauen (unsichtbar)" { Update-GameList }
+    $navBtn = @{ games = "BtnNavGames"; mods = "BtnNavMods"; content = "BtnNavContent"; saves = "BtnNavSaves"; firmware = "BtnNavFw"; settings = "BtnNavSet"; notes = "BtnNavNotes"; versions = "BtnNavVer" }
     foreach ($round in 1..3) {
         foreach ($pg in @("games", "mods", "content", "saves", "firmware", "settings", "notes", "versions")) {
-            Measure-PerfStep ("Seite " + $pg + " #" + $round) ([scriptblock]::Create("Set-Page '" + $pg + "'"))
+            $script:PerfBtn = $ui[$navBtn[$pg]]
+            Measure-PerfStep ("Seite " + $pg + " #" + $round) { $script:PerfBtn.RaiseEvent([System.Windows.RoutedEventArgs]::new([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent)) }
+            if ($script:CurrentPage -ne $pg) { throw "Klick auf $($navBtn[$pg]) hat nicht zur Seite $pg gefuehrt (ist: $($script:CurrentPage))" }
         }
     }
     Set-Page "games"
@@ -208,6 +211,9 @@ function Start-PerfRun {
     $pick = @($ui.ListGames.ItemsSource)[3]
     Measure-PerfStep "Detailansicht oeffnen" { $ui.ListGames.SelectedItem = $pick; Show-GameDetail $pick $false }
     Measure-PerfStep "Detailansicht schliessen" { Hide-GameDetail }
+    $pick = @($ui.ListGames.ItemsSource)[5]
+    Measure-PerfStep "Detailansicht oeffnen 2" { $ui.ListGames.SelectedItem = $pick; Show-GameDetail $pick $false }
+    Hide-GameDetail
     Set-Page "mods";    Measure-PerfStep "Liste Mods aufbauen" { Update-ModGames }
     Set-Page "content"; Measure-PerfStep "Liste Inhalte aufbauen" { Update-ContentGames }
     Set-Page "saves";   Measure-PerfStep "Liste Spielstaende aufbauen" { Update-SaveGames }
@@ -222,6 +228,7 @@ function Start-PerfRun {
         $script:PerfWorker = @{ PS = $ps; RS = $rs; H = $h }
     }
     Measure-PerfStep "Meldungsfenster bauen" { $d = New-SnapDialog; $d.Close() }
+    Measure-PerfStep "Meldungsfenster bauen 2" { $d = New-SnapDialog; $d.Close() }
     Measure-PerfStep "Theme-Fenster bauen" { $d = New-SnapThemeDialog "presets"; $d.Close(); $script:ThemeWin = $null }
     $lines = New-Object System.Collections.ArrayList
     $tOpen = 0.0; $tInv = 0.0
@@ -238,6 +245,7 @@ function Start-PerfRun {
     }
     $ready = @($script:PerfMarks | Where-Object { $_[0] -eq "bedienbar" })[0][1]
     $first = @($script:PerfMarks | Where-Object { $_[0] -eq "erstes Bild" })[0][1]
+    [void]$lines.Add("I`tDwmTheme aus " + [IO.Path]::GetFileName([DwmTheme].Assembly.Location) + "`t0")
     [void]$lines.Add("T`tSTART bis erstes Bild`t{0:F0}" -f ($script:PerfPre + $first))
     [void]$lines.Add("T`tSTART bis bedienbar`t{0:F0}" -f ($script:PerfPre + $ready))
     foreach ($m in $script:PerfSteps) { [void]$lines.Add(("P`t{0}`t{1:F1}`t{2:F1}" -f $m[0], $m[1], $m[2])) }
@@ -327,9 +335,9 @@ function Set-SnapTheme([string]$key) {
 
 function New-SnapDialog([string]$kind = "") {
     $online = ($kind -eq "online")
-    $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
+    $resBlock = Get-ResBlock
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
-    foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
+    Set-MergedDict $d $script:ThemeDict
     Set-LangResources $d
     $d.Owner = $window
     $d.FindName("MsgTitle").Text = T "DlgQuestion"
@@ -421,6 +429,14 @@ $window.Add_ContentRendered({
     }
     if ($script:Settings.AutoCheck) { Start-Load ([int]$script:Settings.Pages) }
     else { Add-UiLog (TF "LogAutoOff" (T "BtnReload")); $script:StartupCheck = $false }
+    # Fenster-Icon erst nach der Auftritts-Animation zeichnen (bis dahin zeigt Windows das Icon der EXE - dasselbe Motiv)
+    $script:IconTimer = [System.Windows.Threading.DispatcherTimer]::new()
+    $script:IconTimer.Interval = [TimeSpan]::FromMilliseconds(900)
+    $script:IconTimer.Add_Tick({
+        $script:IconTimer.Stop()
+        if (-not $window.Icon) { try { $window.Icon = New-AppIcon } catch {} }
+    })
+    $script:IconTimer.Start()
 })
 
 Set-LangResources $window

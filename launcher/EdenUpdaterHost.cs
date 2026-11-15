@@ -16,6 +16,23 @@ using System.Threading;
 [assembly: AssemblyVersion("1.1.3.0")]
 [assembly: AssemblyFileVersion("1.1.3.0")]
 
+// Faerbt die Windows-Titelleiste und den Fensterrahmen im Theme. Das Skript nutzt diese Klasse direkt;
+// laeuft es ohne EXE, uebersetzt es sich dieselbe Klasse selbst (siehe src/05-themes-dialoge.ps1).
+public static class DwmTheme
+{
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int val, int size);
+    public static void Apply(IntPtr hwnd, bool dark, int caption, int border, int text)
+    {
+        int d = dark ? 1 : 0;
+        DwmSetWindowAttribute(hwnd, 20, ref d, 4);       // dunkle Titelleiste (Win10 20H1+ / Win11)
+        DwmSetWindowAttribute(hwnd, 19, ref d, 4);       // aeltere Win10-Builds
+        DwmSetWindowAttribute(hwnd, 35, ref caption, 4); // Titelleistenfarbe (Win11)
+        DwmSetWindowAttribute(hwnd, 34, ref border, 4);  // Rahmenfarbe (Win11)
+        DwmSetWindowAttribute(hwnd, 36, ref text, 4);    // Titeltext (Win11)
+    }
+}
+
 static class Program
 {
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]

@@ -4101,8 +4101,19 @@ function ConvertFrom-LangText([string]$txt) {
     return $h
 }
 
+# Tabellen werden erst eingelesen, wenn sie gebraucht werden (beim Start: Deutsch, Englisch, aktive Sprache)
 $script:LangTables = @{}
-foreach ($c in $LangOrder) { $script:LangTables[$c] = ConvertFrom-LangText $LangData[$c] }
+function Get-LangTable([string]$c) {
+    if (-not $script:LangTables.ContainsKey($c)) { $script:LangTables[$c] = ConvertFrom-LangText $LangData[$c] }
+    return $script:LangTables[$c]
+}
+# Anzeigename einer Sprache (erste Zeile "Name=..."), ohne die ganze Tabelle einzulesen
+function Get-LangName([string]$c) {
+    if ($script:LangTables.ContainsKey($c)) { return [string]$script:LangTables[$c].Name }
+    $m = [regex]::Match([string]$LangData[$c], '(?m)^Name=(.*?)\r?$')
+    if ($m.Success) { return $m.Groups[1].Value.TrimEnd() }
+    return [string](Get-LangTable $c).Name
+}
 Add-PerfMark "02a Sprachtabellen"
 $script:L           = @{}
 $script:LangCode    = "de"
@@ -4126,11 +4137,11 @@ function Initialize-Language {
     $code = Resolve-Lang ([string]$script:Settings.Language)
     $L = @{}
     foreach ($src in @("de", "en", $code)) {
-        $t = $script:LangTables[$src]
+        $t = Get-LangTable $src
         foreach ($k in $t.Keys) { $L[$k] = $t[$k] }
     }
     # Zahlen/Datum: Windows-Region nutzen, wenn sie zur Sprache passt (z.B. de-AT)
-    $cul = [string]$script:LangTables[$code].Culture
+    $cul = [string](Get-LangTable $code).Culture
     try {
         $cur = [Globalization.CultureInfo]::CurrentCulture
         if ($cur.Name -and $cur.TwoLetterISOLanguageName -eq $code) { $cul = $cur.Name }
@@ -4139,6 +4150,21 @@ function Initialize-Language {
     $script:LangCode    = $code
     $script:LangCulture = $cul
     try { $script:CI = [Globalization.CultureInfo]::GetCultureInfo($cul) } catch { $script:CI = [Globalization.CultureInfo]::CurrentCulture }
+    # alle Texte als ein Ressourcen-Woerterbuch; Fenster haengen es als Ganzes ein (ein Schritt statt 300 einzelner)
+    $rd = [System.Windows.ResourceDictionary]::new()
+    foreach ($k in $L.Keys) { $rd["L_$k"] = [string]$L[$k] }
+    $rd["__slot"] = "lang"
+    $script:LangDict = $rd
+}
+
+# Haengt ein Woerterbuch in die Ressourcen eines Fensters ein bzw. ersetzt das bisherige mit derselben Kennung
+function Set-MergedDict($win, $rd) {
+    $slot = [string]$rd["__slot"]
+    $md = $win.Resources.MergedDictionaries
+    for ($i = 0; $i -lt $md.Count; $i++) {
+        if ([string]$md[$i]["__slot"] -eq $slot) { $md[$i] = $rd; return }
+    }
+    $md.Add($rd)
 }
 
 function T([string]$k) {
@@ -4154,7 +4180,7 @@ function TF([string]$k) {
 # Texte als Ressourcen ins Fenster (XAML nutzt {DynamicResource L_...})
 function Set-LangResources($win) {
     if (-not $win) { return }
-    foreach ($k in $script:L.Keys) { $win.Resources["L_$k"] = [string]$script:L[$k] }
+    Set-MergedDict $win $script:LangDict
     try { $win.Language = [System.Windows.Markup.XmlLanguage]::GetLanguage($script:LangCulture) } catch {}
 }
 

@@ -102,6 +102,7 @@ function ConvertFrom-Hsv([double]$h, [double]$sat, [double]$v) {
 # ------------------------------------------------------------
 #  Titelleiste und Icon im Theme
 # ------------------------------------------------------------
+# Die EXE bringt DwmTheme fertig uebersetzt mit; nur beim Start als Skript wird hier uebersetzt.
 if (-not ('DwmTheme' -as [type])) {
     Add-Type -TypeDefinition @'
 using System;
@@ -183,9 +184,9 @@ function Get-Accent2($c) {
 
 # Pinsel werden bei jedem Theme-Wechsel neu angelegt und eingefroren
 # (WPF friert Pinsel ein, sobald eine Vorlage sie nutzt - sie lassen sich danach nicht mehr aendern).
+# Alle Pinsel eines Themes landen in einem Woerterbuch, das Set-Theme am Ende in einem Schritt einhaengt.
 function Set-ThemeResource([string]$key, $value) {
-    $window.Resources[$key] = $value
-    if ($script:ThemeWin) { $script:ThemeWin.Resources[$key] = $value }
+    $script:ThemeBuild[$key] = $value
 }
 
 function Set-ThemeBrush([string]$key, $color) {
@@ -272,6 +273,8 @@ function Set-Theme($t) {
         if ($script:ThemeWin) { $fx += New-ThemeReveal $script:ThemeWin $script:ThemeFxOrigin }
     }
     $script:ThemeFxOrigin = $null
+    $script:ThemeBuild = [System.Windows.ResourceDictionary]::new()
+    $script:ThemeBuild["__slot"] = "theme"
     $bg     = ConvertTo-WpfColor $t.Bg     "#0F1419"
     $panel  = ConvertTo-WpfColor $t.Panel  "#171D26"
     $text   = ConvertTo-WpfColor $t.Text   "#E6EDF3"
@@ -328,11 +331,13 @@ function Set-Theme($t) {
     Set-ThemeGradient "GlowB"    $true  0 0 @(@((Get-AlphaColor $accent2 $aGlowB), 0), @((Get-AlphaColor $accent2 0), 1))
 
     Add-PerfMark "~th pinsel"
+    $script:ThemeDict = $script:ThemeBuild
+    Set-MergedDict $window $script:ThemeDict
+    if ($script:ThemeWin) { Set-MergedDict $script:ThemeWin $script:ThemeDict }
     $script:ThemeColors = @{ Bg = $bg; Text = $text; Line = $line; Dark = (-not $light) }
     Set-TitleBar $window
     if ($script:ThemeWin) { Set-TitleBar $script:ThemeWin }
     Add-PerfMark "~th titel"
-    if (-not $window.Icon) { try { $window.Icon = New-AppIcon } catch {} }
     Add-PerfMark "~th icon"
     foreach ($f in $fx) { Start-ThemeReveal $f }
 }
@@ -789,12 +794,18 @@ function Set-HexFromBox {
     }
 }
 
+# Der Ressourcen-Block des Hauptfensters (Stile, Vorlagen) fuer Dialoge - einmal heraussuchen, dann merken
+function Get-ResBlock {
+    if (-not $script:ResBlock) { $script:ResBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value }
+    return $script:ResBlock
+}
+
 # Theme-Fenster aufbauen (wird auch fuer Screenshots genutzt)
 function New-ThemeDialog([string]$tab = "presets") {
-    $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
+    $resBlock = Get-ResBlock
     $dlg = [Windows.Markup.XamlReader]::Parse($themeDlgXaml.Replace('__RES__', $resBlock))
     $dlg.Owner = $window
-    foreach ($k in $script:ThemeKeys) { $dlg.Resources[$k] = $window.Resources[$k] }
+    Set-MergedDict $dlg $script:ThemeDict
     Set-LangResources $dlg
     $script:ThemeWin   = $dlg
     $script:ThemePick  = $script:CurrentThemeId
@@ -931,9 +942,9 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
         try { Add-Content -LiteralPath $script:SnapNoDialog -Value ("DIALOG [" + $icon + "]: " + $text) -Encoding UTF8 } catch {}
         return $(if ($buttons -eq "YesNo") { "No" } else { "OK" })
     }
-    $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
+    $resBlock = Get-ResBlock
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
-    foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
+    Set-MergedDict $d $script:ThemeDict
     Set-LangResources $d
     if ($window.IsVisible) { $d.Owner = $window }
     $script:MsgWin    = $d
