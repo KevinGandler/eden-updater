@@ -66,7 +66,8 @@ foreach ($round in 1..2) {
     if ($round -eq 2) {
         $c = $ui.ListModGames.ItemContainerGenerator.ContainerFromIndex(0)
         $r = if ($c) { $c.Template.FindName("root", $c) } else { $null }
-        [void]$info.Add("Mods erneut geoeffnet: Eintraege blenden neu ein = " + [bool]($r -and $r.HasAnimatedProperties) + ", Eintraege = " + $ui.ListModGames.Items.Count)
+        # kurz nach dem Oeffnen laeuft die Einblend-Animation noch: Deckkraft des ersten Eintrags liegt dann unter 1
+        [void]$info.Add(("Mods erneut geoeffnet: Deckkraft des ersten Eintrags kurz danach = {0:F2} (unter 1 = blendet neu ein), Eintraege = {1}" -f $(if ($r) { $r.Opacity } else { -1 }), $ui.ListModGames.Items.Count))
     }
     Measure-PerfStep ("Updates+DLC oeffnen wie im Betrieb #" + $round) { Invoke-PerfClick "BtnNavContent"; Open-ContentTab }
     Measure-PerfStep ("Spieldaten oeffnen wie im Betrieb #" + $round)  { Invoke-PerfClick "BtnNavSaves";   Open-SavesTab }
@@ -134,12 +135,11 @@ if (Get-Command Read-CoverSet -ErrorAction SilentlyContinue) {
 
 # ---- Ausgabe
 $lines = New-Object System.Collections.ArrayList
-$tOpen = 0.0; $tInv = 0.0; $tPrime = 0.0
-try { $tOpen = [double]$env:EDEN_UPDATER_T_OPEN; $tInv = [double]$env:EDEN_UPDATER_T_INVOKE; $tPrime = [double]$env:EDEN_UPDATER_T_PRIME } catch {}
+$tOpen = 0.0; $tInv = 0.0
+try { $tOpen = [double]$env:EDEN_UPDATER_T_OPEN; $tInv = [double]$env:EDEN_UPDATER_T_INVOKE } catch {}
 [void]$lines.Add("S`tProzessstart bis Skriptbeginn`t{0:F0}" -f $script:PerfPre)
 if ($tInv -gt 0) {
     [void]$lines.Add("S`t  davon PowerShell hochfahren`t{0:F0}" -f $tOpen)
-    if ($tPrime -gt 0) { [void]$lines.Add("S`t  davon Typnamen vorbereiten`t{0:F0}" -f ($tPrime - $tOpen)) }
     [void]$lines.Add("S`t  davon Skript einlesen`t{0:F0}" -f ($script:PerfPre - $tInv))
 }
 $prev = 0.0
@@ -152,7 +152,7 @@ $first = @($script:PerfMarks | Where-Object { $_[0] -eq "erstes Bild" })[0][1]
 [void]$lines.Add("T`tSTART bis erstes Bild`t{0:F0}" -f ($script:PerfPre + $first))
 [void]$lines.Add("T`tSTART bis bedienbar`t{0:F0}" -f ($script:PerfPre + $ready))
 foreach ($m in $script:PerfSteps) { [void]$lines.Add(("P`t{0}`t{1:F1}`t{2:F1}" -f $m[0], $m[1], $m[2])) }
-[void]$info.Add("Hilfsfunktionen aus der EXE: " + [bool]$script:Native + ", vorbereitete Typnamen: " + [string]$env:EDEN_UPDATER_N_PRIME)
+[void]$info.Add("Hilfsfunktionen aus der EXE: " + [bool]$script:Native)
 [void]$info.Add("DwmTheme aus " + [IO.Path]::GetFileName([DwmTheme].Assembly.Location))
 foreach ($x in $info) { [void]$lines.Add("I`t" + $x + "`t0") }
 Set-Content -LiteralPath (Join-Path $script:Snapshot "perf.txt") -Value $lines -Encoding UTF8

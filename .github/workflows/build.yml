@@ -99,7 +99,6 @@ jobs:
         run: |
           .\build\build.ps1 | Out-Null
           $variants = [ordered]@{ nachher = @{ Exe = (Join-Path $pwd "dist\EdenUpdater.exe"); NoPrime = "" } }
-          $variants["ohne-typen"] = @{ Exe = (Join-Path $pwd "dist\EdenUpdater.exe"); NoPrime = "1" }
           git fetch -q --depth 1 origin a34d1ab33440f4f88f3474a67881643187635891
           if ($LASTEXITCODE -eq 0) {
             git worktree add -f ..\base FETCH_HEAD
@@ -135,10 +134,10 @@ jobs:
           }
           $env:EDEN_UPDATER_NOPRIME = ""
           function Med($l) { if (-not $l) { return "" }; $s = @($l | Sort-Object); return ("{0:F0}" -f $s[[int][Math]::Floor($s.Count / 2)]) }
-          $out = @("Median aus 7 Laeufen je Variante, Millisekunden", "", ("{0,-3}{1,-58}{2,8}{3,9}{4,12}" -f "", "", "vorher", "nachher", "ohne-typen"))
+          $out = @("Median aus 7 Laeufen je Variante, Millisekunden", "", ("{0,-3}{1,-58}{2,8}{3,9}" -f "", "", "vorher", "nachher"))
           foreach ($key in $order) {
             $parts = $key -split "`t"
-            $out += ("{0,-3}{1,-58}{2,8}{3,9}{4,12}" -f $parts[0], $parts[1], (Med $data["vorher"][$key]), (Med $data["nachher"][$key]), (Med $data["ohne-typen"][$key]))
+            $out += ("{0,-3}{1,-58}{2,8}{3,9}" -f $parts[0], $parts[1], (Med $data["vorher"][$key]), (Med $data["nachher"][$key]))
           }
           $out += ""
           $out += $infos

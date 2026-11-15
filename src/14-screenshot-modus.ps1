@@ -321,11 +321,8 @@ $window.Add_ContentRendered({
     Set-SettingsControls
     Add-PerfMark "Einstellungen gefuellt"
     Set-NotesLayout
-    Add-PerfMark "~noteslayout"
     Set-Page "versions"
-    Add-PerfMark "~setpage"
     Update-Ui
-    Add-PerfMark "~update-ui"
     $timer.Start()
     Add-PerfMark "bedienbar"
     if ($script:Snapshot) { Start-Snapshots; return }

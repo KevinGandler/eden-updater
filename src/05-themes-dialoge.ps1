@@ -122,7 +122,6 @@ public static class DwmTheme {
 '@
 }
 
-Add-PerfMark "~DwmTheme kompiliert"
 $script:ThemeColors = $null
 # Einfarbige Pinsel und Verlaeufe, die dem Theme folgen (werden auch an Dialoge weitergegeben)
 $script:ThemeSolid = @("BrBg","BrPanel","BrPanel2","BrCard","BrLine","BrText","BrMuted","BrAccent","BrAccent2","BrAccentFg","BrSel","BrSelStrong","BrLog","BrBadgeNewBg","BrBadgeNewFg","BrBadgeInstBg","BrAccentText")
@@ -302,7 +301,6 @@ function Set-Theme($t) {
     $greenBg    = Merge-Color $panel $green 0.20
     $greenFg    = Get-Readable $green $greenBg 3.0
 
-    Add-PerfMark "~th farben"
     Set-ThemeBrush "BrBg"          $bg
     Set-ThemeBrush "BrPanel"       $panel
     Set-ThemeBrush "BrPanel2"      $panel2
@@ -330,15 +328,12 @@ function Set-Theme($t) {
     Set-ThemeGradient "GlowA"    $true  0 0 @(@((Get-AlphaColor $accent $aGlowA), 0), @((Get-AlphaColor $accent 0), 1))
     Set-ThemeGradient "GlowB"    $true  0 0 @(@((Get-AlphaColor $accent2 $aGlowB), 0), @((Get-AlphaColor $accent2 0), 1))
 
-    Add-PerfMark "~th pinsel"
     $script:ThemeDict = $script:ThemeBuild
     Set-MergedDict $window $script:ThemeDict
     if ($script:ThemeWin) { Set-MergedDict $script:ThemeWin $script:ThemeDict }
     $script:ThemeColors = @{ Bg = $bg; Text = $text; Line = $line; Dark = (-not $light) }
     Set-TitleBar $window
     if ($script:ThemeWin) { Set-TitleBar $script:ThemeWin }
-    Add-PerfMark "~th titel"
-    Add-PerfMark "~th icon"
     foreach ($f in $fx) { Start-ThemeReveal $f }
 }
 

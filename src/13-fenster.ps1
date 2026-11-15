@@ -23,7 +23,6 @@ else {
     foreach ($n in $uiNames) { $ui[$n] = $window.FindName($n) }
 }
 
-Add-PerfMark "~FindName"
 function Update-LangCombo {
     $sys = Get-SystemLang
     $items = New-Object System.Collections.ArrayList
@@ -55,9 +54,7 @@ function Set-SettingsControls {
     $s = $script:Settings
     $ui.TxtPath.Text    = [string]$s.EdenPath
     $ui.TxtPattern.Text = [string]$s.AssetPattern
-    Add-PerfMark "~sc a"
     Update-VariantCombo
-    Add-PerfMark "~sc variant"
     $ui.TxtPages.Text   = [string]$s.Pages
     $ui.CmbNotes.ItemsSource = @(
         (New-CbItem ((T "NotesOptPage")) ("page")),
@@ -68,10 +65,8 @@ function Set-SettingsControls {
     $ui.ChkSaveAuto.IsChecked    = [bool]$s.SaveBackupOnUpdate
     $ui.ChkStart.IsChecked       = [bool]$s.StartAfter
     $ui.ChkClose.IsChecked       = [bool]$s.CloseAfterStart
-    Add-PerfMark "~sc b"
     Update-ThemeLabel
     Update-LangCombo
-    Add-PerfMark "~sc theme+lang"
     $ui.ChkAuto.IsChecked        = [bool]$s.AutoCheck
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
     $ui.ChkOnlineMeta.IsChecked  = [bool]$s.OnlineMeta
@@ -87,14 +82,10 @@ function Set-SettingsControls {
         $ui.CmbGameSort.SelectedValue = if ([string]$s.GamesSort -eq "recent") { "recent" } else { "name" }
     } finally { $script:SortFilling = $false }
     try { if ($script:GamesLoaded) { Set-GameLaunchProps } } catch {}
-    Add-PerfMark "~sc c"
     try { Update-GameList } catch {}
-    Add-PerfMark "~sc gamelist"
     Update-SelfCard
-    Add-PerfMark "~sc selfcard"
 }
 
-Add-PerfMark "~fn1"
 # --- Klicks: ein Verteiler am Fenster statt eines eigenen Handlers pro Knopf (spart beim Start Zeit).
 # Der Klick steigt vom Knopf bis zum Fenster auf; ausgefuehrt wird der Block, der unter dem Namen des Knopfs steht.
 $script:ClickMap = @{}
@@ -163,7 +154,6 @@ $script:ClickMap["BtnFwFolder"] = ({ Open-Dir (Get-FirmwareDir) })
 $script:ClickMap["BtnKeysInstall"] = ({ Install-Keys })
 $script:ClickMap["BtnKeysDelete"] = ({ Remove-Keys })
 $script:ClickMap["BtnKeysFolder"] = ({ Open-Dir (Get-KeysDir) })
-Add-PerfMark "~h nav+mods+inhalte"
 $script:ClickMap["BtnGamesReload"] = ({ Start-GameScan })
 $script:ClickMap["BtnGameStart"] = ({ Start-Game $ui.ListGames.SelectedItem })
 $ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource) -or -not (Test-InListItem $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
@@ -220,7 +210,6 @@ $script:ClickMap["ChkGamesFull"] = ({
     try { Save-Settings } catch {}
 })
 
-Add-PerfMark "~h spiele"
 # --- Aktionen
 $script:ClickMap["BtnUpdate"] = ({
     try { if ($script:Releases.Count -gt 0) { Start-Install $script:Releases[0] } }
@@ -268,7 +257,6 @@ $script:ClickMap["BtnNotesWeb"] = ({
 })
 $ui.CmbVariant.Add_SelectionChanged({ if (-not $script:SuppressVariantEvent) { Update-PatternVisibility } })
 
-Add-PerfMark "~h aktionen"
 # --- Einstellungen
 $script:ClickMap["BtnThemePick"] = ({
     try { Show-ThemeDialog } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
@@ -359,7 +347,6 @@ $script:ClickMap["BtnSave"] = ({
     } catch { Show-Msg $_.Exception.Message }
 })
 
-Add-PerfMark "~h einstellungen"
 # --- Timer: holt Log/Fortschritt aus dem Hintergrund-Thread
 $timer = New-Object System.Windows.Threading.DispatcherTimer
 $timer.Interval = [TimeSpan]::FromMilliseconds(150)
