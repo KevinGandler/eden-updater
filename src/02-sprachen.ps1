@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "01 Einstellungen"
+# ------------------------------------------------------------
 #  Sprachen
 #  Format pro Zeile: Schluessel=Text   (\n = Zeilenumbruch)
 #  Fehlt ein Schluessel, wird Englisch und dann Deutsch verwendet.
@@ -4091,6 +4092,7 @@ WSavesBacked=세이브 백업됨 (변경된 게임 {0}개).
 }
 
 function ConvertFrom-LangText([string]$txt) {
+    if ($script:Native) { return [EdenNative]::ParseLang($txt) }
     $h = @{}
     foreach ($line in ($txt -split "\r?\n")) {
         $i = $line.IndexOf('=')
@@ -4100,8 +4102,20 @@ function ConvertFrom-LangText([string]$txt) {
     return $h
 }
 
+# Tabellen werden erst eingelesen, wenn sie gebraucht werden (beim Start: Deutsch, Englisch, aktive Sprache)
 $script:LangTables = @{}
-foreach ($c in $LangOrder) { $script:LangTables[$c] = ConvertFrom-LangText $LangData[$c] }
+function Get-LangTable([string]$c) {
+    if (-not $script:LangTables.ContainsKey($c)) { $script:LangTables[$c] = ConvertFrom-LangText $LangData[$c] }
+    return $script:LangTables[$c]
+}
+# Anzeigename einer Sprache (erste Zeile "Name=..."), ohne die ganze Tabelle einzulesen
+function Get-LangName([string]$c) {
+    if ($script:LangTables.ContainsKey($c)) { return [string]$script:LangTables[$c].Name }
+    $m = [regex]::Match([string]$LangData[$c], '(?m)^Name=(.*?)\r?$')
+    if ($m.Success) { return $m.Groups[1].Value.TrimEnd() }
+    return [string](Get-LangTable $c).Name
+}
+Add-PerfMark "02a Sprachtabellen"
 $script:L           = @{}
 $script:LangCode    = "de"
 $script:LangCulture = "de-DE"
@@ -4124,11 +4138,11 @@ function Initialize-Language {
     $code = Resolve-Lang ([string]$script:Settings.Language)
     $L = @{}
     foreach ($src in @("de", "en", $code)) {
-        $t = $script:LangTables[$src]
-        foreach ($k in $t.Keys) { $L[$k] = $t[$k] }
+        $t = Get-LangTable $src
+        if ($script:Native) { [EdenNative]::Merge($L, $t) } else { foreach ($k in $t.Keys) { $L[$k] = $t[$k] } }
     }
     # Zahlen/Datum: Windows-Region nutzen, wenn sie zur Sprache passt (z.B. de-AT)
-    $cul = [string]$script:LangTables[$code].Culture
+    $cul = [string](Get-LangTable $code).Culture
     try {
         $cur = [Globalization.CultureInfo]::CurrentCulture
         if ($cur.Name -and $cur.TwoLetterISOLanguageName -eq $code) { $cul = $cur.Name }
@@ -4137,6 +4151,21 @@ function Initialize-Language {
     $script:LangCode    = $code
     $script:LangCulture = $cul
     try { $script:CI = [Globalization.CultureInfo]::GetCultureInfo($cul) } catch { $script:CI = [Globalization.CultureInfo]::CurrentCulture }
+    # alle Texte als ein Ressourcen-Woerterbuch; Fenster haengen es als Ganzes ein (ein Schritt statt 300 einzelner)
+    $rd = [System.Windows.ResourceDictionary]::new()
+    if ($script:Native) { [EdenNative]::Fill($rd, $L, "L_") } else { foreach ($k in $L.Keys) { $rd["L_$k"] = [string]$L[$k] } }
+    $rd["__slot"] = "lang"
+    $script:LangDict = $rd
+}
+
+# Haengt ein Woerterbuch in die Ressourcen eines Fensters ein bzw. ersetzt das bisherige mit derselben Kennung
+function Set-MergedDict($win, $rd) {
+    $slot = [string]$rd["__slot"]
+    $md = $win.Resources.MergedDictionaries
+    for ($i = 0; $i -lt $md.Count; $i++) {
+        if ([string]$md[$i]["__slot"] -eq $slot) { $md[$i] = $rd; return }
+    }
+    $md.Add($rd)
 }
 
 function T([string]$k) {
@@ -4152,7 +4181,7 @@ function TF([string]$k) {
 # Texte als Ressourcen ins Fenster (XAML nutzt {DynamicResource L_...})
 function Set-LangResources($win) {
     if (-not $win) { return }
-    foreach ($k in $script:L.Keys) { $win.Resources["L_$k"] = [string]$script:L[$k] }
+    Set-MergedDict $win $script:LangDict
     try { $win.Language = [System.Windows.Markup.XmlLanguage]::GetLanguage($script:LangCulture) } catch {}
 }
 
@@ -4210,6 +4239,35 @@ $notesSync = [hashtable]::Synchronized(@{
 })
 
 # Spiele: Spieleordner aus Edens qt-config.ini lesen und nach Spieldateien durchsuchen
+# Cover-Datei fertig dekodiert einlesen (ganz in den Speicher, damit die Datei nicht gesperrt bleibt).
+# Das Bild ist eingefroren und darf deshalb im Hintergrund entstehen und in der Oberflaeche gezeigt werden.
+$coverLib = @'
+function Read-CoverImage([string]$path) {
+    $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
+    $bi.BeginInit()
+    $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
+    $bi.DecodePixelWidth = 192
+    $bi.UriSource        = [Uri]::new($path)
+    $bi.EndInit()
+    $bi.Freeze()
+    return $bi
+}
+# Liest alle noch nicht bekannten Cover ein: Pfad -> @{ Stamp (Aenderungszeit der Datei); Img }
+function Read-CoverSet($paths, $known) {
+    $out = @{}
+    foreach ($p in $paths) {
+        try {
+            if (-not $p -or $out.ContainsKey($p) -or -not [IO.File]::Exists($p)) { continue }
+            $stamp = [IO.File]::GetLastWriteTimeUtc($p).Ticks
+            if ($known -and $known[$p] -eq $stamp) { continue }
+            $out[$p] = @{ Stamp = $stamp; Img = (Read-CoverImage $p) }
+        } catch {}
+    }
+    return $out
+}
+'@
+. ([scriptblock]::Create($coverLib))
+
 $jobGames = {
     $a = $sync.Args
     try {
@@ -4316,7 +4374,17 @@ $jobGames = {
         $sorted = @($games | Sort-Object Name)
         $names = @{}
         foreach ($k in $meta.Keys) { if ($meta[$k].Name) { $names[$k] = $meta[$k].Name } }
-        $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg; CacheNames = $names }
+        # Cover gleich hier im Hintergrund einlesen, damit die Oberflaeche beim Uebernehmen der Liste nicht stockt
+        $covers = @{}
+        try {
+            $want = New-Object System.Collections.ArrayList
+            foreach ($g in $sorted) {
+                if ($g.Icon) { [void]$want.Add([string]$g.Icon) }
+                if ($a.CoverDir -and $g.Tid) { [void]$want.Add((Join-Path ([string]$a.CoverDir) (([string]$g.Tid).ToUpperInvariant() + ".jpg"))) }
+            }
+            $covers = Read-CoverSet $want $a.CoverKnown
+        } catch {}
+        $sync.Result = @{ Ok = $true; Games = $sorted; Dirs = $dirs.Count; Config = [string]$cfg; CacheNames = $names; Covers = $covers }
     } catch {
         $sync.Result = @{ Ok = $false; Error = $_.Exception.Message }
     } finally {

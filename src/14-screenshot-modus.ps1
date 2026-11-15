@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "13 Fenster+Handler"
+# ------------------------------------------------------------
 #  Screenshot-Modus: jede Seite in jedem Theme als PNG speichern, dann beenden
 # ------------------------------------------------------------
 function Save-Snapshot([System.Windows.FrameworkElement]$root, $bg, [string]$name) {
@@ -98,6 +99,8 @@ function Start-Snapshots {
     $ui.TxtLog.Visibility = "Visible"
     $ui.TxtLog.Text = "Suche nach Releases...`r`n9 Versionen gefunden.`r`nFEHLER: Beispiel-Fehlermeldung"
 
+    # Zeitmessung: die Schritte stehen in tests\perf-steps.ps1 (Pfad in der Umgebungsvariable)
+    if ($env:EDEN_UPDATER_SNAPSHOT_PERF) { . $env:EDEN_UPDATER_SNAPSHOT_PERF; return }
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
@@ -249,9 +252,9 @@ function Set-SnapTheme([string]$key) {
 
 function New-SnapDialog([string]$kind = "") {
     $online = ($kind -eq "online")
-    $resBlock = [regex]::Match($xaml, '<Window\.Resources>.*?</Window\.Resources>', 'Singleline').Value
+    $resBlock = Get-ResBlock
     $d = [Windows.Markup.XamlReader]::Parse($msgDlgXaml.Replace('__RES__', $resBlock))
-    foreach ($k in $script:ThemeKeys) { $d.Resources[$k] = $window.Resources[$k] }
+    Set-MergedDict $d $script:ThemeDict
     Set-LangResources $d
     $d.Owner = $window
     $d.FindName("MsgTitle").Text = T "DlgQuestion"
@@ -314,11 +317,14 @@ $window.Dispatcher.Add_UnhandledException({
 $window.Add_ContentRendered({
     if ($script:Initialized) { return }
     $script:Initialized = $true
+    Add-PerfMark "erstes Bild"
     Set-SettingsControls
+    Add-PerfMark "Einstellungen gefuellt"
     Set-NotesLayout
     Set-Page "versions"
     Update-Ui
     $timer.Start()
+    Add-PerfMark "bedienbar"
     if ($script:Snapshot) { Start-Snapshots; return }
     # Auftritt: Seitenleiste gleitet von links herein, der Inhalt steigt von unten auf
     $script:ThemeAnimate = $true
@@ -337,10 +343,21 @@ $window.Add_ContentRendered({
     }
     if ($script:Settings.AutoCheck) { Start-Load ([int]$script:Settings.Pages) }
     else { Add-UiLog (TF "LogAutoOff" (T "BtnReload")); $script:StartupCheck = $false }
+    # Fenster-Icon erst nach der Auftritts-Animation zeichnen (bis dahin zeigt Windows das Icon der EXE - dasselbe Motiv)
+    $script:IconTimer = [System.Windows.Threading.DispatcherTimer]::new()
+    $script:IconTimer.Interval = [TimeSpan]::FromMilliseconds(900)
+    $script:IconTimer.Add_Tick({
+        $script:IconTimer.Stop()
+        if (-not $window.Icon) { try { $window.Icon = New-AppIcon } catch {} }
+    })
+    $script:IconTimer.Start()
 })
 
 Set-LangResources $window
+Add-PerfMark "14a Texte gesetzt"
 Set-ThemeById (Get-ThemeKey)
+Add-PerfMark "14b Theme gesetzt"
 if (-not $script:Snapshot) { Restore-WindowPlacement }
 try { Update-WindowChromeState } catch {}
+Add-PerfMark "Fenster wird gezeigt"
 [void]$window.ShowDialog()

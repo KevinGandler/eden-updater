@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "08 Mods"
+# ------------------------------------------------------------
 #  Gemeinsame Helfer fuer Updates/DLC und Firmware
 # ------------------------------------------------------------
 function Format-Size([double]$b) {
@@ -172,6 +173,7 @@ function Complete-ContentWorker {
 
 # Linke Liste: Spiele aus der Bibliothek + Spiele, fuer die Updates/DLCs gefunden wurden
 function Update-ContentGames {
+    $script:ContentShown = Get-AddOnStamp
     $byTid = @{}
     foreach ($g in @($script:Games)) {
         if ($g.Tid -and -not $byTid.ContainsKey($g.Tid)) { $byTid[$g.Tid] = @{ Tid = $g.Tid; Name = $g.Name; IconImg = $g.IconImg } }
@@ -254,7 +256,14 @@ function Update-ContentList {
 
 function Open-ContentTab {
     if (-not $script:GamesLoaded) { Start-GameScan }
-    if (-not $script:ContentLoaded) { Start-ContentScan } else { Update-ContentGames }
+    if (-not $script:ContentLoaded) { Start-ContentScan }
+    elseif ($script:ContentShown -and $script:ContentShown -eq (Get-AddOnStamp)) {
+        # seit dem letzten Aufbau hat sich nichts geaendert: Listen stehen lassen
+        Restore-ListView $ui.ListContentGames
+        Restore-ListView $ui.ListContent
+        try { Select-WantedGame "content" $ui.ListContentGames $script:ContentGames } catch {}
+    }
+    else { Update-ContentGames }
     Update-SysBanners $true
 }
 

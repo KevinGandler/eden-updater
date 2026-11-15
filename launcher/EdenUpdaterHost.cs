@@ -2,6 +2,7 @@
 // Bettet EdenUpdater.ps1 ein und fuehrt es in Windows PowerShell 5.1 aus
 // (STA, gleicher Thread, kein Konsolenfenster).
 using System;
+using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -15,6 +16,64 @@ using System.Threading;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyVersion("1.1.3.0")]
 [assembly: AssemblyFileVersion("1.1.3.0")]
+
+// Faerbt die Windows-Titelleiste und den Fensterrahmen im Theme. Das Skript nutzt diese Klasse direkt;
+// laeuft es ohne EXE, uebersetzt es sich dieselbe Klasse selbst (siehe src/05-themes-dialoge.ps1).
+public static class DwmTheme
+{
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int val, int size);
+    public static void Apply(IntPtr hwnd, bool dark, int caption, int border, int text)
+    {
+        int d = dark ? 1 : 0;
+        DwmSetWindowAttribute(hwnd, 20, ref d, 4);       // dunkle Titelleiste (Win10 20H1+ / Win11)
+        DwmSetWindowAttribute(hwnd, 19, ref d, 4);       // aeltere Win10-Builds
+        DwmSetWindowAttribute(hwnd, 35, ref caption, 4); // Titelleistenfarbe (Win11)
+        DwmSetWindowAttribute(hwnd, 34, ref border, 4);  // Rahmenfarbe (Win11)
+        DwmSetWindowAttribute(hwnd, 36, ref text, 4);    // Titeltext (Win11)
+    }
+}
+
+// Schleifen, die im Skript beim Start spuerbar Zeit kosten, fertig uebersetzt. Das Skript nutzt sie nur,
+// wenn es aus der EXE laeuft; als reines Skript (Tests) rechnet es dasselbe selbst.
+public static class EdenNative
+{
+    // Sprachtext mit einer Zeile "Schluessel=Text" je Eintrag -> Tabelle (\n im Text = Zeilenumbruch)
+    public static Hashtable ParseLang(string txt)
+    {
+        Hashtable h = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        if (txt == null) return h;
+        foreach (string raw in txt.Split('\n'))
+        {
+            string line = raw.TrimEnd('\r');
+            int i = line.IndexOf('=');
+            if (i < 1 || line.StartsWith("#", StringComparison.Ordinal)) continue;
+            h[line.Substring(0, i).Trim()] = line.Substring(i + 1).TrimEnd().Replace("\\n", "\n");
+        }
+        return h;
+    }
+
+    // Eintraege von source nach target uebernehmen (vorhandene werden ersetzt)
+    public static void Merge(IDictionary target, IDictionary source)
+    {
+        foreach (DictionaryEntry e in source) target[e.Key] = e.Value;
+    }
+
+    // Texte als Ressourcen ablegen: Schluessel "prefix + Name", Wert als Text
+    public static void Fill(IDictionary target, IDictionary source, string prefix)
+    {
+        foreach (DictionaryEntry e in source) target[prefix + Convert.ToString(e.Key)] = Convert.ToString(e.Value);
+    }
+
+    // Benannte Elemente eines Fensters heraussuchen (ruft dessen FindName auf)
+    public static Hashtable FindNames(object root, string[] names)
+    {
+        Hashtable h = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        MethodInfo m = root.GetType().GetMethod("FindName", new Type[] { typeof(string) });
+        foreach (string n in names) h[n] = m.Invoke(root, new object[] { n });
+        return h;
+    }
+}
 
 static class Program
 {
@@ -61,6 +120,13 @@ static class Program
         throw new MissingMemberException(target.GetType().FullName, name);
     }
 
+    // Millisekunden seit Prozessstart (nur fuer die Zeitmessung im automatischen Test)
+    static string Since()
+    {
+        double ms = (DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime).TotalMilliseconds;
+        return ms.ToString("F0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
     static string ReadScript()
     {
         Assembly me = Assembly.GetExecutingAssembly();
@@ -93,6 +159,9 @@ static class Program
             Step = "Open";
             Method(rs.GetType(), "Open", false).Invoke(rs, null);
 
+            bool perf = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("EDEN_UPDATER_SNAPSHOT_PERF"));
+            if (perf) Environment.SetEnvironmentVariable("EDEN_UPDATER_T_OPEN", Since());
+
             Step = "PowerShell.Create";
             object ps = Method(tPs, "Create", true).Invoke(null, null);
             Step = "Runspace";
@@ -100,6 +169,7 @@ static class Program
             Step = "AddScript";
             Method(tPs, "AddScript", false, typeof(string)).Invoke(ps, new object[] { script });
             Step = "Skript";
+            if (perf) Environment.SetEnvironmentVariable("EDEN_UPDATER_T_INVOKE", Since());
             try
             {
                 Method(tPs, "Invoke", false).Invoke(ps, null);

@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "10 Spieldaten"
+# ------------------------------------------------------------
 #  Firmware & Schluessel
 # ------------------------------------------------------------
 # Master-Key-Generation -> erste Firmware, die sie braucht (Index = Generation)

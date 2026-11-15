@@ -78,6 +78,25 @@ $used = [regex]::Matches(($xaml + (Get-AssignedString 'themeDlgXaml')), 'L_(\w+)
 $missing = @($used | Where-Object { -not $de.ContainsKey($_) })
 if ($missing.Count) { Bad "Texte im XAML ohne Uebersetzung: $($missing -join ', ')" } else { Ok "alle $($used.Count) XAML-Texte vorhanden" }
 
+# ---------- Klicks ----------
+# Knoepfe haengen an einem gemeinsamen Verteiler: $script:ClickMap["Name"] = { ... }.
+# Jeder Name muss ein benanntes Element im Hauptfenster sein, sonst liefe der Klick ins Leere.
+Write-Host "Klick-Verteiler"
+$clickNames = [regex]::Matches([IO.File]::ReadAllText($script, [Text.Encoding]::UTF8), '(?m)^\$script:ClickMap\["(\w+)"\]\s*=') | ForEach-Object { $_.Groups[1].Value }
+$xamlNames = @{}
+foreach ($m in [regex]::Matches($xaml, 'x:Name="(\w+)"')) { $xamlNames[$m.Groups[1].Value] = $true }
+$lost = @($clickNames | Where-Object { -not $xamlNames.ContainsKey($_) })
+$dupe = @($clickNames | Group-Object | Where-Object { $_.Count -gt 1 } | ForEach-Object { $_.Name })
+if ($lost.Count) { Bad "ohne Element im XAML: $($lost -join ', ')" }
+if ($dupe.Count) { Bad "doppelt belegt: $($dupe -join ', ')" }
+if (@($clickNames).Count -lt 40) { Bad "nur $(@($clickNames).Count) Eintraege gefunden (Schreibweise geaendert?)" }
+if (-not $lost.Count -and -not $dupe.Count) { Ok "$(@($clickNames).Count) Knoepfe, alle im XAML vorhanden" }
+
+# Messschritte fuer die Zeitmessung muessen sich einlesen lassen
+$pe = $null
+[void][System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PSScriptRoot "perf-steps.ps1"), [ref]$null, [ref]$pe)
+foreach ($e in $pe) { Bad ("perf-steps.ps1 Zeile {0}: {1}" -f $e.Extent.StartLineNumber, $e.Message) }
+
 # ---------- 3) XAML laden ----------
 $isWin = ($PSVersionTable.PSEdition -eq 'Desktop') -or $IsWindows
 if (-not $isWin) {

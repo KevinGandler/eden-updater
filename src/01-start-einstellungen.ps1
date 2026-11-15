@@ -6,9 +6,25 @@
 #  Einstellungen liegen im Eden-Installationsordner.
 # ============================================================
 
-Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
+# Zeitmessung fuer den automatischen Test (EDEN_UPDATER_SNAPSHOT_PERF): Marken mit Millisekunden seit Skriptbeginn
+$script:PerfSw    = [Diagnostics.Stopwatch]::StartNew()
+$script:PerfMarks = New-Object System.Collections.ArrayList
+$script:PerfPre   = 0.0
+if ($env:EDEN_UPDATER_SNAPSHOT_PERF) { try { $script:PerfPre = ([DateTime]::Now - [Diagnostics.Process]::GetCurrentProcess().StartTime).TotalMilliseconds } catch {} }
+function Add-PerfMark([string]$n) { [void]$script:PerfMarks.Add(@($n, $script:PerfSw.Elapsed.TotalMilliseconds)) }
 
-$ScriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent ([Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) }
+Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
+# Aus der EXE gestartet stehen ein paar fertig uebersetzte Hilfsfunktionen bereit (siehe launcher\EdenUpdaterHost.cs)
+$script:Native = [bool]('EdenNative' -as [type])
+Add-PerfMark "WPF geladen"
+
+# Ordner des Updaters: als Skript der Skriptordner, als EXE der Ordner der EXE
+$ScriptDir = if ($PSScriptRoot) { $PSScriptRoot } else {
+    $entry = $null
+    try { $entry = [Reflection.Assembly]::GetEntryAssembly() } catch {}
+    if ($entry -and $entry.Location) { Split-Path -Parent $entry.Location }
+    else { Split-Path -Parent ([Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) }
+}
 $SettingsName = "eden-updater-settings.json"
 # Merkt sich nur, wo der Eden-Ordner liegt (falls der Updater woanders liegt)
 $PointerFile  = Join-Path $env:LOCALAPPDATA "EdenUpdater\location.txt"

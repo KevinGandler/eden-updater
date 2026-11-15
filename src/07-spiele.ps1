@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "06 Navigation"
+# ------------------------------------------------------------
 #  Spiele-Tab
 # ------------------------------------------------------------
 $script:Games       = @()
@@ -10,7 +11,14 @@ function Start-GameScan {
     if ($script:GameWorker) { return }
     $ui.TxtGamesInfo.Text = T "GamesScanning"
     $ui.TxtGamesEmpty.Visibility = "Collapsed"
-    $gameSync.Args   = @{ EdenPath = [string]$script:Settings.EdenPath }
+    # bereits eingelesene Cover (Pfad -> Aenderungszeit) mitgeben, damit der Hintergrund-Thread nur neue einliest
+    $known = @{}
+    foreach ($k in @($script:IconCache.Keys)) { $known[$k] = $script:IconCache[$k].Stamp }
+    $gameSync.Args   = @{
+        EdenPath   = [string]$script:Settings.EdenPath
+        CoverDir   = $(if ($script:Settings.OnlineMeta -and -not $script:Snapshot) { Get-MetaDir } else { "" })
+        CoverKnown = $known
+    }
     $gameSync.Done   = $false
     $gameSync.Result = $null
     $rs = [runspacefactory]::CreateRunspace()
@@ -19,20 +27,20 @@ function Start-GameScan {
     $rs.SessionStateProxy.SetVariable("sync", $gameSync)
     $ps = [powershell]::Create()
     $ps.Runspace = $rs
-    [void]$ps.AddScript($jobGames.ToString())
+    [void]$ps.AddScript($coverLib + "`n" + $jobGames.ToString())
     $script:GameWorker = @{ PS = $ps; RS = $rs; Handle = $ps.BeginInvoke() }
 }
 
 # Bild aus Datei laden (ganz in den Speicher, damit die Datei nicht gesperrt bleibt)
+# Jede Datei wird nur einmal dekodiert; aendert sie sich (neues Cover geladen), wird sie neu eingelesen.
+$script:IconCache = @{}      # Pfad -> @{ Stamp; Img }
 function New-GameIcon([string]$path) {
     try {
-        $bi = [System.Windows.Media.Imaging.BitmapImage]::new()
-        $bi.BeginInit()
-        $bi.CacheOption      = [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad
-        $bi.DecodePixelWidth = 192
-        $bi.UriSource        = [Uri]::new($path)
-        $bi.EndInit()
-        $bi.Freeze()
+        $stamp = [IO.File]::GetLastWriteTimeUtc($path).Ticks
+        $c = $script:IconCache[$path]
+        if ($c -and $c.Stamp -eq $stamp -and $c.Img) { return $c.Img }
+        $bi = Read-CoverImage $path
+        $script:IconCache[$path] = @{ Stamp = $stamp; Img = $bi }
         return $bi
     } catch { return $null }
 }
@@ -283,6 +291,8 @@ function Complete-GameScan {
     $r = $gameSync.Result
     $script:GamesLoaded = $true
     if ($r -and $r.Ok) {
+        # im Hintergrund eingelesene Cover uebernehmen
+        if ($r.Covers) { foreach ($k in @($r.Covers.Keys)) { if ($r.Covers[$k].Img) { $script:IconCache[$k] = $r.Covers[$k] } } }
         foreach ($g in @($r.Games)) {
             $img = if ($g.Icon) { New-GameIcon ([string]$g.Icon) } else { $null }
             $g | Add-Member -NotePropertyName IconImg -NotePropertyValue $img -Force
@@ -687,6 +697,34 @@ function Show-GameIn([string]$page, $g) {
 }
 
 # In einer der Spielelisten (Mods, Updates/DLC, Spieldaten) das gewuenschte Spiel auswaehlen, sobald es da ist
+# Eine Liste, die sich nicht geaendert hat, wird beim Oeffnen ihrer Seite nicht neu aufgebaut. Damit es aussieht
+# wie nach einem Neuaufbau: an den Anfang rollen und die Eintraege neu einblenden (dieselbe Animation wie sonst,
+# sie haengt am "Loaded" des Eintrags).
+function Restore-ListView($lb) {
+    try {
+        $n = $lb.Items.Count
+        if (-not $n) { return }
+        $lb.ScrollIntoView($lb.Items[0])
+        $gen = $lb.ItemContainerGenerator
+        $ev  = [System.Windows.FrameworkElement]::LoadedEvent
+        for ($i = 0; $i -lt $n; $i++) {
+            $c = $gen.ContainerFromIndex($i)
+            if (-not $c -or -not $c.Template) { continue }
+            $root = $c.Template.FindName("root", $c)
+            if ($root) { $root.RaiseEvent([System.Windows.RoutedEventArgs]::new($ev)) }
+        }
+    } catch {}
+}
+
+# Kennung fuer den Stand von Edens Einstellungsdatei (dort steht, welche Mods/Updates/DLCs abgeschaltet sind)
+function Get-AddOnStamp {
+    try {
+        $f = [IO.FileInfo]::new((Get-EdenConfigPath))
+        if ($f.Exists) { return ("{0}|{1}" -f $f.Length, $f.LastWriteTimeUtc.Ticks) }
+    } catch {}
+    return "-"
+}
+
 function Select-WantedGame([string]$page, $listBox, $items) {
     $want = $script:WantTid[$page]
     if (-not $want) { return }

@@ -1,32 +1,34 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "12 Selbst-Update"
+# ------------------------------------------------------------
 #  Fenster aufbauen
 # ------------------------------------------------------------
 try {
-    $xml    = [xml]$xaml
-    $reader = New-Object System.Xml.XmlNodeReader $xml
-    $window = [Windows.Markup.XamlReader]::Load($reader)
+    $window = [Windows.Markup.XamlReader]::Parse($xaml)
 } catch {
     [void][System.Windows.MessageBox]::Show("UI konnte nicht geladen werden:`n$($_.Exception.Message)", "Eden Updater", "OK", "Error")
     exit 1
 }
 
-$ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+Add-PerfMark "13a XAML geladen"
+$uiNames = @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","ChkOnlineMeta","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
                  "GameDetail","DetTile","DetAbbr","DetImg","TxtDetName","TxtDetInfo","BtnDetClose","DetRows","TxtDetHint","BtnDetStart","BtnDetMods","BtnDetContent","BtnDetSaves","BtnDetShow",
                  "SelfNotesBox","TxtSelfNotesTitle","TxtSelfNotes","BtnWinMin","BtnWinMax","BtnWinClose","GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
-                 "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
-    $ui[$n] = $window.FindName($n)
+                 "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")
+if ($script:Native) { $ui = [EdenNative]::FindNames($window, [string[]]$uiNames) }
+else {
+    $ui = @{}
+    foreach ($n in $uiNames) { $ui[$n] = $window.FindName($n) }
 }
 
 function Update-LangCombo {
     $sys = Get-SystemLang
     $items = New-Object System.Collections.ArrayList
-    [void]$items.Add((New-CbItem ((TF "LangAuto" $script:LangTables[$sys].Name)) ("auto")))
+    [void]$items.Add((New-CbItem ((TF "LangAuto" (Get-LangName $sys))) ("auto")))
     foreach ($c in $LangOrder) {
-        [void]$items.Add((New-CbItem ([string]$script:LangTables[$c].Name) ($c)))
+        [void]$items.Add((New-CbItem (Get-LangName $c) ($c)))
     }
     $cur = [string]$script:Settings.Language
     if (-not ($LangOrder -contains $cur)) { $cur = "auto" }
@@ -84,15 +86,27 @@ function Set-SettingsControls {
     Update-SelfCard
 }
 
+# --- Klicks: ein Verteiler am Fenster statt eines eigenen Handlers pro Knopf (spart beim Start Zeit).
+# Der Klick steigt vom Knopf bis zum Fenster auf; ausgefuehrt wird der Block, der unter dem Namen des Knopfs steht.
+$script:ClickMap = @{}
+$window.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
+    param($s, $e)
+    $src = $e.OriginalSource
+    if ($src -is [System.Windows.FrameworkElement] -and $src.Name) {
+        $sb = $script:ClickMap[[string]$src.Name]
+        if ($sb) { & $sb }
+    }
+})
+
 # --- Navigation
-$ui.BtnNavVer.Add_Click({ Set-Page "versions" })
-$ui.BtnNavNotes.Add_Click({ Set-Page "notes" })
-$ui.BtnNavSet.Add_Click({ Set-Page "settings" })
-$ui.BtnNavGames.Add_Click({ Set-Page "games" })
-$ui.BtnNavMods.Add_Click({ Set-Page "mods" })
-$ui.BtnModsReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-ModScan })
-$ui.BtnModAdd.Add_Click({ Add-ModFromZip })
-$ui.BtnModFolder.Add_Click({ Open-ModFolder })
+$script:ClickMap["BtnNavVer"] = ({ Set-Page "versions" })
+$script:ClickMap["BtnNavNotes"] = ({ Set-Page "notes" })
+$script:ClickMap["BtnNavSet"] = ({ Set-Page "settings" })
+$script:ClickMap["BtnNavGames"] = ({ Set-Page "games" })
+$script:ClickMap["BtnNavMods"] = ({ Set-Page "mods" })
+$script:ClickMap["BtnModsReload"] = ({ $script:GamesLoaded = $false; Start-GameScan; Start-ModScan })
+$script:ClickMap["BtnModAdd"] = ({ Add-ModFromZip })
+$script:ClickMap["BtnModFolder"] = ({ Open-ModFolder })
 $ui.ListModGames.Add_SelectionChanged({ Update-ModList })
 # Schalter und Loeschen-Buttons in der Mod-Liste (Uid unterscheidet die Aktion)
 $ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
@@ -103,15 +117,15 @@ $ui.ListMods.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEv
     if ($src.Uid -eq "toggle") { Set-ModEnabled $mod ([bool]$src.IsChecked) }
     elseif ($src.Uid -eq "delete") { Remove-Mod $mod }
 })
-$ui.BtnNavContent.Add_Click({ Set-Page "content" })
-$ui.BtnNavFw.Add_Click({ Set-Page "firmware" })
-$ui.BtnNavSaves.Add_Click({ Set-Page "saves" })
-$ui.BtnSavesReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-SavesScan })
-$ui.BtnSaveBackupDir.Add_Click({ Open-Dir (Get-SaveBackupDir) })
-$ui.BtnShaderAll.Add_Click({ Remove-ShaderCache $true })
-$ui.BtnShaderDelete.Add_Click({ Remove-ShaderCache $false })
-$ui.BtnSaveBackup.Add_Click({ Invoke-SaveBackup })
-$ui.BtnSaveFolder.Add_Click({ Open-SaveFolder })
+$script:ClickMap["BtnNavContent"] = ({ Set-Page "content" })
+$script:ClickMap["BtnNavFw"] = ({ Set-Page "firmware" })
+$script:ClickMap["BtnNavSaves"] = ({ Set-Page "saves" })
+$script:ClickMap["BtnSavesReload"] = ({ $script:GamesLoaded = $false; Start-GameScan; Start-SavesScan })
+$script:ClickMap["BtnSaveBackupDir"] = ({ Open-Dir (Get-SaveBackupDir) })
+$script:ClickMap["BtnShaderAll"] = ({ Remove-ShaderCache $true })
+$script:ClickMap["BtnShaderDelete"] = ({ Remove-ShaderCache $false })
+$script:ClickMap["BtnSaveBackup"] = ({ Invoke-SaveBackup })
+$script:ClickMap["BtnSaveFolder"] = ({ Open-SaveFolder })
 $ui.ListSaveGames.Add_SelectionChanged({ Update-SaveDetail })
 $ui.ListSaveBackups.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
     param($sender, $e)
@@ -121,9 +135,9 @@ $ui.ListSaveBackups.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::
     if ($src.Uid -eq "restore") { Invoke-SaveRestore $item }
     elseif ($src.Uid -eq "delete") { Remove-SaveBackupItem $item }
 })
-$ui.BtnContentReload.Add_Click({ $script:GamesLoaded = $false; Start-GameScan; Start-ContentScan })
-$ui.BtnContentAdd.Add_Click({ Add-ContentFiles })
-$ui.BtnContentFolder.Add_Click({ Open-ContentFolder })
+$script:ClickMap["BtnContentReload"] = ({ $script:GamesLoaded = $false; Start-GameScan; Start-ContentScan })
+$script:ClickMap["BtnContentAdd"] = ({ Add-ContentFiles })
+$script:ClickMap["BtnContentFolder"] = ({ Open-ContentFolder })
 $ui.ListContentGames.Add_SelectionChanged({ Update-ContentList })
 $ui.ListContent.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
     param($sender, $e)
@@ -133,15 +147,15 @@ $ui.ListContent.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::Clic
     if ($src.Uid -eq "toggle") { Set-ContentEnabled $item ([bool]$src.IsChecked) }
     elseif ($src.Uid -eq "delete") { Remove-ContentItem $item }
 })
-$ui.BtnFwZip.Add_Click({ Install-Firmware $true })
-$ui.BtnFwDir.Add_Click({ Install-Firmware $false })
-$ui.BtnFwDelete.Add_Click({ Remove-Firmware })
-$ui.BtnFwFolder.Add_Click({ Open-Dir (Get-FirmwareDir) })
-$ui.BtnKeysInstall.Add_Click({ Install-Keys })
-$ui.BtnKeysDelete.Add_Click({ Remove-Keys })
-$ui.BtnKeysFolder.Add_Click({ Open-Dir (Get-KeysDir) })
-$ui.BtnGamesReload.Add_Click({ Start-GameScan })
-$ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
+$script:ClickMap["BtnFwZip"] = ({ Install-Firmware $true })
+$script:ClickMap["BtnFwDir"] = ({ Install-Firmware $false })
+$script:ClickMap["BtnFwDelete"] = ({ Remove-Firmware })
+$script:ClickMap["BtnFwFolder"] = ({ Open-Dir (Get-FirmwareDir) })
+$script:ClickMap["BtnKeysInstall"] = ({ Install-Keys })
+$script:ClickMap["BtnKeysDelete"] = ({ Remove-Keys })
+$script:ClickMap["BtnKeysFolder"] = ({ Open-Dir (Get-KeysDir) })
+$script:ClickMap["BtnGamesReload"] = ({ Start-GameScan })
+$script:ClickMap["BtnGameStart"] = ({ Start-Game $ui.ListGames.SelectedItem })
 $ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource) -or -not (Test-InListItem $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.ListGames.AddHandler([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent, [System.Windows.RoutedEventHandler]{
     param($s, $e)
@@ -157,12 +171,12 @@ $ui.ListGames.Add_PreviewMouseLeftButtonUp({
         if ($ui.ListGames.SelectedItem) { Show-GameDetail $ui.ListGames.SelectedItem }
     } catch {}
 })
-$ui.BtnDetClose.Add_Click({ Hide-GameDetail })
-$ui.BtnDetStart.Add_Click({ if ($script:DetailGame) { Start-Game $script:DetailGame } })
-$ui.BtnDetMods.Add_Click({ Show-GameIn "mods" $script:DetailGame })
-$ui.BtnDetContent.Add_Click({ Show-GameIn "content" $script:DetailGame })
-$ui.BtnDetSaves.Add_Click({ Show-GameIn "saves" $script:DetailGame })
-$ui.BtnDetShow.Add_Click({ Show-GameInExplorer $script:DetailGame })
+$script:ClickMap["BtnDetClose"] = ({ Hide-GameDetail })
+$script:ClickMap["BtnDetStart"] = ({ if ($script:DetailGame) { Start-Game $script:DetailGame } })
+$script:ClickMap["BtnDetMods"] = ({ Show-GameIn "mods" $script:DetailGame })
+$script:ClickMap["BtnDetContent"] = ({ Show-GameIn "content" $script:DetailGame })
+$script:ClickMap["BtnDetSaves"] = ({ Show-GameIn "saves" $script:DetailGame })
+$script:ClickMap["BtnDetShow"] = ({ Show-GameInExplorer $script:DetailGame })
 # Esc schliesst die Detailansicht
 $window.Add_PreviewKeyDown({
     param($s, $e)
@@ -170,7 +184,7 @@ $window.Add_PreviewKeyDown({
 })
 $ui.ListGames.Add_KeyDown({ param($s, $e) if ($e.Key -eq "Return" -and $ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
 $ui.TxtGameSearch.Add_TextChanged({ Update-GameList })
-$ui.BtnGameContinue.Add_Click({ if ($script:ContinueGame) { Start-Game $script:ContinueGame } })
+$script:ClickMap["BtnGameContinue"] = ({ if ($script:ContinueGame) { Start-Game $script:ContinueGame } })
 $ui.CmbGameSort.Add_SelectionChanged({
     if ($script:SortFilling) { return }
     $sel = $ui.CmbGameSort.SelectedItem
@@ -187,22 +201,22 @@ $ui.CmbGameSort.Add_SelectionChanged({
 })
 # Zurueck im Fenster (z.B. nach dem Spielen): Startdaten neu einlesen, falls Eden sie geaendert hat
 $window.Add_Activated({ try { Update-LaunchDataIfChanged } catch {} })
-$ui.ChkGamesClose.Add_Click({
+$script:ClickMap["ChkGamesClose"] = ({
     $script:Settings.GamesCloseOnStart = [bool]$ui.ChkGamesClose.IsChecked
     try { Save-Settings } catch {}
 })
-$ui.ChkGamesFull.Add_Click({
+$script:ClickMap["ChkGamesFull"] = ({
     $script:Settings.GamesFullscreen = [bool]$ui.ChkGamesFull.IsChecked
     try { Save-Settings } catch {}
 })
 
 # --- Aktionen
-$ui.BtnUpdate.Add_Click({
+$script:ClickMap["BtnUpdate"] = ({
     try { if ($script:Releases.Count -gt 0) { Start-Install $script:Releases[0] } }
     catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
 
-$ui.BtnInstallSel.Add_Click({
+$script:ClickMap["BtnInstallSel"] = ({
     try {
         $sel = $ui.List.SelectedItem
         if (-not $sel) { return }
@@ -212,7 +226,7 @@ $ui.BtnInstallSel.Add_Click({
     } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
 
-$ui.BtnRestore.Add_Click({
+$script:ClickMap["BtnRestore"] = ({
     try {
         if ($script:Busy) { return }
         $bv = Get-BackupVersion
@@ -221,21 +235,21 @@ $ui.BtnRestore.Add_Click({
         if ($a -eq "Yes") { Start-Restore }
     } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
-$ui.BtnLaunch.Add_Click({ try { Start-Eden } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) } })
-$ui.BtnReload.Add_Click({ try { Start-Load ([int]$script:Settings.Pages) } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) } })
-$ui.BtnMore.Add_Click({
+$script:ClickMap["BtnLaunch"] = ({ try { Start-Eden } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) } })
+$script:ClickMap["BtnReload"] = ({ try { Start-Load ([int]$script:Settings.Pages) } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) } })
+$script:ClickMap["BtnMore"] = ({
     try { Start-Load ([math]::Min(10, [math]::Max(1, $script:LoadedPages) + 1)) }
     catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
-$ui.BtnSelfCheck.Add_Click({ Start-SelfCheck $false })
-$ui.BtnSelfInstall.Add_Click({ Start-SelfDownload })
-$ui.BtnSelfNotes.Add_Click({ try { if ($script:SelfInfo.Page) { Start-Process $script:SelfInfo.Page } } catch {} })
-$ui.BtnLogToggle.Add_Click({ Set-LogVisible (-not $script:LogOpen) })
+$script:ClickMap["BtnSelfCheck"] = ({ Start-SelfCheck $false })
+$script:ClickMap["BtnSelfInstall"] = ({ Start-SelfDownload })
+$script:ClickMap["BtnSelfNotes"] = ({ try { if ($script:SelfInfo.Page) { Start-Process $script:SelfInfo.Page } } catch {} })
+$script:ClickMap["BtnLogToggle"] = ({ Set-LogVisible (-not $script:LogOpen) })
 # Klick auf den Update-Status oben rechts fuehrt zur Versionsliste
 $ui.ChipState.Add_MouseLeftButtonUp({ try { Set-Page "versions" } catch {} })
-$ui.BtnCancel.Add_Click({ $sync.Cancel = $true; Add-UiLog (T "LogCancelReq") })
+$script:ClickMap["BtnCancel"] = ({ $sync.Cancel = $true; Add-UiLog (T "LogCancelReq") })
 $ui.List.Add_SelectionChanged({ Update-Ui; try { Show-Notes } catch {} })
-$ui.BtnNotesWeb.Add_Click({
+$script:ClickMap["BtnNotesWeb"] = ({
     try {
         $sel = $ui.List.SelectedItem
         if ($sel) { Start-Process ("https://git.eden-emu.dev/eden-ci/nightly/releases/tag/" + [uri]::EscapeDataString([string]$sel.Tag)) }
@@ -244,17 +258,17 @@ $ui.BtnNotesWeb.Add_Click({
 $ui.CmbVariant.Add_SelectionChanged({ if (-not $script:SuppressVariantEvent) { Update-PatternVisibility } })
 
 # --- Einstellungen
-$ui.BtnThemePick.Add_Click({
+$script:ClickMap["BtnThemePick"] = ({
     try { Show-ThemeDialog } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
-$ui.BtnBrowse.Add_Click({
+$script:ClickMap["BtnBrowse"] = ({
     try {
         $sel = Show-FolderDialog (T "SetBrowseTitle") $ui.TxtPath.Text
         if ($sel) { $ui.TxtPath.Text = $sel }
     } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
 })
 
-$ui.BtnSave.Add_Click({
+$script:ClickMap["BtnSave"] = ({
     try {
         $path = $ui.TxtPath.Text.Trim()
         if (-not $path) { throw (T "ErrNoPath") }
@@ -425,11 +439,11 @@ function Update-WindowChromeState {
     $ui.RootGrid.Margin = if ($max) { [System.Windows.Thickness]::new(8) } else { [System.Windows.Thickness]::new(0) }
     $ui.BtnWinMax.Tag = [string][char]$(if ($max) { 0xE923 } else { 0xE922 })
 }
-$ui.BtnWinMin.Add_Click({ $window.WindowState = [System.Windows.WindowState]::Minimized })
-$ui.BtnWinMax.Add_Click({
+$script:ClickMap["BtnWinMin"] = ({ $window.WindowState = [System.Windows.WindowState]::Minimized })
+$script:ClickMap["BtnWinMax"] = ({
     $window.WindowState = if ($window.WindowState -eq [System.Windows.WindowState]::Maximized) { [System.Windows.WindowState]::Normal } else { [System.Windows.WindowState]::Maximized }
 })
-$ui.BtnWinClose.Add_Click({ $window.Close() })
+$script:ClickMap["BtnWinClose"] = ({ $window.Close() })
 $window.Add_StateChanged({ try { Update-WindowChromeState } catch {} })
 
 # --- Installation darf nicht mittendrin durch Schliessen unterbrochen werden

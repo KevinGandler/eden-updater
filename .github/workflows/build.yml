@@ -92,6 +92,46 @@ jobs:
           if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
           if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
 
+      # Zeitmessung: die echte EXE mehrmals starten und Startabschnitte, Seitenwechsel und Listenaufbau messen.
+      # Der erste Lauf waermt nur auf, aus dem Rest wird der Median gebildet. Das Ergebnis liegt als timing.txt
+      # bei den Screenshots. Die Zahlen haengen vom Rechner ab - vergleichbar sind nur Laeufe auf demselben.
+      - name: Zeitmessung (Start, Seitenwechsel, Listen)
+        shell: powershell
+        run: |
+          .\build\build.ps1 | Out-Null
+          $env:EDEN_UPDATER_SNAPSHOT_PERF = (Join-Path $pwd "tests\perf-steps.ps1")
+          $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan"
+          $data = @{}
+          $order = New-Object System.Collections.ArrayList
+          $infos = @()
+          for ($i = 0; $i -le 7; $i++) {
+            $dir = Join-Path $pwd "perf\run-$i"
+            New-Item -ItemType Directory $dir -Force | Out-Null
+            $env:EDEN_UPDATER_SNAPSHOT = $dir
+            $p = Start-Process dist\EdenUpdater.exe -PassThru
+            if (-not $p.WaitForExit(120000)) { $p.Kill(); Write-Host "Timeout in Lauf $i" }
+            if (Test-Path "$dir\errors.txt") { Write-Host "Fehler in Lauf $i"; Get-Content "$dir\errors.txt"; exit 1 }
+            if (-not (Test-Path "$dir\perf.txt")) { Write-Host "perf.txt fehlt in Lauf $i"; exit 1 }
+            if ($i -eq 0) { continue }
+            foreach ($line in (Get-Content "$dir\perf.txt" -Encoding UTF8)) {
+              $parts = $line -split "`t"
+              if ($parts[0] -eq "I") { if ($i -eq 1) { $infos += $parts[1] }; continue }
+              $key = $parts[0] + "`t" + $parts[1]
+              if (-not $data.ContainsKey($key)) { $data[$key] = New-Object System.Collections.ArrayList; [void]$order.Add($key) }
+              [void]$data[$key].Add([double]$parts[2])
+            }
+          }
+          $out = @("Median aus 7 Laeufen, Millisekunden (kleinster - groesster Wert)", "")
+          foreach ($key in $order) {
+            $parts = $key -split "`t"
+            $v = @($data[$key] | Sort-Object)
+            $out += ("{0,-3}{1,-58}{2,7:F0}   ({3:F0} - {4:F0})" -f $parts[0], $parts[1], $v[[int][Math]::Floor($v.Count / 2)], $v[0], $v[-1])
+          }
+          $out += ""
+          $out += $infos
+          $out | Set-Content snapshots\timing.txt -Encoding UTF8
+          $out
+
       - name: Screenshots ablegen
         if: always()
         uses: actions/upload-artifact@v4

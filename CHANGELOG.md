@@ -3,6 +3,20 @@
 Der Abschnitt der jeweiligen Version wird beim Release als Patchnotes übernommen und im Updater angezeigt
 (in den Einstellungen und in der Update-Frage). Deutsch für die deutsche Oberfläche, English für alle anderen Sprachen.
 
+## 1.9.2
+
+### Deutsch
+- Schnellerer Start: Das Fenster erscheint rund ein Viertel früher. Aussehen, Animationen und Funktionen sind unverändert.
+- Mods, Updates & DLC und Spieldaten öffnen ohne Verzögerung, wenn sich seit dem letzten Besuch nichts geändert hat.
+- Cover werden im Hintergrund eingelesen; die Oberfläche hängt nach dem Einlesen der Spiele nicht mehr kurz.
+- Themewechsel und Meldungsfenster reagieren schneller.
+
+### English
+- Faster startup: the window appears about a quarter sooner. Look, animations and features are unchanged.
+- Mods, Updates & DLC and Save data open without delay when nothing has changed since the last visit.
+- Covers are read in the background; the interface no longer stalls briefly after the games are scanned.
+- Theme changes and message windows respond faster.
+
 ## 1.9.1
 
 ### Deutsch
