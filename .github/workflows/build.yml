@@ -116,7 +116,12 @@ jobs:
             $parts = $runs[0][$l] -split "`t"
             $vals = @($runs | ForEach-Object { [double](($_[$l] -split "`t")[2]) } | Sort-Object)
             $med = $vals[[int][Math]::Floor($vals.Count / 2)]
-            $out += ("{0}  {1,-42} {2,7:F0}   ({3:F0} - {4:F0})" -f $parts[0], $parts[1], $med, $vals[0], $vals[-1])
+            $line = ("{0}  {1,-42} {2,7:F0}   ({3:F0} - {4:F0})" -f $parts[0], $parts[1], $med, $vals[0], $vals[-1])
+            if ($parts.Count -gt 3) {
+              $v2 = @($runs | ForEach-Object { [double](($_[$l] -split "`t")[3]) } | Sort-Object)
+              $line += ("   davon Skript {0:F0}" -f $v2[[int][Math]::Floor($v2.Count / 2)])
+            }
+            $out += $line
           }
           $out | Set-Content snapshots\timing.txt -Encoding UTF8
           $out

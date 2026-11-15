@@ -175,8 +175,9 @@ function Start-Snapshots {
 function Measure-PerfStep([string]$name, [scriptblock]$action) {
     $sw = [Diagnostics.Stopwatch]::StartNew()
     & $action
+    $own = $sw.Elapsed.TotalMilliseconds
     $window.Dispatcher.Invoke([Action]{}, [System.Windows.Threading.DispatcherPriority]::ContextIdle)
-    [void]$script:PerfSteps.Add(@($name, $sw.Elapsed.TotalMilliseconds))
+    [void]$script:PerfSteps.Add(@($name, $sw.Elapsed.TotalMilliseconds, $own))
 }
 function Start-PerfRun {
     $script:PerfSteps = New-Object System.Collections.ArrayList
@@ -231,12 +232,15 @@ function Start-PerfRun {
         [void]$lines.Add("S`t  davon Skript einlesen`t{0:F0}" -f ($script:PerfPre - $tInv))
     }
     $prev = 0.0
-    foreach ($m in $script:PerfMarks) { [void]$lines.Add(("S`t{0}`t{1:F0}" -f $m[0], ($m[1] - $prev))); $prev = $m[1] }
+    foreach ($m in $script:PerfMarks) {
+        [void]$lines.Add(("S`t{0}`t{1:F0}" -f $m[0], ($m[1] - $prev))); $prev = $m[1]
+        if ($m[0] -eq "bedienbar") { break }
+    }
     $ready = @($script:PerfMarks | Where-Object { $_[0] -eq "bedienbar" })[0][1]
     $first = @($script:PerfMarks | Where-Object { $_[0] -eq "erstes Bild" })[0][1]
     [void]$lines.Add("T`tSTART bis erstes Bild`t{0:F0}" -f ($script:PerfPre + $first))
     [void]$lines.Add("T`tSTART bis bedienbar`t{0:F0}" -f ($script:PerfPre + $ready))
-    foreach ($m in $script:PerfSteps) { [void]$lines.Add(("P`t{0}`t{1:F1}" -f $m[0], $m[1])) }
+    foreach ($m in $script:PerfSteps) { [void]$lines.Add(("P`t{0}`t{1:F1}`t{2:F1}" -f $m[0], $m[1], $m[2])) }
     Set-Content -LiteralPath (Join-Path $script:Snapshot "perf.txt") -Value $lines -Encoding UTF8
     try { $script:PerfWorker.PS.Stop(); $script:PerfWorker.RS.Dispose() } catch {}
     $window.Close()
@@ -392,8 +396,11 @@ $window.Add_ContentRendered({
     Set-SettingsControls
     Add-PerfMark "Einstellungen gefuellt"
     Set-NotesLayout
+    Add-PerfMark "~noteslayout"
     Set-Page "versions"
+    Add-PerfMark "~setpage"
     Update-Ui
+    Add-PerfMark "~update-ui"
     $timer.Start()
     Add-PerfMark "bedienbar"
     if ($script:Snapshot) { Start-Snapshots; return }

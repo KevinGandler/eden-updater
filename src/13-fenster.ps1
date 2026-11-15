@@ -23,6 +23,7 @@ foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesS
     $ui[$n] = $window.FindName($n)
 }
 
+Add-PerfMark "~FindName"
 function Update-LangCombo {
     $sys = Get-SystemLang
     $items = New-Object System.Collections.ArrayList
@@ -54,7 +55,9 @@ function Set-SettingsControls {
     $s = $script:Settings
     $ui.TxtPath.Text    = [string]$s.EdenPath
     $ui.TxtPattern.Text = [string]$s.AssetPattern
+    Add-PerfMark "~sc a"
     Update-VariantCombo
+    Add-PerfMark "~sc variant"
     $ui.TxtPages.Text   = [string]$s.Pages
     $ui.CmbNotes.ItemsSource = @(
         (New-CbItem ((T "NotesOptPage")) ("page")),
@@ -65,8 +68,10 @@ function Set-SettingsControls {
     $ui.ChkSaveAuto.IsChecked    = [bool]$s.SaveBackupOnUpdate
     $ui.ChkStart.IsChecked       = [bool]$s.StartAfter
     $ui.ChkClose.IsChecked       = [bool]$s.CloseAfterStart
+    Add-PerfMark "~sc b"
     Update-ThemeLabel
     Update-LangCombo
+    Add-PerfMark "~sc theme+lang"
     $ui.ChkAuto.IsChecked        = [bool]$s.AutoCheck
     $ui.ChkAutoInstall.IsChecked = [bool]$s.AutoInstall
     $ui.ChkOnlineMeta.IsChecked  = [bool]$s.OnlineMeta
@@ -82,10 +87,14 @@ function Set-SettingsControls {
         $ui.CmbGameSort.SelectedValue = if ([string]$s.GamesSort -eq "recent") { "recent" } else { "name" }
     } finally { $script:SortFilling = $false }
     try { if ($script:GamesLoaded) { Set-GameLaunchProps } } catch {}
+    Add-PerfMark "~sc c"
     try { Update-GameList } catch {}
+    Add-PerfMark "~sc gamelist"
     Update-SelfCard
+    Add-PerfMark "~sc selfcard"
 }
 
+Add-PerfMark "~fn1"
 # --- Navigation
 $ui.BtnNavVer.Add_Click({ Set-Page "versions" })
 $ui.BtnNavNotes.Add_Click({ Set-Page "notes" })
@@ -142,6 +151,7 @@ $ui.BtnFwFolder.Add_Click({ Open-Dir (Get-FirmwareDir) })
 $ui.BtnKeysInstall.Add_Click({ Install-Keys })
 $ui.BtnKeysDelete.Add_Click({ Remove-Keys })
 $ui.BtnKeysFolder.Add_Click({ Open-Dir (Get-KeysDir) })
+Add-PerfMark "~h nav+mods+inhalte"
 $ui.BtnGamesReload.Add_Click({ Start-GameScan })
 $ui.BtnGameStart.Add_Click({ Start-Game $ui.ListGames.SelectedItem })
 $ui.ListGames.Add_MouseDoubleClick({ param($s, $e) if ((Test-InFavButton $e.OriginalSource) -or -not (Test-InListItem $e.OriginalSource)) { return }; if ($ui.ListGames.SelectedItem) { Start-Game $ui.ListGames.SelectedItem } })
@@ -198,6 +208,7 @@ $ui.ChkGamesFull.Add_Click({
     try { Save-Settings } catch {}
 })
 
+Add-PerfMark "~h spiele"
 # --- Aktionen
 $ui.BtnUpdate.Add_Click({
     try { if ($script:Releases.Count -gt 0) { Start-Install $script:Releases[0] } }
@@ -245,6 +256,7 @@ $ui.BtnNotesWeb.Add_Click({
 })
 $ui.CmbVariant.Add_SelectionChanged({ if (-not $script:SuppressVariantEvent) { Update-PatternVisibility } })
 
+Add-PerfMark "~h aktionen"
 # --- Einstellungen
 $ui.BtnThemePick.Add_Click({
     try { Show-ThemeDialog } catch { Add-UiLog ((T "ErrPrefix") + " " + $_.Exception.Message) }
@@ -335,6 +347,7 @@ $ui.BtnSave.Add_Click({
     } catch { Show-Msg $_.Exception.Message }
 })
 
+Add-PerfMark "~h einstellungen"
 # --- Timer: holt Log/Fortschritt aus dem Hintergrund-Thread
 $timer = New-Object System.Windows.Threading.DispatcherTimer
 $timer.Interval = [TimeSpan]::FromMilliseconds(150)

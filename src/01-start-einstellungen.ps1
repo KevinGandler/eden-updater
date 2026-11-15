@@ -65,6 +65,7 @@ function Get-SettingsPathFor([string]$edenPath) { return (Join-Path $edenPath $S
 function Get-Settings {
     $s = @{}
     foreach ($k in $Defaults.Keys) { $s[$k] = $Defaults[$k] }
+    Add-PerfMark "~gs defaults"
     $local = Join-Path $ScriptDir $SettingsName
     $eden  = $null
     $src   = $null
@@ -86,8 +87,10 @@ function Get-Settings {
     if (Test-Path $target)    { $src = $target }
     elseif (Test-Path $local) { $src = $local }
 
+    Add-PerfMark "~gs pfade"
     if ($src) {
         $j = Read-SettingsFile $src
+        Add-PerfMark "~gs json"
         if ($j) { foreach ($k in @($s.Keys)) { if ($null -ne $j.$k) { $s[$k] = $j.$k } } }
     }
     if ($src -eq $target -or -not $s.EdenPath) { $s.EdenPath = $eden }
@@ -130,6 +133,7 @@ function Get-Excludes {
 
 $script:FirstRun       = $false
 $script:Settings       = Get-Settings
+Add-PerfMark "~Get-Settings"
 # Screenshot-Modus (nur fuer automatische Tests): EDEN_UPDATER_SNAPSHOT=<Zielordner>
 $script:Snapshot = [string]$env:EDEN_UPDATER_SNAPSHOT
 if ($script:Snapshot) {
