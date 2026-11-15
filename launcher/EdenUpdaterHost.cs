@@ -61,6 +61,13 @@ static class Program
         throw new MissingMemberException(target.GetType().FullName, name);
     }
 
+    // Millisekunden seit Prozessstart (nur fuer die Zeitmessung im automatischen Test)
+    static string Since()
+    {
+        double ms = (DateTime.Now - System.Diagnostics.Process.GetCurrentProcess().StartTime).TotalMilliseconds;
+        return ms.ToString("F0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
     static string ReadScript()
     {
         Assembly me = Assembly.GetExecutingAssembly();
@@ -93,6 +100,9 @@ static class Program
             Step = "Open";
             Method(rs.GetType(), "Open", false).Invoke(rs, null);
 
+            bool perf = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("EDEN_UPDATER_SNAPSHOT_PERF"));
+            if (perf) Environment.SetEnvironmentVariable("EDEN_UPDATER_T_OPEN", Since());
+
             Step = "PowerShell.Create";
             object ps = Method(tPs, "Create", true).Invoke(null, null);
             Step = "Runspace";
@@ -100,6 +110,7 @@ static class Program
             Step = "AddScript";
             Method(tPs, "AddScript", false, typeof(string)).Invoke(ps, new object[] { script });
             Step = "Skript";
+            if (perf) Environment.SetEnvironmentVariable("EDEN_UPDATER_T_INVOKE", Since());
             try
             {
                 Method(tPs, "Invoke", false).Invoke(ps, null);

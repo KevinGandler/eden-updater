@@ -1,4 +1,5 @@
-﻿# ------------------------------------------------------------
+﻿Add-PerfMark "01 Einstellungen"
+# ------------------------------------------------------------
 #  Sprachen
 #  Format pro Zeile: Schluessel=Text   (\n = Zeilenumbruch)
 #  Fehlt ein Schluessel, wird Englisch und dann Deutsch verwendet.
@@ -4102,6 +4103,7 @@ function ConvertFrom-LangText([string]$txt) {
 
 $script:LangTables = @{}
 foreach ($c in $LangOrder) { $script:LangTables[$c] = ConvertFrom-LangText $LangData[$c] }
+Add-PerfMark "02a Sprachtabellen"
 $script:L           = @{}
 $script:LangCode    = "de"
 $script:LangCulture = "de-DE"

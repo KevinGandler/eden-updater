@@ -6,7 +6,15 @@
 #  Einstellungen liegen im Eden-Installationsordner.
 # ============================================================
 
+# Zeitmessung fuer den automatischen Test (EDEN_UPDATER_SNAPSHOT_PERF): Marken mit Millisekunden seit Skriptbeginn
+$script:PerfSw    = [Diagnostics.Stopwatch]::StartNew()
+$script:PerfMarks = New-Object System.Collections.ArrayList
+$script:PerfPre   = 0.0
+try { $script:PerfPre = ([DateTime]::Now - [Diagnostics.Process]::GetCurrentProcess().StartTime).TotalMilliseconds } catch {}
+function Add-PerfMark([string]$n) { [void]$script:PerfMarks.Add(@($n, $script:PerfSw.Elapsed.TotalMilliseconds)) }
+
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
+Add-PerfMark "WPF geladen"
 
 $ScriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent ([Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) }
 $SettingsName = "eden-updater-settings.json"

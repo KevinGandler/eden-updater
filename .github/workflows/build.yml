@@ -92,6 +92,35 @@ jobs:
           if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
           if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
 
+      # Zeitmessung: die echte EXE mehrmals starten; der erste Lauf waermt nur auf, aus dem Rest wird der Median gebildet
+      - name: Zeitmessung (Start, Seitenwechsel, Listen)
+        shell: powershell
+        run: |
+          .\build\build.ps1 | Out-Null
+          $env:EDEN_UPDATER_SNAPSHOT_PERF = "1"
+          $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan"
+          $runs = @()
+          for ($i = 0; $i -le 7; $i++) {
+            $dir = Join-Path $pwd "perf\run-$i"
+            New-Item -ItemType Directory $dir -Force | Out-Null
+            $env:EDEN_UPDATER_SNAPSHOT = $dir
+            $sw = [Diagnostics.Stopwatch]::StartNew()
+            $p = Start-Process dist\EdenUpdater.exe -PassThru
+            if (-not $p.WaitForExit(120000)) { $p.Kill(); Write-Host "Timeout in Lauf $i" }
+            if (Test-Path "$dir\errors.txt") { Get-Content "$dir\errors.txt"; exit 1 }
+            if (-not (Test-Path "$dir\perf.txt")) { Write-Host "perf.txt fehlt in Lauf $i"; exit 1 }
+            if ($i -gt 0) { $runs += ,@(Get-Content "$dir\perf.txt" -Encoding UTF8) }
+          }
+          $out = @("Median aus " + $runs.Count + " Laeufen, Millisekunden (kleinster - groesster Wert)", "")
+          for ($l = 0; $l -lt $runs[0].Count; $l++) {
+            $parts = $runs[0][$l] -split "`t"
+            $vals = @($runs | ForEach-Object { [double](($_[$l] -split "`t")[2]) } | Sort-Object)
+            $med = $vals[[int][Math]::Floor($vals.Count / 2)]
+            $out += ("{0}  {1,-42} {2,7:F0}   ({3:F0} - {4:F0})" -f $parts[0], $parts[1], $med, $vals[0], $vals[-1])
+          }
+          $out | Set-Content snapshots\timing.txt -Encoding UTF8
+          $out
+
       - name: Screenshots ablegen
         if: always()
         uses: actions/upload-artifact@v4
