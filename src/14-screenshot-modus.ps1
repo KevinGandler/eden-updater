@@ -99,7 +99,8 @@ function Start-Snapshots {
     $ui.TxtLog.Visibility = "Visible"
     $ui.TxtLog.Text = "Suche nach Releases...`r`n9 Versionen gefunden.`r`nFEHLER: Beispiel-Fehlermeldung"
 
-    if ($env:EDEN_UPDATER_SNAPSHOT_PERF) { Start-PerfRun; return }
+    # Zeitmessung: die Schritte stehen in tests\perf-steps.ps1 (Pfad in der Umgebungsvariable)
+    if ($env:EDEN_UPDATER_SNAPSHOT_PERF) { . $env:EDEN_UPDATER_SNAPSHOT_PERF; return }
     $themes = if ($env:EDEN_UPDATER_SNAPSHOT_THEMES) { $env:EDEN_UPDATER_SNAPSHOT_THEMES -split ',' } else { @($ThemePresets.Keys) }
     $script:SnapSteps = New-Object System.Collections.Queue
     foreach ($t in $themes) {
@@ -168,90 +169,6 @@ function Start-Snapshots {
         }
     })
     $script:SnapTimer.Start()
-}
-
-# Zeitmessung: Startabschnitte, Seitenwechsel und Listenaufbau messen, in perf.txt schreiben, beenden.
-# Gemessen wird jeweils bis das Fenster fertig gezeichnet hat (Dispatcher im Leerlauf).
-function Measure-PerfStep([string]$name, [scriptblock]$action) {
-    $sw = [Diagnostics.Stopwatch]::StartNew()
-    & $action
-    $own = $sw.Elapsed.TotalMilliseconds
-    $window.Dispatcher.Invoke([Action]{}, [System.Windows.Threading.DispatcherPriority]::ContextIdle)
-    [void]$script:PerfSteps.Add(@($name, $sw.Elapsed.TotalMilliseconds, $own))
-}
-function Start-PerfRun {
-    $script:PerfSteps = New-Object System.Collections.ArrayList
-    # groessere Bibliothek: 40 Spiele
-    $base = @($script:Games)
-    $all = New-Object System.Collections.ArrayList
-    for ($i = 0; $i -lt 40; $i++) {
-        $n = $base[$i % $base.Count].Name + $(if ($i -ge $base.Count) { " " + [int]($i / $base.Count + 1) } else { "" })
-        $g = [pscustomobject]@{ Name = $n; Path = ""; Info = "NSP  ·  4,2 GB"; Initial = $n.Substring(0, 1); Icon = ""; IconImg = $null }
-        Add-GameTileProps $g
-        $g | Add-Member -NotePropertyName Tid -NotePropertyValue ("0100000000{0:X2}0000" -f ($i + 1)) -Force
-        $g | Add-Member -NotePropertyName IsFav -NotePropertyValue ($i -eq 2) -Force
-        [void]$all.Add($g)
-    }
-    $script:Games = $all.ToArray()
-    Set-GameLaunchProps
-    $window.Dispatcher.Invoke([Action]{}, [System.Windows.Threading.DispatcherPriority]::ContextIdle)
-    Measure-PerfStep "Liste Versionen aufbauen" { Update-List }
-    Measure-PerfStep "Liste Spiele aufbauen (unsichtbar)" { Update-GameList }
-    $navBtn = @{ games = "BtnNavGames"; mods = "BtnNavMods"; content = "BtnNavContent"; saves = "BtnNavSaves"; firmware = "BtnNavFw"; settings = "BtnNavSet"; notes = "BtnNavNotes"; versions = "BtnNavVer" }
-    foreach ($round in 1..3) {
-        foreach ($pg in @("games", "mods", "content", "saves", "firmware", "settings", "notes", "versions")) {
-            $script:PerfBtn = $ui[$navBtn[$pg]]
-            Measure-PerfStep ("Seite " + $pg + " #" + $round) { $script:PerfBtn.RaiseEvent([System.Windows.RoutedEventArgs]::new([System.Windows.Controls.Primitives.ButtonBase]::ClickEvent)) }
-            if ($script:CurrentPage -ne $pg) { throw "Klick auf $($navBtn[$pg]) hat nicht zur Seite $pg gefuehrt (ist: $($script:CurrentPage))" }
-        }
-    }
-    Set-Page "games"
-    Measure-PerfStep "Liste Spiele aufbauen (sichtbar)" { Update-GameList }
-    Measure-PerfStep "Liste Spiele aufbauen (sichtbar) 2" { Update-GameList }
-    $pick = @($ui.ListGames.ItemsSource)[3]
-    Measure-PerfStep "Detailansicht oeffnen" { $ui.ListGames.SelectedItem = $pick; Show-GameDetail $pick $false }
-    Measure-PerfStep "Detailansicht schliessen" { Hide-GameDetail }
-    $pick = @($ui.ListGames.ItemsSource)[5]
-    Measure-PerfStep "Detailansicht oeffnen 2" { $ui.ListGames.SelectedItem = $pick; Show-GameDetail $pick $false }
-    Hide-GameDetail
-    Set-Page "mods";    Measure-PerfStep "Liste Mods aufbauen" { Update-ModGames }
-    Set-Page "content"; Measure-PerfStep "Liste Inhalte aufbauen" { Update-ContentGames }
-    Set-Page "saves";   Measure-PerfStep "Liste Spielstaende aufbauen" { Update-SaveGames }
-    Set-Page "versions"
-    Measure-PerfStep "Theme wechseln" { Set-ThemeById "light" }
-    Measure-PerfStep "Theme wechseln 2" { Set-ThemeById "dark-cyan" }
-    Measure-PerfStep "Hintergrund-Thread starten" {
-        $rs = [runspacefactory]::CreateRunspace(); $rs.ApartmentState = "MTA"; $rs.Open()
-        $ps = [powershell]::Create(); $ps.Runspace = $rs
-        [void]$ps.AddScript($workerLib.ToString() + "`n1")
-        $h = $ps.BeginInvoke()
-        $script:PerfWorker = @{ PS = $ps; RS = $rs; H = $h }
-    }
-    Measure-PerfStep "Meldungsfenster bauen" { $d = New-SnapDialog; $d.Close() }
-    Measure-PerfStep "Meldungsfenster bauen 2" { $d = New-SnapDialog; $d.Close() }
-    Measure-PerfStep "Theme-Fenster bauen" { $d = New-SnapThemeDialog "presets"; $d.Close(); $script:ThemeWin = $null }
-    $lines = New-Object System.Collections.ArrayList
-    $tOpen = 0.0; $tInv = 0.0
-    try { $tOpen = [double]$env:EDEN_UPDATER_T_OPEN; $tInv = [double]$env:EDEN_UPDATER_T_INVOKE } catch {}
-    [void]$lines.Add("S`tProzessstart bis Skriptbeginn`t{0:F0}" -f $script:PerfPre)
-    if ($tInv -gt 0) {
-        [void]$lines.Add("S`t  davon PowerShell hochfahren`t{0:F0}" -f $tOpen)
-        [void]$lines.Add("S`t  davon Skript einlesen`t{0:F0}" -f ($script:PerfPre - $tInv))
-    }
-    $prev = 0.0
-    foreach ($m in $script:PerfMarks) {
-        [void]$lines.Add(("S`t{0}`t{1:F0}" -f $m[0], ($m[1] - $prev))); $prev = $m[1]
-        if ($m[0] -eq "bedienbar") { break }
-    }
-    $ready = @($script:PerfMarks | Where-Object { $_[0] -eq "bedienbar" })[0][1]
-    $first = @($script:PerfMarks | Where-Object { $_[0] -eq "erstes Bild" })[0][1]
-    [void]$lines.Add("I`tDwmTheme aus " + [IO.Path]::GetFileName([DwmTheme].Assembly.Location) + "`t0")
-    [void]$lines.Add("T`tSTART bis erstes Bild`t{0:F0}" -f ($script:PerfPre + $first))
-    [void]$lines.Add("T`tSTART bis bedienbar`t{0:F0}" -f ($script:PerfPre + $ready))
-    foreach ($m in $script:PerfSteps) { [void]$lines.Add(("P`t{0}`t{1:F1}`t{2:F1}" -f $m[0], $m[1], $m[2])) }
-    Set-Content -LiteralPath (Join-Path $script:Snapshot "perf.txt") -Value $lines -Encoding UTF8
-    try { $script:PerfWorker.PS.Stop(); $script:PerfWorker.RS.Dispose() } catch {}
-    $window.Close()
 }
 
 # Stellt die Sprache wie ein Nutzer um: Seite Einstellungen, Sprache waehlen, auf "Speichern" klicken.

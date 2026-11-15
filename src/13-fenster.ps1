@@ -10,15 +10,17 @@ try {
 }
 
 Add-PerfMark "13a XAML geladen"
-$ui = @{}
-foreach ($n in @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
+$uiNames = @("BtnNavVer","BtnNavNotes","BtnNavSet","PanelNotes","PanelNotesSide","NotesContent","TxtNotesHint","ColList","ColNotes","CmbNotes","BtnRestore","ChkClose","TxtThemeName","BtnThemePick","CmbLang","RootGrid","TxtPageTitle","TxtPageSub","ChipState","TxtChip","DotState","BtnLogToggle","TxtSelfVersion","TxtSelfState","BtnSelfCheck","BtnSelfInstall","BtnSelfNotes","ChkSelfUpdate","BtnNavGames","PanelGames","BtnNavMods","PanelMods","BtnNavContent","PanelContent","TxtContentInfo","BtnContentReload","ContentBanner","ListContentGames","TxtContentGameTitle","TxtContentGameSub","BtnContentAdd","BtnContentFolder","ListContent","TxtContentEmpty","BtnNavFw","PanelFirmware","BtnNavSaves","PanelSaves","TxtSavesInfo","BtnShaderAll","BtnSaveBackupDir","BtnSavesReload","SavesBanner","ListSaveGames","TxtSaveGameTitle","TxtSaveGameSub","TxtSaveState","BtnSaveFolder","BtnSaveBackup","TxtShaderState","BtnShaderDelete","ListSaveBackups","TxtSaveBackupsEmpty","FwBanner","TxtFwState","TxtFwSub","FwWarn","TxtFwWarn","BtnFwZip","BtnFwDir","BtnFwDelete","BtnFwFolder","TxtKeysState","TxtKeysSub","BtnKeysInstall","BtnKeysDelete","BtnKeysFolder","TxtModsInfo","BtnModsReload","ModsBanner","ListModGames","TxtModGameTitle","TxtModGameSub","BtnModAdd","BtnModFolder","ListMods","TxtModsEmpty","TxtGameSearch","TxtGameSearchHint","BtnGamesReload","ChkGamesFull","ChkGamesClose","ListGames","TxtGamesInfo","TxtGamesEmpty","BtnGameStart","SettingsScroll","TxtSettingsFile","TxtInstalled","TxtLatest","BtnUpdate","BtnLaunch",
                  "PanelVersions","PanelSettings","List","BtnInstallSel","BtnMore","BtnReload","TxtListInfo",
                  "TxtPath","BtnBrowse","CmbVariant","PanelPattern","TxtPattern","TxtPages","ChkBackup","ChkSaveAuto","ChkStart","ChkAuto","ChkAutoInstall","ChkOnlineMeta","BtnSave",
                  "TxtStatus","BtnCancel","Pb","TxtLog","TxtNotesTitle","BtnNotesWeb","TxtNotes",
                  "GameDetail","DetTile","DetAbbr","DetImg","TxtDetName","TxtDetInfo","BtnDetClose","DetRows","TxtDetHint","BtnDetStart","BtnDetMods","BtnDetContent","BtnDetSaves","BtnDetShow",
                  "SelfNotesBox","TxtSelfNotesTitle","TxtSelfNotes","BtnWinMin","BtnWinMax","BtnWinClose","GameContinue","ContTile","ContAbbr","ContImg","TxtContName","TxtContInfo","BtnGameContinue","CmbGameSort",
-                 "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")) {
-    $ui[$n] = $window.FindName($n)
+                 "SideBar","MainArea","HeadText","NavHost","NavPill","LogoRing","TxtSideVer","DotRing","DotBusy","Flow1","Flow2","Flow3")
+if ($script:Native) { $ui = [EdenNative]::FindNames($window, [string[]]$uiNames) }
+else {
+    $ui = @{}
+    foreach ($n in $uiNames) { $ui[$n] = $window.FindName($n) }
 }
 
 Add-PerfMark "~FindName"
@@ -485,10 +487,6 @@ function Invoke-FirstRun {
     Set-SettingsControls
     Update-Ui
     Add-UiLog (TF "SetStoredAt" (Get-SettingsPathFor $dir))
-}
-
-foreach ($n in @($script:ClickMap.Keys)) {
-    if (-not $window.FindName($n)) { throw "Klick-Zuordnung ohne Element: $n" }
 }
 
 $window.Add_SourceInitialized({ Set-TitleBar $window })

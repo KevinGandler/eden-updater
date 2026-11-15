@@ -92,38 +92,58 @@ jobs:
           if (Test-Path snapshots\errors.txt) { Get-Content snapshots\errors.txt; exit 1 }
           if (-not (Get-ChildItem snapshots -Filter *.png)) { exit 1 }
 
-      # Zeitmessung: die echte EXE mehrmals starten; der erste Lauf waermt nur auf, aus dem Rest wird der Median gebildet
+      # Zeitmessung: die echte EXE mehrmals starten, abwechselnd mit dem Stand vor den Optimierungen.
+      # Der erste Lauf jeder Variante waermt nur auf, aus dem Rest wird der Median gebildet.
       - name: Zeitmessung (Start, Seitenwechsel, Listen)
         shell: powershell
         run: |
           .\build\build.ps1 | Out-Null
-          $env:EDEN_UPDATER_SNAPSHOT_PERF = "1"
+          $variants = [ordered]@{ nachher = @{ Exe = (Join-Path $pwd "dist\EdenUpdater.exe"); NoPrime = "" } }
+          $variants["ohne-typen"] = @{ Exe = (Join-Path $pwd "dist\EdenUpdater.exe"); NoPrime = "1" }
+          git fetch -q --depth 1 origin a34d1ab33440f4f88f3474a67881643187635891
+          if ($LASTEXITCODE -eq 0) {
+            git worktree add -f ..\base FETCH_HEAD
+            & ..\base\build\build.ps1 | Out-Null
+            $variants["vorher"] = @{ Exe = (Resolve-Path "..\base\dist\EdenUpdater.exe").Path; NoPrime = "" }
+          }
+          $env:EDEN_UPDATER_SNAPSHOT_PERF = (Join-Path $pwd "tests\perf-steps.ps1")
           $env:EDEN_UPDATER_SNAPSHOT_THEMES = "dark-cyan"
-          $runs = @()
+          $data = @{}
+          foreach ($v in $variants.Keys) { $data[$v] = @{} }
+          $order = New-Object System.Collections.ArrayList
+          $infos = @()
           for ($i = 0; $i -le 7; $i++) {
-            $dir = Join-Path $pwd "perf\run-$i"
-            New-Item -ItemType Directory $dir -Force | Out-Null
-            $env:EDEN_UPDATER_SNAPSHOT = $dir
-            $sw = [Diagnostics.Stopwatch]::StartNew()
-            $p = Start-Process dist\EdenUpdater.exe -PassThru
-            if (-not $p.WaitForExit(120000)) { $p.Kill(); Write-Host "Timeout in Lauf $i" }
-            if (Test-Path "$dir\errors.txt") { Get-Content "$dir\errors.txt"; exit 1 }
-            if (-not (Test-Path "$dir\perf.txt")) { Write-Host "perf.txt fehlt in Lauf $i"; exit 1 }
-            if ($i -gt 0) { $runs += ,@(Get-Content "$dir\perf.txt" -Encoding UTF8) }
-          }
-          $out = @("Median aus " + $runs.Count + " Laeufen, Millisekunden (kleinster - groesster Wert)", "")
-          for ($l = 0; $l -lt $runs[0].Count; $l++) {
-            $parts = $runs[0][$l] -split "`t"
-            $vals = @($runs | ForEach-Object { [double](($_[$l] -split "`t")[2]) } | Sort-Object)
-            $med = $vals[[int][Math]::Floor($vals.Count / 2)]
-            $line = ("{0}  {1,-42} {2,7:F0}   ({3:F0} - {4:F0})" -f $parts[0], $parts[1], $med, $vals[0], $vals[-1])
-            if ($parts.Count -gt 3) {
-              $v2 = @($runs | ForEach-Object { [double](($_[$l] -split "`t")[3]) } | Sort-Object)
-              $line += ("   davon Skript {0:F0}" -f $v2[[int][Math]::Floor($v2.Count / 2)])
+            foreach ($v in $variants.Keys) {
+              $dir = Join-Path $pwd "perf\$v-$i"
+              New-Item -ItemType Directory $dir -Force | Out-Null
+              $env:EDEN_UPDATER_SNAPSHOT = $dir
+              $env:EDEN_UPDATER_NOPRIME = $variants[$v].NoPrime
+              $p = Start-Process $variants[$v].Exe -PassThru
+              if (-not $p.WaitForExit(120000)) { $p.Kill(); Write-Host "Timeout in Lauf $v $i" }
+              if (Test-Path "$dir\errors.txt") { Write-Host "Fehler in Lauf $v $i"; Get-Content "$dir\errors.txt"; exit 1 }
+              if (-not (Test-Path "$dir\perf.txt")) { Write-Host "perf.txt fehlt in Lauf $v $i"; exit 1 }
+              if ($i -eq 0) { continue }
+              foreach ($line in (Get-Content "$dir\perf.txt" -Encoding UTF8)) {
+                $parts = $line -split "`t"
+                if ($parts[0] -eq "I") { if ($i -eq 1) { $infos += ($v + ": " + $parts[1]) }; continue }
+                $key = $parts[0] + "`t" + $parts[1]
+                if (-not $order.Contains($key)) { [void]$order.Add($key) }
+                if (-not $data[$v].ContainsKey($key)) { $data[$v][$key] = New-Object System.Collections.ArrayList }
+                [void]$data[$v][$key].Add([double]$parts[2])
+              }
             }
-            $out += $line
           }
+          $env:EDEN_UPDATER_NOPRIME = ""
+          function Med($l) { if (-not $l) { return "" }; $s = @($l | Sort-Object); return ("{0:F0}" -f $s[[int][Math]::Floor($s.Count / 2)]) }
+          $out = @("Median aus 7 Laeufen je Variante, Millisekunden", "", ("{0,-3}{1,-58}{2,8}{3,9}{4,12}" -f "", "", "vorher", "nachher", "ohne-typen"))
+          foreach ($key in $order) {
+            $parts = $key -split "`t"
+            $out += ("{0,-3}{1,-58}{2,8}{3,9}{4,12}" -f $parts[0], $parts[1], (Med $data["vorher"][$key]), (Med $data["nachher"][$key]), (Med $data["ohne-typen"][$key]))
+          }
+          $out += ""
+          $out += $infos
           $out | Set-Content snapshots\timing.txt -Encoding UTF8
+          Copy-Item "perf\nachher-7\perf-covers.png" snapshots\ -ErrorAction SilentlyContinue
           $out
 
       - name: Screenshots ablegen

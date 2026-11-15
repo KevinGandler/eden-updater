@@ -20,7 +20,12 @@ function Get-EdenDataDir {
 function Get-EdenConfigPath { return (Join-Path (Get-EdenDataDir) "config\qt-config.ini") }
 
 function Test-EdenRunning {
-    try { return [bool](Get-Process -Name "eden" -ErrorAction SilentlyContinue) } catch { return $false }
+    try {
+        $ps = [Diagnostics.Process]::GetProcessesByName("eden")
+        $n = $ps.Length
+        foreach ($x in $ps) { $x.Dispose() }
+        return ($n -gt 0)
+    } catch { return $false }
 }
 
 # Werte in Edens qt-config.ini sind im QSettings-Format: Texte mit , ; = oder Leerzeichen am Rand stehen in
@@ -189,6 +194,7 @@ function Complete-ModWorker {
 
 # Linke Liste: alle Spiele aus der Bibliothek (mit Title-ID) + Spiele, fuer die Mods vorhanden sind
 function Update-ModGames {
+    $script:ModsShown = Get-AddOnStamp
     $byTid = @{}
     foreach ($g in @($script:Games)) {
         if ($g.Tid -and -not $byTid.ContainsKey($g.Tid)) { $byTid[$g.Tid] = @{ Tid = $g.Tid; Name = $g.Name; IconImg = $g.IconImg } }
@@ -268,7 +274,14 @@ function Update-ModsBanner([bool]$force = $false) {
 
 function Open-ModsTab {
     if (-not $script:GamesLoaded) { Start-GameScan }
-    if (-not $script:ModsLoaded) { Start-ModScan } else { Update-ModGames }
+    if (-not $script:ModsLoaded) { Start-ModScan }
+    elseif ($script:ModsShown -and $script:ModsShown -eq (Get-AddOnStamp)) {
+        # seit dem letzten Aufbau hat sich nichts geaendert: Listen stehen lassen
+        Restore-ListView $ui.ListModGames
+        Restore-ListView $ui.ListMods
+        try { Select-WantedGame "mods" $ui.ListModGames $script:ModGames } catch {}
+    }
+    else { Update-ModGames }
     Update-ModsBanner $true
 }
 

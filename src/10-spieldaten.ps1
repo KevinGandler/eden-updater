@@ -67,6 +67,7 @@ function Get-SaveGameName([string]$tid) {
 }
 
 function Update-SaveGames {
+    $script:SavesShown = $true
     $d = $script:SaveData
     if (-not $d) { $d = @{ Saves = @(); Shaders = @{}; Backups = @() } }
     $tids = New-Object System.Collections.Generic.HashSet[string]
@@ -155,7 +156,14 @@ function Update-SaveDetail {
 
 function Open-SavesTab {
     if (-not $script:GamesLoaded) { Start-GameScan }
-    if (-not $script:SavesLoaded) { Start-SavesScan } else { Update-SaveGames }
+    if (-not $script:SavesLoaded) { Start-SavesScan }
+    elseif ($script:SavesShown) {
+        # die Liste entsteht nur aus bereits eingelesenen Daten: steht sie schon, bleibt sie stehen
+        Restore-ListView $ui.ListSaveGames
+        Restore-ListView $ui.ListSaveBackups
+        try { Select-WantedGame "saves" $ui.ListSaveGames $script:SaveGames } catch {}
+    }
+    else { Update-SaveGames }
     Update-SysBanners $true
 }
 

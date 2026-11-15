@@ -2,10 +2,13 @@
 // Bettet EdenUpdater.ps1 ein und fuehrt es in Windows PowerShell 5.1 aus
 // (STA, gleicher Thread, kein Konsolenfenster).
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 [assembly: AssemblyTitle("Eden Updater")]
@@ -30,6 +33,47 @@ public static class DwmTheme
         DwmSetWindowAttribute(hwnd, 35, ref caption, 4); // Titelleistenfarbe (Win11)
         DwmSetWindowAttribute(hwnd, 34, ref border, 4);  // Rahmenfarbe (Win11)
         DwmSetWindowAttribute(hwnd, 36, ref text, 4);    // Titeltext (Win11)
+    }
+}
+
+// Schleifen, die im Skript beim Start spuerbar Zeit kosten, fertig uebersetzt. Das Skript nutzt sie nur,
+// wenn es aus der EXE laeuft; als reines Skript (Tests) rechnet es dasselbe selbst.
+public static class EdenNative
+{
+    // Sprachtext mit einer Zeile "Schluessel=Text" je Eintrag -> Tabelle (\n im Text = Zeilenumbruch)
+    public static Hashtable ParseLang(string txt)
+    {
+        Hashtable h = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        if (txt == null) return h;
+        foreach (string raw in txt.Split('\n'))
+        {
+            string line = raw.TrimEnd('\r');
+            int i = line.IndexOf('=');
+            if (i < 1 || line.StartsWith("#", StringComparison.Ordinal)) continue;
+            h[line.Substring(0, i).Trim()] = line.Substring(i + 1).TrimEnd().Replace("\\n", "\n");
+        }
+        return h;
+    }
+
+    // Eintraege von source nach target uebernehmen (vorhandene werden ersetzt)
+    public static void Merge(IDictionary target, IDictionary source)
+    {
+        foreach (DictionaryEntry e in source) target[e.Key] = e.Value;
+    }
+
+    // Texte als Ressourcen ablegen: Schluessel "prefix + Name", Wert als Text
+    public static void Fill(IDictionary target, IDictionary source, string prefix)
+    {
+        foreach (DictionaryEntry e in source) target[prefix + Convert.ToString(e.Key)] = Convert.ToString(e.Value);
+    }
+
+    // Benannte Elemente eines Fensters heraussuchen (ruft dessen FindName auf)
+    public static Hashtable FindNames(object root, string[] names)
+    {
+        Hashtable h = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        MethodInfo m = root.GetType().GetMethod("FindName", new Type[] { typeof(string) });
+        foreach (string n in names) h[n] = m.Invoke(root, new object[] { n });
+        return h;
     }
 }
 
@@ -85,6 +129,74 @@ static class Program
         return ms.ToString("F0", System.Globalization.CultureInfo.InvariantCulture);
     }
 
+    // PowerShell sucht jeden Typnamen im Skript ([System.Windows.Media.Color], [IO.File] ...) beim ersten Gebrauch
+    // in allen geladenen Bibliotheken - bei einigen hundert Namen kostet das beim Start spuerbar Zeit.
+    // Hier werden die Namen einmal vorab aufgeloest und PowerShell als bekannte Kurznamen mitgegeben.
+    // Gefunden wird derselbe Typ wie sonst auch (erst der Name wie geschrieben, dann mit "System." davor).
+    // Geht dabei etwas schief, laeuft alles wie bisher - nur langsamer. EDEN_UPDATER_NOPRIME=1 schaltet es ab.
+    static int PrimeTypes(Assembly sma, string script)
+    {
+        int added = 0;
+        try
+        {
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("EDEN_UPDATER_NOPRIME"))) return 0;
+            Type ta = sma.GetType("System.Management.Automation.TypeAccelerators", false);
+            if (ta == null) return 0;
+            FieldInfo f = ta.GetField("builtinTypeAccelerators", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+            if (f == null) return 0;
+            Dictionary<string, Type> known = f.GetValue(null) as Dictionary<string, Type>;
+            if (known == null) return 0;
+
+            // Die Bibliotheken der Oberflaeche laedt sonst das Skript in seiner ersten Zeile; hier schon vorab
+            string[] wpf = { "WindowsBase", "PresentationCore", "PresentationFramework", "System.Xaml" };
+            foreach (string w in wpf)
+            {
+                try { Assembly.Load(w + ", Version=4.0.0.0, Culture=neutral, PublicKeyToken=" + (w == "System.Xaml" ? "b77a5c561934e089" : "31bf3856ad364e35")); } catch { }
+            }
+            try { Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"); } catch { }
+
+            // haeufig gebrauchte Bibliotheken zuerst
+            string[] first = { "mscorlib", "System", "System.Core", "WindowsBase", "PresentationCore", "PresentationFramework", "System.Xaml", "System.Windows.Forms", "System.Xml" };
+            List<Assembly> asms = new List<Assembly>();
+            Assembly[] all = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (string n in first)
+                foreach (Assembly a in all)
+                    if (!a.IsDynamic && a.GetName().Name == n && !asms.Contains(a)) asms.Add(a);
+            foreach (Assembly a in all)
+                if (!a.IsDynamic && !asms.Contains(a)) asms.Add(a);
+
+            known["DwmTheme"] = typeof(DwmTheme);
+            known["EdenNative"] = typeof(EdenNative);
+
+            HashSet<string> seen = new HashSet<string>(StringComparer.Ordinal);
+            MatchCollection ms = Regex.Matches(script, @"\[([A-Za-z_][A-Za-z0-9_.+]*)\]|New-Object\s+'?([A-Za-z_][A-Za-z0-9_.]*)");
+            foreach (Match m in ms)
+            {
+                string name = m.Groups[1].Success ? m.Groups[1].Value : m.Groups[2].Value;
+                if (!seen.Add(name) || known.ContainsKey(name)) continue;
+                Type t = FindType(asms, name);
+                if (t == null) t = FindType(asms, "System." + name);
+                if (t != null && t.IsVisible) { known[name] = t; added++; }
+            }
+        }
+        catch { }
+        return added;
+    }
+
+    static Type FindType(List<Assembly> asms, string fullName)
+    {
+        foreach (Assembly a in asms)
+        {
+            try
+            {
+                Type t = a.GetType(fullName, false, false);
+                if (t != null) return t;
+            }
+            catch { }
+        }
+        return null;
+    }
+
     static string ReadScript()
     {
         Assembly me = Assembly.GetExecutingAssembly();
@@ -119,6 +231,14 @@ static class Program
 
             bool perf = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("EDEN_UPDATER_SNAPSHOT_PERF"));
             if (perf) Environment.SetEnvironmentVariable("EDEN_UPDATER_T_OPEN", Since());
+
+            Step = "Typen";
+            int primed = PrimeTypes(sma, script);
+            if (perf)
+            {
+                Environment.SetEnvironmentVariable("EDEN_UPDATER_T_PRIME", Since());
+                Environment.SetEnvironmentVariable("EDEN_UPDATER_N_PRIME", primed.ToString());
+            }
 
             Step = "PowerShell.Create";
             object ps = Method(tPs, "Create", true).Invoke(null, null);

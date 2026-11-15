@@ -14,6 +14,8 @@ try { $script:PerfPre = ([DateTime]::Now - [Diagnostics.Process]::GetCurrentProc
 function Add-PerfMark([string]$n) { [void]$script:PerfMarks.Add(@($n, $script:PerfSw.Elapsed.TotalMilliseconds)) }
 
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
+# Aus der EXE gestartet stehen ein paar fertig uebersetzte Hilfsfunktionen bereit (siehe launcher\EdenUpdaterHost.cs)
+$script:Native = [bool]('EdenNative' -as [type])
 Add-PerfMark "WPF geladen"
 
 $ScriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent ([Diagnostics.Process]::GetCurrentProcess().MainModule.FileName) }
