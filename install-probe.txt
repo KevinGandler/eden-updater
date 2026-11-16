@@ -1,0 +1,3 @@
+﻿kaputt: Ok=False, eden.exe=alt, Fehler=Der Download ist kein gültiges Archiv (An attempt was made to move the file pointer before the beginning of the file.
+). Die installierte Version wurde nicht verändert.
+gut: Ok=True, eden.exe=neu, Fehler=

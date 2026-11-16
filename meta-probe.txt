@@ -1,0 +1,10 @@
+﻿Worker fertig: True
+01007BB017812000  Name='Portal'  Kuerzel=P  Bild geladen=True  Datei=13740 Bytes
+0100ABD01785C000  Name='Portal 2'  Kuerzel=P2  Bild geladen=True  Datei=21604 Bytes
+0100000000001234  Name='Pixel Quest'  Kuerzel=PQ  Bild geladen=False  Datei=0 Bytes
+Merkliste: {"0100ABD01785C000":{"Lang":"de","At":"2026-11-16","Miss":false,"Name":"Portal 2","NoIcon":false},"0100000000001234":{"Lang":"de","Miss":true,"Name":"","NoIcon":false,"At":"2026-11-16"},"01007BB017812000":{"Lang":"de","At":"2026-11-16","Miss":false,"Name":"Portal","NoIcon":false}}
+titles.json vorhanden: True
+
+Selbst-Update: Zustand=latest  Fehler=''  Releases=15  neueste=-
+pv.txt fuer unbekannte ID gefunden: False
+Spielzeit-Format: 21 h 20 min | 45 min | < 1 min
