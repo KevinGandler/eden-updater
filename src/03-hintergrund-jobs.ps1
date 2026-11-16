@@ -262,6 +262,24 @@ $jobInstall = {
         Add-Log (TF "WDlDone" $finalMB $sw.Elapsed.TotalSeconds)
         $sync.CanCancel = $false
 
+        # Archiv pruefen, BEVOR die alte Version angefasst wird. Ein Virenscanner sperrt oder entfernt die Datei
+        # manchmal erst kurz nach dem Download - deshalb einen Moment warten und dann wirklich oeffnen.
+        Add-Type -AssemblyName System.IO.Compression
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        Start-Sleep -Milliseconds 1500
+        $entries = 0
+        try {
+            $zc = [IO.Compression.ZipFile]::OpenRead($zip)
+            try { $entries = $zc.Entries.Count } finally { $zc.Dispose() }
+        } catch {
+            $ex = $_.Exception
+            while ($ex.InnerException) { $ex = $ex.InnerException }
+            # 225 = ERROR_VIRUS_INFECTED; fehlt die Datei ganz, hat sie der Scanner schon in Quarantaene verschoben
+            if ((($ex.HResult -band 0xFFFF) -eq 225) -or -not (Test-Path -LiteralPath $zip)) { throw (T "WZipBlocked") }
+            throw (TF "WZipBad" $ex.Message)
+        }
+        if ($entries -lt 1) { throw (TF "WZipBad" "0") }
+
         # Spielstaende sichern (nur Spiele mit Aenderungen seit dem letzten Backup)
         if ($a.SaveBackup -and $a.SaveLib) {
             try {
@@ -296,8 +314,6 @@ $jobInstall = {
         Add-Log (T "WRemovedOld")
 
         # 4) Entpacken (mit Fortschritt)
-        Add-Type -AssemblyName System.IO.Compression
-        Add-Type -AssemblyName System.IO.Compression.FileSystem
         $zf = [IO.Compression.ZipFile]::OpenRead($zip)
         try {
             $n    = $zf.Entries.Count
@@ -328,10 +344,25 @@ $jobInstall = {
         Add-Log (TF "WInstalledLog" $tag)
         $sync.Result = @{ Kind = "install"; Ok = $true; Tag = $tag }
     } catch {
-        Add-Log ((T "ErrPrefix") + " " + $_.Exception.Message)
-        if ($removed -and $a.Backup) { Add-Log (TF "WBackupAt" (Join-Path $a.EdenPath "Backup")) }
+        $msg = $_.Exception.Message
+        Add-Log ((T "ErrPrefix") + " " + $msg)
+        # Ging es erst nach dem Entfernen der alten Version schief: alte Version aus dem Backup zuruecklegen
+        $rolled = $false
+        if ($removed -and $a.Backup) {
+            $bp = Join-Path $a.EdenPath "Backup"
+            try {
+                $items = @(Get-ChildItem -Path $bp -Exclude "backup-version.txt" -Force)
+                if ($items.Count) {
+                    Get-ChildItem -Path $a.EdenPath -Exclude @($a.Excludes) | Remove-Item -Recurse -Force
+                    foreach ($it in $items) { Copy-Item -LiteralPath $it.FullName -Destination $a.EdenPath -Recurse -Force -ErrorAction Stop }
+                    $rolled = $true
+                    Add-Log (T "WRolledBack")
+                }
+            } catch {}
+            if (-not $rolled) { Add-Log (TF "WBackupAt" $bp) }
+        }
         $sync.Status = (T "StError")
-        $sync.Result = @{ Kind = "install"; Ok = $false; Error = $_.Exception.Message; Cancelled = $cancelled }
+        $sync.Result = @{ Kind = "install"; Ok = $false; Error = $msg; Cancelled = $cancelled; RolledBack = $rolled }
     } finally {
         $sync.Done = $true
     }

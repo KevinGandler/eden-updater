@@ -931,6 +931,18 @@ $script:MsgWin = $null
 $script:MsgResult = "Cancel"
 
 # Ersatz fuer die weisse Windows-MessageBox: buttons = "OK" oder "YesNo", Rueckgabe "OK"/"Yes"/"No"
+# Knoepfe eines Meldungsfensters: je Knopf Beschriftung, Rueckgabewert, hervorgehoben?
+function Get-DialogButtons([string]$buttons) {
+    $defs = New-Object System.Collections.ArrayList
+    if ($buttons -eq "YesNo") {
+        [void]$defs.Add(@((T "No"), "No", $false))
+        [void]$defs.Add(@((T "Yes"), "Yes", $true))
+    } else {
+        [void]$defs.Add(@((T "OK"), "OK", $true))
+    }
+    return ,$defs
+}
+
 function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "Information", [string]$title = "", [double]$width = 0, [bool]$neutral = $false) {
     # Automatischer Test: kein Fenster oeffnen (es wuerde den Lauf anhalten), stattdessen den Text festhalten
     if ($script:SnapNoDialog) {
@@ -964,8 +976,7 @@ function Show-Dialog([string]$text, [string]$buttons = "OK", [string]$icon = "In
     }
 
     $panelBtns = $d.FindName("MsgButtons")
-    $defs = if ($buttons -eq "YesNo") { @(@((T "No"), "No", $false), @((T "Yes"), "Yes", $true)) } else { @(, @((T "OK"), "OK", $true)) }
-    foreach ($def in $defs) {
+    foreach ($def in (Get-DialogButtons $buttons)) {
         $b = [System.Windows.Controls.Button]::new()
         $b.Content = $def[0]
         $b.CommandParameter = $def[1]

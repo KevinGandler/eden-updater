@@ -117,6 +117,7 @@ function Start-Snapshots {
         for ($n = 0; $n -le 8; $n++) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-meta"; N = $n }) }
         # Sprache in den Einstellungen umstellen und speichern - ueber den echten Speichern-Knopf
         foreach ($lc in @("en", "ja", "de")) { $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-lang"; Lang = $lc }) }
+        $script:SnapSteps.Enqueue(@{ Theme = $themes[0]; Page = "fx-install" })
     }
     $script:SnapTimer = [System.Windows.Threading.DispatcherTimer]::new()
     $script:SnapTimer.Interval = [TimeSpan]::FromMilliseconds(700)
@@ -161,6 +162,7 @@ function Start-Snapshots {
                 "fx-busy"      { Invoke-SnapFx { Set-Page "versions"; Set-BusyVisual $true; Set-FlowAnim $true; Set-DotPulse $true; Set-LogVisible $true } "fx-busy-mid" 200 }
                 "fx-meta"      { Set-Page "versions"; Invoke-SnapMetaProbe ([int]$st.N) }
                 "fx-lang"      { Invoke-SnapLangProbe ([string]$st.Lang) }
+                "fx-install"   { Invoke-SnapInstallProbe }
                 default        { Set-Page $st.Page }
             }
             $script:SnapPending = $st
@@ -169,6 +171,47 @@ function Start-Snapshots {
         }
     })
     $script:SnapTimer.Start()
+}
+
+# Laesst den Installations-Job wirklich laufen (Download ueber file://), einmal mit einem kaputten und einmal
+# mit einem echten Archiv, und prueft: Bei kaputtem Download bleibt die alte Version unangetastet.
+# Dazu die Knoepfe des Meldungsfensters. Ergebnis in install-probe.txt, Abweichungen in errors.txt.
+function Invoke-SnapInstallProbe {
+    $log = Join-Path $script:Snapshot "install-probe.txt"
+    $bad = New-Object System.Collections.ArrayList
+    $b = Get-DialogButtons "OK"
+    if ($b.Count -ne 1 -or $b[0][0] -ne (T "OK") -or $b[0][1] -ne "OK") { [void]$bad.Add("Knoepfe OK falsch: " + (($b | ForEach-Object { $_[0] }) -join "|")) }
+    $b = Get-DialogButtons "YesNo"
+    if ($b.Count -ne 2 -or $b[0][0] -ne (T "No") -or $b[1][0] -ne (T "Yes")) { [void]$bad.Add("Knoepfe Ja/Nein falsch") }
+
+    $tmp = Join-Path ([IO.Path]::GetTempPath()) ("eden-probe-" + [Guid]::NewGuid().ToString("N"))
+    $eden = Join-Path $tmp "Eden"; $srcDir = Join-Path $tmp "neu"
+    New-Item -ItemType Directory -Path $eden, $srcDir -Force | Out-Null
+    Set-Content -LiteralPath (Join-Path $eden "eden.exe") -Value "alt"
+    Set-Content -LiteralPath (Join-Path $srcDir "eden.exe") -Value "neu"
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $good = Join-Path $tmp "gut.zip"; $broken = Join-Path $tmp "kaputt.zip"
+    [IO.Compression.ZipFile]::CreateFromDirectory($srcDir, $good)
+    Set-Content -LiteralPath $broken -Value "kein Archiv"
+    foreach ($case in @(@("kaputt", $broken), @("gut", $good))) {
+        $ps = [hashtable]::Synchronized(@{ Log = [System.Collections.Queue]::Synchronized((New-Object System.Collections.Queue)) })
+        foreach ($k in @($sync.Keys)) { if (-not $ps.ContainsKey($k)) { $ps[$k] = $sync[$k] } }
+        $ps.L = $script:L; $ps.Culture = $script:LangCulture; $ps.Cancel = $false; $ps.Done = $false; $ps.Result = $null
+        $ps.Args = @{ Tag = "v-probe"; Url = ([Uri]$case[1]).AbsoluteUri; EdenPath = $eden; Backup = $true; Excludes = @("Backup", "user", "version.txt"); InstalledVersion = "v-alt"; SaveBackup = $false }
+        $rs = [runspacefactory]::CreateRunspace(); $rs.Open()
+        $rs.SessionStateProxy.SetVariable("sync", $ps)
+        $p = [powershell]::Create(); $p.Runspace = $rs
+        [void]$p.AddScript($workerLib.ToString() + "`n" + $jobInstall.ToString())
+        try { [void]$p.Invoke() } catch { [void]$bad.Add($case[0] + ": Job abgebrochen: " + $_.Exception.Message) }
+        $p.Dispose(); $rs.Dispose()
+        $exe = ""; try { $exe = (Get-Content -LiteralPath (Join-Path $eden "eden.exe") -ErrorAction Stop | Select-Object -First 1) } catch { $exe = "(fehlt)" }
+        $r = $ps.Result
+        Add-Content -LiteralPath $log -Encoding UTF8 -Value ("{0}: Ok={1}, eden.exe={2}, Fehler={3}" -f $case[0], $r.Ok, $exe, $r.Error)
+        if ($case[0] -eq "kaputt" -and ($r.Ok -or $exe -ne "alt")) { [void]$bad.Add("kaputtes Archiv: alte Version nicht erhalten (Ok=$($r.Ok), eden.exe=$exe)") }
+        if ($case[0] -eq "gut" -and (-not $r.Ok -or $exe -ne "neu")) { [void]$bad.Add("gutes Archiv: nicht installiert (Ok=$($r.Ok), eden.exe=$exe, $($r.Error))") }
+    }
+    try { Remove-Item -LiteralPath $tmp -Recurse -Force } catch {}
+    foreach ($x in $bad) { Add-Content -Path (Join-Path $script:Snapshot "errors.txt") -Value ("INSTALL-PROBE: " + $x) }
 }
 
 # Stellt die Sprache wie ein Nutzer um: Seite Einstellungen, Sprache waehlen, auf "Speichern" klicken.

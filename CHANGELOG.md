@@ -3,6 +3,18 @@
 Der Abschnitt der jeweiligen Version wird beim Release als Patchnotes übernommen und im Updater angezeigt
 (in den Einstellungen und in der Update-Frage). Deutsch für die deutsche Oberfläche, English für alle anderen Sprachen.
 
+## 1.9.3
+
+### Deutsch
+- Sicherer beim Aktualisieren: Der Download wird geprüft, bevor die alte Eden-Version entfernt wird. Blockiert ein Virenscanner den Download oder ist er beschädigt, bleibt die installierte Version unangetastet.
+- Schlägt die Installation erst später fehl, wird die vorherige Version automatisch aus dem Backup wiederhergestellt.
+- Behoben: Meldungsfenster mit nur einem Knopf zeigten drei falsch beschriftete Knöpfe („O“, „O“, „True“).
+
+### English
+- Safer updates: the download is checked before the old Eden version is removed. If an antivirus blocks the download or it is damaged, the installed version stays untouched.
+- If the installation fails later on, the previous version is restored from the backup automatically.
+- Fixed: message windows with a single button showed three wrongly labelled buttons (“O”, “O”, “True”).
+
 ## 1.9.2
 
 ### Deutsch
